@@ -10,3 +10,10 @@ env:
 
 script:
   - ./gradlew assemble -x test
+
+branches:
+ only:
+ - master
+
+before_script:
+ - chmod +x gradlew
