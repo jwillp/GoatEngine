@@ -1,4 +1,4 @@
-package com.brm.goatengine;
+package com.brm.goatengine.FileSystem;
 
 /**
  * Rrappe class used to handle files
