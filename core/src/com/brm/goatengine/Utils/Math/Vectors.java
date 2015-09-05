@@ -9,9 +9,6 @@ import com.badlogic.gdx.math.Vector3;
  */
 public abstract class Vectors {
 
-
-
-
     /**
      * Calculates the euclideanDistance between two Vector 2
      * @param a
@@ -58,17 +55,13 @@ public abstract class Vectors {
                 && ((ymin >= a.y && ymin <= a.y + a.height) && (ymax >= a.y && ymax <= a.y + a.height));
     }
 
-
     /**
      * Returns the angle between two vectors IN DEGREES
      * @return
      */
     public static float getAngle(Vector2 vec){
         return (float) Math.toDegrees((Math.atan2(vec.y, vec.x)));
-
     }
-
-
 
     /**
      * Calculates the cross product of two Vectors2
