@@ -1,11 +1,12 @@
 language: java
-./gradlew check
 
 jdk:
   - oraclejdk8
   - oraclejdk7
   - openjdk6
 
-branches:
-	only:
-		- master
+env:
+  - TERM=dumb
+
+script:
+  - ./gradlew assemble -x test
