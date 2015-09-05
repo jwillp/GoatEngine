@@ -8,8 +8,11 @@ jdk:
 env:
   - TERM=dumb
 
+before_install:
+ - chmod +x gradlew
+ 
 before_script:
- - chmod 777 gradlew
+ - chmod +x gradlew
 
 script:
   - ./gradlew assemble -x test
