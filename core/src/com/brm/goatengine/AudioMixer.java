@@ -1,4 +1,4 @@
-package com.brm.goatengine;
+package com.brm.GoatEngine;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
@@ -8,7 +8,6 @@ import java.util.HashMap;
 
 /**
  * Music Manager
- * Warning Hidhly dependent on Gdx
  */
 public class AudioMixer {
 
@@ -42,7 +41,7 @@ public class AudioMixer {
      */
     public static Music playMusic(String musicFilePath, boolean looping){
         if(!isMusicLoaded(musicFilePath)){
-            loadMusic(musicFilePath);
+           loadMusic(musicFilePath);
         }
         Music m = musics.get(musicFilePath);
         m.setLooping(looping); m.play();
@@ -52,7 +51,7 @@ public class AudioMixer {
     /**
      * Loads a sound in memory
      * A sound is loaded into RAM instead of being streamed from the file
-     * If the file is not found, it tries to find it using the base directory
+     * If file is not find, it tries to find using the base directory
      * @param soundFilePath
      * @return
      */
@@ -75,7 +74,7 @@ public class AudioMixer {
     }
 
     /**
-     * Returns if a music was added to the registry or not
+     * Returns if a music was loaded
      * @param musicFilePath
      * @return
      */
@@ -84,7 +83,7 @@ public class AudioMixer {
     }
 
     /**
-     * Returns if a sound was loaded in RAM or not
+     * Returns if a sound was loaded
      * @param soundFilePath
      * @return
      */
@@ -93,55 +92,34 @@ public class AudioMixer {
     }
 
 
-    /**
-     * Returns a certain music
-     * @param filePath
-     * @return
-     */
+
     public static Music getMusic(String filePath){
         return musics.get(filePath);
     }
 
 
-    /**
-     * returns a certain sound
-     * @param filePath
-     * @return
-     */
+
     public static Sound getSound(String filePath){
         return sounds.get(filePath);
     }
 
 
-    /**
-     * Free the music resource from memory (will need to be loaded again)
-     * @param musicFilePath
-     */
+
     public static void disposeMusic(String musicFilePath){
         musics.get(musicFilePath).dispose();
-        musics.remove(musicFilePath);
     }
 
 
-    /**
-     * Free the music resource from memory (will need to be loaded again)
-     * @param soundFilePath
-     */
+
     public static void disposeSound(String soundFilePath){
         sounds.get(soundFilePath).dispose();
-        sounds.remove(soundFilePath);
     }
 
-    /**
-     * Disposes every sound
-     */
+
     public static void disposeAllSounds(){
         for(Sound s: sounds.values()){ s.dispose(); }
     }
 
-    /**
-     * Disposes every music
-     */
     public static void disposeAllMusics(){
         for(Music m: musics.values()){ m.dispose(); }
     }
@@ -155,16 +133,5 @@ public class AudioMixer {
                 m.stop();
         }
     }
-
-    /**
-     * Stops all the playing sounds
-     */
-    public static void stopPlayingSounds(){
-        for(Sound s: sounds.values()){
-                s.stop();
-        }
-    }
-
-
 
 }

@@ -1,12 +1,12 @@
-package com.brm.goatengine.EventManager;
+package com.brm.GoatEngine.EventManager;
 
 /**
  * Base class for all events
  */
 public abstract class GameEvent{
-    /**
-     * Returns the Id of the current event
-     * @return id of the current event
-     */
-    public abstract String getId();
+
+    public <T extends GameEvent> boolean isOfType(Class<T> type){
+        return this.getClass() == type;
+    }
+
 }

@@ -1,54 +1,41 @@
-package com.brm.goatengine.EventManager;
+package com.brm.GoatEngine.EventManager;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 /**
- * Manages the engine's events and the listeners.
- * In order for classes to receive events, they need to implement the EventListener class
+ * Manages Game Events and the listeners
  */
 public class EventManager{
 
-    /**
-     * List of all the events
-     * as a linked HashMap where the key is the time at which they were fired
-     */
     LinkedHashMap<Long, GameEvent> events = new LinkedHashMap<Long, GameEvent>();
-
-    /**
-     * All event listeners
-     */
     ArrayList<GameEventListener> listeners = new ArrayList<GameEventListener>();
 
-
-    /**
-     * Ctor
-     */
-    public EventManager(){}
+    public EventManager() {
 
 
-
+    }
 
     /**
      * Adds a new Listener to the listeners list
-     * @param listener the listener to register
+     * @param listener
      */
-    public void registerListener(GameEventListener listener){
+    public void addListener(GameEventListener listener){
         this.listeners.add(listener);
     }
 
     /**
-     * Removes a certain Listener from the listeners list
-     * @param listener the listener to unregister
+     * Removes a new Listener from the listeners list
+     * @param listener
      */
-    public void unregisterListener(GameEventListener listener){
+    public void removeListener(GameEventListener listener){
         this.listeners.remove(listener);
     }
 
 
 
     /**
-     * Fires an event to all the registered listeners
+     * Fires an event to all the listeners
      * @param e
      */
     public void fireEvent(GameEvent e){
@@ -58,11 +45,12 @@ public class EventManager{
         }
     }
 
+
+
     /**
      * Returns the current time
      */
     private long getCurrentTime(){
-        // TODO abstract in a time module
         return System.currentTimeMillis();
     }
 
