@@ -56,6 +56,7 @@ public class GoatEngine {
      * This initializes the Game Engine
      */
     public static void init(){
+        GEConfig.loadConfig();
 
         Logger.info("Engine Initialisation ...");
 

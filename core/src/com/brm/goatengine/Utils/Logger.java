@@ -1,10 +1,9 @@
 package com.brm.GoatEngine.Utils;
 
 import com.badlogic.gdx.Gdx;
+import com.brm.GoatEngine.GEConfig;
 
-import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -15,7 +14,14 @@ public class Logger {
 
     private static boolean printToScreen = true;
 
-    private final static String LOG_FILE = "game.log";
+
+    // LEVELS
+    private final static String LEVEL_INFO = "INFO";
+    private final static String LEVEL_DEBUG = "DEBUG";
+    private final static String LEVEL_WARNING = "WARNING";
+    private final static String LEVEL_ERROR = "ERROR";
+    private final static String LEVEL_FATAL = "FATAL";
+
 
 
     /**
@@ -23,11 +29,19 @@ public class Logger {
      * and prints to the screen
      * @param message
      */
-    private static void log(Object message){
-        DateFormat df = new SimpleDateFormat("HH:mm:ss");
-        String time = "["+df.format(Calendar.getInstance().getTime())+"] ";
-        Gdx.files.local(LOG_FILE).writeString(time + message + "\n", true, StandardCharsets.UTF_8.toString());
-        print(message);
+    private static void log(String level, Object message){
+        if(!GEConfig.LOG_EXCLUDE_LEVEL.equals(level)){
+            String logTime = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
+            String time = "["+logTime+"] ";
+
+            String longDate = new SimpleDateFormat("YYYYMMDDHHmmss").format(GEConfig.LAUNCH_DATE);
+            String outputFile = GEConfig.LOG_DIRECTORY + GEConfig.LOG_FILE_NAME.replace("%date%", longDate);
+
+            Gdx.files.local(outputFile).writeString(
+                    time + createHeader(level) + message + "\n", true, StandardCharsets.UTF_8.toString()
+            );
+            print(message);
+        }
     }
 
     /**
@@ -44,7 +58,7 @@ public class Logger {
      * @param message
      */
     public static void info(Object message){
-        log("[INFO] " + message);
+        log(LEVEL_INFO, message);
     }
 
     /**
@@ -64,7 +78,7 @@ public class Logger {
      * @param message
      */
     public static void warn(Object message){
-        log("[WARNING] " + message);
+        log(LEVEL_WARNING, message);
     }
 
     /**
@@ -73,7 +87,7 @@ public class Logger {
      * @param message
      */
     public static void error(Object message){
-        log("[ERROR] " + message);
+        log(LEVEL_ERROR, message);
     }
 
     /**
@@ -82,9 +96,15 @@ public class Logger {
      * @param message
      */
     public static void fatal(Object message){
-        log("[FATAL] " + message);
+        log(LEVEL_FATAL, message);
         //TODO display message box
     }
+
+
+    private static String createHeader(final String level){
+        return "[" + level + "]" + " ";
+    }
+
 
     /**
      * Enables the screen printing

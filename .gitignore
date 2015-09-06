@@ -65,3 +65,6 @@ build/
 
 # Custom Documentation
 doc/
+
+# LOG
+core/LOG/

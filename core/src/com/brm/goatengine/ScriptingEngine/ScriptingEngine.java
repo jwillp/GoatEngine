@@ -2,6 +2,7 @@ package com.brm.GoatEngine.ScriptingEngine;
 
 import com.badlogic.gdx.Gdx;
 import com.brm.GoatEngine.ECS.core.Entity;
+import com.brm.GoatEngine.GEConfig;
 import com.brm.GoatEngine.GoatEngine;
 import com.brm.GoatEngine.Utils.Logger;
 import groovy.lang.Binding;
@@ -36,7 +37,9 @@ public class ScriptingEngine{
     // A list of scripts that ran with errors
     private ArrayList<String> errorScripts = new ArrayList<String>();
 
-
+    /**
+     * Represents info about a script (last edit date, path etc.)
+     */
     private class EntityScriptInfo{
 
         private long lastModified = 0;
@@ -117,11 +120,11 @@ public class ScriptingEngine{
 
         //EXPOSE GOAT ENGINE API
         //Pass the engine to the current globalScope that way we have access to the whole engine (and game)
-        addObject("GoatEngine", new GoatEngine()); //Dont mind the new we'll only access static methods
+        addObject("GoatEngine", new GoatEngine()); //Don't mind the new we'll only access static methods
 
-        //Put some helpers
+        //Put some helpers Globals
         addObject("console", GoatEngine.console); //Console for console.log, instead of doing GoatEngine.getConsole()
-        addObject("EventManager", GoatEngine.eventManager);
+        addObject("EventManager", GoatEngine.eventManager); // To access event manager
 
 
         Logger.info("Scripting Engine initialised");
@@ -151,8 +154,11 @@ public class ScriptingEngine{
         try {
             result = this.engine.run(scriptName, globalScope);
         } catch (ResourceException e) {
+            ScriptNotFoundException scriptNotFoundException = new ScriptNotFoundException(scriptName);
             e.printStackTrace();
-            throw new ScriptNotFoundException(scriptName);
+            Logger.fatal(scriptNotFoundException.getMessage());
+            Logger.fatal(e.getStackTrace());
+            throw scriptNotFoundException;
         } catch (ScriptException e) {
             e.printStackTrace();
         }
@@ -197,9 +203,11 @@ public class ScriptingEngine{
         }
 
         //Does it need to be refreshed?
-        if(this.isSourceNewer(scriptName)){
-            this.entityScripts.get(scriptName).setLastModified(this.getLastModified(scriptName));
-            this.refreshEntityScript(scriptName);
+        if(GEConfig.SCRPT_ENG_AUTO_RELOAD){
+            if(this.isSourceNewer(scriptName)){
+                this.entityScripts.get(scriptName).setLastModified(this.getLastModified(scriptName));
+                this.refreshEntityScript(scriptName);
+            }
         }
 
 
@@ -287,11 +295,9 @@ public class ScriptingEngine{
      * Exception for Script not found
      */
     public static class ScriptNotFoundException extends RuntimeException{
-
         public ScriptNotFoundException(String scriptName){
             super("The Script: " + scriptName + " was not found");
         }
-
     }
 
 }

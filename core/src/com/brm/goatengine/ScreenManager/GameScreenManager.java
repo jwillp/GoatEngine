@@ -2,6 +2,8 @@ package com.brm.GoatEngine.ScreenManager;
 
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.brm.GoatEngine.GEConfig;
+import com.brm.GoatEngine.GoatEngine;
 import com.brm.GoatEngine.Utils.Logger;
 
 import java.util.Stack;
@@ -25,7 +27,7 @@ public class GameScreenManager {
      * Initialises the Engine
      */
     public void init() {
-
+        // TODO Move the content of this function to GoatEngine
         this.isRunning = true;
         //Load Ressources from manager
         Logger.info("Game Engine Init::Loading Resources");
@@ -48,7 +50,7 @@ public class GameScreenManager {
      */
     public  void exit(){
         Logger.info("Game Engine Exiting");
-        this.isRunning = false;
+        this.isRunning = false; // TODO move this in the real GoatEngine
 
     }
 
@@ -104,7 +106,7 @@ public class GameScreenManager {
         if(!this.screens.empty()){
             this.screens.peek().handleInput(this);
         }else{
-            throw new EmptyScreenManagerException();
+            handleEmptyStack();
         }
 
     }
@@ -113,7 +115,7 @@ public class GameScreenManager {
         if(!this.screens.empty()){
             this.screens.peek().update(this, deltaTime);
         }else{
-            throw new EmptyScreenManagerException();
+            handleEmptyStack();
         }
 
     }
@@ -122,7 +124,7 @@ public class GameScreenManager {
         if(!this.screens.empty()){
             this.screens.peek().draw(this, deltaTime);
         }else{
-            throw new EmptyScreenManagerException();
+            handleEmptyStack();
         }
     }
 
@@ -145,13 +147,25 @@ public class GameScreenManager {
         if(!this.screens.empty()){
             return this.screens.peek();
         }else{
-            throw new EmptyScreenManagerException();
+           handleEmptyStack();
+           return null;
         }
     }
 
 
-    public class EmptyScreenManagerException extends RuntimeException{
+    private void handleEmptyStack(){
+        if(GEConfig.SCRN_MNGR_ON_EMPTY_STACK.equals(GEConfig.SCRN_MNGR_FATAL)){
+            EmptyScreenManagerException ex = new EmptyScreenManagerException();
+            Logger.fatal(ex.getMessage());
+            throw ex;
+        }else if(GEConfig.SCRN_MNGR_ON_EMPTY_STACK.equals(GEConfig.SCRN_MNGR_EXIT)){
+            this.exit();
+        }
+    }
 
+
+
+    public class EmptyScreenManagerException extends RuntimeException{
         public EmptyScreenManagerException(){
             super("There is no Game Screen in the Screen Manager's stack");
         }
