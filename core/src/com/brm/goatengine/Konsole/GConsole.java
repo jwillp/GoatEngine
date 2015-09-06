@@ -8,10 +8,11 @@ import com.strongjoshua.console.Console;
 /**
  * A custom Konsole with some more functionalities
  */
-public class Konsole extends Console {
+public class GConsole extends Console {
 
-    public Konsole(){
+    public GConsole(){
         super();
+        // Position at top of screen
         this.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()/4);
         this.setPosition(0,Gdx.graphics.getHeight());
     }

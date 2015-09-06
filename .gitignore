@@ -68,3 +68,6 @@ doc/
 
 # LOG
 core/LOG/
+
+# Diffs
+diff.txt

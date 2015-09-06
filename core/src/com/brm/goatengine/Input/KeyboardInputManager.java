@@ -13,7 +13,6 @@ public class KeyboardInputManager implements InputProcessor {
     private final InputManager inputManager;
 
     public KeyboardInputManager(InputManager inputManager) {
-
         this.inputManager = inputManager;
     }
 
@@ -25,7 +24,7 @@ public class KeyboardInputManager implements InputProcessor {
      */
     @Override
     public boolean keyDown(int keycode) {
-        GoatEngine.console.log(String.valueOf(keycode), "WARNING");
+        //GoatEngine.console.log(String.valueOf(keycode), "WARNING");
         return false;
     }
 

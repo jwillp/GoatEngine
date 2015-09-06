@@ -6,7 +6,7 @@ import com.strongjoshua.console.CommandExecutor;
 /**
  * Script Command Executor specific to the GoatEngine
  */
-public class ConsoleCommandExecutor extends CommandExecutor {
+public class GConsoleCommandExecutor extends CommandExecutor {
 
 
 

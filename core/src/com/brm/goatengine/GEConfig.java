@@ -41,6 +41,12 @@ public class GEConfig {
 
 
 
+    // CONSOLE
+    public static boolean CONS_ENABLED = false;     // Whether or not the console is enabled
+
+
+
+
 
     public static void loadConfig(){
         FileInputStream inputStream = null;
@@ -52,6 +58,7 @@ public class GEConfig {
             loadLoggerConfig(prop);
             loadScreenManagerConfig(prop);
             loadScriptEngineConfig(prop);
+            loadConsoleConfig(prop);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -76,6 +83,10 @@ public class GEConfig {
         LOG_FILE_NAME = prop.getProperty("log_file_name");
         LOG_DIRECTORY = FileSystem.sanitiseDir(prop.getProperty("log_directory"));
         LOG_EXCLUDE_LEVEL = prop.getProperty("exclude_lvl");
+    }
+
+    private static void loadConsoleConfig(OrderedProperties prop){
+        CONS_ENABLED = Boolean.parseBoolean(prop.getProperty("cons_enabled"));
     }
 
 }

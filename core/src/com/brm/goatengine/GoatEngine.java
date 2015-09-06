@@ -4,12 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.brm.GoatEngine.EventManager.EventManager;
 import com.brm.GoatEngine.GraphicsEngine.GraphicsEngine;
 import com.brm.GoatEngine.Input.InputManager;
-import com.brm.GoatEngine.Konsole.ConsoleCommandExecutor;
-import com.brm.GoatEngine.Konsole.Konsole;
+import com.brm.GoatEngine.Konsole.GConsoleCommandExecutor;
+import com.brm.GoatEngine.Konsole.GConsole;
 import com.brm.GoatEngine.ScreenManager.GameScreenManager;
 import com.brm.GoatEngine.ScriptingEngine.ScriptingEngine;
 import com.brm.GoatEngine.Utils.Logger;
 import com.strongjoshua.console.Console;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 /**
  * The base class for the whole GamEngine
@@ -38,7 +41,7 @@ public class GoatEngine {
     public static InputManager inputManager;
 
     //Console
-    public static Konsole console;
+    public static GConsole console;
 
     //Graphics Engine
     public static GraphicsEngine graphicsEngine;
@@ -68,9 +71,12 @@ public class GoatEngine {
 
 
         //Init the console
-        console = new Konsole();
-        console.setCommandExecutor(new ConsoleCommandExecutor());
-        console.log("Console inited", Console.LogLevel.SUCCESS);
+        if(GEConfig.CONS_ENABLED){
+            console = new GConsole();
+            console.setCommandExecutor(new GConsoleCommandExecutor());
+            console.log("Dev Console initialised", Console.LogLevel.SUCCESS);
+        }
+
 
         audioMixer = new AudioMixer();
         inputManager = new InputManager();
@@ -123,8 +129,10 @@ public class GoatEngine {
         gameScreenManager.draw(deltaTime);
 
         //Draw Console
-        console.refresh();
-        console.draw();
+        if(GEConfig.CONS_ENABLED){
+            console.refresh();
+            console.draw();
+        }
     }
 
     /**
@@ -138,7 +146,8 @@ public class GoatEngine {
         scriptEngine.dispose();
 
         //Dispose Console
-        console.dispose();
+        if(GEConfig.CONS_ENABLED)
+            console.dispose();
     }
 
 
