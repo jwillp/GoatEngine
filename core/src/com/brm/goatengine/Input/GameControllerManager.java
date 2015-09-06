@@ -58,7 +58,6 @@ public class GameControllerManager implements ControllerListener{
         if(!this.availableControllers.contains(controller, true)){
             this.availableControllers.add(controller);
         }
-        // TODO Send Event?
         GoatEngine.eventManager.fireEvent(new ControllerConnectedEvent());
     }
 
@@ -72,7 +71,6 @@ public class GameControllerManager implements ControllerListener{
         if(this.availableControllers.contains(controller, true)){
             this.availableControllers.removeValue(controller, true);
         }
-        // TODO Send Event?
         GoatEngine.eventManager.fireEvent(new ControllerDisconnectedEvent());
     }
 

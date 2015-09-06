@@ -15,7 +15,7 @@ public abstract class GameScreen{
 
     public void init(GameScreenManager engine) {
         // The Default Script System
-        GoatEngine.eventManager.addListener(this.ecsManager.getSystemManager());
+        GoatEngine.eventManager.registerListener(this.ecsManager.getSystemManager());
         ecsManager.getSystemManager().addSystem(ScriptSystem.class, new ScriptSystem());
     }
 

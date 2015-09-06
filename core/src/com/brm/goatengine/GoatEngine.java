@@ -8,6 +8,7 @@ import com.brm.GoatEngine.Konsole.ConsoleCommandExecutor;
 import com.brm.GoatEngine.Konsole.Konsole;
 import com.brm.GoatEngine.ScreenManager.GameScreenManager;
 import com.brm.GoatEngine.ScriptingEngine.ScriptingEngine;
+import com.brm.GoatEngine.Utils.Logger;
 import com.strongjoshua.console.Console;
 
 /**
@@ -47,10 +48,16 @@ public class GoatEngine {
 
 
 
+
+    private static boolean initialised = false;
+
+
     /**
      * This initializes the Game Engine
      */
     public static void init(){
+
+        Logger.info("Engine Initialisation ...");
 
         //Graphics Engine
         graphicsEngine = new GraphicsEngine();
@@ -84,6 +91,9 @@ public class GoatEngine {
             console.log(e.getMessage(), Console.LogLevel.ERROR);
         }*/
 
+        initialised = true;
+
+        Logger.info("Engine initialisation complete");
     }
 
 
@@ -91,6 +101,11 @@ public class GoatEngine {
      * Updates the engine for ONE frame
      */
     public static void update(){
+
+        if(!initialised){
+            throw new UninitializedEngineException();
+        }
+
         float deltaTime = Gdx.graphics.getDeltaTime();
 
         //Script Engine
@@ -111,7 +126,9 @@ public class GoatEngine {
         console.draw();
     }
 
-
+    /**
+     * Cleans up the Engine before close
+     */
     public static void cleanUp(){
         //GameScreen Manager
         gameScreenManager.cleanUp();
@@ -122,4 +139,15 @@ public class GoatEngine {
         //Dispose Console
         console.dispose();
     }
+
+
+
+
+
+    static class UninitializedEngineException extends RuntimeException{
+        public UninitializedEngineException(){
+            super("Goat Engine uninitialized, use GoatEngine.init() at start of program");
+        }
+    }
+
 }

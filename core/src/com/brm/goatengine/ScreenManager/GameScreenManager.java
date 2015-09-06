@@ -112,7 +112,6 @@ public class GameScreenManager {
     public void update(float deltaTime) {
         if(!this.screens.empty()){
             this.screens.peek().update(this, deltaTime);
-
         }else{
             throw new EmptyScreenManagerException();
         }

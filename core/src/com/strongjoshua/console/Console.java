@@ -105,7 +105,7 @@ public class Console implements Disposable {
 	 * console uses a multiplexer to circumvent it).
 	 * @see Console#dispose() */
 	public Console () {
-		this(new Skin(Gdx.files.classpath("default_skin/uiskin.json")));
+		this(new Skin(Gdx.files.internal("default_skin/uiskin.json")));
 	}
 
 	/** Creates the console.<br>
@@ -123,7 +123,7 @@ public class Console implements Disposable {
 	 * @param useMultiplexer If internal multiplexer should be used
 	 * @see Console#dispose() */
 	public Console (boolean useMultiplexer) {
-		this(new Skin(Gdx.files.classpath("default_skin/uiskin.json")), useMultiplexer);
+		this(new Skin(Gdx.files.internal("default_skin/uiskin.json")), useMultiplexer);
 	}
 
 	/** Creates the console.<br>
