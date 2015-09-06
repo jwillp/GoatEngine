@@ -3,14 +3,14 @@ package com.brm.GoatEngine.Input;
 import com.brm.GoatEngine.EventManager.GameEvent;
 
 /**
- * Triggered when a Key is pressed
+ * Triggered when a key is released
  */
-public class KeyPressedEvent extends GameEvent{
+public class KeyReleasedEvent extends GameEvent {
 
     private int key;
 
-    public KeyPressedEvent(int key){
-        this.key = key;
+    public KeyReleasedEvent(int key){
+        this. key = key;
     }
 
     public int getKey() {

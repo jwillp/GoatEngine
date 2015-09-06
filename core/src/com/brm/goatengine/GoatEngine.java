@@ -69,17 +69,21 @@ public class GoatEngine {
         // Event Manager
         eventManager = new EventManager();
 
+        // input manager
+        inputManager = new InputManager();
+        inputManager.init();
+
+        // Audio Manager
+        audioMixer = new AudioMixer();
 
         //Init the console
-        if(GEConfig.CONS_ENABLED){
-            console = new GConsole();
-            console.setCommandExecutor(new GConsoleCommandExecutor());
-            console.log("Dev Console initialised", Console.LogLevel.SUCCESS);
-        }
+        console = new GConsole();
+        console.setCommandExecutor(new GConsoleCommandExecutor());
+        console.log("Dev Console initialised", Console.LogLevel.SUCCESS);
+        console.setDisabled(!GEConfig.CONS_ENABLED);
+        console.resetInputProcessing();
 
 
-        audioMixer = new AudioMixer();
-        inputManager = new InputManager();
 
         //Script Engine Init
         scriptEngine = new ScriptingEngine();
@@ -129,10 +133,9 @@ public class GoatEngine {
         gameScreenManager.draw(deltaTime);
 
         //Draw Console
-        if(GEConfig.CONS_ENABLED){
-            console.refresh();
-            console.draw();
-        }
+
+        console.refresh();
+        console.draw();
     }
 
     /**
@@ -146,8 +149,7 @@ public class GoatEngine {
         scriptEngine.dispose();
 
         //Dispose Console
-        if(GEConfig.CONS_ENABLED)
-            console.dispose();
+        console.dispose();
     }
 
 

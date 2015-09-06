@@ -29,6 +29,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Method;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
+import com.brm.GoatEngine.Utils.Logger;
 
 /** A simple console that allows live logging, and live execution of methods, from within an application. Please see the <a
  * href="https://github.com/StrongJoshua/libgdx-inGameConsole">GitHub Repository</a> for more information.
@@ -149,7 +150,7 @@ public class Console implements Disposable {
 		display.padTop(22);
 		display.setFillParent(true);
 
-		consoleWindow = new Window("Console", skin);
+		consoleWindow = new Window("Dev console", skin);
 		consoleWindow.setMovable(true);
 		consoleWindow.setResizable(true);
 		consoleWindow.setKeepWithinStage(true);
@@ -234,8 +235,6 @@ public class Console implements Disposable {
 		appInput = Gdx.input.getInputProcessor();
 		if (appInput != null) {
 			if (hasStage(appInput)) {
-				log("Console already added to input processor!", LogLevel.ERROR);
-				Gdx.app.log("Console", "Already added to input processor!");
 				return;
 			}
 			multiplexer = new InputMultiplexer();
@@ -244,6 +243,7 @@ public class Console implements Disposable {
 			Gdx.input.setInputProcessor(multiplexer);
 		} else
 			Gdx.input.setInputProcessor(stage);
+
 	}
 
 	/** Compares the given processor to the console's stage. If given a multiplexer, it is iterated through recursively to check all

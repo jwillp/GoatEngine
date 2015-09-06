@@ -25,6 +25,7 @@ public class KeyboardInputManager implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         //GoatEngine.console.log(String.valueOf(keycode), "WARNING");
+        GoatEngine.eventManager.fireEvent(new KeyPressedEvent(keycode));
         return false;
     }
 
@@ -36,6 +37,7 @@ public class KeyboardInputManager implements InputProcessor {
      */
     @Override
     public boolean keyUp(int keycode) {
+        GoatEngine.eventManager.fireEvent(new KeyReleasedEvent(keycode));
         return false;
     }
 

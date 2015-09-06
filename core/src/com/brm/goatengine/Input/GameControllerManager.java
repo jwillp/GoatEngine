@@ -7,6 +7,7 @@ import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.brm.GoatEngine.GoatEngine;
+import com.brm.GoatEngine.Utils.Logger;
 
 /**
  * Manages Game Controllers (GamePads)
@@ -19,7 +20,6 @@ public class GameControllerManager implements ControllerListener{
 
     public GameControllerManager(InputManager inputManager){
         this.inputManager = inputManager;
-
         availableControllers = Controllers.getControllers();
 
         // TODO a getControllerMap() method
