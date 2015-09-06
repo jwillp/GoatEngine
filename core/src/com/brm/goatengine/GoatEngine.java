@@ -4,15 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.brm.GoatEngine.EventManager.EventManager;
 import com.brm.GoatEngine.GraphicsEngine.GraphicsEngine;
 import com.brm.GoatEngine.Input.InputManager;
-import com.brm.GoatEngine.Konsole.GConsoleCommandExecutor;
-import com.brm.GoatEngine.Konsole.GConsole;
+import com.brm.GoatEngine.GConsole.GConsoleCommandExecutor;
+import com.brm.GoatEngine.GConsole.GConsole;
 import com.brm.GoatEngine.ScreenManager.GameScreenManager;
 import com.brm.GoatEngine.ScriptingEngine.ScriptingEngine;
 import com.brm.GoatEngine.Utils.Logger;
 import com.strongjoshua.console.Console;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
 
 /**
  * The base class for the whole GamEngine

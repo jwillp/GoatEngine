@@ -1,4 +1,4 @@
-package com.brm.GoatEngine.Konsole;
+package com.brm.GoatEngine.GConsole;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -6,7 +6,7 @@ import com.strongjoshua.console.CommandExecutor;
 import com.strongjoshua.console.Console;
 
 /**
- * A custom Konsole with some more functionalities
+ * A custom GConsole with some more functionalities
  */
 public class GConsole extends Console {
 

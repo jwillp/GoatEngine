@@ -1,7 +1,8 @@
-package com.brm.GoatEngine.Konsole;
+package com.brm.GoatEngine.GConsole;
 
 import com.brm.GoatEngine.GoatEngine;
 import com.strongjoshua.console.CommandExecutor;
+import com.strongjoshua.console.Console;
 
 /**
  * Script Command Executor specific to the GoatEngine
@@ -43,7 +44,9 @@ public class GConsoleCommandExecutor extends CommandExecutor {
 
     }
 
-
+    public void e(String s){
+        console.log("s", Console.LogLevel.INFO);
+    }
 
 
     // GAME SCREEN COMMANDS //
