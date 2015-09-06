@@ -6,6 +6,7 @@ import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.brm.GoatEngine.GoatEngine;
 
 /**
  * Manages Game Controllers (GamePads)
@@ -58,6 +59,7 @@ public class GameControllerManager implements ControllerListener{
             this.availableControllers.add(controller);
         }
         // TODO Send Event?
+        GoatEngine.eventManager.fireEvent(new ControllerConnectedEvent());
     }
 
     /**
@@ -71,6 +73,7 @@ public class GameControllerManager implements ControllerListener{
             this.availableControllers.removeValue(controller, true);
         }
         // TODO Send Event?
+        GoatEngine.eventManager.fireEvent(new ControllerDisconnectedEvent());
     }
 
 

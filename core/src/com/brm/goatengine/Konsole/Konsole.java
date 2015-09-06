@@ -18,7 +18,7 @@ public class Konsole extends Console {
 
 
     public void setCommandExecutor(CommandExecutor c){
-        //this.exec = c;
+        this.exec = c;
     }
 
 
@@ -29,8 +29,8 @@ public class Konsole extends Console {
      * @param alpha
      */
     public void setOpacity(float alpha){
-       // Color c = this.consoleWindow.getColor();
-        //this.consoleWindow.setColor(c.r, c.b, c.b, alpha);
+        Color c = this.consoleWindow.getColor();
+        this.consoleWindow.setColor(c.r, c.b, c.b, alpha);
     }
 
     /**
