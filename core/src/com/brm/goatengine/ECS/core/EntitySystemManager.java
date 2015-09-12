@@ -99,7 +99,8 @@ public class EntitySystemManager implements GameEventListener{
     @Override
     public void onEvent(GameEvent e) {
         for(EntitySystem system: this.systems.values()){
-            system.onEntityEvent((EntityEvent) e);
+            if(e instanceof EntityEvent)  // TODO this is a Quickfix
+                system.onEntityEvent((EntityEvent) e);
         }
     }
 
