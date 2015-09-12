@@ -120,4 +120,23 @@ public class Logger {
         printToScreen = false;
     }
 
+
+    /***
+     * Logs an Exception's stack trace
+     * @param e
+     */
+    public static void logStackTrace(Throwable e){
+        StringBuilder sb = new StringBuilder();
+        for (StackTraceElement element : e.getStackTrace()) {
+            sb.append(element.toString());
+            sb.append("\n");
+        }
+        boolean oldVal = printToScreen;
+        printToScreen = false;
+        fatal(sb.toString());
+        printToScreen = oldVal;
+    }
+
+
+
 }

@@ -24,35 +24,23 @@ public class GameScreenManager {
     // METHODS //
 
     /**
-     * Initialises the Engine
+     * Initialises the manager
      */
     public void init() {
-        // TODO Move the content of this function to GoatEngine
         this.isRunning = true;
-        //Load Ressources from manager
-        Logger.info("Game Engine Init::Loading Resources");
-
-
-        //Graphical Interface initSystems
-        Logger.info("Game Engine Init::GUI Initialisation");
+        String mainScreenPath = GEConfig.SCRN_MNGR_DIR + GEConfig.SCRN_MNGR_MAIN_SCREEN;
+        GameScreen mainScreen = new GameScreen(GEConfig.SCRN_MNGR_MAIN_SCREEN);
+        mainScreen.init(this);
     }
 
     /**
-     * Does necessary clean ups of the engine
+     * Does necessary clean ups of the manager
      */
     public void cleanUp() {
-        Logger.info("Game Engine Cleaning Up");
+        Logger.info("Screen Manager cleaning up");
     }
 
 
-    /**
-     * Exits the engine in a clean way
-     */
-    public  void exit(){
-        Logger.info("Game Engine Exiting");
-        this.isRunning = false; // TODO move this in the real GoatEngine
-
-    }
 
     public boolean isRunning() {
         return this.isRunning;
@@ -60,7 +48,7 @@ public class GameScreenManager {
 
 
     // Screen Management //
-    public void changeScreen(GameScreen screen){
+    private void changeScreen(GameScreen screen){
 
         if(!this.screens.isEmpty()){
             this.screens.peek().cleanUp();
@@ -68,13 +56,22 @@ public class GameScreenManager {
         }
         this.screens.push(screen);
         this.screens.peek().init(this);
-
     }
+
+    /**
+     * Changes a screen
+     * @param screenPath
+     */
+    public void changeScreen(String screenPath){
+        changeScreen(new GameScreen(screenPath));
+    }
+
+
     /**
      * Adds a screen on top of the list , so it poses the currently running screen
      * @param screen
      */
-    public void addScreen(GameScreen screen){
+    private void addScreen(GameScreen screen){
         Logger.info("Game Engine adding Screen ...");
         if(!this.screens.isEmpty())
             this.screens.peek().pause();
@@ -84,12 +81,21 @@ public class GameScreenManager {
         Logger.info("Game Engine Screen Added");
     }
 
+    /**
+     * Adds a screen on top of the list , so it poses the currently running screen
+     * @param screenPath path to the screen config file
+     */
+    public void addScreen(String screenPath){
+        addScreen(new GameScreen(screenPath));
+    }
+
+
+
 
     /**
      * delete last game screen in the stack
      */
     public void popScreen(){
-
         if(!this.screens.isEmpty()){
             this.screens.peek().cleanUp();
             this.screens.pop();
@@ -143,6 +149,10 @@ public class GameScreenManager {
         this.isRunning = true;
     }
 
+    /**
+     * Returns the current screen
+     * @return
+     */
     public GameScreen getCurrentScreen() {
         if(!this.screens.empty()){
             return this.screens.peek();
@@ -159,21 +169,18 @@ public class GameScreenManager {
             Logger.fatal(ex.getMessage());
             throw ex;
         }else if(GEConfig.SCRN_MNGR_ON_EMPTY_STACK.equals(GEConfig.SCRN_MNGR_EXIT)){
-            this.exit();
+            // TODO notify GoatEngine that we want to quit
         }
     }
 
 
-
+    /**
+     * Exception thrown when the manager's stack is empty
+     */
     public class EmptyScreenManagerException extends RuntimeException{
         public EmptyScreenManagerException(){
             super("There is no Game Screen in the Screen Manager's stack");
         }
     }
-
-
-
-
-
 
 }

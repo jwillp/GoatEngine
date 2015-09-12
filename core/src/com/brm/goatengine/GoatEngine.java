@@ -50,45 +50,55 @@ public class GoatEngine {
 
 
     private static boolean initialised = false;
+    private static boolean running = false;
 
 
     /**
      * This initializes the Game Engine
      */
     public static void init(){
-        GEConfig.loadConfig();
-
         Logger.info("Engine Initialisation ...");
+
+        // Load configuration
+        GEConfig.loadConfig();
+        Logger.info(" > Engine config read and applied");
 
         //Graphics Engine
         graphicsEngine = new GraphicsEngine();
+        Logger.info(" > Graphics Engine initialised");
 
         // Event Manager
         eventManager = new EventManager();
+        Logger.info(" > Event Manager initialised");
 
         // input manager
         inputManager = new InputManager();
         inputManager.init();
+        Logger.info(" > Input Manager initialised");
 
         // Audio Manager
         audioMixer = new AudioMixer();
+        Logger.info(" > Audio Manager initialised");
 
         //Init the console
         console = new GConsole();
         console.setCommandExecutor(new GConsoleCommandExecutor());
-        console.log("Dev Console initialised", Console.LogLevel.SUCCESS);
         console.setDisabled(!GEConfig.CONS_ENABLED);
         console.resetInputProcessing();
+        console.log("Dev Console initialised", Console.LogLevel.SUCCESS);
+        Logger.info(" > Dev Console initialised");
 
 
 
         //Script Engine Init
         scriptEngine = new ScriptingEngine();
         scriptEngine.init();
+        Logger.info(" > Scripting Engine initialised");
 
         //Game Screen manager
         gameScreenManager = new GameScreenManager();
         gameScreenManager.init();
+        Logger.info(" > Game screen Manager initialised");
 
 
 
@@ -109,30 +119,31 @@ public class GoatEngine {
      * Updates the engine for ONE frame
      */
     public static void update(){
+        if(running){
+            if(!initialised){
+                throw new UninitializedEngineException();
+            }
 
-        if(!initialised){
-            throw new UninitializedEngineException();
+            float deltaTime = Gdx.graphics.getDeltaTime();
+
+            //Script Engine
+            //TODO Update?
+
+            //Clears the screen
+            graphicsEngine.clearScreen();
+
+            if(gameScreenManager.isRunning()){
+                //Game Screen Manager
+                gameScreenManager.handleEvents();
+                gameScreenManager.update(deltaTime);
+            }
+            gameScreenManager.draw(deltaTime);
+
+
+            //Draw Console
+            console.refresh();
+            console.draw();
         }
-
-        float deltaTime = Gdx.graphics.getDeltaTime();
-
-        //Script Engine
-        //TODO Update?
-
-        //Clears the screen
-        graphicsEngine.clearScreen();
-
-        if(gameScreenManager.isRunning()){
-            //Game Screen Manager
-            gameScreenManager.handleEvents();
-            gameScreenManager.update(deltaTime);
-        }
-        gameScreenManager.draw(deltaTime);
-
-        //Draw Console
-
-        console.refresh();
-        console.draw();
     }
 
     /**

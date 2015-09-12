@@ -92,7 +92,7 @@ public class EntitySystemManager implements GameEventListener{
      * Fires an event to all Systems
      * @param event
      */
-    public <T extends EntityEvent> void fireEvent(T event) {
+    public void fireEvent(GameEvent event) {
         GoatEngine.eventManager.fireEvent(event);
     }
 

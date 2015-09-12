@@ -34,6 +34,7 @@ public class EntityManager {
         Entity entity = new Entity();
         registerEntity(entity);
         entity.addComponent(new ScriptComponent(), ScriptComponent.ID);
+        entity.addComponent(new TagsComponent(), TagsComponent.ID);
         return entity;
 
     }
