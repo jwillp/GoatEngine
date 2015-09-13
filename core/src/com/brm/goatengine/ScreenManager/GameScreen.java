@@ -5,6 +5,7 @@ import com.brm.GoatEngine.ECS.common.TagsComponent;
 import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.GEConfig;
 import com.brm.GoatEngine.Physics.PhysicsSystem;
+import com.brm.GoatEngine.Rendering.RenderingSystem;
 import com.brm.GoatEngine.ScriptingEngine.ScriptComponent;
 import com.brm.GoatEngine.ScriptingEngine.ScriptSystem;
 import com.brm.GoatEngine.ECS.core.ECSManager;
@@ -21,7 +22,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 
-public class GameScreen{
+public final class GameScreen{
 
     protected ECSManager ecsManager = new ECSManager();
     private String name;
@@ -47,7 +48,17 @@ public class GameScreen{
         // The Default Script System
         GoatEngine.eventManager.registerListener(this.ecsManager.getSystemManager());
         ecsManager.getSystemManager().addSystem(ScriptSystem.class, new ScriptSystem());
-        ecsManager.getSystemManager().addSystem(PhysicsSystem.class, new PhysicsSystem());
+
+        physicsSystem = new PhysicsSystem();
+        ecsManager.getSystemManager().addSystem(PhysicsSystem.class, physicsSystem);
+
+
+        ecsManager.getSystemManager().addSystem(RenderingSystem.class, new RenderingSystem());
+
+
+        ecsManager.getSystemManager().initSystems();
+
+
 
 
         //READ data from Config file
@@ -73,7 +84,8 @@ public class GameScreen{
     public void handleInput(GameScreenManager screenManager){}
 
     public void update(GameScreenManager screenManager, float deltaTime){
-        ecsManager.getSystemManager().getSystem(ScriptSystem.class).update(0);
+        //ecsManager.getSystemManager().getSystem(ScriptSystem.class).update(0);
+        ecsManager.getSystemManager().update();
     }
 
     public void draw(GameScreenManager screenManager, float deltaTime){}

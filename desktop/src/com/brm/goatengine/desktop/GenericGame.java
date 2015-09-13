@@ -43,7 +43,14 @@ public class GenericGame extends Game implements GameEventListener{
     @Override
     public void render() {
         super.render();
-        GoatEngine.update();
+        try{
+            GoatEngine.update();
+        }catch (RuntimeException e){
+            Logger.fatal("AN ERROR OCCURED");
+            Logger.fatal(e.getMessage());
+            Logger.logStackTrace(e);
+            throw e;
+        }
     }
 
     @Override
