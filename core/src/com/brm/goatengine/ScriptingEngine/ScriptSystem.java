@@ -56,7 +56,6 @@ public class ScriptSystem extends EntitySystem {
             for(String scriptFile: scriptComp.getScripts()){
 
                 // ON UPDATE
-
                 EntityScript script =  GoatEngine.scriptEngine.runEntityScript(scriptFile, entity);
                 if(script == null){ continue; }
                 if(!script.isInitialized()){
@@ -88,7 +87,6 @@ public class ScriptSystem extends EntitySystem {
                     }catch (Exception e){
                         GoatEngine.scriptEngine.logError(scriptFile, e.getMessage());
                     }
-
                 }else{
                     try{
                         script.onEvent(event, entity);

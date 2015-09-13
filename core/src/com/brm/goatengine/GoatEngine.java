@@ -110,6 +110,7 @@ public class GoatEngine {
         }*/
 
         initialised = true;
+        running = true;
 
         Logger.info("Engine initialisation complete");
     }
@@ -121,13 +122,10 @@ public class GoatEngine {
     public static void update(){
         if(running){
             if(!initialised){
-                throw new UninitializedEngineException();
+                throw new EngineUninitializedException();
             }
 
             float deltaTime = Gdx.graphics.getDeltaTime();
-
-            //Script Engine
-            //TODO Update?
 
             //Clears the screen
             graphicsEngine.clearScreen();
@@ -164,8 +162,8 @@ public class GoatEngine {
 
 
 
-    static class UninitializedEngineException extends RuntimeException{
-        public UninitializedEngineException(){
+    static class EngineUninitializedException extends RuntimeException{
+        public EngineUninitializedException(){
             super("Goat Engine uninitialized, use GoatEngine.init() at start of program");
         }
     }

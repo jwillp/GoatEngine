@@ -30,7 +30,7 @@ public class GameScreenManager {
         this.isRunning = true;
         String mainScreenPath = GEConfig.SCRN_MNGR_DIR + GEConfig.SCRN_MNGR_MAIN_SCREEN;
         GameScreen mainScreen = new GameScreen(GEConfig.SCRN_MNGR_MAIN_SCREEN);
-        mainScreen.init(this);
+        this.addScreen(mainScreen);
     }
 
     /**
