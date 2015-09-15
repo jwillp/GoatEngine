@@ -1,6 +1,7 @@
 package com.brm.GoatEngine;
 
 import com.brm.GoatEngine.Files.FileSystem;
+import com.brm.GoatEngine.Utils.GameConfig;
 import com.brm.GoatEngine.Utils.OrderedProperties;
 
 import java.io.FileInputStream;
@@ -14,7 +15,7 @@ import java.util.Date;
  * contains all the settings for the engine (and it's sub modules) to work
  * correctly, by reading them from a file
  */
-public class GEConfig {
+public class GEConfig extends GameConfig {
 
     public static final String CONFIG_FILE = "data/ge.ini";     // The file to read the configuration from
 
@@ -102,30 +103,6 @@ public class GEConfig {
         CONS_ENABLED = getBooleanProperty(CONS_ENABLED, prop.getProperty("cons_enabled"));
     }
 
-
-    /**
-     * Try to applied a property, if the property string is Empty
-     * keep the default value of the parameter
-     * @param defaultProperty the Config Property
-     * @param readProperty the read from file property
-     */
-    private static void applyProperty(String defaultProperty, final String readProperty){
-        if(!readProperty.isEmpty()){
-            defaultProperty = readProperty;
-        }
-    }
-    /**
-     * Try to applied a property, if the property string is Empty
-     * keep the default value of the parameter
-     * @param defaultProperty the Config Property
-     * @param readProperty the read from file property
-     */
-    private static boolean getBooleanProperty(boolean defaultProperty, final String readProperty){
-        if(!readProperty.isEmpty()){
-            return Boolean.parseBoolean(readProperty);
-        }
-        return defaultProperty;
-    }
 
 
 }

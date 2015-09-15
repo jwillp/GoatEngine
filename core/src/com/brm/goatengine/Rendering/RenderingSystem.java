@@ -47,8 +47,9 @@ public class RenderingSystem extends EntitySystem {
         renderPhysicsDebug();
 
         /** CAMERA DEBUG */
-        /*CameraDebugRenderer cdr = new CameraDebugRenderer(cameraSystem.getMainCamera(), shapeRenderer);
-        cdr.render();*/
+        if(GoatEngine.gameScreenManager.getCurrentScreen().getConfig().CAMERA_DEBUG_RENDERING){
+            new CameraDebugRenderer(cameraSystem.getMainCamera(), shapeRenderer).render();
+        }
     }
 
 

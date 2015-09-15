@@ -5,5 +5,5 @@ package com.brm.GoatEngine.Physics;
  */
 public class CircleColliderDef extends ColliderDef{
 
-    public float radius;
+    public float radius = 1;
 }

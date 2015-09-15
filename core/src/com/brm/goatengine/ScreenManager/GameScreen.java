@@ -13,6 +13,7 @@ import com.brm.GoatEngine.ECS.core.EntityManager;
 import com.brm.GoatEngine.GoatEngine;
 import com.brm.GoatEngine.TmxSupport.MapConfig;
 import com.brm.GoatEngine.TmxSupport.MapConfigObject;
+import com.brm.GoatEngine.Utils.GameConfig;
 import com.brm.GoatEngine.Utils.Logger;
 import com.brm.GoatEngine.Utils.OrderedProperties;
 
@@ -27,20 +28,23 @@ public final class GameScreen{
     protected ECSManager ecsManager = new ECSManager();
     private String name;
 
-    private String tmxConfigFile;
-
     private MapConfig mapConfig;
     private PhysicsSystem physicsSystem;
 
+    private GameScreenConfig config;
+
+
+
+
     public GameScreen(final String name){
         this.name = name;
+        config = new GameScreenConfig();
     }
 
 
 
-    public void pause() {
-        Logger.info("Game Screen: " + this.name + "paused");
-    }
+
+
 
     public void init(GameScreenManager screenManager) {
         Logger.info("Game Screen: " + this.name + " initialisation ... ");
@@ -76,6 +80,10 @@ public final class GameScreen{
         Logger.info("Game Screen: " + this.name + "cleaned up");
     }
 
+    public void pause() {
+        Logger.info("Game Screen: " + this.name + "paused");
+    }
+
     public void resume() {
         Logger.info("Game Screen: " + this.name + "resumed");
     }
@@ -105,13 +113,44 @@ public final class GameScreen{
 
             //Gravity
             Vector2 gravity = new Vector2();
-            if(prop.getProperty("gravity_x") != null){
-                gravity.x = Float.parseFloat(prop.getProperty("gravity_x"));
+            if(prop.getProperty("gravity_x") != null){  // TODO put default values as private static constants
+                gravity.x = GameConfig.getFloatProperty(0.0f, "gravity_x");
             }
             if(prop.getProperty("gravity_y") != null){
-                gravity.y = Float.parseFloat(prop.getProperty("gravity_y"));
+                gravity.y = GameConfig.getFloatProperty(0.0f, "gravity_y");
             }
             this.ecsManager.getSystemManager().getSystem(PhysicsSystem.class).setGravity(gravity);
+
+
+
+            // OTHER PARAMETERS
+            this.config.PHYSICS_DEBUG_RENDERING = GameConfig.getBooleanProperty(
+                    this.config.PHYSICS_DEBUG_RENDERING,
+                    "physics_debug_rendering"
+            );
+
+            this.config.CAMERA_DEBUG_RENDERING = GameConfig.getBooleanProperty(
+                    this.config.CAMERA_DEBUG_RENDERING,
+                    "camera_debug_rendering"
+            );
+
+            this.config.TEXTURE_RENDERING = GameConfig.getBooleanProperty(
+                    this.config.TEXTURE_RENDERING,
+                    "texture_rendering"
+            );
+
+            this.config.FOG_RENDERING = GameConfig.getBooleanProperty(
+                    this.config.FOG_RENDERING,
+                    "fog_rendering"
+            );
+
+            this.config.LIGHTING_RENDERING = GameConfig.getBooleanProperty(
+                    this.config.LIGHTING_RENDERING,
+                    "lighting_rendering"
+            );
+
+
+
 
 
 
@@ -161,8 +200,12 @@ public final class GameScreen{
         return physicsSystem;
     }
 
+    public GameScreenConfig getConfig() {
+        return config;
+    }
 
-                             // EXCEPTIONS //
+
+    // EXCEPTIONS //
 
     private class GameScreenNotFoundException extends RuntimeException {
         public GameScreenNotFoundException(String name) {

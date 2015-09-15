@@ -52,4 +52,5 @@ public class CameraSystem extends EntitySystem {
         CameraComponent camComp = (CameraComponent) comps.get(0);
         return camComp.getCamera();
     }
+
 }
