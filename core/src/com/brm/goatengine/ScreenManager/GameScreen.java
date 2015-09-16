@@ -114,10 +114,10 @@ public final class GameScreen{
             //Gravity
             Vector2 gravity = new Vector2();
             if(prop.getProperty("gravity_x") != null){  // TODO put default values as private static constants
-                gravity.x = GameConfig.getFloatProperty(0.0f, "gravity_x");
+                gravity.x = GameConfig.getFloatProperty(0.0f, prop.getProperty("gravity_x"));
             }
             if(prop.getProperty("gravity_y") != null){
-                gravity.y = GameConfig.getFloatProperty(0.0f, "gravity_y");
+                gravity.y = GameConfig.getFloatProperty(0.0f, prop.getProperty("gravity_y"));
             }
             this.ecsManager.getSystemManager().getSystem(PhysicsSystem.class).setGravity(gravity);
 
