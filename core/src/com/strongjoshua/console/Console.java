@@ -529,6 +529,8 @@ public class Console implements Disposable {
 				return true;
 			} else if (keycode == Keys.TAB && !hidden) {
 				return onTabKeyPress();
+			} else if (keycode == Keys.ESCAPE && !hidden){
+				return onEscapeKeyPress();
 			} else if (keycode == keyID) {
 				hidden = !hidden;
 				if (hidden) {
@@ -542,6 +544,16 @@ public class Console implements Disposable {
 				return true;
 			}
 			return false;
+		}
+
+
+		/**
+		 * Called when escape key is pressed
+		 * @return
+		 */
+		private boolean onEscapeKeyPress() {
+			this.input.setText(""); // Empty text
+			return true;
 		}
 
 
