@@ -97,7 +97,6 @@ public class Console implements Disposable {
 	protected InputProcessor appInput;
 	protected InputMultiplexer multiplexer;
 	protected Stage stage;
-	protected CommandExecutor exec;
 	protected CommandHistory commandHistory;
 	protected CommandCompleter commandCompleter;
 	protected Window consoleWindow;
@@ -378,15 +377,6 @@ public class Console implements Disposable {
 		keyID = code;
 	}
 
-	/** Sets this console's {@link CommandExecutor}. Its methods are the methods that are referenced within the console. Can be set
-	 * to null, but this will result in no commands being fired.
-	 * @param commandExec */
-	public void setCommandExecutor (CommandExecutor commandExec) {
-		exec = commandExec;
-		exec.setConsole(this);
-	}
-
-
 
 
 	private ArrayList<ConsoleCommand> commands = new ArrayList<ConsoleCommand>();
@@ -561,12 +551,8 @@ public class Console implements Disposable {
 		private boolean onEnterKeyPress(){
 			String s = input.getText();
 			if (s.length() == 0 || s.equals("") || s.split(" ").length == 0) return false;
-			if (exec != null) {
-				commandHistory.store(s);
-				execCommand(s);
-			} else
-				log("No command executor has been set. Please call setCommandExecutor for this console in your code and restart.",
-						LogLevel.ERROR);
+			commandHistory.store(s);
+			execCommand(s);
 			input.setText("");
 			return true;
 		}

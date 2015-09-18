@@ -3,9 +3,10 @@ package com.brm.GoatEngine;
 import com.badlogic.gdx.Gdx;
 import com.brm.GoatEngine.EventManager.EventManager;
 import com.brm.GoatEngine.GConsole.ConsoleCommand;
+import com.brm.GoatEngine.GConsole.DefaultCommands.ExitCommand;
+import com.brm.GoatEngine.GConsole.DefaultCommands.HelpCommand;
 import com.brm.GoatEngine.GraphicsEngine.GraphicsEngine;
 import com.brm.GoatEngine.Input.InputManager;
-import com.brm.GoatEngine.GConsole.GConsoleCommandExecutor;
 import com.brm.GoatEngine.GConsole.GConsole;
 import com.brm.GoatEngine.ScreenManager.GameScreenManager;
 import com.brm.GoatEngine.ScriptingEngine.ScriptingEngine;
@@ -83,7 +84,6 @@ public class GoatEngine {
 
         //Init the console
         console = new GConsole();
-        console.setCommandExecutor(new GConsoleCommandExecutor());
         console.setDisabled(!GEConfig.CONS_ENABLED);
         console.resetInputProcessing();
         console.log("Dev Console initialised", Console.LogLevel.SUCCESS);
@@ -104,13 +104,8 @@ public class GoatEngine {
 
 
         // RUN DEFAULT MAIN SCRIPT
-        console.addCommand(new ConsoleCommand("hello") {
-
-            @Override
-            public void exec(String... args) {
-                console.log("HURRY", Console.LogLevel.SUCCESS);
-            }
-        });
+        console.addCommand(new ExitCommand());
+        console.addCommand(new HelpCommand());
         /*try{
             scriptEngine.("scripts/main.groovy");
         }catch(Exception e){

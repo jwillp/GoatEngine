@@ -1,5 +1,6 @@
 package com.brm.GoatEngine.GConsole;
 
+import com.brm.GoatEngine.GoatEngine;
 import com.strongjoshua.console.Console;
 
 /**
@@ -8,8 +9,8 @@ import com.strongjoshua.console.Console;
 public abstract class ConsoleCommand {
 
     protected String name;    // Name of the command
-    protected String desc = "";    // Desciption of the command
-    protected String usage = "";   // Usage and parameters
+    protected String desc = "No description";    // Desciption of the command
+    protected String usage = "Usage: ";   // Usage and parameters
 
     public ConsoleCommand(String name) {
         this.name = name;
@@ -17,7 +18,14 @@ public abstract class ConsoleCommand {
 
 
 
-    public abstract void exec(String... args);
+    public void exec(String... args){
+        // Help for usage
+        if (args.length != 0) {
+            if (args[0].equals("-h") || args[0].equals("-help")) {
+                GoatEngine.console.log(usage, Console.LogLevel.DEFAULT);
+            }
+        }
+    }
 
     public String getName() {
         return name;

@@ -2,7 +2,6 @@ package com.brm.GoatEngine.GConsole;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.strongjoshua.console.CommandExecutor;
 import com.strongjoshua.console.Console;
 
 /**
@@ -16,13 +15,6 @@ public class GConsole extends Console {
         this.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()/4);
         this.setPosition(0,Gdx.graphics.getHeight());
     }
-
-
-    public void setCommandExecutor(CommandExecutor c){
-        this.exec = c;
-    }
-
-
 
 
     /**
