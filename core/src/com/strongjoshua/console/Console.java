@@ -29,7 +29,9 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Method;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
-import com.brm.GoatEngine.Utils.Logger;
+import com.brm.GoatEngine.GConsole.ConsoleCommand;
+
+import java.util.ArrayList;
 
 /** A simple console that allows live logging, and live execution of methods, from within an application. Please see the <a
  * href="https://github.com/StrongJoshua/libgdx-inGameConsole">GitHub Repository</a> for more information.
@@ -384,73 +386,49 @@ public class Console implements Disposable {
 		exec.setConsole(this);
 	}
 
+
+
+
+	private ArrayList<ConsoleCommand> commands = new ArrayList<ConsoleCommand>();
+
+
+	/**
+	 * Adds a command to the available commands list
+	 * @return
+	 */
+	public Console addCommand(ConsoleCommand c){
+		commands.add(c);
+		commandCompleter.addCommand(c.getName());
+		return this;
+	}
+
+
+
+	/**
+	 * Executes the command passed
+	 * @param command
+	 */
 	private void execCommand (String command) {
 		log(command, LogLevel.COMMAND);
 
 		String[] parts = command.split(" ");
-		String methodName = parts[0];
-		String[] sArgs = null;
+		String commandName = parts[0];
+		String[] sArgs = new String[0];
 		if (parts.length > 1) {
 			sArgs = new String[parts.length - 1];
-			for (int i = 1; i < parts.length; i++) {
-				sArgs[i - 1] = parts[i];
-			}
+			System.arraycopy(parts, 1, sArgs, 0, parts.length - 1);
 		}
 
-		// attempt to convert arguments to numbers. If the conversion does not work, keep the argument as a string.
-		Object[] args = null;
-		if (sArgs != null) {
-			args = new Object[sArgs.length];
-			for (int i = 0; i < sArgs.length; i++) {
-				String s = sArgs[i];
-				try {
-					int j = Integer.parseInt(s);
-					args[i] = j;
-				} catch (NumberFormatException e) {
-					try {
-						float f = Float.parseFloat(s);
-						args[i] = f;
-					} catch (NumberFormatException e2) {
-						args[i] = s;
-					}
-				}
+		boolean commandFound = false;
+		for(ConsoleCommand c: commands){
+			if(c.getName().equals(commandName)){
+				commandFound = true;
+				c.exec(sArgs);
 			}
 		}
-
-		Class<? extends CommandExecutor> clazz = exec.getClass();
-		Method[] methods = ClassReflection.getMethods(clazz);
-		Array<Integer> possible = new Array<Integer>();
-		for (int i = 0; i < methods.length; i++) {
-			if (methods[i].getName().equalsIgnoreCase(methodName)) possible.add(i);
+		if(!commandFound){
+			log("Command not found: " + command, LogLevel.ERROR);
 		}
-		if (possible.size <= 0) {
-			log("No such method found.", LogLevel.ERROR);
-			return;
-		}
-		int size = possible.size;
-		int numArgs;
-		numArgs = args == null ? 0 : args.length;
-		for (int i = 0; i < size; i++) {
-			Method m = methods[possible.get(i)];
-			Class<?>[] params = m.getParameterTypes();
-			if (numArgs != params.length)
-				continue;
-			else {
-				try {
-					m.invoke(exec, args);
-					return;
-				} catch (ReflectionException e) {
-					String msg = e.getMessage();
-					if (msg == null || msg.length() <= 0 || msg.equals("")) {
-						msg = "Unknown Error";
-						e.printStackTrace();
-					}
-					log(msg, LogLevel.ERROR);
-					return;
-				}
-			}
-		}
-		log("Bad parameters. Check your code.", LogLevel.ERROR);
 	}
 
 	private Vector3 stageCoords = new Vector3();
@@ -532,6 +510,9 @@ public class Console implements Disposable {
 		}
 	}
 
+	/**
+	 * Listens key presses and handle them
+	 */
 	private class KeyListener extends InputListener {
 		private TextField input;
 
@@ -549,33 +530,15 @@ public class Console implements Disposable {
 			}
 
 			if (keycode == Keys.ENTER && !hidden) {
-				String s = input.getText();
-				if (s.length() == 0 || s.equals("") || s.split(" ").length == 0) return false;
-				if (exec != null) {
-					commandHistory.store(s);
-					execCommand(s);
-				} else
-					log("No command executor has been set. Please call setCommandExecutor for this console in your code and restart.",
-						LogLevel.ERROR);
-				input.setText("");
-				return true;
+				return onEnterKeyPress();
 			} else if (keycode == Keys.UP && !hidden) {
-				input.setText(commandHistory.getPreviousCommand());
-				input.setCursorPosition(input.getText().length());
+				onArrowUpKeyPress();
 				return true;
 			} else if (keycode == Keys.DOWN && !hidden) {
-				input.setText(commandHistory.getNextCommand());
-				input.setCursorPosition(input.getText().length());
+				onArrowDownKeyPress();
 				return true;
 			} else if (keycode == Keys.TAB && !hidden) {
-				String s = input.getText();
-				if (s.length() == 0) return false;
-				if (commandCompleter.isNew()) {
-					commandCompleter.set(exec, s);
-				}
-				input.setText(commandCompleter.next());
-				input.setCursorPosition(input.getText().length());
-				return true;
+				return onTabKeyPress();
 			} else if (keycode == keyID) {
 				hidden = !hidden;
 				if (hidden) {
@@ -590,6 +553,61 @@ public class Console implements Disposable {
 			}
 			return false;
 		}
+
+
+		/**
+		 * Called when the ENTER key is pressed
+		 */
+		private boolean onEnterKeyPress(){
+			String s = input.getText();
+			if (s.length() == 0 || s.equals("") || s.split(" ").length == 0) return false;
+			if (exec != null) {
+				commandHistory.store(s);
+				execCommand(s);
+			} else
+				log("No command executor has been set. Please call setCommandExecutor for this console in your code and restart.",
+						LogLevel.ERROR);
+			input.setText("");
+			return true;
+		}
+
+		/**
+		 * Called when th TAB key is pressed
+		 */
+		private boolean onTabKeyPress(){
+			String userWrittenText = input.getText();
+			if (userWrittenText.length() == 0) return false;
+
+			input.setText(commandCompleter.getNext(userWrittenText));
+			input.setCursorPosition(input.getText().length());
+			return true;
+		}
+
+		/**
+		 * Called when the arrow up key is pressed
+		 */
+		private void onArrowUpKeyPress(){
+			input.setText(commandHistory.getPreviousCommand());
+			input.setCursorPosition(input.getText().length());
+		}
+
+		/**
+		 * Called when the arrow down key is pressed
+		 */
+		private void onArrowDownKeyPress(){
+			input.setText(commandHistory.getNextCommand());
+			input.setCursorPosition(input.getText().length());
+		}
+
+
+
+
+
+
+
+
+
+
 	}
 
 	/** Resets the {@link InputProcessor} to the one that was the default before this console object was created. */

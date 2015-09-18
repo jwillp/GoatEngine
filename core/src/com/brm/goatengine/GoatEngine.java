@@ -2,6 +2,7 @@ package com.brm.GoatEngine;
 
 import com.badlogic.gdx.Gdx;
 import com.brm.GoatEngine.EventManager.EventManager;
+import com.brm.GoatEngine.GConsole.ConsoleCommand;
 import com.brm.GoatEngine.GraphicsEngine.GraphicsEngine;
 import com.brm.GoatEngine.Input.InputManager;
 import com.brm.GoatEngine.GConsole.GConsoleCommandExecutor;
@@ -103,6 +104,13 @@ public class GoatEngine {
 
 
         // RUN DEFAULT MAIN SCRIPT
+        console.addCommand(new ConsoleCommand("hello") {
+
+            @Override
+            public void exec(String... args) {
+                console.log("HURRY", Console.LogLevel.SUCCESS);
+            }
+        });
         /*try{
             scriptEngine.("scripts/main.groovy");
         }catch(Exception e){

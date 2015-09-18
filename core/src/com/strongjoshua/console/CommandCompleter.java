@@ -1,68 +1,63 @@
 package com.strongjoshua.console;
 
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ObjectSet;
-import com.badlogic.gdx.utils.ObjectSet.ObjectSetIterator;
-import com.badlogic.gdx.utils.reflect.ClassReflection;
-import com.badlogic.gdx.utils.reflect.Method;
+import com.brm.GoatEngine.GConsole.ConsoleCommand;
 
+import java.util.ArrayList;
+
+/**
+ * Classed used to complete commands in the console
+ */
 class CommandCompleter {
-	private ObjectSet<String> possibleCommands;
-	private ObjectSetIterator<String> iterator;
-	private String setString;
+	private ArrayList<String> availableCommands;
+	/**
+	 * All the commands the completer proposed to the user since the last reset
+	 * Serves as a history not to propose the same choice over and over
+	 */
+	private ArrayList<String> proposedCommands;
+
+
+	// Used when there is not possible suggestion
+	public static final String NO_SUGGESTION_AVAILABLE = "";
+
+
 
 	public CommandCompleter() {
-		possibleCommands = new ObjectSet<String>();
-		setString = "";
+		proposedCommands = new ArrayList<String>();
+		availableCommands = new ArrayList<String>();
 	}
 
-	public void set(CommandExecutor ce, String s) {
-		reset();
-		setString = s.toLowerCase();
-		Array<Method> methods = getAllMethods(ce);
-		for(Method m : methods) {
-			String name = m.getName();
-			if(name.toLowerCase().startsWith(setString))
-				possibleCommands.add(name);
+	/**
+	 * Adds a command to be available as a completion possibility
+	 * @param commandName the name of the command to make available as a suggestion
+	 */
+	public void addCommand(String commandName){
+		this.availableCommands.add(commandName);
+	}
+
+	/**
+	 * Returns the most likely command be what the user
+	 * wants based on the input passed
+	 * @return
+	 */
+	public String getNext(String currentInput){
+
+		for(String c : availableCommands){
+			if(c.startsWith(currentInput) && !proposedCommands.contains(c)){
+				return c;
+			}
 		}
-		iterator = new ObjectSetIterator<String>(possibleCommands);
+		return currentInput;
 	}
 
-	public void reset() {
-		possibleCommands.clear();
-		setString = "";
-		iterator = null;
+	/**
+	 * Resets the proposition history
+	 */
+	public void reset(){
+		this.proposedCommands.clear();
 	}
 
-	public boolean isNew() {
-		return possibleCommands.size == 0;
-	}
 
-	public boolean wasSetWith(String s) {
-		return setString.equalsIgnoreCase(s);
-	}
 
-	public String next() {
-		if(!iterator.hasNext) {
-			iterator.reset();
-			return setString;
-		}
-		return iterator.next();
-	}
 
-	private Array<Method> getAllMethods(CommandExecutor ce) {
-		Array<Method> methods = new Array<Method>();
-		Method[] ms = ClassReflection.getDeclaredMethods(ce.getClass());
-		for(Method m : ms) {
-			if(m.isPublic())
-				methods.add(m);
-		}
-		ms = ClassReflection.getDeclaredMethods(ce.getClass().getSuperclass());
-		for(Method m : ms) {
-			if(m.isPublic())
-				methods.add(m);
-		}
 
-		return methods;
-	}
 }
