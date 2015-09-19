@@ -12,6 +12,8 @@ public abstract class ConsoleCommand {
     protected String desc = "No description";    // Desciption of the command
     protected String usage = "Usage: ";   // Usage and parameters
 
+    protected Console console;
+
     public ConsoleCommand(String name) {
         this.name = name;
     }
@@ -49,5 +51,13 @@ public abstract class ConsoleCommand {
 
     public void setUsage(String usage) {
         this.usage = usage;
+    }
+
+    public Console getConsole() {
+        return console;
+    }
+
+    public void setConsole(Console console) {
+        this.console = console;
     }
 }

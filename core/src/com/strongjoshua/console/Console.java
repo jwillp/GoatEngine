@@ -38,6 +38,8 @@ import java.util.ArrayList;
  * 
  * @author StrongJoshua */
 public class Console implements Disposable {
+
+
 	/** Specifies the 'level' of a log entry. The level affects the color of the entry in the console and is also displayed next to
 	 * the entry when the log entries are printed to a file with {@link Console#printLogToFile(String)}.
 	 * 
@@ -388,10 +390,18 @@ public class Console implements Disposable {
 	 */
 	public Console addCommand(ConsoleCommand c){
 		commands.add(c);
+		c.setConsole(this);
 		commandCompleter.addCommand(c.getName());
 		return this;
 	}
 
+	/**
+	 * Returns the list of available commands
+	 * @return
+	 */
+	public ArrayList<ConsoleCommand> getCommands() {
+		return commands;
+	}
 
 
 	/**
