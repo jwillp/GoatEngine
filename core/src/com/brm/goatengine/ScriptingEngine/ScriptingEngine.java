@@ -201,7 +201,7 @@ public class ScriptingEngine{
         }
 
         //Does it need to be refreshed?
-        if(GEConfig.SCRPT_ENG_AUTO_RELOAD){
+        if(GEConfig.ScriptingEngine.AUTO_RELOAD){
             if(this.isSourceNewer(scriptName)){
                 this.entityScripts.get(scriptName).setLastModified(this.getLastModified(scriptName));
                 this.refreshEntityScript(scriptName);

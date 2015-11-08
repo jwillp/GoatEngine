@@ -41,7 +41,6 @@ public class GEConfig extends GameConfig {
         public static String LEVEL_DIR = "data/levels/";                   // The Directory containing level config
     }
 
-
     /**
      * [DEV GENERAL]
      */
@@ -51,12 +50,15 @@ public class GEConfig extends GameConfig {
     }
 
 
+    /**
+     * [SCRIPTING_ENGINE]
+     */
+    public static class ScriptingEngine{
+        public static boolean AUTO_RELOAD = true;              // If we need to reload scripts when their code change
+        public static String  SCRIPTS_DIR= "data/scripts/";    // The directory where we store all scripts
+    }
 
 
-
-    // [SCRIPTING_ENGINE]
-    public static boolean SCRPT_ENG_AUTO_RELOAD = true;        // If we need to reload scripts when their code change
-    public static String  SCRPT_ENG_SCRIPTS_DIR= "data/scripts/";    // The directory where we store all scripts
 
 
     // [LOGGER]
@@ -102,8 +104,8 @@ public class GEConfig extends GameConfig {
     }
 
     private static void loadScriptEngineConfig(OrderedProperties prop){
-        SCRPT_ENG_AUTO_RELOAD = getBooleanProperty(SCRPT_ENG_AUTO_RELOAD, prop.getProperty("auto_reload"));
-        applyProperty(SCRPT_ENG_SCRIPTS_DIR, FileSystem.sanitiseDir(prop.getProperty("scripts_directory")));
+        ScriptingEngine.AUTO_RELOAD = getBooleanProperty(ScriptingEngine.AUTO_RELOAD, prop.getProperty("auto_reload"));
+        applyProperty(ScriptingEngine.SCRIPTS_DIR, FileSystem.sanitiseDir(prop.getProperty("scripts_directory")));
         applyProperty(LOG_EXCLUDE_LEVEL, prop.getProperty("exclude_lvl"));
 
     }

@@ -180,7 +180,7 @@ public final class GameScreen{
             }
             if(obj.script != null){
                 ((ScriptComponent)entity.getComponent(ScriptComponent.ID)).addScript(
-                        GEConfig.SCRPT_ENG_SCRIPTS_DIR + obj.script
+                        GEConfig.ScriptingEngine.SCRIPTS_DIR + obj.script
                 );
             }
         }
