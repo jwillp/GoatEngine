@@ -59,14 +59,13 @@ public class GEConfig extends GameConfig {
     }
 
 
-
-
-    // [LOGGER]
-    public static String LOG_DIRECTORY = "LOG/";                          // The directory where we store the logs
-    // the format we use to name log file the %date% keyword will be replaced by the date of engine launch
-    public static String LOG_FILE_NAME = "%date%_gelog.log";
-    public static String LOG_EXCLUDE_LEVEL = "NONE";   //To exclude log levels in log file (Ref. Logger.LogLevels)
-
+    public static class Logger{
+        // [LOGGER]
+        public static String LOG_DIRECTORY = "LOG/";                          // The directory where we store the logs
+        // the format we use to name log file the %date% keyword will be replaced by the date of engine launch
+        public static String FILE_NAME_FORMAT = "%date%_gelog.log";
+        public static String EXCLUDE_LEVEL = "NONE";                      //To exclude log levels in log file (Ref. Logger.LogLevels)
+    }
 
 
     // CONSOLE
@@ -106,14 +105,14 @@ public class GEConfig extends GameConfig {
     private static void loadScriptEngineConfig(OrderedProperties prop){
         ScriptingEngine.AUTO_RELOAD = getBooleanProperty(ScriptingEngine.AUTO_RELOAD, prop.getProperty("auto_reload"));
         applyProperty(ScriptingEngine.SCRIPTS_DIR, FileSystem.sanitiseDir(prop.getProperty("scripts_directory")));
-        applyProperty(LOG_EXCLUDE_LEVEL, prop.getProperty("exclude_lvl"));
+        applyProperty(Logger.EXCLUDE_LEVEL, prop.getProperty("exclude_lvl"));
 
     }
 
     private static void loadLoggerConfig(OrderedProperties prop){
-        applyProperty(LOG_FILE_NAME, prop.getProperty("log_file_name"));
-        applyProperty(LOG_DIRECTORY, FileSystem.sanitiseDir(prop.getProperty("log_directory")));
-        applyProperty(LOG_EXCLUDE_LEVEL, prop.getProperty("exclude_lvl"));
+        applyProperty(Logger.FILE_NAME_FORMAT, prop.getProperty("log_file_name"));
+        applyProperty(Logger.LOG_DIRECTORY, FileSystem.sanitiseDir(prop.getProperty("log_directory")));
+        applyProperty(Logger.EXCLUDE_LEVEL, prop.getProperty("exclude_lvl"));
     }
 
     private static void loadConsoleConfig(OrderedProperties prop){

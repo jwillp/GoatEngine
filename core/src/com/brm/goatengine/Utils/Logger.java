@@ -30,12 +30,12 @@ public class Logger {
      * @param message
      */
     private static void log(String level, Object message){
-        if(!GEConfig.LOG_EXCLUDE_LEVEL.equals(level)){
+        if(!GEConfig.Logger.EXCLUDE_LEVEL.equals(level)){
             String logTime = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
             String time = "["+logTime+"] ";
 
             String longDate = new SimpleDateFormat("YYYYMMDDHHmmss").format(GEConfig.LAUNCH_DATE);
-            String outputFile = GEConfig.LOG_DIRECTORY + GEConfig.LOG_FILE_NAME.replace("%date%", longDate);
+            String outputFile = GEConfig.Logger.LOG_DIRECTORY + GEConfig.Logger.FILE_NAME_FORMAT.replace("%date%", longDate);
 
             Gdx.files.local(outputFile).writeString(
                     time + createHeader(level) + message + "\n", true, StandardCharsets.UTF_8.toString()
