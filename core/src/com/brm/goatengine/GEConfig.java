@@ -21,7 +21,10 @@ public class GEConfig extends GameConfig {
 
     public static final Date LAUNCH_DATE = Calendar.getInstance().getTime(); //The date at which the engine was launched
 
-    // Contains Settings of the Screen Manager
+
+    /**
+     * Contains Settings of the Screen Manager
+     */
     public static class ScreenManager{
 
         // ON EMPTY STACK VALUES
@@ -39,10 +42,15 @@ public class GEConfig extends GameConfig {
     }
 
 
+    /**
+     * [DEV GENERAL]
+     */
+    public static class DevGeneral{
+
+        public static boolean DEV_CTX = false;                  // Wether or not we are in dev context with stack traces
+    }
 
 
-    //[DEV GENERAL]
-    public static boolean DEV_CTX = false;                  // Wether or not we are in dev context with stack traces
 
 
 
@@ -84,7 +92,7 @@ public class GEConfig extends GameConfig {
     }
 
     private static void loadGeneralConfig(OrderedProperties prop){
-        DEV_CTX = getBooleanProperty(DEV_CTX, prop.getProperty("dev_ctx"));
+        DevGeneral.DEV_CTX = getBooleanProperty(DevGeneral.DEV_CTX, prop.getProperty("dev_ctx"));
     }
 
     private static void loadScreenManagerConfig(OrderedProperties prop){
