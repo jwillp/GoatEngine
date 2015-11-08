@@ -21,23 +21,30 @@ public class GEConfig extends GameConfig {
 
     public static final Date LAUNCH_DATE = Calendar.getInstance().getTime(); //The date at which the engine was launched
 
+    // Contains Settings of the Screen Manager
+    public static class ScreenManager{
+
+        // ON EMPTY STACK VALUES
+        public static final String EXIT = "EXIT";                      // Causes the program to exit correctly
+        public static final String CONTINUE = "CONTINUE";              // Causes the program to continue
+        public static final String FATAL = "FATAL";                    // Causes the program to exit with error
+
+        public static String ON_EMPTY_STACK = FATAL;                   // Action to take when scrn mngr's stack is empty
+
+        public static final String GAME_SCREEN_EXT = ".ges";           // Extension of Game Screen Config FILE
+        public static String MAIN_SCREEN = "main" + GAME_SCREEN_EXT;   // The main entry Screen (main.ges by default)
+        public static String SCREEN_DIR = "data/screens/";                    // The directory containing screens
+
+        public static String LEVEL_DIR = "data/levels/";                   // The Directory containing level config
+    }
+
+
+
 
     //[DEV GENERAL]
     public static boolean DEV_CTX = false;                  // Wether or not we are in dev context with stack traces
 
 
-    // [SCREEN_MNGR]
-    // Actions to take if the scrn mngr's stack is empty
-    public static final String SCRN_MNGR_EXIT = "EXIT";           // Causes the program to exit correctly
-    public static final String SCRN_MNGR_CONTINUE = "CONTINUE";   // Causes the program to continue
-    public static final String SCRN_MNGR_FATAL = "FATAL";         // Causes the program to exit with error
-    public static final String SCRN_MNGR_GAME_SCREEN_EXT = ".ges";      // Extension of Game Screen Config FILE
-
-    public static  String SCRN_MNGR_MAIN_SCREEN = "main" + SCRN_MNGR_GAME_SCREEN_EXT;   // The main entry Screen
-    public static String SCRN_MNGR_DIR = "data/screens/";                // The directory containing screens
-    public static String SCRN_MNGR_MAP_DIR = "data/maps/";               // The Directory containing map congfig
-
-    public static String SCRN_MNGR_ON_EMPTY_STACK = SCRN_MNGR_FATAL; // Action to take when scrn mngr's stack is empty
 
     // [SCRIPTING_ENGINE]
     public static boolean SCRPT_ENG_AUTO_RELOAD = true;        // If we need to reload scripts when their code change
@@ -81,9 +88,9 @@ public class GEConfig extends GameConfig {
     }
 
     private static void loadScreenManagerConfig(OrderedProperties prop){
-        applyProperty(SCRN_MNGR_ON_EMPTY_STACK, prop.getProperty("on_empty_stack"));
-        applyProperty(SCRN_MNGR_MAIN_SCREEN, prop.getProperty("main_screen"));
-        applyProperty(SCRN_MNGR_DIR , FileSystem.sanitiseDir(prop.getProperty("screens_dir")));
+        applyProperty(GEConfig.ScreenManager.ON_EMPTY_STACK, prop.getProperty("on_empty_stack"));
+        applyProperty(GEConfig.ScreenManager.MAIN_SCREEN, prop.getProperty("main_screen"));
+        applyProperty(GEConfig.ScreenManager.SCREEN_DIR, FileSystem.sanitiseDir(prop.getProperty("screens_dir")));
     }
 
     private static void loadScriptEngineConfig(OrderedProperties prop){
