@@ -69,7 +69,9 @@ public class GEConfig extends GameConfig {
 
 
     // CONSOLE
-    public static boolean CONS_ENABLED = false;     // Whether or not the console is enabled
+    public static class Console{
+        public static boolean CONS_ENABLED = false;     // Whether or not the console is enabled
+    }
 
 
     public static void loadConfig(){
@@ -116,7 +118,7 @@ public class GEConfig extends GameConfig {
     }
 
     private static void loadConsoleConfig(OrderedProperties prop){
-        CONS_ENABLED = getBooleanProperty(CONS_ENABLED, prop.getProperty("cons_enabled"));
+        Console.CONS_ENABLED = getBooleanProperty(Console.CONS_ENABLED, prop.getProperty("cons_enabled"));
     }
 
 
