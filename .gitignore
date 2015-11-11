@@ -67,7 +67,8 @@ build/
 doc/
 
 # LOG
-core/LOG/
+*LOG/
+*.log
 
 # Diffs
 diff.txt

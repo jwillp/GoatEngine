@@ -39,7 +39,7 @@ public class MapConfig {
         }catch (NullPointerException e){
             MapConfigFileNotFoundException exception = new MapConfigFileNotFoundException(this.tmxFile);
             Logger.fatal(exception.getMessage());
-            if(GEConfig.DEV_CTX){
+            if(GEConfig.DevGeneral.DEV_CTX){
                 Logger.logStackTrace(exception);
             }
             throw exception;

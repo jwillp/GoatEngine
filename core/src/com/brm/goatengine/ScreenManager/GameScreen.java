@@ -105,11 +105,11 @@ public final class GameScreen{
     private void loadConfigFile(){
         FileInputStream inputStream;
         try {
-            inputStream = new FileInputStream(GEConfig.SCRN_MNGR_DIR + this.name);
+            inputStream = new FileInputStream(GEConfig.ScreenManager.SCREEN_DIR + this.name);
             OrderedProperties prop = new OrderedProperties();
             prop.load(inputStream);
 
-            this.mapConfig = new MapConfig(GEConfig.SCRN_MNGR_MAP_DIR + prop.getProperty("map_config_file")); // Required
+            this.mapConfig = new MapConfig(GEConfig.ScreenManager.LEVEL_DIR + prop.getProperty("map_config_file")); // Required
 
             //Gravity
             Vector2 gravity = new Vector2();
@@ -180,7 +180,7 @@ public final class GameScreen{
             }
             if(obj.script != null){
                 ((ScriptComponent)entity.getComponent(ScriptComponent.ID)).addScript(
-                        GEConfig.SCRPT_ENG_SCRIPTS_DIR + obj.script
+                        GEConfig.ScriptingEngine.SCRIPTS_DIR + obj.script
                 );
             }
         }
@@ -209,7 +209,7 @@ public final class GameScreen{
 
     private class GameScreenNotFoundException extends RuntimeException {
         public GameScreenNotFoundException(String name) {
-            super("Could not find game screen : " + name + " File not found : " + GEConfig.SCRN_MNGR_DIR + name);
+            super("Could not find game screen : " + name + " File not found : " + GEConfig.ScreenManager.SCREEN_DIR + name);
         }
     }
 }
