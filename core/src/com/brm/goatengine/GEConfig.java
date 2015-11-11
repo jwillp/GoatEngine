@@ -52,6 +52,7 @@ public class GEConfig extends GameConfig {
 
         public static final String GAME_SCREEN_EXT = ".ges";           // Extension of Game Screen Config FILE
         public static String MAIN_SCREEN = "main" + GAME_SCREEN_EXT;   // The main entry Screen (main.ges by default)
+
         public static String SCREEN_DIR = "data/screens/";             // The directory containing screens
 
         public static String LEVEL_DIR = "data/levels/";               // The Directory containing level config
@@ -125,16 +126,5 @@ public class GEConfig extends GameConfig {
             e.printStackTrace();
         }
     }
-
-
-
-
-
-
-
-
-
-
-
 
 }
