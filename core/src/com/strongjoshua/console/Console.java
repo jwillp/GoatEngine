@@ -109,7 +109,7 @@ public class Console implements Disposable {
 	 * console uses a multiplexer to circumvent it).
 	 * @see Console#dispose() */
 	public Console () {
-		this(new Skin(Gdx.files.internal("default_skin/uiskin.json")));
+		this(new Skin(Gdx.files.internal("data/skins/default_skin/uiskin.json")));
 	}
 
 	/** Creates the console.<br>
@@ -606,15 +606,6 @@ public class Console implements Disposable {
 			input.setText(commandHistory.getNextCommand());
 			input.setCursorPosition(input.getText().length());
 		}
-
-
-
-
-
-
-
-
-
 
 	}
 

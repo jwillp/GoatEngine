@@ -2,12 +2,11 @@ package com.brm.GoatEngine;
 
 import com.badlogic.gdx.Gdx;
 import com.brm.GoatEngine.EventManager.EventManager;
-import com.brm.GoatEngine.GConsole.ConsoleCommand;
 import com.brm.GoatEngine.GConsole.DefaultCommands.ExitCommand;
 import com.brm.GoatEngine.GConsole.DefaultCommands.HelpCommand;
+import com.brm.GoatEngine.GConsole.GConsole;
 import com.brm.GoatEngine.GraphicsEngine.GraphicsEngine;
 import com.brm.GoatEngine.Input.InputManager;
-import com.brm.GoatEngine.GConsole.GConsole;
 import com.brm.GoatEngine.ScreenManager.GameScreenManager;
 import com.brm.GoatEngine.ScriptingEngine.ScriptingEngine;
 import com.brm.GoatEngine.Utils.Logger;
@@ -87,7 +86,8 @@ public class GoatEngine {
         console.setDisabled(!GEConfig.Console.CONS_ENABLED);
         console.resetInputProcessing();
         console.log("Dev Console initialised", Console.LogLevel.SUCCESS);
-        Logger.info(" > Dev Console initialised");
+        if(GEConfig.Console.CONS_ENABLED)
+            Logger.info(" > Dev Console initialised");
 
 
 

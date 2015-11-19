@@ -1,6 +1,10 @@
 package com.brm.GoatEngine.ScreenManager;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.brm.GoatEngine.ECS.common.TagsComponent;
 import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.GEConfig;
@@ -13,6 +17,7 @@ import com.brm.GoatEngine.ECS.core.EntityManager;
 import com.brm.GoatEngine.GoatEngine;
 import com.brm.GoatEngine.TmxSupport.MapConfig;
 import com.brm.GoatEngine.TmxSupport.MapConfigObject;
+import com.brm.GoatEngine.UI.UIEngine;
 import com.brm.GoatEngine.Utils.GameConfig;
 import com.brm.GoatEngine.Utils.Logger;
 import com.brm.GoatEngine.Utils.OrderedProperties;
@@ -20,7 +25,6 @@ import com.brm.GoatEngine.Utils.OrderedProperties;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.ArrayList;
 
 public final class GameScreen{
@@ -33,12 +37,18 @@ public final class GameScreen{
 
     private GameScreenConfig config;
 
-
+    private UIEngine uiEngine;
 
 
     public GameScreen(final String name){
         this.name = name;
         config = new GameScreenConfig();
+
+        uiEngine = new UIEngine();
+        Skin skin = new Skin(Gdx.files.internal("data/skins/default_skin/uiskin.json"));
+        Logger.debug(skin);
+        TextButton input = new TextButton("Petit Bouton", skin);
+        uiEngine.addWidget(input);
     }
 
 
@@ -96,7 +106,9 @@ public final class GameScreen{
         ecsManager.getSystemManager().update();
     }
 
-    public void draw(GameScreenManager screenManager, float deltaTime){}
+    public void draw(GameScreenManager screenManager, float deltaTime){
+        getUiEngine().render(deltaTime);
+    }
 
 
     /**
@@ -202,6 +214,10 @@ public final class GameScreen{
 
     public GameScreenConfig getConfig() {
         return config;
+    }
+
+    public UIEngine getUiEngine() {
+        return uiEngine;
     }
 
 
