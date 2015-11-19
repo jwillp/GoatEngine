@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.brm.GoatEngine.ECS.common.TagsComponent;
 import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.GEConfig;
+import com.brm.GoatEngine.LevelEditor;
 import com.brm.GoatEngine.Physics.PhysicsSystem;
 import com.brm.GoatEngine.Rendering.RenderingSystem;
 import com.brm.GoatEngine.ScriptingEngine.ScriptComponent;
@@ -38,6 +39,7 @@ public final class GameScreen{
     private GameScreenConfig config;
 
     private UIEngine uiEngine;
+    private LevelEditor levelEditor;
 
 
     public GameScreen(final String name){
@@ -45,10 +47,7 @@ public final class GameScreen{
         config = new GameScreenConfig();
 
         uiEngine = new UIEngine();
-        Skin skin = new Skin(Gdx.files.internal("data/skins/default_skin/uiskin.json"));
-        Logger.debug(skin);
-        TextButton input = new TextButton("Petit Bouton", skin);
-        uiEngine.addWidget(input);
+        levelEditor = new LevelEditor();
     }
 
 
@@ -107,7 +106,9 @@ public final class GameScreen{
     }
 
     public void draw(GameScreenManager screenManager, float deltaTime){
-        getUiEngine().render(deltaTime);
+        uiEngine.render(deltaTime);
+        // Only if active
+        levelEditor.render(deltaTime);
     }
 
 

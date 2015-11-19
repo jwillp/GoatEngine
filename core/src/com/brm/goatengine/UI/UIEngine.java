@@ -4,17 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.brm.GoatEngine.GoatEngine;
-import com.brm.GoatEngine.Utils.Logger;
 
 /**
  * Responsible for handling UI
  */
 public class UIEngine {
 
-    private Stage stage;
-    private Table table;
+    protected Stage stage;
+    protected Table table;
 
 
     public UIEngine(){
@@ -32,9 +30,24 @@ public class UIEngine {
         // Add widgets to the table here.
     }
 
-    public UIEngine addWidget(Actor w){
-        table.add(w);
+    /**
+     * For manuel positionning
+     * @param w
+     * @return
+     */
+    public UIEngine addACtor(Actor w){
+        table.addActor(w);
         return this;
+    }
+
+    /**
+     * Add to table
+     * @param w
+     * @return
+     */
+    public Table addToTable(Actor w){
+        table.add(w);
+        return table;
     }
 
     public void render(float delta){
