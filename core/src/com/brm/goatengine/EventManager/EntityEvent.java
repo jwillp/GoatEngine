@@ -2,6 +2,7 @@ package com.brm.GoatEngine.EventManager;
 
 /**
  * Entity Events used by Entity systems for intercommunication
+ * Events mostly related to entities
  */
 public abstract class EntityEvent extends GameEvent{
 

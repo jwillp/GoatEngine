@@ -17,8 +17,11 @@ public class HelpCommand extends ConsoleCommand{
     @Override
     public void exec(String... args) {
         super.exec(args);
+        console.log("HELP COMMAND", Console.LogLevel.INFO);
         for(ConsoleCommand c: this.console.getCommands()){
-            console.log(c.getName() + "     -     " + c.getDesc(), Console.LogLevel.INFO);
+            String helpString = String.format("%-60s %s" ,c.getName(), c.getDesc());
+            console.log(helpString, Console.LogLevel.INFO);
+
         }
     }
 }

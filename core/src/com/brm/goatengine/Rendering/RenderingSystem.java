@@ -44,6 +44,11 @@ public class RenderingSystem extends EntitySystem {
     public void update(float dt) {
 
         cameraSystem.update(dt);
+
+    }
+
+    @Override
+    public void draw() {
         renderPhysicsDebug();
 
         /** CAMERA DEBUG */

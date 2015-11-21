@@ -496,7 +496,11 @@ public class Console implements Disposable {
 			scroll.validate();
 			scroll.setScrollPercentY(1);
 		}
-	}
+
+        public TextField getInput() {
+            return input;
+        }
+    }
 
 	private ScrollPane scroll;
 
@@ -542,15 +546,7 @@ public class Console implements Disposable {
 			} else if (keycode == Keys.ESCAPE && !hidden){
 				return onEscapeKeyPress();
 			} else if (keycode == keyID) {
-				hidden = !hidden;
-				if (hidden) {
-					input.setText("");
-					stage.setKeyboardFocus(display);
-					consoleWindow.setTouchable(Touchable.disabled);
-				} else {
-					stage.setKeyboardFocus(input);
-					consoleWindow.setTouchable(Touchable.enabled);
-				}
+                toggle();
 				return true;
 			}
 			return false;
@@ -626,5 +622,17 @@ public class Console implements Disposable {
 	public void hide(){
 		this.hidden = true;
 	}
+
+	public void toggle(){
+        hidden = ! hidden;
+        if (hidden) {
+            this.display.getInput().setText("");
+            stage.setKeyboardFocus(display);
+            consoleWindow.setTouchable(Touchable.disabled);
+        } else {
+            stage.setKeyboardFocus(this.display.getInput());
+            consoleWindow.setTouchable(Touchable.enabled);
+        }
+    }
 
 }

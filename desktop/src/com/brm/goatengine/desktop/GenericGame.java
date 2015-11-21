@@ -26,14 +26,6 @@ public class GenericGame extends Game implements GameEventListener{
 
     @Override
     public void onEvent(GameEvent e) {
-        if(e.isOfType(KeyPressedEvent.class)){
-            Logger.debug("KEY PRESS");
-        }
-
-        if(e.isOfType(KeyReleasedEvent.class)){
-            Logger.debug("KEY RELEASED");
-        }
-        Logger.debug(e);
         if(e.isOfType(ControllerConnectedEvent.class)){
             Logger.debug("Contoller Connected");
         }

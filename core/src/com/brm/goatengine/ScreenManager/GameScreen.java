@@ -1,14 +1,10 @@
 package com.brm.GoatEngine.ScreenManager;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.brm.GoatEngine.ECS.common.TagsComponent;
 import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.GEConfig;
-import com.brm.GoatEngine.LevelEditor;
+import com.brm.GoatEngine.LevelEditor.LevelEditor;
 import com.brm.GoatEngine.Physics.PhysicsSystem;
 import com.brm.GoatEngine.Rendering.RenderingSystem;
 import com.brm.GoatEngine.ScriptingEngine.ScriptComponent;
@@ -39,15 +35,11 @@ public final class GameScreen{
     private GameScreenConfig config;
 
     private UIEngine uiEngine;
-    private LevelEditor levelEditor;
-
 
     public GameScreen(final String name){
         this.name = name;
         config = new GameScreenConfig();
-
         uiEngine = new UIEngine();
-        levelEditor = new LevelEditor();
     }
 
 
@@ -107,8 +99,7 @@ public final class GameScreen{
 
     public void draw(GameScreenManager screenManager, float deltaTime){
         uiEngine.render(deltaTime);
-        // Only if active
-        levelEditor.render(deltaTime);
+        ecsManager.getSystemManager().draw();
     }
 
 

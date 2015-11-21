@@ -105,4 +105,9 @@ public class EntitySystemManager implements GameEventListener{
     }
 
 
+    public void draw() {
+        for(EntitySystem system: systems.values()){
+            system.draw();
+        }
+    }
 }
