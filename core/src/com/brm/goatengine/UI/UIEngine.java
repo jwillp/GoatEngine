@@ -1,7 +1,6 @@
 package com.brm.GoatEngine.UI;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.brm.GoatEngine.GoatEngine;
@@ -12,7 +11,7 @@ import com.brm.GoatEngine.GoatEngine;
 public class UIEngine {
 
     protected Stage stage;
-    protected Table table;
+    protected Table rootTable;
 
 
     public UIEngine(){
@@ -20,35 +19,16 @@ public class UIEngine {
         Gdx.input.setInputProcessor(stage);
         GoatEngine.console.resetInputProcessing();
 
-        table = new Table();
-        table.setFillParent(true);
-        stage.addActor(table);
+        rootTable = new Table();
+        rootTable.setFillParent(true);
+        stage.addActor(rootTable);
 
         // TODO move value in GEConfig
-        table.setDebug(true); // This is optional, but enables debug lines for tables.
+        rootTable.setDebug(true); // This is optional, but enables debug lines for tables.
 
-        // Add widgets to the table here.
+        // Add widgets to the rootTable here.
     }
 
-    /**
-     * For manuel positionning
-     * @param w
-     * @return
-     */
-    public UIEngine addACtor(Actor w){
-        table.addActor(w);
-        return this;
-    }
-
-    /**
-     * Add to table
-     * @param w
-     * @return
-     */
-    public Table addToTable(Actor w){
-        table.add(w);
-        return table;
-    }
 
     public void render(float delta){
         int width = Gdx.graphics.getWidth();
