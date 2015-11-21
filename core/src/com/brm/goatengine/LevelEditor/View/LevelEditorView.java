@@ -2,15 +2,17 @@ package com.brm.GoatEngine.LevelEditor.View;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.brm.GoatEngine.ECS.core.Entity;
+import com.brm.GoatEngine.ECS.core.EntityManager;
 import com.brm.GoatEngine.GoatEngine;
-import com.brm.GoatEngine.LevelEditor.Events.ExitEditorEvent;
-import com.brm.GoatEngine.LevelEditor.Events.ToggleConsoleEvent;
 import com.brm.GoatEngine.LevelEditor.LevelEditor;
 import com.brm.GoatEngine.UI.UIEngine;
+
+import java.util.HashSet;
 
 /**
  * GUI of the Level Editor
@@ -32,15 +34,52 @@ public class LevelEditorView extends UIEngine {
     private TextButton btnCreateEntity;
 
 
+    // Status bar
+    Table statusBar;
+    private Label labelScreenName;
+    private Label labelFPS;
+    private Label labelEntityCount;
+
+
     public LevelEditorView(LevelEditor editor){
         super();
         this.editor = editor;
 
-
+        this.rootTable.setDebug(false);
         initRootLayout();
         initToolbar();
+
+
+        initStatistics();
     }
 
+    private void initStatistics() {
+        Skin skin = getRootTable().getSkin();
+        labelScreenName = new Label(GoatEngine.gameScreenManager.getCurrentScreen().getName(), skin);
+        labelFPS = new Label(Integer.toString(Gdx.graphics.getFramesPerSecond()), skin);
+        int entityCount = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager().getEntityCount();
+        labelEntityCount = new Label(Integer.toString(entityCount), skin);
+
+        statusBar.top().left().padLeft(30).padBottom(30);
+        statusBar.defaults().top().left();
+        statusBar.setSkin(skin);
+        statusBar.add("Game screen: ");
+        statusBar.add(labelScreenName);
+        statusBar.row();
+
+        statusBar.add("FPS: ");
+        statusBar.add(labelFPS);
+        statusBar.row();
+
+        statusBar.add("Entity count: ");
+        statusBar.add(labelEntityCount);
+
+        // Put statistics on
+        statusBar.setVisible(false);
+        toggleStatistics();
+
+
+    }
 
     public void initRootLayout(){
         Skin skin = new Skin(Gdx.files.internal("data/skins/default_skin/uiskin.json"));
@@ -48,7 +87,11 @@ public class LevelEditorView extends UIEngine {
 
         // Create Base Layout Border layout: NSEW
         toolbar = new Table();
-        toolbar.setDebug(rootTable.getDebug());
+        toolbar.setDebug(getRootTable().getDebug());
+
+
+        statusBar = new Table();
+        statusBar.setDebug(getRootTable().getDebug());
 
         rootTable.setSkin(skin);
         rootTable.defaults().fill();
@@ -58,11 +101,12 @@ public class LevelEditorView extends UIEngine {
         rootTable.add("center").expand();
         rootTable.add("east");
         rootTable.row();
-        rootTable.add("south").colspan(3);
+        rootTable.add(statusBar).colspan(3);
+
     }
 
     public void initToolbar(){
-        Skin skin = rootTable.getSkin();
+        Skin skin = getRootTable().getSkin();
 
         btnConsole = new TextButton("Console",skin);
         btnStats = new TextButton("Stats",skin);
@@ -136,8 +180,27 @@ public class LevelEditorView extends UIEngine {
     public void render(float delta){
         super.render(delta);
         // Update button
+        // Must be updated every frame because the value can change from external source
         btnPlayPause.setText(GoatEngine.gameScreenManager.isRunning() ? "Pause" : "Play");
+
+
+        // Update stats
+        int entityCount = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager().getEntityCount();
+        labelEntityCount.setText(Integer.toString(entityCount));
+        labelFPS.setText(Integer.toString(Gdx.graphics.getFramesPerSecond()));
+
+
+
+
     }
+
+
+
+    public void toggleStatistics(){
+        statusBar.setVisible(!statusBar.isVisible());
+        btnStats.setText(statusBar.isVisible() ? "Stat OFF" : "Stats ON");
+    }
+
 
 
     public TextButton getBtnQuit() {

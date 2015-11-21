@@ -41,4 +41,7 @@ public class UIEngine {
     }
 
 
+    public Table getRootTable() {
+        return rootTable;
+    }
 }

@@ -228,13 +228,14 @@ public class EntityManager {
      * Returns all entities
      * @return
      */
-    public HashSet<Entity> getEntities(){
-        HashSet<Entity> entities = new HashSet<Entity>();
+    public ArrayList<Entity> getEntities(){
+        HashMap<String, Entity> entities = new HashMap<String, Entity>();
         for(String compId: this.components.keySet()){
-            entities.addAll(this.getEntitiesWithComponent(compId));
+            for(Entity entity: this.getEntitiesWithComponent(compId)){
+                entities.put(entity.getID(), entity);
+            }
         }
-
-        return entities;
+        return new ArrayList<Entity>(entities.values());
     }
 
     /**

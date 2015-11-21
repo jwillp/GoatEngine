@@ -212,6 +212,10 @@ public final class GameScreen{
         return uiEngine;
     }
 
+    public String getName() {
+        return name;
+    }
+
 
     // EXCEPTIONS //
 

@@ -81,6 +81,14 @@ public class LevelEditor extends ChangeListener implements GameEventListener {
                 GoatEngine.gameScreenManager.resume();
             }
         }
+
+
+        if(actor == view.getBtnStats()){
+            view.toggleStatistics();
+        }
+
+
+
     }
 
 
