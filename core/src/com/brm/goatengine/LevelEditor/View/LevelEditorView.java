@@ -2,7 +2,9 @@ package com.brm.GoatEngine.LevelEditor.View;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.brm.GoatEngine.GEConfig;
 import com.brm.GoatEngine.GoatEngine;
 import com.brm.GoatEngine.LevelEditor.LevelEditor;
 import com.brm.GoatEngine.UI.UIEngine;
@@ -79,8 +81,10 @@ public class LevelEditorView extends UIEngine {
         rootTable.add("center").expand().top();
 
         rootTable.add(inspector).padRight(10).width(275);
+        //this.stage.addActor(inspector);
         rootTable.row();
         rootTable.add(statsBar).colspan(3);
+
 
     }
 
@@ -156,10 +160,11 @@ public class LevelEditorView extends UIEngine {
 
     private void initStatistics() {
         Skin skin = getRootTable().getSkin();
-        labelScreenName = new Label(GoatEngine.gameScreenManager.getCurrentScreen().getName(), skin);
+        labelScreenName = new Label(
+                GoatEngine.gameScreenManager.getCurrentScreen().getName().replace(
+                        GEConfig.ScreenManager.GAME_SCREEN_EXT,""), skin);
         labelFPS = new Label(Integer.toString(Gdx.graphics.getFramesPerSecond()), skin);
-        int entityCount = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager().getEntityCount();
-        labelEntityCount = new Label(Integer.toString(entityCount), skin);
+        labelEntityCount = new Label(Integer.toString(0), skin);
 
         statsBar.top().left().padLeft(30).padBottom(30);
         statsBar.defaults().top().left();
@@ -246,4 +251,6 @@ public class LevelEditorView extends UIEngine {
     public TextButton getBtnCreateEntity() {
         return btnCreateEntity;
     }
+
+
 }

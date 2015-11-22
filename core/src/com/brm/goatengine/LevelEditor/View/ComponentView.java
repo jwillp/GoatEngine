@@ -1,44 +1,44 @@
 package com.brm.GoatEngine.LevelEditor.View;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Align;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
 
 /**
  * Vie wof an Entity Component
  */
-public class ComponentView extends Window{
+public class ComponentView extends Table{
 
-    Table root;
+    CheckBox checkBoxEnable;
     TextButton btnRemove;
     Table contentTable;
 
     EntityComponent component;
 
     public ComponentView(String v, Skin skin) {
-        super("Dynamic Camera" + v, skin);
+        super(skin);
         initRootLayout();
         initContent();
-        setMovable(false);
+        setDebug(true);
+
     }
 
     void initRootLayout(){
         Skin skin =  getSkin();
 
-        top().left();
-        root = new Table(this.getSkin());
-        root.setDebug(this.getDebug());
-        add(root).fill().expandX().padTop(5);
 
-        root.top().center();
-        root.defaults().top().left().expandX();
+        top().center();
+        defaults().top().left().expandX();
 
 
-        // Header
+        // Header [enable] Component name [remove]
+        checkBoxEnable = new CheckBox("Dynamic Camera", skin);
+        checkBoxEnable.setChecked(false);
+        add(checkBoxEnable);
+
+
         btnRemove = new TextButton(" - ", skin);
-        root.add(btnRemove).top().right();
+        add(btnRemove).top().right();
+
         row();
 
     }
@@ -46,14 +46,17 @@ public class ComponentView extends Window{
 
     private void initContent(){
         contentTable = new Table(getSkin());
+        contentTable.left();
         // Content
-        contentTable.add("TEST LABEL").row();
-        contentTable.add("TEST LABEL").row();
-        contentTable.add("TEST LABEL").row();
+        contentTable.add("TEST LABEL");
+        contentTable.row();
+
+        contentTable.add("TEST LABEL");
+        contentTable.row();
+
         contentTable.add("TEST LABEL");
 
-
-        add(contentTable);
+        add(contentTable).colspan(2);
     }
 
 

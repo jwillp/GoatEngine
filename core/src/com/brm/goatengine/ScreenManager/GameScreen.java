@@ -64,17 +64,16 @@ public final class GameScreen{
         ecsManager.getSystemManager().initSystems();
 
 
-
-
         //READ data from Config file
         loadConfigFile();
-
 
 
         // Apply Map Configuration
         applyMapConfig();
 
         Logger.info("Game Screen: " + this.name + " initialised");
+
+
     }
 
     public void cleanUp() {
@@ -107,56 +106,14 @@ public final class GameScreen{
      * Reads the game screen config file
      */
     private void loadConfigFile(){
-        FileInputStream inputStream;
-        try {
-            inputStream = new FileInputStream(GEConfig.ScreenManager.SCREEN_DIR + this.name);
-            OrderedProperties prop = new OrderedProperties();
-            prop.load(inputStream);
 
-            this.mapConfig = new MapConfig(GEConfig.ScreenManager.LEVEL_DIR + prop.getProperty("map_config_file")); // Required
+        try {
+            config.loadConfig(GEConfig.ScreenManager.SCREEN_DIR + this.name);
+            this.mapConfig = new MapConfig(GEConfig.ScreenManager.LEVEL_DIR + config.LEVEL_CONFIG); // Required
 
             //Gravity
-            Vector2 gravity = new Vector2();
-            if(prop.getProperty("gravity_x") != null){  // TODO put default values as private static constants
-                gravity.x = GameConfig.getFloatProperty(0.0f, prop.getProperty("gravity_x"));
-            }
-            if(prop.getProperty("gravity_y") != null){
-                gravity.y = GameConfig.getFloatProperty(0.0f, prop.getProperty("gravity_y"));
-            }
+            Vector2 gravity = new Vector2(config.GRAVITY_X, config.GRAVITY_Y);
             this.ecsManager.getSystemManager().getSystem(PhysicsSystem.class).setGravity(gravity);
-
-
-
-            // OTHER PARAMETERS
-            this.config.PHYSICS_DEBUG_RENDERING = GameConfig.getBooleanProperty(
-                    this.config.PHYSICS_DEBUG_RENDERING,
-                    "physics_debug_rendering"
-            );
-
-            this.config.CAMERA_DEBUG_RENDERING = GameConfig.getBooleanProperty(
-                    this.config.CAMERA_DEBUG_RENDERING,
-                    "camera_debug_rendering"
-            );
-
-            this.config.TEXTURE_RENDERING = GameConfig.getBooleanProperty(
-                    this.config.TEXTURE_RENDERING,
-                    "texture_rendering"
-            );
-
-            this.config.FOG_RENDERING = GameConfig.getBooleanProperty(
-                    this.config.FOG_RENDERING,
-                    "fog_rendering"
-            );
-
-            this.config.LIGHTING_RENDERING = GameConfig.getBooleanProperty(
-                    this.config.LIGHTING_RENDERING,
-                    "lighting_rendering"
-            );
-
-
-
-
-
 
         } catch (FileNotFoundException e) {
             GameScreenNotFoundException exception = new GameScreenNotFoundException(this.name);

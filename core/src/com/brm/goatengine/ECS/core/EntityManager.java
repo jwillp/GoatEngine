@@ -114,7 +114,7 @@ public class EntityManager {
     /**
      * Returns all the components of a certain entity
      * @param entityId : the id of the entity
-     * @return //TODO understand this madness! What was I thinking?
+     * @return "HashMap<ComponentID,ComponentInstance>"
      */
     public HashMap<String, EntityComponent> getComponentsForEntity(String entityId){
         HashMap<String, EntityComponent> components = new HashMap<String, EntityComponent>();

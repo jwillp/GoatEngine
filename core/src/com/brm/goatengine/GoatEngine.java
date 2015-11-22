@@ -102,15 +102,15 @@ public class GoatEngine {
         scriptEngine.init();
         Logger.info(" > Scripting Engine initialised");
 
+
+
         //Game Screen manager
         gameScreenManager = new GameScreenManager();
         gameScreenManager.init();
         Logger.info(" > Game screen Manager initialised");
 
-
         // Level Editor
         levelEditor = new LevelEditor();
-
 
         // RUN DEFAULT MAIN SCRIPT
         console.addCommand(new ExitCommand());

@@ -1,13 +1,22 @@
 package com.brm.GoatEngine.LevelEditor;
 
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.brm.GoatEngine.ECS.common.PhysicsComponent;
+import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.EventManager.GameEvent;
 import com.brm.GoatEngine.EventManager.GameEventListener;
 import com.brm.GoatEngine.GoatEngine;
 import com.brm.GoatEngine.LevelEditor.Events.ExitEditorEvent;
 import com.brm.GoatEngine.LevelEditor.Events.ToggleConsoleEvent;
+import com.brm.GoatEngine.LevelEditor.View.GameScreenConfigView;
 import com.brm.GoatEngine.LevelEditor.View.LevelEditorView;
+import com.brm.GoatEngine.Physics.CircleColliderDef;
+import com.brm.GoatEngine.Physics.Collider;
+import com.brm.GoatEngine.Rendering.CameraComponent;
+import com.brm.GoatEngine.ScriptingEngine.ScriptComponent;
 import com.brm.GoatEngine.Utils.Logger;
 
 /**
@@ -19,14 +28,13 @@ public class LevelEditor extends ChangeListener implements GameEventListener {
 
 
     private LevelEditorView view;
-    private boolean enabled; // Whether or not the Level Editor is enabled
+    private boolean enabled = false; // Whether or not the Level Editor is enabled
 
 
     public LevelEditor(){
         super();
         Logger.info("Level Editor initialisation ... ");
 
-        enabled = true;
 
         view = new LevelEditorView(this);
 
@@ -41,10 +49,6 @@ public class LevelEditor extends ChangeListener implements GameEventListener {
         if(enabled)
             this.view.render(delta);
     }
-
-
-
-
 
 
 
@@ -66,14 +70,17 @@ public class LevelEditor extends ChangeListener implements GameEventListener {
      */
     @Override
     public void changed(ChangeEvent event, Actor actor) {
+        // CONSOLE
         if(actor == view.getBtnConsole()){
             GoatEngine.console.toggle();
         }
 
+        // QUIT
         if(actor == view.getBtnQuit()){
-            this.enabled = false;
+            this.setEnabled(false);
         }
 
+        // PLAY PAUSE
         if(actor == view.getBtnPlayPause()){
             if(GoatEngine.gameScreenManager.isRunning()){
                 GoatEngine.gameScreenManager.pause();
@@ -82,9 +89,19 @@ public class LevelEditor extends ChangeListener implements GameEventListener {
             }
         }
 
-
+        // STATS
         if(actor == view.getBtnStats()){
             view.toggleStatistics();
+        }
+
+        // CREATE ENTITY
+        if(actor == view.getBtnCreateEntity()){
+
+        }
+
+
+        if(actor == view.getBtnScreenSettings()){
+            view.getStage().addActor(new GameScreenConfigView(view.getBtnConsole().getSkin()));
         }
 
 
@@ -100,5 +117,13 @@ public class LevelEditor extends ChangeListener implements GameEventListener {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+
+        // When opening the editor pause the game
+        if(enabled){
+            GoatEngine.gameScreenManager.pause();
+        }else{
+            // when closing the editor resume the game
+            GoatEngine.gameScreenManager.resume();
+        }
     }
 }

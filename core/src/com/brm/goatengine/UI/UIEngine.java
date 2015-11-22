@@ -44,4 +44,8 @@ public class UIEngine {
     public Table getRootTable() {
         return rootTable;
     }
+
+    public Stage getStage() {
+        return stage;
+    }
 }
