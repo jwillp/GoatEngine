@@ -5,14 +5,13 @@ import com.brm.GoatEngine.ECS.core.EntityComponent;
 import com.brm.GoatEngine.ECS.core.EntityManager;
 import com.brm.GoatEngine.GoatEngine;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Command deleting an entity
  */
-public class DeleteEntityCommand implements UndoCommand {
+public class DeleteEntityCommand extends UndoCommand {
 
     Entity deletedEntity;
     HashMap<String, EntityComponent> components;

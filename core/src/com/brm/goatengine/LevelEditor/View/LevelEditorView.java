@@ -17,6 +17,8 @@ public class LevelEditorView extends UIEngine {
 
     private final LevelEditor editor;
 
+    private GameScreenConfigView configView;
+
     // Toolbar
     Table toolbar;
     private TextButton btnQuit;
@@ -27,6 +29,9 @@ public class LevelEditorView extends UIEngine {
     private TextButton btnReloadScreen;
     private TextButton btnScreenSettings;
     private TextButton btnCreateEntity;
+
+    private TextButton btnUndo;
+    private TextButton btnRedo;
 
 
     // Stats bar
@@ -50,13 +55,12 @@ public class LevelEditorView extends UIEngine {
         initInspector();
         initStatistics();
 
-
-
     }
 
     public void initRootLayout(){
         Skin skin = new Skin(Gdx.files.internal("data/skins/default_skin/uiskin.json"));
 
+        configView = new GameScreenConfigView(skin);
 
         // Create Base Layout Border layout: NSEW
         toolbar = new Table();
@@ -100,6 +104,10 @@ public class LevelEditorView extends UIEngine {
         btnQuit = new TextButton("Quit Editor", skin);
         btnCreateEntity = new TextButton(" + ", skin);
 
+        btnUndo = new TextButton("Undo", skin);
+        btnRedo = new TextButton("Redo", skin);
+
+
         toolbar.defaults().fill().expandX();
 
         toolbar.left();
@@ -115,10 +123,13 @@ public class LevelEditorView extends UIEngine {
 
         // Left
         toolbar.add(tableLeft);
+        tableLeft.defaults().padLeft(20);
         tableLeft.left();
         tableLeft.add(btnConsole);
-        tableLeft.add(btnStats).padLeft(20);
-        tableLeft.add(btnSaveChanges).padLeft(20);
+        tableLeft.add(btnStats);
+        tableLeft.add(btnSaveChanges);
+        tableLeft.add(btnUndo);
+        tableLeft.add(btnRedo);
 
         tableLeft.padLeft(20);
 
@@ -148,6 +159,8 @@ public class LevelEditorView extends UIEngine {
         connectEditor(btnReloadScreen);
         connectEditor(btnScreenSettings);
         connectEditor(btnQuit);
+        connectEditor(btnUndo);
+        connectEditor(btnRedo);
     }
 
     private void initInspector() {
@@ -253,4 +266,15 @@ public class LevelEditorView extends UIEngine {
     }
 
 
+    public GameScreenConfigView getConfigView() {
+        return configView;
+    }
+
+    public TextButton getBtnUndo() {
+        return btnUndo;
+    }
+
+    public TextButton getBtnRedo() {
+        return btnRedo;
+    }
 }

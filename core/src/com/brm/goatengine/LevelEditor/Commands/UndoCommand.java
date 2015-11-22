@@ -1,17 +1,25 @@
 package com.brm.GoatEngine.LevelEditor.Commands;
 
 /**
- * Commands that can be Undone and redone
+ * Commands that can be undone and redone
  */
-public interface UndoCommand {
+public abstract class UndoCommand extends EditorCommand implements Undoable {
+
+
+    /**
+     * Executes the logic of the command
+     */
+    public void exec(){ redo(); }
 
     /**
      * Used to undo a command
      */
-    public void undo();
+    @Override
+    public abstract void undo();
 
     /**
      * Used to do a command
      */
-    public void redo();
+    @Override
+    public abstract void redo();
 }

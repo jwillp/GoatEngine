@@ -1,44 +1,43 @@
 package com.brm.GoatEngine.LevelEditor;
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.brm.GoatEngine.ECS.common.PhysicsComponent;
-import com.brm.GoatEngine.ECS.core.Entity;
-import com.brm.GoatEngine.EventManager.GameEvent;
-import com.brm.GoatEngine.EventManager.GameEventListener;
 import com.brm.GoatEngine.GoatEngine;
-import com.brm.GoatEngine.LevelEditor.Events.ExitEditorEvent;
-import com.brm.GoatEngine.LevelEditor.Events.ToggleConsoleEvent;
+import com.brm.GoatEngine.LevelEditor.Commands.*;
 import com.brm.GoatEngine.LevelEditor.View.GameScreenConfigView;
 import com.brm.GoatEngine.LevelEditor.View.LevelEditorView;
-import com.brm.GoatEngine.Physics.CircleColliderDef;
-import com.brm.GoatEngine.Physics.Collider;
-import com.brm.GoatEngine.Rendering.CameraComponent;
-import com.brm.GoatEngine.ScriptingEngine.ScriptComponent;
 import com.brm.GoatEngine.Utils.Logger;
+
+import java.util.Stack;
 
 /**
  * Level Editor
  */
-public class LevelEditor extends ChangeListener implements GameEventListener {
+public class LevelEditor extends ChangeListener{
 
     // Copy of the ECS
-
 
     private LevelEditorView view;
     private boolean enabled = false; // Whether or not the Level Editor is enabled
 
 
+
+    // Undo Stack
+    private Stack<UndoCommand> undoStack;
+    private Stack<UndoCommand> redoStack;
+
+
+
+
     public LevelEditor(){
         super();
         Logger.info("Level Editor initialisation ... ");
-
+        undoStack = new Stack<UndoCommand>();
+        redoStack = new Stack<UndoCommand>();
 
         view = new LevelEditorView(this);
 
-        GoatEngine.eventManager.registerListener(this);
+        //GoatEngine.eventManager.registerListener(this);
 
         Logger.info("Level Editor initialised");
     }
@@ -52,16 +51,6 @@ public class LevelEditor extends ChangeListener implements GameEventListener {
 
 
 
-    @Override
-    public void onEvent(GameEvent e) {
-        if(e instanceof ToggleConsoleEvent) {
-            GoatEngine.console.toggle();
-        }
-
-        if(e instanceof  ExitEditorEvent){
-            enabled = false;
-        }
-    }
 
 
     /**
@@ -72,41 +61,90 @@ public class LevelEditor extends ChangeListener implements GameEventListener {
     public void changed(ChangeEvent event, Actor actor) {
         // CONSOLE
         if(actor == view.getBtnConsole()){
-            GoatEngine.console.toggle();
-        }
-
-        // QUIT
-        if(actor == view.getBtnQuit()){
-            this.setEnabled(false);
+            executeCommand(new ToggleConsoleCommand());
+            return;
         }
 
         // PLAY PAUSE
         if(actor == view.getBtnPlayPause()){
-            if(GoatEngine.gameScreenManager.isRunning()){
-                GoatEngine.gameScreenManager.pause();
-            }else{
-                GoatEngine.gameScreenManager.resume();
-            }
+            executeCommand(new TogglePlayPauseCommand());
+            return;
         }
 
         // STATS
         if(actor == view.getBtnStats()){
-            view.toggleStatistics();
+            executeCommand(new ToggleStatisticsCommand(this));
+            return;
         }
-
-        // CREATE ENTITY
-        if(actor == view.getBtnCreateEntity()){
-
-        }
-
 
         if(actor == view.getBtnScreenSettings()){
             view.getStage().addActor(new GameScreenConfigView(view.getBtnConsole().getSkin()));
         }
 
 
+        // QUIT
+        if(actor == view.getBtnQuit()){
+            executeCommand(new QuitEditorCommand(this));
+            return;
+        }
+
+
+        // UNDOABLE COMMANDS
+        // CREATE ENTITY
+        if(actor == view.getBtnCreateEntity()){
+            executeCommand(new CreateEntityCommand());
+        }
+
+
+        if(actor == view.getBtnUndo()){
+            this.undo();
+            return;
+        }
+
+        if(actor == view.getBtnRedo()){
+            this.redo();
+            return;
+        }
+
+
 
     }
+
+
+    /**
+     * Executes a given command, if the command is undoable it is added to the undo stack
+     * @param command
+     */
+    public void executeCommand(EditorCommand command){
+        if (command instanceof UndoCommand){
+            undoStack.add((UndoCommand)command);
+        }
+        command.exec();
+    }
+
+    /**
+     * Undo the last undoable command
+     */
+    public void undo(){
+        if(undoStack.isEmpty())
+            return;
+        UndoCommand c = undoStack.pop();
+        c.undo();
+        redoStack.add(c);
+    }
+
+
+    /**
+     * Redo the last command
+     */
+    public void redo(){
+        if(redoStack.isEmpty())
+            return;
+        UndoCommand c = redoStack.pop();
+        c.redo();
+        undoStack.add(c);
+    }
+
 
 
 
@@ -125,5 +163,9 @@ public class LevelEditor extends ChangeListener implements GameEventListener {
             // when closing the editor resume the game
             GoatEngine.gameScreenManager.resume();
         }
+    }
+
+    public LevelEditorView getView() {
+        return view;
     }
 }

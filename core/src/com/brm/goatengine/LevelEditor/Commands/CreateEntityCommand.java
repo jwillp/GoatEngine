@@ -12,7 +12,7 @@ import com.brm.GoatEngine.Rendering.CameraComponent;
 /**
  * Command used to create an entity
  */
-public class CreateEntityCommand implements UndoCommand {
+public class CreateEntityCommand extends UndoCommand{
 
 
     private Entity createdEntity;
@@ -27,7 +27,7 @@ public class CreateEntityCommand implements UndoCommand {
      */
     @Override
     public void undo(){
-        GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager().registerEntity(createdEntity);
+        GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager().deleteEntity(createdEntity.getID());
     }
 
     /**
