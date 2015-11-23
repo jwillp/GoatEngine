@@ -4,7 +4,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.brm.GoatEngine.GoatEngine;
 import com.brm.GoatEngine.ScreenManager.GameScreenConfig;
 import com.brm.GoatEngine.Utils.Logger;
-import sun.rmi.runtime.Log;
 
 import java.lang.reflect.Field;
 
@@ -62,7 +61,6 @@ public class GameScreenConfigView extends Window{
 
 
     public void addBoolean(String fieldName, boolean value){
-        Logger.debug(fieldName + " -> " + String.valueOf(value));
         root.add(fieldName).left();
         CheckBox box = new CheckBox("",getSkin());
         box.setChecked(value);

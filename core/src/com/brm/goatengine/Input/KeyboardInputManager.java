@@ -4,6 +4,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Buttons;
 import com.brm.GoatEngine.GoatEngine;
+import com.brm.GoatEngine.Utils.Logger;
 
 /**
  * Manages Keyboard and Mouse Inputs
@@ -38,6 +39,7 @@ public class KeyboardInputManager implements InputProcessor {
     @Override
     public boolean keyUp(int keycode) {
         GoatEngine.eventManager.fireEvent(new KeyReleasedEvent(keycode));
+        Logger.debug("KEY UP");
         return false;
     }
 
@@ -76,6 +78,7 @@ public class KeyboardInputManager implements InputProcessor {
      */
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        Logger.debug("CLICK");
         return false;
     }
 

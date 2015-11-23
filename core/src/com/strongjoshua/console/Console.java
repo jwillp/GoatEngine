@@ -26,10 +26,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.reflect.ClassReflection;
-import com.badlogic.gdx.utils.reflect.Method;
-import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.brm.GoatEngine.GConsole.ConsoleCommand;
+import com.brm.GoatEngine.GoatEngine;
+import com.brm.GoatEngine.Utils.Logger;
 
 import java.util.ArrayList;
 
@@ -95,9 +94,6 @@ public class Console implements Disposable {
 	protected Log log;
 	protected ConsoleDisplay display;
 	protected boolean hidden = true;
-	protected boolean usesMultiplexer = false;
-	protected InputProcessor appInput;
-	protected InputMultiplexer multiplexer;
 	protected Stage stage;
 	protected CommandHistory commandHistory;
 	protected CommandCompleter commandCompleter;
@@ -112,31 +108,13 @@ public class Console implements Disposable {
 		this(new Skin(Gdx.files.internal("data/skins/default_skin/uiskin.json")));
 	}
 
+
 	/** Creates the console.<br>
 	 * <b>***IMPORTANT***</b> Call {@link Console#dispose()} to make your {@link InputProcessor} the default processor again (this
 	 * console uses a multiplexer to circumvent it).
 	 * @param skin Uses skins for Label, TextField, and Table. Skin <b>must</b> contain a font called 'default-font'.
 	 * @see Console#dispose() */
 	public Console (Skin skin) {
-		this(skin, true);
-	}
-
-	/** Creates the console.<br>
-	 * <b>***IMPORTANT***</b> Call {@link Console#dispose()} to make your {@link InputProcessor} the default processor again (this
-	 * console uses a multiplexer to circumvent it).
-	 * @param useMultiplexer If internal multiplexer should be used
-	 * @see Console#dispose() */
-	public Console (boolean useMultiplexer) {
-		this(new Skin(Gdx.files.internal("default_skin/uiskin.json")), useMultiplexer);
-	}
-
-	/** Creates the console.<br>
-	 * <b>***IMPORTANT***</b> Call {@link Console#dispose()} to make your {@link InputProcessor} the default processor again (this
-	 * console uses a multiplexer to circumvent it).
-	 * @param skin Uses skins for Label, TextField, and Table. Skin <b>must</b> contain a font called 'default-font'.
-	 * @param useMultiplexer If internal multiplexer should be used
-	 * @see Console#dispose() */
-	public Console (Skin skin, boolean useMultiplexer) {
 		stage = new Stage();
 		log = new Log();
 		display = new ConsoleDisplay(skin);
@@ -144,10 +122,7 @@ public class Console implements Disposable {
 		commandCompleter = new CommandCompleter();
 		logToSystem = false;
 
-		usesMultiplexer = useMultiplexer;
-		if (useMultiplexer) {
-			resetInputProcessing();
-		}
+        GoatEngine.inputManager.addInputProcessor(stage);
 
 		display.pad(4);
 		display.padTop(22);
@@ -170,13 +145,6 @@ public class Console implements Disposable {
 
 	}
 
-	/** @param numEntries maximum number of entries the console will hold. */
-	public void setMaxEntries (int numEntries) {
-		if (numEntries > 0 || numEntries == UNLIMITED_ENTRIES)
-			log.setMaxEntries(numEntries);
-		else
-			throw new IllegalArgumentException("Maximum entries must be greater than 0 or use Console.UNLIMITED_ENTRIES.");
-	}
 
 	/** Clears all log entries. */
 	public void clear () {
@@ -232,45 +200,6 @@ public class Console implements Disposable {
 		consoleWindow.setPosition(w * xPosPct / 100.0f, h * yPosPct / 100.0f);
 	}
 
-	/** Call this method if you changed the input processor while this console was active. */
-	public void resetInputProcessing () {
-		usesMultiplexer = true;
-		appInput = Gdx.input.getInputProcessor();
-		if (appInput != null) {
-			if (hasStage(appInput)) {
-				return;
-			}
-			multiplexer = new InputMultiplexer();
-			multiplexer.addProcessor(stage);
-			multiplexer.addProcessor(appInput);
-			Gdx.input.setInputProcessor(multiplexer);
-		} else
-			Gdx.input.setInputProcessor(stage);
-
-	}
-
-	/** Compares the given processor to the console's stage. If given a multiplexer, it is iterated through recursively to check all
-	 * of the multiplexer's processors for comparison.
-	 * @param processor
-	 * @return processor == this.stage */
-	private boolean hasStage (InputProcessor processor) {
-		if (!(processor instanceof InputMultiplexer)) {
-			return processor == stage;
-		}
-		InputMultiplexer im = (InputMultiplexer)processor;
-		Array<InputProcessor> ips = im.getProcessors();
-		for (InputProcessor ip : ips) {
-			if (hasStage(ip)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/** @return {@link InputProcessor} for this {@link Console} */
-	public InputProcessor getInputProcessor () {
-		return stage;
-	}
 
 	/** Draws the console. */
 	public void draw () {
@@ -526,7 +455,8 @@ public class Console implements Disposable {
 
 		@Override
 		public boolean keyDown (InputEvent event, int keycode) {
-			if (disabled) return false;
+            Logger.debug("YEEP");
+            if (disabled) return false;
 
 			// reset command completer because input string may have changed
 			if (keycode != Keys.TAB) {
@@ -608,9 +538,7 @@ public class Console implements Disposable {
 	/** Resets the {@link InputProcessor} to the one that was the default before this console object was created. */
 	@Override
 	public void dispose () {
-		if (usesMultiplexer && appInput != null) {
-			Gdx.input.setInputProcessor(appInput);
-		}
+        GoatEngine.inputManager.removeInputProcessor(stage);
 		stage.dispose();
 	}
 
@@ -629,9 +557,11 @@ public class Console implements Disposable {
             this.display.getInput().setText("");
             stage.setKeyboardFocus(display);
             consoleWindow.setTouchable(Touchable.disabled);
+            GoatEngine.inputManager.reserve(stage);
         } else {
             stage.setKeyboardFocus(this.display.getInput());
             consoleWindow.setTouchable(Touchable.enabled);
+            GoatEngine.inputManager.release();
         }
     }
 

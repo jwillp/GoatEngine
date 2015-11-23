@@ -90,7 +90,6 @@ public class GoatEngine {
         //Init the console
         console = new GConsole();
         console.setDisabled(!GEConfig.Console.CONS_ENABLED);
-        console.resetInputProcessing();
         console.log("Dev Console initialised", Console.LogLevel.SUCCESS);
         if(GEConfig.Console.CONS_ENABLED)
             Logger.info(" > Dev Console initialised");

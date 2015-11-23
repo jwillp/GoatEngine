@@ -16,8 +16,7 @@ public class UIEngine {
 
     public UIEngine(){
         stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
-        GoatEngine.console.resetInputProcessing();
+        // GoatEngine.inputManager.addInputProcessor(stage);
 
         rootTable = new Table();
         rootTable.setFillParent(true);
@@ -40,6 +39,10 @@ public class UIEngine {
         stage.draw();
     }
 
+    public void dispose(){
+        stage.dispose();
+        GoatEngine.inputManager.removeInputProcessor(stage);
+    }
 
     public Table getRootTable() {
         return rootTable;
