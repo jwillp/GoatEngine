@@ -1,4 +1,4 @@
-package com.brm.GoatEngine.Input;
+package com.brm.GoatEngine.Input.Events;
 
 import com.brm.GoatEngine.EventManager.GameEvent;
 

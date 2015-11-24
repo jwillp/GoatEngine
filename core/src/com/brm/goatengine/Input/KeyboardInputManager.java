@@ -1,9 +1,11 @@
 package com.brm.GoatEngine.Input;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Buttons;
 import com.brm.GoatEngine.GoatEngine;
+import com.brm.GoatEngine.Input.Events.*;
 import com.brm.GoatEngine.Utils.Logger;
 
 /**
@@ -13,9 +15,15 @@ public class KeyboardInputManager implements InputProcessor {
 
     private final InputManager inputManager;
 
+    private boolean isDragging = false;
+
+    private int lastMouseButton = -1;
+
     public KeyboardInputManager(InputManager inputManager) {
         this.inputManager = inputManager;
     }
+
+
 
     /**
      * Called when a key was pressed
@@ -39,7 +47,6 @@ public class KeyboardInputManager implements InputProcessor {
     @Override
     public boolean keyUp(int keycode) {
         GoatEngine.eventManager.fireEvent(new KeyReleasedEvent(keycode));
-        Logger.debug("KEY UP");
         return false;
     }
 
@@ -65,6 +72,9 @@ public class KeyboardInputManager implements InputProcessor {
      */
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        this.lastMouseButton = button;
+        isDragging = false;
+        GoatEngine.eventManager.fireEvent(new MousePressEvent(screenX, screenY, button));
         return false;
     }
 
@@ -78,7 +88,16 @@ public class KeyboardInputManager implements InputProcessor {
      */
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        Logger.debug("CLICK");
+        GoatEngine.eventManager.fireEvent(new MouseReleasedEvent(screenX, screenY, button));
+
+        if(!isDragging && button == lastMouseButton){
+            GoatEngine.eventManager.fireEvent(new MouseClickEvent(screenX, screenY, button));
+            Logger.debug("CLICK");
+        }
+
+        lastMouseButton = -1;
+        isDragging = false;
+
         return false;
     }
 
@@ -91,6 +110,8 @@ public class KeyboardInputManager implements InputProcessor {
      */
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
+        this.isDragging = true;
+
         return false;
     }
 

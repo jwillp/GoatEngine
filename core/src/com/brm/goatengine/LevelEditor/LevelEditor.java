@@ -1,11 +1,21 @@
 package com.brm.GoatEngine.LevelEditor;
 
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.QueryCallback;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.brm.GoatEngine.ECS.core.EntityManager;
+import com.brm.GoatEngine.EventManager.GameEvent;
+import com.brm.GoatEngine.EventManager.GameEventListener;
 import com.brm.GoatEngine.GoatEngine;
+import com.brm.GoatEngine.Input.Events.MouseReleasedEvent;
 import com.brm.GoatEngine.LevelEditor.Commands.*;
 import com.brm.GoatEngine.LevelEditor.View.GameScreenConfigView;
 import com.brm.GoatEngine.LevelEditor.View.LevelEditorView;
+import com.brm.GoatEngine.Rendering.CameraComponent;
 import com.brm.GoatEngine.Utils.Logger;
 
 import java.util.Stack;
@@ -13,7 +23,7 @@ import java.util.Stack;
 /**
  * Level Editor
  */
-public class LevelEditor extends ChangeListener{
+public class LevelEditor extends ChangeListener implements GameEventListener{
 
     // Copy of the ECS
 
@@ -37,7 +47,7 @@ public class LevelEditor extends ChangeListener{
 
         view = new LevelEditorView(this);
 
-        //GoatEngine.eventManager.registerListener(this);
+        GoatEngine.eventManager.registerListener(this);
 
         Logger.info("Level Editor initialised");
     }
@@ -168,4 +178,49 @@ public class LevelEditor extends ChangeListener{
     public LevelEditorView getView() {
         return view;
     }
+
+    @Override
+    public void onEvent(GameEvent e) {
+        if(e.isOfType(MouseReleasedEvent.class)){
+            onMouseClick((MouseReleasedEvent) e);
+        }
+    }
+
+
+    private void onMouseClick(MouseReleasedEvent event){
+        EntityManager manager = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager();
+        CameraComponent cam = (CameraComponent) manager.getComponents(CameraComponent.ID).get(0);
+        final Vector3 pos = new Vector3();
+        // translate the mouse coordinates to world coordinates
+        cam.getCamera().unproject(pos.set(event.screenX, event.screenY, 0));
+
+        // ask the world which bodies are within the given
+        // bounding box around the mouse pointer
+        World world = GoatEngine.gameScreenManager.getCurrentScreen().getPhysicsSystem().getWorld();
+        final Body[] hitBody = {null};
+        world.QueryAABB(new QueryCallback() {
+            @Override
+            public boolean reportFixture(Fixture fixture) {
+                // if the hit point is inside the fixture of the body
+                // we report it
+                if (fixture.testPoint(pos.x, pos.y)) {
+                    hitBody[0] = fixture.getBody();
+                    return false;
+                } else
+                    return true;
+
+            }
+        }, pos.x - 0.0001f, pos.y - 0.0001f, pos.x + 0.0001f, pos.y + 0.0001f);
+
+        // If we hit something
+        if (hitBody != null) {
+
+        }
+
+
+
+    }
+
+
+
 }

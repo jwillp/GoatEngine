@@ -7,7 +7,8 @@ import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.brm.GoatEngine.GoatEngine;
-import com.brm.GoatEngine.Utils.Logger;
+import com.brm.GoatEngine.Input.Events.ControllerConnectedEvent;
+import com.brm.GoatEngine.Input.Events.ControllerDisconnectedEvent;
 
 /**
  * Manages Game Controllers (GamePads)

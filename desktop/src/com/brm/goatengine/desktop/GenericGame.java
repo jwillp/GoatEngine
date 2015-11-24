@@ -4,9 +4,7 @@ import com.badlogic.gdx.Game;
 import com.brm.GoatEngine.EventManager.GameEvent;
 import com.brm.GoatEngine.EventManager.GameEventListener;
 import com.brm.GoatEngine.GoatEngine;
-import com.brm.GoatEngine.Input.ControllerConnectedEvent;
-import com.brm.GoatEngine.Input.KeyPressedEvent;
-import com.brm.GoatEngine.Input.KeyReleasedEvent;
+import com.brm.GoatEngine.Input.Events.ControllerConnectedEvent;
 import com.brm.GoatEngine.Utils.Logger;
 
 /**

@@ -16,7 +16,7 @@ public class UIEngine {
 
     public UIEngine(){
         stage = new Stage();
-        // GoatEngine.inputManager.addInputProcessor(stage);
+        GoatEngine.inputManager.addInputProcessor(stage);
 
         rootTable = new Table();
         rootTable.setFillParent(true);

@@ -455,7 +455,6 @@ public class Console implements Disposable {
 
 		@Override
 		public boolean keyDown (InputEvent event, int keycode) {
-            Logger.debug("YEEP");
             if (disabled) return false;
 
 			// reset command completer because input string may have changed
