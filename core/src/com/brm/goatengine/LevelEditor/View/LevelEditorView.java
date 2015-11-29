@@ -270,7 +270,7 @@ public class LevelEditorView extends UIEngine {
 
             shapeRenderer.setProjectionMatrix(stage.getBatch().getProjectionMatrix());
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line); // Or Filled
-            shapeRenderer.setColor(Color.YELLOW);
+            shapeRenderer.setColor(Color.GREEN);
             shapeRenderer.rect(highlightPos.x-sizeX*0.5f, highlightPos.y-sizeY*0.5f, sizeX, sizeY);
             shapeRenderer.end();
         }
