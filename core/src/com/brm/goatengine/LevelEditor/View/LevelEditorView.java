@@ -1,16 +1,22 @@
 package com.brm.GoatEngine.LevelEditor.View;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.brm.GoatEngine.ECS.common.PhysicsComponent;
 import com.brm.GoatEngine.ECS.core.Entity;
+import com.brm.GoatEngine.ECS.core.EntityManager;
 import com.brm.GoatEngine.GEConfig;
 import com.brm.GoatEngine.GoatEngine;
 import com.brm.GoatEngine.LevelEditor.LevelEditor;
+import com.brm.GoatEngine.Rendering.CameraComponent;
 import com.brm.GoatEngine.UI.UIEngine;
 
 /**
@@ -22,8 +28,7 @@ public class LevelEditorView extends UIEngine {
     private final LevelEditor editor;
 
     private GameScreenConfigView configView;
-
-    private Stage entityStage; // Stage for entity click & drag detection
+    private ShapeRenderer shapeRenderer;
 
     // Toolbar
     Table toolbar;
@@ -54,9 +59,7 @@ public class LevelEditorView extends UIEngine {
     public LevelEditorView(LevelEditor editor){
         super();
         this.editor = editor;
-        entityStage = new Stage();
-
-
+        shapeRenderer = new ShapeRenderer();
         this.rootTable.setDebug(false);
         initRootLayout();
         initToolbar();
@@ -225,12 +228,13 @@ public class LevelEditorView extends UIEngine {
         // Must be updated every frame because the value can change from external source
         btnPlayPause.setText(GoatEngine.gameScreenManager.isRunning() ? "Pause" : "Play");
 
-
         // Update stats
         int entityCount = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager().getEntityCount();
         labelEntityCount.setText(Integer.toString(entityCount));
         labelFPS.setText(Integer.toString(Gdx.graphics.getFramesPerSecond()));
 
+        // Selection rendering
+        renderSelection();
     }
 
 
@@ -239,6 +243,43 @@ public class LevelEditorView extends UIEngine {
         statsBar.setVisible(!statsBar.isVisible());
         btnStats.setText(statsBar.isVisible() ? "Stat OFF" : "Stats ON");
     }
+
+    /**
+     * Renders the selection rectangle
+     * around the selected entity
+     */
+    private void renderSelection(){
+
+        Entity selected = editor.getSelectedEntity();
+        if(selected != null){
+            PhysicsComponent phys = (PhysicsComponent)selected.getComponent(PhysicsComponent.ID);
+            // Position of the rectangle
+            Vector3 highlightPos = new Vector3(phys.getPosition().x, phys.getPosition().y, 0);
+
+            EntityManager manager = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager();
+            CameraComponent cam = (CameraComponent) manager.getComponents(CameraComponent.ID).get(0);
+
+            // Translate the rectangle's world coordinates to camera coordinates
+            cam.getCamera().project(highlightPos);
+
+            // Size of the rectangle
+            int magnifierFactor = 60;
+            float sizeX = phys.getWidth() * magnifierFactor;
+            float sizeY = phys.getHeight() * magnifierFactor;
+
+
+            shapeRenderer.setProjectionMatrix(stage.getBatch().getProjectionMatrix());
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line); // Or Filled
+            shapeRenderer.setColor(Color.YELLOW);
+            shapeRenderer.rect(highlightPos.x-sizeX*0.5f, highlightPos.y-sizeY*0.5f, sizeX, sizeY);
+            shapeRenderer.end();
+        }
+
+    }
+
+
+
+
 
 
 

@@ -237,6 +237,7 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
             selectEntity((Entity) hitBody[0].getUserData());
         }else{
             // And no button was pressed on gui
+            selectedEntity = null;
             this.view.getInspector().clear();
         }
 
@@ -260,4 +261,7 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
         this.view.getInspector().inspectEntity(entity);
     }
 
+    public Entity getSelectedEntity() {
+        return selectedEntity;
+    }
 }
