@@ -3,7 +3,11 @@ package com.brm.GoatEngine.LevelEditor.View;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.GEConfig;
 import com.brm.GoatEngine.GoatEngine;
 import com.brm.GoatEngine.LevelEditor.LevelEditor;
@@ -18,6 +22,8 @@ public class LevelEditorView extends UIEngine {
     private final LevelEditor editor;
 
     private GameScreenConfigView configView;
+
+    private Stage entityStage; // Stage for entity click & drag detection
 
     // Toolbar
     Table toolbar;
@@ -48,6 +54,8 @@ public class LevelEditorView extends UIEngine {
     public LevelEditorView(LevelEditor editor){
         super();
         this.editor = editor;
+        entityStage = new Stage();
+
 
         this.rootTable.setDebug(false);
         initRootLayout();
@@ -197,7 +205,8 @@ public class LevelEditorView extends UIEngine {
         statsBar.setVisible(false);
         toggleStatistics();
 
-
+        // Do not display inspector right off
+        this.inspector.clear();
     }
 
 
@@ -276,5 +285,13 @@ public class LevelEditorView extends UIEngine {
 
     public TextButton getBtnRedo() {
         return btnRedo;
+    }
+
+    public void inspectEntity(Entity entity) {
+        this.inspector.inspectEntity(entity);
+    }
+
+    public EntityInspector getInspector() {
+        return inspector;
     }
 }

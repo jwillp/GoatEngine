@@ -26,4 +26,9 @@ public class CameraTargetComponent extends EntityComponent {
     public void deserialize(XmlReader.Element componentData) {
         //Nothing to do here
     }
+
+    @Override
+    public String getId() {
+        return ID;
+    }
 }

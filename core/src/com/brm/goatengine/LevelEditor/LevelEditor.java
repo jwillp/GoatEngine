@@ -1,5 +1,6 @@
 package com.brm.GoatEngine.LevelEditor;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -7,12 +8,15 @@ import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.ECS.core.EntityManager;
 import com.brm.GoatEngine.EventManager.GameEvent;
 import com.brm.GoatEngine.EventManager.GameEventListener;
 import com.brm.GoatEngine.GoatEngine;
-import com.brm.GoatEngine.Input.Events.MouseReleasedEvent;
+import com.brm.GoatEngine.Input.Events.KeyPressedEvent;
+import com.brm.GoatEngine.Input.Events.MouseClickEvent;
 import com.brm.GoatEngine.LevelEditor.Commands.*;
+import com.brm.GoatEngine.LevelEditor.Components.EditorLabelComponent;
 import com.brm.GoatEngine.LevelEditor.View.GameScreenConfigView;
 import com.brm.GoatEngine.LevelEditor.View.LevelEditorView;
 import com.brm.GoatEngine.Rendering.CameraComponent;
@@ -35,8 +39,7 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
     // Undo Stack
     private Stack<UndoCommand> undoStack;
     private Stack<UndoCommand> redoStack;
-
-
+    private Entity selectedEntity;
 
 
     public LevelEditor(){
@@ -181,46 +184,80 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
 
     @Override
     public void onEvent(GameEvent e) {
-        if(e.isOfType(MouseReleasedEvent.class)){
-            onMouseClick((MouseReleasedEvent) e);
+
+        // is the current screen ready to capture events?
+        if(!GoatEngine.gameScreenManager.getCurrentScreen().isInitialized()){
+            return;
+        }
+
+
+        if(e.isOfType(MouseClickEvent.class)){
+            onMouseClick((MouseClickEvent) e);
+        }
+
+        if(e.isOfType(KeyPressedEvent.class)){
+            onKeyPressed((KeyPressedEvent) e);
+        }
+    }
+
+    private void onKeyPressed(KeyPressedEvent e) {
+        if(e.getKey() == Input.Keys.F2){
+            this.setEnabled(!isEnabled());
         }
     }
 
 
-    private void onMouseClick(MouseReleasedEvent event){
+    private void onMouseClick(MouseClickEvent event){
+        if(!enabled) return;
+
         EntityManager manager = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager();
         CameraComponent cam = (CameraComponent) manager.getComponents(CameraComponent.ID).get(0);
         final Vector3 pos = new Vector3();
-        // translate the mouse coordinates to world coordinates
+        // Translate the mouse coordinates to world coordinates
         cam.getCamera().unproject(pos.set(event.screenX, event.screenY, 0));
 
-        // ask the world which bodies are within the given
-        // bounding box around the mouse pointer
+        // Ask the world which bodies are within the given
+        // Bounding box around the mouse pointer
         World world = GoatEngine.gameScreenManager.getCurrentScreen().getPhysicsSystem().getWorld();
         final Body[] hitBody = {null};
+        float mousePointerSize =  0.0001f;
         world.QueryAABB(new QueryCallback() {
             @Override
             public boolean reportFixture(Fixture fixture) {
-                // if the hit point is inside the fixture of the body
-                // we report it
-                if (fixture.testPoint(pos.x, pos.y)) {
+                if(fixture != null) {
                     hitBody[0] = fixture.getBody();
-                    return false;
-                } else
                     return true;
-
+                }
+                return false;
             }
-        }, pos.x - 0.0001f, pos.y - 0.0001f, pos.x + 0.0001f, pos.y + 0.0001f);
+        }, pos.x - mousePointerSize, pos.y - mousePointerSize, pos.x + mousePointerSize, pos.y + mousePointerSize);
 
         // If we hit something
-        if (hitBody != null) {
-
+        if (hitBody[0] != null) {
+            selectEntity((Entity) hitBody[0].getUserData());
+        }else{
+            // And no button was pressed on gui
+            this.view.getInspector().clear();
         }
-
-
 
     }
 
+    /**
+     * Add entity to selection && inspect
+     * @param entity
+     */
+    public void selectEntity(Entity entity){
+        //Make sure it is registered
+        entity = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager().getEntity(entity.getID());
+        Logger.info("Level Editor: entity selected :" + entity.getID());
+        selectedEntity = entity;
 
+        // By default entities don't have an editor label component
+        // so we'll check if we need to add one before inspecting
+        if(!entity.hasComponent(EditorLabelComponent.ID)){
+            entity.addComponent(new EditorLabelComponent(""), EditorLabelComponent.ID);
+        }
+        this.view.getInspector().inspectEntity(entity);
+    }
 
 }

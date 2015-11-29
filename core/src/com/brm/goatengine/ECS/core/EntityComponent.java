@@ -10,6 +10,7 @@ import java.lang.reflect.Field;
 public abstract class EntityComponent implements XmlSerializable{
 
 
+    private static final String ID = "ENTITY_COMPONENT";
     private boolean enabled = true; //By default a component is enabled
 
 
@@ -97,4 +98,5 @@ public abstract class EntityComponent implements XmlSerializable{
     }
 
 
+    public abstract String getId();
 }

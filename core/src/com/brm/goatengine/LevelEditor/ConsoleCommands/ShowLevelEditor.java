@@ -1,4 +1,4 @@
-package com.brm.GoatEngine.GConsole.DefaultCommands;
+package com.brm.GoatEngine.LevelEditor.ConsoleCommands;
 
 import com.brm.GoatEngine.GConsole.ConsoleCommand;
 import com.brm.GoatEngine.GoatEngine;

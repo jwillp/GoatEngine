@@ -1,7 +1,13 @@
 package com.brm.GoatEngine.LevelEditor.View;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.brm.GoatEngine.ECS.core.Entity;
+import com.brm.GoatEngine.ECS.core.EntityComponent;
+import com.brm.GoatEngine.LevelEditor.Components.EditorLabelComponent;
+import com.brm.GoatEngine.Utils.Logger;
+
+import java.util.HashMap;
 
 /**
  * Entity Inspector
@@ -30,7 +36,7 @@ public class EntityInspector extends Window {
 
         root.top().center();
         root.defaults().top().left().expandX();
-        entityId = new Label("845-587", this.getSkin());
+        entityId = new Label("N/A", this.getSkin());
         root.add("Entity ID").padRight(10);
         root.add(entityId);
         root.row().padBottom(10);
@@ -53,13 +59,6 @@ public class EntityInspector extends Window {
         componentList.setDebug(this.getDebug());
         componentList.padRight(20);
 
-        for(int i = 0; i < 20; i++){
-            String value = Integer.toString(i);
-            //componentList.add("PhysicsComponent " + value);
-            componentList.add(new ComponentView(value, this.getSkin())).fill().expandX();
-            componentList.row().padBottom(5).padTop(5);
-        }
-        //componentList.setFillParent(true);
         ScrollPane scrollPane = new ScrollPane(componentList, getSkin());
         scrollPane.setFadeScrollBars(false);
         root.add(scrollPane).colspan(2).expandY().fill();
@@ -67,7 +66,33 @@ public class EntityInspector extends Window {
 
 
     public void inspectEntity(Entity e){
+        // Trim the id at nth char and replace with dots
+        String Id = e.getID().substring(0, Math.min(e.getID().length(), 8)).concat(" ...");
+        this.entityId.setText(Id);
+        String labelText = ((EditorLabelComponent)e.getComponent(EditorLabelComponent.ID)).getLabel();
+        this.label.setText(labelText);
 
+
+        // Components
+        componentList.clearChildren();
+
+        HashMap<String, EntityComponent> comps = e.getComponents();
+        for(String cId :  comps.keySet()){
+            addComponentToList(comps.get(cId));
+        }
+
+        this.setVisible(true);
+    }
+
+
+    public void addComponentToList(EntityComponent c){
+        componentList.add(new ComponentView(c, this.getSkin())).fill().expandX();
+        componentList.row().padBottom(5).padTop(5);
+    }
+
+
+    public void clear(){
+        this.setVisible(false);
     }
 
 

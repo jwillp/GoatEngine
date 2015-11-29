@@ -44,6 +44,11 @@ public class InputManager{
 
     public void addInputProcessor(InputProcessor processor){
         multiplexer.addProcessor(processor);
+
+        //Make sure keyboardInputManager is always last // TODO more efficiant way
+        multiplexer.removeProcessor(keyboardInputManager);
+        multiplexer.addProcessor(multiplexer.size(), keyboardInputManager);
+
     }
 
     public void removeInputProcessor(InputProcessor processor){
@@ -69,5 +74,9 @@ public class InputManager{
 
     private void setInputProcessor(final InputProcessor processor){
         Gdx.input.setInputProcessor(processor);
+    }
+
+    public int getProcessorCount() {
+        return multiplexer.size();
     }
 }

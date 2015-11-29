@@ -556,11 +556,11 @@ public class Console implements Disposable {
             this.display.getInput().setText("");
             stage.setKeyboardFocus(display);
             consoleWindow.setTouchable(Touchable.disabled);
-            GoatEngine.inputManager.reserve(stage);
+            //GoatEngine.inputManager.reserve(stage);
         } else {
             stage.setKeyboardFocus(this.display.getInput());
             consoleWindow.setTouchable(Touchable.enabled);
-            GoatEngine.inputManager.release();
+            //GoatEngine.inputManager.release();
         }
     }
 

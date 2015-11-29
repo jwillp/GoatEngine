@@ -39,6 +39,11 @@ public class CameraComponent extends EntityComponent{
 
     }
 
+    @Override
+    public String getId() {
+        return ID;
+    }
+
     public OrthographicCamera getCamera() {
         return camera;
     }

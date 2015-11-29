@@ -26,7 +26,7 @@ public class EntityManager {
     }
 
     /**
-     * Creates a new Entity and returns it
+     * Creates a new registered Entity and returns it
      * The entity has a ScriptComponent
      * @return
      */

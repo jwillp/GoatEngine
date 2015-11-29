@@ -35,6 +35,7 @@ public final class GameScreen{
     private GameScreenConfig config;
 
     private UIEngine uiEngine;
+    private boolean initialized = false;
 
     public GameScreen(final String name){
         this.name = name;
@@ -71,6 +72,7 @@ public final class GameScreen{
         // Apply Map Configuration
         applyMapConfig();
 
+        initialized = true;
         Logger.info("Game Screen: " + this.name + " initialised");
 
 
@@ -171,6 +173,10 @@ public final class GameScreen{
 
     public String getName() {
         return name;
+    }
+
+    public boolean isInitialized() {
+        return initialized;
     }
 
 

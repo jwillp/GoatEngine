@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.brm.GoatEngine.EventManager.EventManager;
 import com.brm.GoatEngine.GConsole.DefaultCommands.ExitCommand;
 import com.brm.GoatEngine.GConsole.DefaultCommands.HelpCommand;
-import com.brm.GoatEngine.GConsole.DefaultCommands.ShowLevelEditor;
+import com.brm.GoatEngine.LevelEditor.ConsoleCommands.ShowLevelEditor;
 import com.brm.GoatEngine.GConsole.GConsole;
 import com.brm.GoatEngine.GraphicsEngine.GraphicsEngine;
 import com.brm.GoatEngine.Input.InputManager;
@@ -52,9 +52,6 @@ public class GoatEngine {
 
 
     // TODO NetworkManager ?
-
-
-
 
     private static boolean initialised = false;
     private static boolean running = false;
@@ -156,6 +153,9 @@ public class GoatEngine {
             console.draw();
         }
     }
+
+
+
 
     /**
      * Cleans up the Engine before close

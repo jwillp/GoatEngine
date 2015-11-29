@@ -17,7 +17,8 @@ public class KeyboardInputManager implements InputProcessor {
 
     private boolean isDragging = false;
 
-    private int lastMouseButton = -1;
+    private final static int NO_BUTTON = -1;
+    private int lastMouseButton = NO_BUTTON;
 
     public KeyboardInputManager(InputManager inputManager) {
         this.inputManager = inputManager;
@@ -89,15 +90,11 @@ public class KeyboardInputManager implements InputProcessor {
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         GoatEngine.eventManager.fireEvent(new MouseReleasedEvent(screenX, screenY, button));
-
         if(!isDragging && button == lastMouseButton){
             GoatEngine.eventManager.fireEvent(new MouseClickEvent(screenX, screenY, button));
-            Logger.debug("CLICK");
         }
-
-        lastMouseButton = -1;
+        lastMouseButton = NO_BUTTON;
         isDragging = false;
-
         return false;
     }
 

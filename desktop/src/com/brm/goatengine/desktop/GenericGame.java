@@ -1,6 +1,7 @@
 package com.brm.GoatEngine.desktop;
 
 import com.badlogic.gdx.Game;
+import com.brm.GoatEngine.ECS.core.CameraTargetComponent;
 import com.brm.GoatEngine.EventManager.GameEvent;
 import com.brm.GoatEngine.EventManager.GameEventListener;
 import com.brm.GoatEngine.GoatEngine;
@@ -18,8 +19,6 @@ public class GenericGame extends Game implements GameEventListener{
     public void create() {
         GoatEngine.init();
         GoatEngine.eventManager.registerListener(this);
-
-
     }
 
     @Override
