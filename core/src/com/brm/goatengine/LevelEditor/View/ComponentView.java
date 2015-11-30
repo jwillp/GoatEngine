@@ -13,7 +13,7 @@ import java.lang.reflect.Field;
 public class ComponentView extends Table{
 
     CheckBox checkBoxEnable;
-    TextButton btnRemove;
+    ImageButton btnRemove;
     Table contentTable;
 
     EntityComponent component;
@@ -40,7 +40,7 @@ public class ComponentView extends Table{
         checkBoxEnable.setChecked(component.isEnabled());
         add(checkBoxEnable);
 
-        btnRemove = new TextButton(" - ", skin);
+        btnRemove = new ImageButton(skin, "minus");
         add(btnRemove).top().right();
 
         row();

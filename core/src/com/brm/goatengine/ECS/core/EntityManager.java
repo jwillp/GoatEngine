@@ -36,7 +36,6 @@ public class EntityManager {
         entity.addComponent(new ScriptComponent(), ScriptComponent.ID);
         entity.addComponent(new TagsComponent(), TagsComponent.ID);
         return entity;
-
     }
 
 
@@ -148,7 +147,7 @@ public class EntityManager {
         ArrayList<Entity> entities = new ArrayList<Entity>();
         if(this.components.containsKey(componentId)){
             for(String enId : this.components.get(componentId).keySet()){
-                entities.add(getEntity(enId));
+                entities.add(getEntityObject(enId));
             }
         }
         return entities;
@@ -164,7 +163,7 @@ public class EntityManager {
         if(this.components.containsKey(componentId)){
             for(String enId : this.components.get(componentId).keySet()){
                 if(this.components.get(componentId).get(enId).isEnabled()){
-                    entities.add(getEntity(enId));
+                    entities.add(getEntityObject(enId));
                 }
             }
         }
@@ -216,7 +215,7 @@ public class EntityManager {
      * @param entityId
      * @return
      */
-    public Entity getEntity(String entityId){
+    public Entity getEntityObject(String entityId){
         Entity e = new Entity();
         e.setID(entityId);
         e.setManager(this);
@@ -262,6 +261,14 @@ public class EntityManager {
         return this.getEntities().size();
     }
 
+    public boolean entityExists(String entityId){
+        for(Entity e: this.getEntities()){
+            if(e.getID().equals(entityId)){
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * Deletes all the entities

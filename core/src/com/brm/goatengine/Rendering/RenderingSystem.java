@@ -43,12 +43,13 @@ public class RenderingSystem extends EntitySystem {
     @Override
     public void update(float dt) {
 
-        cameraSystem.update(dt);
+
 
     }
 
     @Override
     public void draw() {
+        cameraSystem.update(0); // TODO deltatime  + documenting why this is here
         renderPhysicsDebug();
 
         /** CAMERA DEBUG */

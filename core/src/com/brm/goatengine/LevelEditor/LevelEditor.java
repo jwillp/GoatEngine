@@ -102,10 +102,23 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
         }
 
 
+
+        /// Zoom In & Out Command
+        if(actor == view.getBtnZoomIn()){
+            executeCommand(new ZoomCameraCommand(ZoomCameraCommand.Mode.IN));
+            return;
+        }
+
+        if(actor == view.getBtnZoomOut()){
+            executeCommand(new ZoomCameraCommand(ZoomCameraCommand.Mode.OUT));
+            return;
+        }
+
         // UNDOABLE COMMANDS
         // CREATE ENTITY
         if(actor == view.getBtnCreateEntity()){
             executeCommand(new CreateEntityCommand());
+            return;
         }
 
 
@@ -249,7 +262,7 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
      */
     public void selectEntity(Entity entity){
         //Make sure it is registered
-        entity = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager().getEntity(entity.getID());
+        entity = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager().getEntityObject(entity.getID());
         Logger.info("Level Editor: entity selected :" + entity.getID());
         selectedEntity = entity;
 

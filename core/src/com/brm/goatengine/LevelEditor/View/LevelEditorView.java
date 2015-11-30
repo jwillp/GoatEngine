@@ -6,10 +6,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.brm.GoatEngine.ECS.common.PhysicsComponent;
 import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.ECS.core.EntityManager;
@@ -39,7 +36,7 @@ public class LevelEditorView extends UIEngine {
     private TextButton btnSaveChanges;
     private TextButton btnReloadScreen;
     private TextButton btnScreenSettings;
-    private TextButton btnCreateEntity;
+    private ImageButton btnCreateEntity;
 
     private TextButton btnUndo;
     private TextButton btnRedo;
@@ -50,6 +47,12 @@ public class LevelEditorView extends UIEngine {
     private Label labelScreenName;
     private Label labelFPS;
     private Label labelEntityCount;
+
+
+    // Zoom Controls
+    Table zoomCtrlTable;
+    private TextButton btnZoomIn;
+    private TextButton btnZoomOut;
 
 
     // Inspector
@@ -65,7 +68,7 @@ public class LevelEditorView extends UIEngine {
         initToolbar();
         initInspector();
         initStatistics();
-
+        initZoomControls();
     }
 
     public void initRootLayout(){
@@ -85,12 +88,16 @@ public class LevelEditorView extends UIEngine {
         inspector = new EntityInspector(skin);
         inspector.setDebug(getRootTable().getDebug());
 
+
+        zoomCtrlTable = new Table(skin);
+        zoomCtrlTable.setDebug(getRootTable().getDebug());
+
+
         rootTable.setSkin(skin);
         rootTable.defaults().fill();
         rootTable.add(toolbar).colspan(3);
         rootTable.row();
-        rootTable.add("west");
-
+        rootTable.add(zoomCtrlTable);
 
         //rootTable.add("center").expand().center();
         rootTable.add("center").expand().top();
@@ -99,8 +106,6 @@ public class LevelEditorView extends UIEngine {
         //this.stage.addActor(inspector);
         rootTable.row();
         rootTable.add(statsBar).colspan(3);
-
-
     }
 
     public void initToolbar(){
@@ -113,7 +118,7 @@ public class LevelEditorView extends UIEngine {
         btnReloadScreen = new TextButton("Reload Screen",skin);
         btnScreenSettings = new TextButton("Screen Settings",skin);
         btnQuit = new TextButton("Quit Editor", skin);
-        btnCreateEntity = new TextButton(" + ", skin);
+        btnCreateEntity = new ImageButton(skin, "plus");
 
         btnUndo = new TextButton("Undo", skin);
         btnRedo = new TextButton("Redo", skin);
@@ -174,12 +179,23 @@ public class LevelEditorView extends UIEngine {
         connectEditor(btnRedo);
     }
 
-    private void initInspector() {
+    private void initZoomControls() {
         Skin skin = rootTable.getSkin();
-        //inspector.setMovable(false);
+        btnZoomIn = new TextButton("Zoom + ", skin);
+        btnZoomOut = new TextButton("Zoom - ", skin);
 
+        zoomCtrlTable.add(btnZoomIn).row();
+        zoomCtrlTable.add(btnZoomOut).padTop(30);
 
+        zoomCtrlTable.padLeft(30);
 
+        //Connect buttons
+        connectEditor(btnZoomIn);
+        connectEditor(btnZoomOut);
+    }
+
+    private void initInspector() {
+        inspector.setMovable(false);
     }
 
     private void initStatistics() {
@@ -252,18 +268,22 @@ public class LevelEditorView extends UIEngine {
 
         Entity selected = editor.getSelectedEntity();
         if(selected != null){
+            EntityManager manager = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager();
+            if(!manager.entityExists(selected.getID())){
+                return;
+            }
             PhysicsComponent phys = (PhysicsComponent)selected.getComponent(PhysicsComponent.ID);
             // Position of the rectangle
             Vector3 highlightPos = new Vector3(phys.getPosition().x, phys.getPosition().y, 0);
 
-            EntityManager manager = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager();
+
             CameraComponent cam = (CameraComponent) manager.getComponents(CameraComponent.ID).get(0);
 
             // Translate the rectangle's world coordinates to camera coordinates
             cam.getCamera().project(highlightPos);
 
             // Size of the rectangle
-            int magnifierFactor = 60;
+            float magnifierFactor = 55 / cam.getCamera().zoom;
             float sizeX = phys.getWidth() * magnifierFactor;
             float sizeY = phys.getHeight() * magnifierFactor;
 
@@ -276,11 +296,6 @@ public class LevelEditorView extends UIEngine {
         }
 
     }
-
-
-
-
-
 
 
     public TextButton getBtnQuit() {
@@ -311,7 +326,7 @@ public class LevelEditorView extends UIEngine {
         return btnScreenSettings;
     }
 
-    public TextButton getBtnCreateEntity() {
+    public ImageButton getBtnCreateEntity() {
         return btnCreateEntity;
     }
 
@@ -328,11 +343,16 @@ public class LevelEditorView extends UIEngine {
         return btnRedo;
     }
 
-    public void inspectEntity(Entity entity) {
-        this.inspector.inspectEntity(entity);
-    }
-
     public EntityInspector getInspector() {
         return inspector;
     }
+
+    public TextButton getBtnZoomIn() {
+        return btnZoomIn;
+    }
+
+    public TextButton getBtnZoomOut() {
+        return btnZoomOut;
+    }
+
 }

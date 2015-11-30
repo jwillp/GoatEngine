@@ -1,11 +1,9 @@
 package com.brm.GoatEngine.LevelEditor.View;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
 import com.brm.GoatEngine.LevelEditor.Components.EditorLabelComponent;
-import com.brm.GoatEngine.Utils.Logger;
 
 import java.util.HashMap;
 
@@ -16,7 +14,7 @@ public class EntityInspector extends Window {
 
     Table root;
     Label entityId;
-    TextButton btnAddComponent;
+    ImageButton btnAddComponent;
     TextField label;
     Table componentList;
 
@@ -46,7 +44,9 @@ public class EntityInspector extends Window {
         root.add(label);
         root.row().padBottom(10);
 
-        btnAddComponent = new TextButton(" + ", this.getSkin());
+        btnAddComponent = new ImageButton(this.getSkin(), "plus");
+
+
         root.add("Component ").padRight(10).padBottom(5);
         root.add(btnAddComponent);
         root.row().padBottom(10);
