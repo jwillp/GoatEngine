@@ -233,6 +233,8 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
             executeCommand(new MoveDragCameraCommand(e.screenX, e.screenY, e.lastScreenX, e.lastScreenY));
         }else{
             // Move currently selected entity (if any)
+            if(selectedEntity != null)
+                executeCommand(new MoveEntityDragCommand(selectedEntity, e.screenX, e.screenY));
         }
     }
 
@@ -245,59 +247,14 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
 
     private void onMouseClick(MouseClickEvent event){
         if(!enabled) return;
-
-        EntityManager manager = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager();
-        CameraComponent cam = (CameraComponent) manager.getComponents(CameraComponent.ID).get(0);
-        final Vector3 pos = new Vector3();
-        // Translate the mouse coordinates to world coordinates
-        cam.getCamera().unproject(pos.set(event.screenX, event.screenY, 0));
-
-        // Ask the world which bodies are within the given
-        // Bounding box around the mouse pointer
-        World world = GoatEngine.gameScreenManager.getCurrentScreen().getPhysicsSystem().getWorld();
-        final Body[] hitBody = {null};
-        float mousePointerSize =  0.0001f;
-        world.QueryAABB(new QueryCallback() {
-            @Override
-            public boolean reportFixture(Fixture fixture) {
-                if(fixture != null) {
-                    hitBody[0] = fixture.getBody();
-                    return true;
-                }
-                return false;
-            }
-        }, pos.x - mousePointerSize, pos.y - mousePointerSize, pos.x + mousePointerSize, pos.y + mousePointerSize);
-
-        // If we hit something
-        if (hitBody[0] != null) {
-            selectEntity((Entity) hitBody[0].getUserData());
-        }else{
-            // And no button was pressed on gui
-            selectedEntity = null;
-            this.view.getInspector().clear();
-        }
-
-    }
-
-    /**
-     * Add entity to selection && inspect
-     * @param entity
-     */
-    public void selectEntity(Entity entity){
-        //Make sure it is registered
-        entity = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager().getEntityObject(entity.getID());
-        Logger.info("Level Editor: entity selected :" + entity.getID());
-        selectedEntity = entity;
-
-        // By default entities don't have an editor label component
-        // so we'll check if we need to add one before inspecting
-        if(!entity.hasComponent(EditorLabelComponent.ID)){
-            entity.addComponent(new EditorLabelComponent(""), EditorLabelComponent.ID);
-        }
-        this.view.getInspector().inspectEntity(entity);
+        executeCommand(new SelectEntityAtPositionCommand(event.screenX,event.screenY, this));
     }
 
     public Entity getSelectedEntity() {
         return selectedEntity;
+    }
+
+    public void setSelectedEntity(Entity selectedEntity) {
+        this.selectedEntity = selectedEntity;
     }
 }

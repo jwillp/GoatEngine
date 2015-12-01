@@ -23,7 +23,8 @@ public class ZoomCameraCommand extends EditorCommand {
     public void exec() {
         EntityManager manager = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager();
         CameraComponent cam = (CameraComponent) manager.getComponents(CameraComponent.ID).get(0);
-        float zoomChange = mode == Mode.IN ? -0.1f : 0.1f;
+        float zoomFactor = 0.2f;
+        float zoomChange = mode == Mode.IN ? -zoomFactor :zoomFactor;
         cam.getCamera().zoom += zoomChange;
     }
 }

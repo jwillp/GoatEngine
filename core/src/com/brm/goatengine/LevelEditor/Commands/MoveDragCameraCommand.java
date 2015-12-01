@@ -10,17 +10,19 @@ import com.brm.GoatEngine.Rendering.CameraComponent;
  */
 public class MoveDragCameraCommand extends EditorCommand {
 
+    // Current mouse pos
+    private final int screenX;
+    private final int screenY;
 
-    private final int toX;
-    private final int toY;
-    private final int lastX;
-    private final int lastY;
+    // Last mouse pos
+    private final int lastScreenX;
+    private final int lastScreenY;
 
-    public MoveDragCameraCommand(int toX, int toY, int lastX, int lastY){
-        this.toX = toX;
-        this.toY = toY;
-        this.lastX = lastX;
-        this.lastY = lastY;
+    public MoveDragCameraCommand(int screenX, int screenY, int lastScreenX, int lastScreenY){
+        this.screenX = screenX;
+        this.screenY = screenY;
+        this.lastScreenX = lastScreenX;
+        this.lastScreenY = lastScreenY;
     }
 
     /**
@@ -31,15 +33,14 @@ public class MoveDragCameraCommand extends EditorCommand {
         EntityManager manager = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager();
         CameraComponent cam = (CameraComponent) manager.getComponents(CameraComponent.ID).get(0);
 
-        Vector3 delta = new Vector3(toX - lastX,
-                                    toY - lastY,
+        Vector3 delta = new Vector3(screenX - lastScreenX,
+                                    screenY - lastScreenY,
                                     0);
         delta.x *= -1;  // invert
-        
-
+        float smoothing = 0.08f * cam.getCamera().zoom;
+        delta.x *= smoothing;
+        delta.y *= smoothing;
         cam.getCamera().translate(delta);
-
-
     }
 
 
