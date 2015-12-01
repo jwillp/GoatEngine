@@ -241,6 +241,12 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
     private void onKeyPressed(KeyPressedEvent e) {
         if(e.getKey() == Input.Keys.F2){
             this.setEnabled(!isEnabled());
+            return;
+        }
+
+                             // Remove Entity
+        if(e.getKey() == Input.Keys.DEL && selectedEntity != null){
+            executeCommand(new DeleteEntityCommand(selectedEntity));
         }
     }
 

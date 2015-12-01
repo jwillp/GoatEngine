@@ -31,6 +31,7 @@ public class DeleteEntityCommand extends UndoCommand {
             EntityComponent component = entry.getValue();
             deletedEntity.addComponent(component, compName);
         }
+        EntityManager manager = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager();
     }
 
     /**
@@ -39,7 +40,7 @@ public class DeleteEntityCommand extends UndoCommand {
     @Override
     public void redo() {
         EntityManager manager = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager();
-        HashMap<String, EntityComponent> components = manager.getComponentsForEntity(deletedEntity.getID());
+        components = manager.getComponentsForEntity(deletedEntity.getID());
         manager.deleteEntity(deletedEntity.getID());
     }
 }
