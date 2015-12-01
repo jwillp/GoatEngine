@@ -1,12 +1,14 @@
 package com.brm.GoatEngine.Input;
 
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Buttons;
+import com.badlogic.gdx.math.Vector2;
 import com.brm.GoatEngine.GoatEngine;
 import com.brm.GoatEngine.Input.Events.*;
-import com.brm.GoatEngine.Utils.Logger;
+
 
 /**
  * Manages Keyboard and Mouse Inputs
@@ -19,6 +21,7 @@ public class KeyboardInputManager implements InputProcessor {
 
     private final static int NO_BUTTON = -1;
     private int lastMouseButton = NO_BUTTON;
+    private Vector2 lastMouseDragPos;
 
     public KeyboardInputManager(InputManager inputManager) {
         this.inputManager = inputManager;
@@ -76,6 +79,7 @@ public class KeyboardInputManager implements InputProcessor {
         this.lastMouseButton = button;
         isDragging = false;
         GoatEngine.eventManager.fireEvent(new MousePressEvent(screenX, screenY, button));
+        lastMouseDragPos = new Vector2(screenX, screenY);
         return false;
     }
 
@@ -95,6 +99,7 @@ public class KeyboardInputManager implements InputProcessor {
         }
         lastMouseButton = NO_BUTTON;
         isDragging = false;
+        lastMouseDragPos = null;
         return false;
     }
 
@@ -108,7 +113,8 @@ public class KeyboardInputManager implements InputProcessor {
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         this.isDragging = true;
-
+        GoatEngine.eventManager.fireEvent(new MouseDragEvent(screenX, screenY, lastMouseDragPos.x, lastMouseDragPos.y));
+        lastMouseDragPos.set(screenX, screenY);
         return false;
     }
 
@@ -134,4 +140,11 @@ public class KeyboardInputManager implements InputProcessor {
     public boolean scrolled(int amount) {
         return false;
     }
+
+    public boolean isKeyPressed(int key){
+        return Gdx.input.isKeyPressed(key);
+    }
+
+
+
 }

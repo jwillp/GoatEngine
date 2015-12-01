@@ -15,12 +15,14 @@ import com.brm.GoatEngine.EventManager.GameEventListener;
 import com.brm.GoatEngine.GoatEngine;
 import com.brm.GoatEngine.Input.Events.KeyPressedEvent;
 import com.brm.GoatEngine.Input.Events.MouseClickEvent;
+import com.brm.GoatEngine.Input.Events.MouseDragEvent;
 import com.brm.GoatEngine.LevelEditor.Commands.*;
 import com.brm.GoatEngine.LevelEditor.Components.EditorLabelComponent;
 import com.brm.GoatEngine.LevelEditor.View.GameScreenConfigView;
 import com.brm.GoatEngine.LevelEditor.View.LevelEditorView;
 import com.brm.GoatEngine.Rendering.CameraComponent;
 import com.brm.GoatEngine.Utils.Logger;
+
 
 import java.util.Stack;
 
@@ -206,10 +208,31 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
 
         if(e.isOfType(MouseClickEvent.class)){
             onMouseClick((MouseClickEvent) e);
+            return;
         }
 
         if(e.isOfType(KeyPressedEvent.class)){
             onKeyPressed((KeyPressedEvent) e);
+            return;
+        }
+
+
+
+        if(e.isOfType(MouseDragEvent.class)){
+            onMouseDrag((MouseDragEvent) e);
+            return;
+        }
+
+
+
+    }
+
+    private void onMouseDrag(MouseDragEvent e) {
+        // If mouse drag + space pressed = moving camera
+        if(GoatEngine.inputManager.getKeyboardInputManager().isKeyPressed(Input.Keys.SPACE)){
+            executeCommand(new MoveDragCameraCommand(e.screenX, e.screenY, e.lastScreenX, e.lastScreenY));
+        }else{
+            // Move currently selected entity (if any)
         }
     }
 
