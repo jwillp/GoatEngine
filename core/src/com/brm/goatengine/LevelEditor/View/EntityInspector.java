@@ -1,9 +1,13 @@
 package com.brm.GoatEngine.LevelEditor.View;
 
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.brm.GoatEngine.ECS.common.PhysicsComponent;
 import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
 import com.brm.GoatEngine.LevelEditor.Components.EditorLabelComponent;
+import com.brm.GoatEngine.Rendering.CameraComponent;
+import com.brm.GoatEngine.ScriptingEngine.EntityScript;
+import com.brm.GoatEngine.ScriptingEngine.ScriptComponent;
 
 import java.util.HashMap;
 
@@ -86,7 +90,42 @@ public class EntityInspector extends Window {
 
 
     public void addComponentToList(EntityComponent c){
-        componentList.add(new ComponentView(c, this.getSkin())).fill().expandX();
+        ComponentView componentView = null;
+
+        // Special cases
+        if(c.getId().equals(PhysicsComponent.ID)){
+            componentView = new PhysicsComponentView((PhysicsComponent)c, getSkin());
+        }
+        else if(c.getId().equals(ScriptComponent.ID)){
+            ScriptComponent scriptComponent = (ScriptComponent) c;
+
+            for(String s : scriptComponent.getScripts()){
+                componentList.add(new ScriptView(scriptComponent, s, getSkin())).fill().expandX();
+                componentList.row().padBottom(5).padTop(5);
+            }
+
+        }
+        else if(c.getId().equals(CameraComponent.ID)){
+
+        }
+        else if(c.getId().equals(EditorLabelComponent.ID)){
+            // Do nothing it is already handled by one of the field in the header of inspector
+            return;
+        }else{
+            componentView = new GenericComponentView(c, getSkin());
+        }
+
+
+
+
+
+
+
+
+
+
+
+        componentList.add(componentView).fill().expandX();
         componentList.row().padBottom(5).padTop(5);
     }
 

@@ -2,7 +2,6 @@ package com.brm.GoatEngine.LevelEditor.View;
 
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
-import com.brm.GoatEngine.GoatEngine;
 import com.brm.GoatEngine.Utils.Logger;
 
 import java.lang.reflect.Field;
@@ -10,24 +9,31 @@ import java.lang.reflect.Field;
 /**
  * Vie wof an Entity Component
  */
-public class ComponentView extends Table{
+public abstract class ComponentView extends Table{
 
-    CheckBox checkBoxEnable;
-    ImageButton btnRemove;
-    Table contentTable;
 
     EntityComponent component;
 
+    protected CheckBox checkBoxEnable;
+    ImageButton btnRemove;
+    Table contentTable;
+    TextButton btnApply;
+
+
     public ComponentView(EntityComponent component, Skin skin) {
         super(skin);
+        setDebug(false);
         this.component = component;
         initRootLayout();
+        initContentTable();
         initContent();
-        setDebug(true);
-
+        initApplyButton();
     }
 
-    void initRootLayout(){
+
+    protected abstract void initContent();
+
+    private void initRootLayout(){
         Skin skin =  getSkin();
 
 
@@ -46,14 +52,12 @@ public class ComponentView extends Table{
         row();
 
     }
-
-
-    private void initContent(){
+    private void initContentTable(){
         contentTable = new Table(getSkin());
         contentTable.left();
 
 
-        readComponent();
+        //readComponent();
 
         // Content
         /*contentTable.add("TEST LABEL");
@@ -64,36 +68,15 @@ public class ComponentView extends Table{
 
         contentTable.add("TEST LABEL");*/
 
-        add(contentTable).colspan(2);
+        add(contentTable).colspan(2).row();
+    }
+    private void initApplyButton(){
+        btnApply = new TextButton("Apply", this.getSkin());
+        add(btnApply).colspan(2).fill().expandX().pad(20);
     }
 
 
 
-
-
-    public void readComponent(){
-        Field[] fields = component.getClass().getDeclaredFields();
-        for(int i=0; i<fields.length; i++){
-            Field field = fields[i];
-            field.setAccessible(true);
-            // Special cases
-            if(field.getName().equals("ID")){
-                continue;
-            }
-
-
-            try {
-                if(field.getType().equals(boolean.class)){
-                    addBoolean(field.getName(), field.getBoolean(component));
-                }else{
-                    addString(field.getName(), field.get(component).toString());
-                }
-            } catch (IllegalAccessException e) {
-                Logger.error(e.getMessage());
-                Logger.logStackTrace(e);
-            }
-        }
-    }
 
 
     /**
@@ -101,7 +84,7 @@ public class ComponentView extends Table{
      * @param fieldName
      * @param value
      */
-    private void addBoolean(String fieldName, boolean value){
+    protected void addBoolean(String fieldName, boolean value){
         contentTable.add(fieldName).left();
         CheckBox box = new CheckBox("",getSkin());
         box.setChecked(value);
@@ -115,10 +98,12 @@ public class ComponentView extends Table{
      * @param fieldName
      * @param value
      */
-    private void addString(String fieldName, String value){
-        contentTable.add(fieldName).left();
-        contentTable.add(new TextField(value, getSkin())).left().expandX();
-        contentTable.row();
+    protected void addString(String fieldName, String value){
+        contentTable.add(fieldName).left().padRight(4);
+        TextField txtField = new TextField(value, getSkin());
+        txtField.setScale(0.5f);
+        contentTable.add(txtField).left().expandX();
+        contentTable.row().padBottom(4).padTop(4);
     }
 
 
