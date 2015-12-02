@@ -41,10 +41,8 @@ public class SelectEntityAtPositionCommand extends EditorCommand {
             //Make sure it is registered
             entity = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager().getEntityObject(entity.getID());
             selectEntity(entity);
-            editor.getView().getInspector().inspectEntity(entity);
         }else{
             editor.setSelectedEntity(null);
-            editor.getView().getInspector().clear();
         }
     }
 

@@ -60,8 +60,13 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
 
 
     public void update(float delta){
-        if(enabled)
+        if(enabled) {
             this.view.render(delta);
+            if(selectedEntity != null)
+                this.view.getInspector().inspectEntity(selectedEntity);
+            else
+                this.view.getInspector().clear();
+        }
     }
 
 
