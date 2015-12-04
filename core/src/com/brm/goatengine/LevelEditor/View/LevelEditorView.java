@@ -102,7 +102,7 @@ public class LevelEditorView extends UIEngine {
         //rootTable.add("center").expand().center();
         rootTable.add("center").expand().top();
 
-        rootTable.add(inspector).padRight(10).width(275);
+        rootTable.add(inspector).padRight(10).width(300);
         //this.stage.addActor(inspector);
         rootTable.row();
         rootTable.add(statsBar).colspan(3);

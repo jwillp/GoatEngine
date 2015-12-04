@@ -37,11 +37,11 @@ public class ScriptView extends ComponentView {
 
     @Override
     protected void initContent() {
-        addString("Name", findScriptSimpleName(scriptName));
+        addStringField("Name", findScriptSimpleName(scriptName));
     }
 
-
-
+    @Override
+    protected void onApply(){}
 
 
     private String findScriptSimpleName(String fullName){

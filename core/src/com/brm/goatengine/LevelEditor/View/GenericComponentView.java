@@ -27,18 +27,27 @@ public class GenericComponentView extends ComponentView {
             if(field.getName().equals("ID")){
                 continue;
             }
+            /*if(!field.getType().isPrimitive()){
+                continue;
+            }*/;
 
             try {
                 if(field.getType().equals(boolean.class)){
-                    addBoolean(field.getName(), field.getBoolean(component));
+                    addBooleanField(field.getName(), field.getBoolean(component));
                 }else{
-                    addString(field.getName(), field.get(component).toString());
+                    addStringField(field.getName(), field.get(component).toString());
                 }
             } catch (IllegalAccessException e) {
                 Logger.error(e.getMessage());
                 Logger.logStackTrace(e);
             }
         }
+    }
+
+    @Override
+    protected void onApply() {
+
+
     }
 
 

@@ -113,8 +113,12 @@ public class KeyboardInputManager implements InputProcessor {
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         this.isDragging = true;
-        GoatEngine.eventManager.fireEvent(new MouseDragEvent(screenX, screenY, lastMouseDragPos.x, lastMouseDragPos.y));
-        lastMouseDragPos.set(screenX, screenY);
+        try {
+            GoatEngine.eventManager.fireEvent(new MouseDragEvent(screenX, screenY, lastMouseDragPos.x, lastMouseDragPos.y));
+            lastMouseDragPos.set(screenX, screenY);
+        }catch(NullPointerException e){
+            lastMouseDragPos = new Vector2(screenX, screenY);
+        }
         return false;
     }
 

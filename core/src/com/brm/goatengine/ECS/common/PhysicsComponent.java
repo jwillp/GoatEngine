@@ -20,6 +20,7 @@ public class PhysicsComponent extends EntityComponent {
 
 
 
+
     //The directions an entity can face
     public enum Direction{
         LEFT,  //RIGHT
@@ -150,7 +151,15 @@ public class PhysicsComponent extends EntityComponent {
 
 
 
+    public void setVelocity(float x, float y) {
+        this.body.setLinearVelocity(x,y);
+    }
 
+
+    public void setBodyType(BodyDef.BodyType type) {
+        if(body.getType() != type) // Todo see if setBody Type is costly operation
+            body.setType(type);
+    }
 
 
     /**
