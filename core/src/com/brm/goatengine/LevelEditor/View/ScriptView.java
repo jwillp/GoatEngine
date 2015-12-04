@@ -22,6 +22,8 @@ public class ScriptView extends ComponentView {
     }
     // WORK AROUND END
 
+    int scriptIndex;
+
 
     public ScriptView(ScriptComponent scriptComponent, String scriptName, Skin skin) {
         super(init(scriptComponent, scriptName), skin);
@@ -29,10 +31,14 @@ public class ScriptView extends ComponentView {
         String name = findScriptSimpleName(scriptName);
         name = name.replace(".groovy", "");
         checkBoxEnable.setText(name + " (Script)");
+
+        // Find script ID
+        final int scriptCount = scriptComponent.getScripts().size();
+        for(int i=0; i<scriptCount; i++)
+        if(scriptComponent.getScripts().get(i).equals(scriptName)){
+            scriptIndex = i;break;
+        }
     }
-
-
-
 
 
     @Override
@@ -41,7 +47,11 @@ public class ScriptView extends ComponentView {
     }
 
     @Override
-    protected void onApply(){}
+    protected void onApply(){
+        ScriptComponent scriptComponent = (ScriptComponent) component;
+        scriptComponent.getScripts().set(scriptIndex, stringFields.get("Name").getText());
+
+    }
 
 
     private String findScriptSimpleName(String fullName){

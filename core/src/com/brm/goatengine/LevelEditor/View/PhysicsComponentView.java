@@ -1,6 +1,8 @@
 package com.brm.GoatEngine.LevelEditor.View;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.brm.GoatEngine.ECS.common.PhysicsComponent;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
@@ -58,6 +60,12 @@ public class PhysicsComponentView extends ComponentView {
         phys.setVelocity(Float.parseFloat(stringFields.get(LBL_POSX).getText()),
                 Float.parseFloat(stringFields.get(LBL_POSX).getText()));
 
-        phys.setBodyType(BodyDef.BodyType.valueOf(stringFields.get(LBL_BODYTYPE).getText()));
+        String bodyType = stringFields.get(LBL_BODYTYPE).getText();
+        try{
+            phys.setBodyType(BodyDef.BodyType.valueOf(bodyType));
+        }catch (java.lang.IllegalArgumentException e){
+            // TODO Display warning dialog
+           new WarningDialog("The Body Type '" + bodyType + "' is Invalid", getSkin()).show(getStage());
+        }
     }
 }
