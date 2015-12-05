@@ -1,11 +1,11 @@
 package com.brm.GoatEngine.ScreenManager;
 
-import com.brm.GoatEngine.Utils.GameConfig;
+import com.brm.GoatEngine.Utils.EngineConfig;
 
 /**
  * Game screen config
  */
-public class GameScreenConfig extends GameConfig {
+public class GameScreenConfig extends EngineConfig {
 
     // CONFIG
     public String tmxConfigFile;

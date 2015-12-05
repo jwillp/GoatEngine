@@ -13,14 +13,13 @@ import com.brm.GoatEngine.ECS.core.EntityManager;
 import com.brm.GoatEngine.GoatEngine;
 import com.brm.GoatEngine.TmxSupport.MapConfig;
 import com.brm.GoatEngine.TmxSupport.MapConfigObject;
-import com.brm.GoatEngine.Utils.GameConfig;
+import com.brm.GoatEngine.Utils.EngineConfig;
 import com.brm.GoatEngine.Utils.Logger;
 import com.brm.GoatEngine.Utils.OrderedProperties;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.ArrayList;
 
 public final class GameScreen{
@@ -114,37 +113,37 @@ public final class GameScreen{
             //Gravity
             Vector2 gravity = new Vector2();
             if(prop.getProperty("gravity_x") != null){  // TODO put default values as private static constants
-                gravity.x = GameConfig.getFloatProperty(0.0f, prop.getProperty("gravity_x"));
+                gravity.x = EngineConfig.getFloatProperty(0.0f, prop.getProperty("gravity_x"));
             }
             if(prop.getProperty("gravity_y") != null){
-                gravity.y = GameConfig.getFloatProperty(0.0f, prop.getProperty("gravity_y"));
+                gravity.y = EngineConfig.getFloatProperty(0.0f, prop.getProperty("gravity_y"));
             }
             this.ecsManager.getSystemManager().getSystem(PhysicsSystem.class).setGravity(gravity);
 
 
 
             // OTHER PARAMETERS
-            this.config.PHYSICS_DEBUG_RENDERING = GameConfig.getBooleanProperty(
+            this.config.PHYSICS_DEBUG_RENDERING = EngineConfig.getBooleanProperty(
                     this.config.PHYSICS_DEBUG_RENDERING,
                     "physics_debug_rendering"
             );
 
-            this.config.CAMERA_DEBUG_RENDERING = GameConfig.getBooleanProperty(
+            this.config.CAMERA_DEBUG_RENDERING = EngineConfig.getBooleanProperty(
                     this.config.CAMERA_DEBUG_RENDERING,
                     "camera_debug_rendering"
             );
 
-            this.config.TEXTURE_RENDERING = GameConfig.getBooleanProperty(
+            this.config.TEXTURE_RENDERING = EngineConfig.getBooleanProperty(
                     this.config.TEXTURE_RENDERING,
                     "texture_rendering"
             );
 
-            this.config.FOG_RENDERING = GameConfig.getBooleanProperty(
+            this.config.FOG_RENDERING = EngineConfig.getBooleanProperty(
                     this.config.FOG_RENDERING,
                     "fog_rendering"
             );
 
-            this.config.LIGHTING_RENDERING = GameConfig.getBooleanProperty(
+            this.config.LIGHTING_RENDERING = EngineConfig.getBooleanProperty(
                     this.config.LIGHTING_RENDERING,
                     "lighting_rendering"
             );

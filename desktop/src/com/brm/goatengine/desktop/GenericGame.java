@@ -7,6 +7,7 @@ import com.brm.GoatEngine.GoatEngine;
 import com.brm.GoatEngine.Input.ControllerConnectedEvent;
 import com.brm.GoatEngine.Input.KeyPressedEvent;
 import com.brm.GoatEngine.Input.KeyReleasedEvent;
+import com.brm.GoatEngine.Utils.GameConfig;
 import com.brm.GoatEngine.Utils.Logger;
 
 /**
@@ -21,7 +22,15 @@ public class GenericGame extends Game implements GameEventListener{
         GoatEngine.init();
         GoatEngine.eventManager.registerListener(this);
 
+        // Config File Tests
+        GameConfig config = new GameConfig("data/config/laserGun.ini");
+        config.load();
+        float dmg = config.getParameter("super").toFloat();
+        Logger.debug(dmg);
 
+        config.setOverride("mkII");
+        dmg = config.getParameter("super").toFloat();
+        Logger.debug(dmg);
     }
 
     @Override
