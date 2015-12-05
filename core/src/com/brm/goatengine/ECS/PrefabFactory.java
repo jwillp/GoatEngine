@@ -12,6 +12,7 @@ import com.brm.GoatEngine.Physics.BoxColliderDef;
 import com.brm.GoatEngine.Physics.CircleColliderDef;
 import com.brm.GoatEngine.Physics.Collider;
 import com.brm.GoatEngine.Physics.ColliderDef;
+import com.brm.GoatEngine.ScriptingEngine.ScriptComponent;
 import com.brm.GoatEngine.Utils.Logger;
 import org.ini4j.Ini;
 
@@ -47,7 +48,7 @@ public class PrefabFactory {
             EntityManager manager = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager();
             entity = manager.createEntity();
             processPhysics(entity, ini);
-
+            processScripts(entity, ini);
 
         } catch (IOException e) {
             Logger.error(e.getMessage());
@@ -114,9 +115,23 @@ public class PrefabFactory {
     }
 
 
-
-    
-
+    /**
+     * Processes script settings
+     * to create a Script Component
+     * @param entity the entity to update
+     * @param ini the Ini instance of the prefab
+     */
+    private void processScripts(Entity entity, Ini ini){
+        if(ini.containsKey("scritps")){
+            Ini.Section scriptSec = ini.get("scripts");
+            String scripts[] = scriptSec.get("scripts", String[].class);
+            ScriptComponent scriptComp = new ScriptComponent();
+            for(String s: scripts){
+                scriptComp.addScript(s);
+            }
+            entity.addComponent(scriptComp, ScriptComponent.ID);
+        }
+    }
 
 
 
