@@ -1,5 +1,6 @@
 package com.brm.GoatEngine.LevelEditor;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -236,8 +237,8 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
     private void onMouseDrag(MouseDragEvent e) {
         // If mouse drag + space pressed = moving camera
         boolean spaceMouseCtrl = GoatEngine.inputManager.getKeyboardInputManager().isKeyPressed(Input.Keys.SPACE);
-        boolean middleClickMouseCtrl = e.button == Input.Buttons.MIDDLE;
-        //Logger.debug(e.button == Input.Buttons.MIDDLE);
+        boolean middleClickMouseCtrl = Gdx.input.isButtonPressed(Input.Buttons.MIDDLE);
+        Logger.debug("Curr Mouse Button : " + e.button + " MIDDLE: " + Input.Buttons.MIDDLE);
         if(middleClickMouseCtrl || spaceMouseCtrl){
             executeCommand(new MoveDragCameraCommand(e.screenX, e.screenY, e.lastScreenX, e.lastScreenY));
         }else{
