@@ -1,9 +1,14 @@
 package com.brm.GoatEngine.LevelEditor.View;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.brm.GoatEngine.ECS.common.PhysicsComponent;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.EnumSet;
 
 /**
  * View for the physics Component
@@ -45,8 +50,12 @@ public class PhysicsComponentView extends ComponentView {
 
         addEmptyRow();
 
-        // Body Type // TODO combobox
-        addStringField(LBL_BODYTYPE, String.valueOf(phys.getBody().getType()));
+        // Body Type
+       SelectBox<String> combo =  addStringList(LBL_BODYTYPE,
+               Arrays.toString(BodyDef.BodyType.values()).replaceAll("^.|.$", "").split(", ")
+       );
+        combo.setSelected(phys.getBody().getType().toString());
+
     }
 
     @Override
@@ -58,12 +67,7 @@ public class PhysicsComponentView extends ComponentView {
         phys.setVelocity(Float.parseFloat(stringFields.get(LBL_POSX).getText()),
                 Float.parseFloat(stringFields.get(LBL_POSX).getText()));
 
-        String bodyType = stringFields.get(LBL_BODYTYPE).getText();
-        try{
-            phys.setBodyType(BodyDef.BodyType.valueOf(bodyType));
-        }catch (java.lang.IllegalArgumentException e){
-            // TODO Display warning dialog
-           new WarningDialog("The Body Type '" + bodyType + "' is Invalid", getSkin()).show(getStage());
-        }
+        String bodyType = enumFields.get(LBL_BODYTYPE).getSelected().toString();
+        phys.setBodyType(BodyDef.BodyType.valueOf(bodyType));
     }
 }

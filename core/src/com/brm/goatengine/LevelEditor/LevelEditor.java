@@ -2,29 +2,21 @@ package com.brm.GoatEngine.LevelEditor;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.QueryCallback;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.brm.GoatEngine.ECS.core.Entity;
-import com.brm.GoatEngine.ECS.core.EntityManager;
 import com.brm.GoatEngine.EventManager.GameEvent;
 import com.brm.GoatEngine.EventManager.GameEventListener;
 import com.brm.GoatEngine.GoatEngine;
 import com.brm.GoatEngine.Input.Events.KeyPressedEvent;
 import com.brm.GoatEngine.Input.Events.MouseClickEvent;
 import com.brm.GoatEngine.Input.Events.MouseDragEvent;
+import com.brm.GoatEngine.Input.Events.MouseScrolledEvent;
 import com.brm.GoatEngine.LevelEditor.Commands.*;
-import com.brm.GoatEngine.LevelEditor.Components.EditorLabelComponent;
 import com.brm.GoatEngine.LevelEditor.View.GameScreenConfigView;
 import com.brm.GoatEngine.LevelEditor.View.LevelEditorView;
-import com.brm.GoatEngine.Rendering.CameraComponent;
 import com.brm.GoatEngine.Utils.Logger;
 import com.kotcrab.vis.ui.VisUI;
-
 
 import java.util.Stack;
 
@@ -100,7 +92,7 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
         }
 
         if(actor == view.getBtnScreenSettings()){
-            view.getStage().addActor(new GameScreenConfigView(view.getBtnConsole().getSkin()));
+            view.getCenter().addActor(new GameScreenConfigView(view.getBtnConsole().getSkin()));
         }
 
 
@@ -130,6 +122,10 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
             return;
         }
 
+        if(actor == view.getBtnEntityFromPrefab()){
+            executeCommand(new CreateEntityFromPrefabCommand(this));
+            return;
+        }
 
         if(actor == view.getBtnUndo()){
             this.undo();
@@ -230,6 +226,10 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
             return;
         }
 
+        if(e.isOfType(MouseScrolledEvent.class)){
+            onMouseSrcoll((MouseScrolledEvent) e);
+            return;
+        }
 
 
     }
@@ -243,10 +243,18 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
             executeCommand(new MoveDragCameraCommand(e.screenX, e.screenY, e.lastScreenX, e.lastScreenY));
         }else{
             // Move currently selected entity (if any)
-            if(selectedEntity != null)
+            if(selectedEntity != null && Gdx.input.isButtonPressed(Input.Buttons.LEFT))
                 executeCommand(new MoveEntityDragCommand(selectedEntity, e.screenX, e.screenY));
         }
     }
+
+
+    private void onMouseSrcoll(MouseScrolledEvent e){
+        if(e.amount == 0) return;
+        ZoomCameraCommand.Mode mode = e.amount > 0 ? ZoomCameraCommand.Mode.OUT : ZoomCameraCommand.Mode.IN;
+        executeCommand(new ZoomCameraCommand(mode));
+    }
+
 
     private void onKeyPressed(KeyPressedEvent e) {
         if(e.getKey() == Input.Keys.F2){

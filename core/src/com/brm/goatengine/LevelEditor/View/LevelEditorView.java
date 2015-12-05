@@ -2,11 +2,15 @@ package com.brm.GoatEngine.LevelEditor.View;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.brm.GoatEngine.ECS.common.PhysicsComponent;
 import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.ECS.core.EntityManager;
@@ -28,6 +32,8 @@ public class LevelEditorView extends UIEngine {
     private GameScreenConfigView configView;
     private ShapeRenderer shapeRenderer;
 
+    private final int gridSize = 15;
+
     // Toolbar
     Table toolbar;
     private TextButton btnQuit;
@@ -37,7 +43,9 @@ public class LevelEditorView extends UIEngine {
     private TextButton btnSaveChanges;
     private TextButton btnReloadScreen;
     private TextButton btnScreenSettings;
+
     private TextButton btnCreateEntity;
+    private TextButton btnEntityFromPrefab;
 
     private TextButton btnUndo;
     private TextButton btnRedo;
@@ -59,6 +67,9 @@ public class LevelEditorView extends UIEngine {
     // Inspector
     private EntityInspector inspector;
 
+
+    // Center
+    private Table center;
 
     public LevelEditorView(LevelEditor editor){
         super();
@@ -94,6 +105,8 @@ public class LevelEditorView extends UIEngine {
         zoomCtrlTable = new Table(skin);
         zoomCtrlTable.setDebug(getRootTable().getDebug());
 
+        center = new Table(skin);
+        center.setDebug(getRootTable().getDebug());
 
         rootTable.setSkin(skin);
         rootTable.defaults().fill();
@@ -102,7 +115,7 @@ public class LevelEditorView extends UIEngine {
         rootTable.add(zoomCtrlTable);
 
         //rootTable.add("center").expand().center();
-        rootTable.add("center").expand().top();
+        rootTable.add(center).expand().top();
 
         rootTable.add(inspector).padRight(10).width(300);
         //this.stage.addActor(inspector);
@@ -121,6 +134,7 @@ public class LevelEditorView extends UIEngine {
         btnScreenSettings = new TextButton("Screen Settings",skin);
         btnQuit = new TextButton("Quit Editor", skin);
         btnCreateEntity = new TextButton("+", skin);
+        btnEntityFromPrefab = new TextButton("Prefab", skin);
 
         btnUndo = new TextButton("Undo", skin);
         btnRedo = new TextButton("Redo", skin);
@@ -155,6 +169,7 @@ public class LevelEditorView extends UIEngine {
         toolbar.add(tableCenter);
         tableCenter.center();
         tableCenter.add(btnCreateEntity);
+        tableCenter.add(btnEntityFromPrefab).padLeft(20);
         tableCenter.add(btnPlayPause).padLeft(20);
         tableCenter.add(btnReloadScreen).padLeft(20);
 
@@ -170,6 +185,7 @@ public class LevelEditorView extends UIEngine {
         // Add Listener to buttons
 
         connectEditor(btnCreateEntity);
+        connectEditor(btnEntityFromPrefab);
         connectEditor(btnConsole);
         connectEditor(btnStats);
         connectEditor(btnSaveChanges);
@@ -253,6 +269,8 @@ public class LevelEditorView extends UIEngine {
 
         // Selection rendering
         renderSelection();
+        // Grid
+        // drawGrid();
     }
 
 
@@ -298,6 +316,72 @@ public class LevelEditorView extends UIEngine {
         }
 
     }
+
+    private void drawGrid(){
+
+       // Gdx.gl.glLineWidth(1);
+        EntityManager manager = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager();
+        CameraComponent cam = (CameraComponent) manager.getComponents(CameraComponent.ID).get(0);
+        OrthographicCamera camera = cam.getCamera();
+
+        camera.update();
+
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(Color.DARK_GRAY);
+
+        drawVerticalLines();
+        drawHorizontalLines();
+
+        shapeRenderer.end();
+
+
+
+
+    }
+
+
+
+    private void drawVerticalLines () {
+        EntityManager manager = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager();
+        CameraComponent cam = (CameraComponent) manager.getComponents(CameraComponent.ID).get(0);
+        OrthographicCamera camera = cam.getCamera();
+        float xStart = camera.position.x - camera.viewportWidth / 2;
+        float xEnd = xStart + camera.viewportWidth;
+
+        float leftDownY = (camera.position.y - camera.viewportHeight / 2);
+        float linesToDraw = (camera.viewportHeight / gridSize) + 10;
+
+        float drawingPointStart = leftDownY / gridSize;
+        float drawingPointEnd = drawingPointStart + linesToDraw;
+
+        for (int i = MathUtils.round(drawingPointStart); i < MathUtils.round(drawingPointEnd); i++)
+            shapeRenderer.line(xStart, i * gridSize, xEnd, i * gridSize);
+    }
+
+    private void drawHorizontalLines () {
+        EntityManager manager = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager();
+        CameraComponent cam = (CameraComponent) manager.getComponents(CameraComponent.ID).get(0);
+        OrthographicCamera camera = cam.getCamera();
+        float yStart = camera.position.y - camera.viewportHeight / 2;
+        float yEnd = yStart + camera.viewportHeight;
+
+        float leftDownX = (camera.position.y - camera.viewportWidth / 2);
+        float linesToDraw = (camera.viewportWidth / gridSize) + 10;
+
+        float drawingPointStart = leftDownX / gridSize;
+        float drawingPointEnd = drawingPointStart + linesToDraw;
+
+        for (int i = MathUtils.round(drawingPointStart); i < MathUtils.round(drawingPointEnd); i++)
+            shapeRenderer.line(i * gridSize, yStart, i * gridSize, yEnd);
+    }
+
+
+
+
+
+
+
 
 
     public TextButton getBtnQuit() {
@@ -357,4 +441,11 @@ public class LevelEditorView extends UIEngine {
         return btnZoomOut;
     }
 
+    public TextButton getBtnEntityFromPrefab() {
+        return btnEntityFromPrefab;
+    }
+
+    public Table getCenter() {
+        return center;
+    }
 }

@@ -36,6 +36,10 @@ public class GameScreenConfigView extends Window{
         root.add(btnSave).colspan(2).fill().expandX();
 
 
+
+        this.setWidth(10);
+        this.setHeight(10);
+
     }
 
     public void readScreen(){

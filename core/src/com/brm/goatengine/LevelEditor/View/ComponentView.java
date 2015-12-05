@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.StringBuilder;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
 
 import java.util.ArrayList;
@@ -25,7 +26,8 @@ public abstract class ComponentView extends Table {
     TextButton btnApply;
 
     protected HashMap<String, CheckBox> booleanFields = new  HashMap<String,CheckBox>();
-    protected  HashMap<String, TextField> stringFields = new  HashMap<String, TextField>();
+    protected HashMap<String, TextField> stringFields = new  HashMap<String, TextField>();
+    protected HashMap<String, SelectBox> enumFields = new HashMap<String, SelectBox>();
 
     public ComponentView(EntityComponent component, Skin skin) {
         super(skin);
@@ -98,7 +100,7 @@ public abstract class ComponentView extends Table {
      * @param fieldName
      * @param value
      */
-    protected void addBooleanField(String fieldName, boolean value){
+    protected CheckBox addBooleanField(String fieldName, boolean value){
         contentTable.add(fieldName).left();
         CheckBox box = new CheckBox("",getSkin());
         box.setChecked(value);
@@ -106,6 +108,7 @@ public abstract class ComponentView extends Table {
         contentTable.add(box).left().expandX();
         contentTable.row();
         box.setUserObject(fieldName);
+        return box;
     }
 
     /**
@@ -124,19 +127,22 @@ public abstract class ComponentView extends Table {
      * Combobox
      * @param strings
      */
-    protected void addStringList(String fieldName, Array<String> strings){
-        SelectBox comboBox = new SelectBox(getSkin());
+    protected SelectBox<String> addStringList(String fieldName, String[] strings){
+        SelectBox<String> comboBox = new SelectBox<String>(getSkin());
         comboBox.setItems(strings);
         addRow(fieldName,comboBox);
+        enumFields.put(fieldName, comboBox);
+        return comboBox;
     }
 
 
-    protected void addStringReadOnly(String fieldName, String value){
+    protected Label addStringReadOnly(String fieldName, String value){
         contentTable.add(fieldName).left().padRight(4);
-        Label txtField = new Label(value, getSkin());
-        txtField.setScale(0.5f);
-        contentTable.add(txtField).left().expandX();
+        Label label = new Label(value, getSkin());
+        label.setScale(0.5f);
+        contentTable.add(label).left().expandX();
         contentTable.row().padBottom(4).padTop(4);
+        return label;
     }
 
     protected void addEmptyRow(){

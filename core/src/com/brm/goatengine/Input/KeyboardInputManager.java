@@ -144,6 +144,7 @@ public class KeyboardInputManager implements InputProcessor {
      */
     @Override
     public boolean scrolled(int amount) {
+        GoatEngine.eventManager.fireEvent(new MouseScrolledEvent(amount));
         return false;
     }
 
