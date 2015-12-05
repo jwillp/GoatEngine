@@ -15,6 +15,7 @@ import com.brm.GoatEngine.GoatEngine;
 import com.brm.GoatEngine.LevelEditor.LevelEditor;
 import com.brm.GoatEngine.Rendering.CameraComponent;
 import com.brm.GoatEngine.UI.UIEngine;
+import com.kotcrab.vis.ui.VisUI;
 
 /**
  * GUI of the Level Editor
@@ -36,7 +37,7 @@ public class LevelEditorView extends UIEngine {
     private TextButton btnSaveChanges;
     private TextButton btnReloadScreen;
     private TextButton btnScreenSettings;
-    private ImageButton btnCreateEntity;
+    private TextButton btnCreateEntity;
 
     private TextButton btnUndo;
     private TextButton btnRedo;
@@ -61,6 +62,7 @@ public class LevelEditorView extends UIEngine {
 
     public LevelEditorView(LevelEditor editor){
         super();
+        VisUI.load();
         this.editor = editor;
         shapeRenderer = new ShapeRenderer();
         this.rootTable.setDebug(false);
@@ -72,8 +74,8 @@ public class LevelEditorView extends UIEngine {
     }
 
     public void initRootLayout(){
-        Skin skin = new Skin(Gdx.files.internal("data/skins/default_skin/uiskin.json"));
-
+        //Skin skin = new Skin(Gdx.files.internal("data/skins/default_skin/uiskin.json"));
+        Skin skin = VisUI.getSkin();
         configView = new GameScreenConfigView(skin);
 
         // Create Base Layout Border layout: NSEW
@@ -118,7 +120,7 @@ public class LevelEditorView extends UIEngine {
         btnReloadScreen = new TextButton("Reload Screen",skin);
         btnScreenSettings = new TextButton("Screen Settings",skin);
         btnQuit = new TextButton("Quit Editor", skin);
-        btnCreateEntity = new ImageButton(skin, "plus");
+        btnCreateEntity = new TextButton("+", skin);
 
         btnUndo = new TextButton("Undo", skin);
         btnRedo = new TextButton("Redo", skin);
@@ -326,7 +328,7 @@ public class LevelEditorView extends UIEngine {
         return btnScreenSettings;
     }
 
-    public ImageButton getBtnCreateEntity() {
+    public TextButton getBtnCreateEntity() {
         return btnCreateEntity;
     }
 

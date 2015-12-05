@@ -18,7 +18,7 @@ public class EntityInspector extends Window {
 
     Table root;
     Label lblEntityID;
-    ImageButton btnAddComponent;
+    TextButton btnAddComponent;
     TextField label;
     Table componentList;
 
@@ -50,7 +50,7 @@ public class EntityInspector extends Window {
         root.add(label);
         root.row().padBottom(10);
 
-        btnAddComponent = new ImageButton(this.getSkin(), "plus");
+        btnAddComponent = new TextButton("+", this.getSkin());
 
 
         root.add("Component ").padRight(10).padBottom(5);

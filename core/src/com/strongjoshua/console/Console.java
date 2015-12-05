@@ -29,6 +29,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.brm.GoatEngine.GConsole.ConsoleCommand;
 import com.brm.GoatEngine.GoatEngine;
 import com.brm.GoatEngine.Utils.Logger;
+import com.kotcrab.vis.ui.VisUI;
 
 import java.util.ArrayList;
 
@@ -100,21 +101,15 @@ public class Console implements Disposable {
 	protected Window consoleWindow;
 	protected Boolean logToSystem;
 
-	/** Creates the console using the default skin.<br>
-	 * <b>***IMPORTANT***</b> Call {@link Console#dispose()} to make your {@link InputProcessor} the default processor again (this
-	 * console uses a multiplexer to circumvent it).
-	 * @see Console#dispose() */
-	public Console () {
-		this(new Skin(Gdx.files.internal("data/skins/default_skin/uiskin.json")));
-	}
-
 
 	/** Creates the console.<br>
 	 * <b>***IMPORTANT***</b> Call {@link Console#dispose()} to make your {@link InputProcessor} the default processor again (this
 	 * console uses a multiplexer to circumvent it).
-	 * @param skin Uses skins for Label, TextField, and Table. Skin <b>must</b> contain a font called 'default-font'.
 	 * @see Console#dispose() */
-	public Console (Skin skin) {
+	public Console() {
+        VisUI.load();
+        Skin skin = VisUI.getSkin();
+
 		stage = new Stage();
 		log = new Log();
 		display = new ConsoleDisplay(skin);
@@ -127,6 +122,7 @@ public class Console implements Disposable {
 		display.pad(4);
 		display.padTop(22);
 		display.setFillParent(true);
+
 
 		consoleWindow = new Window("Dev console", skin);
 		consoleWindow.setMovable(true);

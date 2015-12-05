@@ -22,6 +22,7 @@ import com.brm.GoatEngine.LevelEditor.View.GameScreenConfigView;
 import com.brm.GoatEngine.LevelEditor.View.LevelEditorView;
 import com.brm.GoatEngine.Rendering.CameraComponent;
 import com.brm.GoatEngine.Utils.Logger;
+import com.kotcrab.vis.ui.VisUI;
 
 
 import java.util.Stack;
@@ -234,7 +235,10 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
 
     private void onMouseDrag(MouseDragEvent e) {
         // If mouse drag + space pressed = moving camera
-        if(GoatEngine.inputManager.getKeyboardInputManager().isKeyPressed(Input.Keys.SPACE)){
+        boolean spaceMouseCtrl = GoatEngine.inputManager.getKeyboardInputManager().isKeyPressed(Input.Keys.SPACE);
+        boolean middleClickMouseCtrl = e.button == Input.Buttons.MIDDLE;
+        //Logger.debug(e.button == Input.Buttons.MIDDLE);
+        if(middleClickMouseCtrl || spaceMouseCtrl){
             executeCommand(new MoveDragCameraCommand(e.screenX, e.screenY, e.lastScreenX, e.lastScreenY));
         }else{
             // Move currently selected entity (if any)
@@ -268,4 +272,9 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
     public void setSelectedEntity(Entity selectedEntity) {
         this.selectedEntity = selectedEntity;
     }
+
+    public void clean(){
+        VisUI.dispose();
+    }
+
 }

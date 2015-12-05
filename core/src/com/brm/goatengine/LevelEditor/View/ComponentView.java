@@ -20,7 +20,7 @@ public abstract class ComponentView extends Table {
     EntityComponent component;
 
     protected CheckBox checkBoxEnable;
-    ImageButton btnRemove;
+    TextButton btnRemove;
     Table contentTable;
     TextButton btnApply;
 
@@ -54,7 +54,7 @@ public abstract class ComponentView extends Table {
         checkBoxEnable.setChecked(component.isEnabled());
         add(checkBoxEnable);
 
-        btnRemove = new ImageButton(skin, "minus");
+        btnRemove = new TextButton("-", skin);
         add(btnRemove).top().right();
 
         row();

@@ -1,8 +1,6 @@
 package com.brm.GoatEngine.LevelEditor.View;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.brm.GoatEngine.ECS.common.PhysicsComponent;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
