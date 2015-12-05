@@ -1,6 +1,7 @@
 package com.brm.GoatEngine.desktop;
 
 import com.badlogic.gdx.Game;
+import com.brm.GoatEngine.ECS.PrefabFactory;
 import com.brm.GoatEngine.EventManager.GameEvent;
 import com.brm.GoatEngine.EventManager.GameEventListener;
 import com.brm.GoatEngine.GoatEngine;
@@ -22,15 +23,7 @@ public class GenericGame extends Game implements GameEventListener{
         GoatEngine.init();
         GoatEngine.eventManager.registerListener(this);
 
-        // Config File Tests
-        GameConfig config = new GameConfig("data/config/laserGun.ini");
-        config.load();
-        float dmg = config.getParameter("super").toFloat();
-        Logger.debug(dmg);
 
-        config.setOverride("mkII");
-        dmg = config.getParameter("super").toFloat();
-        Logger.debug(dmg);
     }
 
     @Override
@@ -60,7 +53,19 @@ public class GenericGame extends Game implements GameEventListener{
             Logger.logStackTrace(e);
             throw e;
         }
+
+
+        if(!prefabed){
+            // Prefabs test
+            PrefabFactory prefabFactory = new PrefabFactory();
+            prefabFactory.createEntity("data/prefabs/Wall.prefab");
+            prefabed = !prefabed;
+        }
+
     }
+
+    private boolean prefabed = false;
+
 
     @Override
     public void dispose() {

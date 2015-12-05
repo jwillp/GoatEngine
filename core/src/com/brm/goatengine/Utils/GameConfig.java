@@ -144,7 +144,7 @@ public class GameConfig extends EngineConfig{
      * @return
      */
     private ConfigData readData(String configFile){
-        FileInputStream inputStream = null;
+        FileInputStream inputStream;
         ConfigData data = new ConfigData();
         try {
             inputStream = new FileInputStream(configFile);

@@ -21,6 +21,7 @@ allprojects {
         aiVersion = '1.5.0'
 
         groovyVersion = '2.4.4'
+        ini4jVersion = '0.5.4'
     }
 
     repositories {
@@ -55,6 +56,8 @@ project(":core") {
         compile "com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion"
         compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
         compile "org.codehaus.groovy:groovy-all:$groovyVersion"
+        compile "org.ini4j:ini4j:$ini4jVersion"
+
         compile fileTree(dir: 'libs', include: ['*.jar'])
     }
 }
