@@ -63,7 +63,7 @@ public class RenderingSystem extends EntitySystem {
     @Override
     public void draw() {
         cameraSystem.update(0); // TODO deltatime  + documenting why this is here
-        spriteBatch.setProjectionMatrix(cameraSystem.getMainCamera().projection);
+        spriteBatch.setProjectionMatrix(cameraSystem.getMainCamera().combined);
 
 
 
@@ -80,12 +80,12 @@ public class RenderingSystem extends EntitySystem {
 
 
         // CAMERA DEBUG //
-        if(GoatEngine.gameScreenManager.getCurrentScreen().getConfig().CAMERA_DEBUG_RENDERING){
+        /*if(GoatEngine.gameScreenManager.getCurrentScreen().getConfig().CAMERA_DEBUG_RENDERING){
             if(cameraDebugRenderer == null){
                 cameraDebugRenderer = new CameraDebugRenderer(cameraSystem.getMainCamera(), shapeRenderer);
             }
             cameraDebugRenderer.render();
-        }
+        }*/
     }
 
     /**
@@ -131,7 +131,6 @@ public class RenderingSystem extends EntitySystem {
                 anim.getPlayer().setScale(anim.getScale());
             }
         }
-        spriteBatch.setProjectionMatrix(cameraSystem.getMainCamera().projection);
         Spriter.draw();
     }
 
@@ -141,6 +140,7 @@ public class RenderingSystem extends EntitySystem {
      */
     private void renderPhysicsDebug(){
         // TODO get Info from current Screen to know if we need to render Debug Physics
+
         this.spriteBatch.begin();
         debugRenderer.render(
                 GoatEngine.gameScreenManager.getCurrentScreen().getPhysicsSystem().getWorld(),
