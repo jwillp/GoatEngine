@@ -6,7 +6,7 @@ import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.GEConfig;
 import com.brm.GoatEngine.LevelEditor.LevelEditor;
 import com.brm.GoatEngine.Physics.PhysicsSystem;
-import com.brm.GoatEngine.Rendering.RenderingSystem;
+import com.brm.GoatEngine.GraphicsRendering.RenderingSystem;
 import com.brm.GoatEngine.ScriptingEngine.ScriptComponent;
 import com.brm.GoatEngine.ScriptingEngine.ScriptSystem;
 import com.brm.GoatEngine.ECS.core.ECSManager;

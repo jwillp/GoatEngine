@@ -2,7 +2,7 @@ package com.brm.GoatEngine.LevelEditor.Commands;
 
 import com.brm.GoatEngine.ECS.core.EntityManager;
 import com.brm.GoatEngine.GoatEngine;
-import com.brm.GoatEngine.Rendering.CameraComponent;
+import com.brm.GoatEngine.GraphicsRendering.CameraComponent;
 
 /**
  * Command for Zooming In and Out

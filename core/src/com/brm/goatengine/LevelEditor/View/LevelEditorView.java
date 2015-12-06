@@ -16,8 +16,8 @@ import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.ECS.core.EntityManager;
 import com.brm.GoatEngine.GEConfig;
 import com.brm.GoatEngine.GoatEngine;
+import com.brm.GoatEngine.GraphicsRendering.CameraComponent;
 import com.brm.GoatEngine.LevelEditor.LevelEditor;
-import com.brm.GoatEngine.Rendering.CameraComponent;
 import com.brm.GoatEngine.UI.UIEngine;
 import com.kotcrab.vis.ui.VisUI;
 

@@ -5,9 +5,10 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.brm.GoatEngine.ECS.common.PhysicsComponent;
 import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.GoatEngine;
+import com.brm.GoatEngine.GraphicsRendering.CameraComponent;
 import com.brm.GoatEngine.Physics.CircleColliderDef;
 import com.brm.GoatEngine.Physics.Collider;
-import com.brm.GoatEngine.Rendering.CameraComponent;
+
 
 /**
  * Command used to create an entity

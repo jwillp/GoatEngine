@@ -5,7 +5,7 @@ import com.brm.GoatEngine.ECS.common.PhysicsComponent;
 import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.ECS.core.EntityManager;
 import com.brm.GoatEngine.GoatEngine;
-import com.brm.GoatEngine.Rendering.CameraComponent;
+import com.brm.GoatEngine.GraphicsRendering.CameraComponent;
 
 /**
  * Command moving an entity by dragging it

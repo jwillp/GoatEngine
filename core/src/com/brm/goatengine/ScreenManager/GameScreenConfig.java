@@ -49,12 +49,12 @@ public class GameScreenConfig extends GameConfig {
         // [RENDERING]
         this.PHYSICS_DEBUG_RENDERING = GameConfig.getBooleanProperty(
                 this.PHYSICS_DEBUG_RENDERING,
-                "physics_debug_rendering"
+                prop.getProperty("physics_debug_rendering")
         );
 
         this.CAMERA_DEBUG_RENDERING = GameConfig.getBooleanProperty(
                 this.CAMERA_DEBUG_RENDERING,
-                "camera_debug_rendering"
+                prop.getProperty("camera_debug_rendering")
         );
 
         this.TEXTURE_RENDERING = GameConfig.getBooleanProperty(this.TEXTURE_RENDERING, prop.getProperty("texture_rendering"));

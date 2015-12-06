@@ -5,8 +5,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.brm.GoatEngine.ECS.common.PhysicsComponent;
 import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
+import com.brm.GoatEngine.GraphicsRendering.CameraComponent;
 import com.brm.GoatEngine.LevelEditor.Components.EditorLabelComponent;
-import com.brm.GoatEngine.Rendering.CameraComponent;
 import com.brm.GoatEngine.ScriptingEngine.ScriptComponent;
 
 import java.util.HashMap;

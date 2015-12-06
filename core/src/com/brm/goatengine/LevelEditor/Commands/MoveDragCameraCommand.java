@@ -3,7 +3,8 @@ package com.brm.GoatEngine.LevelEditor.Commands;
 import com.badlogic.gdx.math.Vector3;
 import com.brm.GoatEngine.ECS.core.EntityManager;
 import com.brm.GoatEngine.GoatEngine;
-import com.brm.GoatEngine.Rendering.CameraComponent;
+import com.brm.GoatEngine.GraphicsRendering.CameraComponent;
+
 
 /**
  * Moves the camera around according to a mouse drag

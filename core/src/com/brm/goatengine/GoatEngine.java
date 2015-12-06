@@ -6,7 +6,7 @@ import com.brm.GoatEngine.GConsole.DefaultCommands.ExitCommand;
 import com.brm.GoatEngine.GConsole.DefaultCommands.HelpCommand;
 import com.brm.GoatEngine.LevelEditor.ConsoleCommands.ShowLevelEditor;
 import com.brm.GoatEngine.GConsole.GConsole;
-import com.brm.GoatEngine.GraphicsEngine.GraphicsEngine;
+import com.brm.GoatEngine.GraphicsRendering.GraphicsEngine;
 import com.brm.GoatEngine.Input.InputManager;
 import com.brm.GoatEngine.LevelEditor.LevelEditor;
 import com.brm.GoatEngine.ScreenManager.GameScreenManager;

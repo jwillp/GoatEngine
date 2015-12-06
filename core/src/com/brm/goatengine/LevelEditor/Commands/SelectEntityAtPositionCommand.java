@@ -8,9 +8,9 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.ECS.core.EntityManager;
 import com.brm.GoatEngine.GoatEngine;
+import com.brm.GoatEngine.GraphicsRendering.CameraComponent;
 import com.brm.GoatEngine.LevelEditor.Components.EditorLabelComponent;
 import com.brm.GoatEngine.LevelEditor.LevelEditor;
-import com.brm.GoatEngine.Rendering.CameraComponent;
 import com.brm.GoatEngine.Utils.Logger;
 
 /**
