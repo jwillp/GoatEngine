@@ -56,6 +56,8 @@ public class LevelEditorView extends UIEngine {
     private Label labelScreenName;
     private Label labelFPS;
     private Label labelEntityCount;
+    private Label labelNativeHeap;
+    private Label labelJavaHeap;
 
 
     // Zoom Controls
@@ -224,6 +226,10 @@ public class LevelEditorView extends UIEngine {
         labelFPS = new Label(Integer.toString(Gdx.graphics.getFramesPerSecond()), skin);
         labelEntityCount = new Label(Integer.toString(0), skin);
 
+        labelNativeHeap = new Label("", skin);
+        labelJavaHeap = new Label("", skin);
+
+
         statsBar.top().left().padLeft(30).padBottom(30);
         statsBar.defaults().top().left();
         statsBar.setSkin(skin);
@@ -237,6 +243,16 @@ public class LevelEditorView extends UIEngine {
 
         statsBar.add("Entity count: ");
         statsBar.add(labelEntityCount);
+        statsBar.row();
+
+        statsBar.add("Java Heap: ");
+        statsBar.add(labelJavaHeap);
+        statsBar.row();
+
+        statsBar.add("Native heap: ");
+        statsBar.add(labelNativeHeap);
+        statsBar.row();
+
 
         // Put statistics on
         statsBar.setVisible(false);
@@ -266,6 +282,9 @@ public class LevelEditorView extends UIEngine {
         int entityCount = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager().getEntityCount();
         labelEntityCount.setText(Integer.toString(entityCount));
         labelFPS.setText(Integer.toString(Gdx.graphics.getFramesPerSecond()));
+
+        labelNativeHeap.setText(Long.toString(Gdx.app.getNativeHeap()/1024/1024) + "MB");
+        labelJavaHeap.setText(Long.toString(Gdx.app.getJavaHeap()/1024/1024) + "MB");
 
         // Selection rendering
         renderSelection();
@@ -334,9 +353,6 @@ public class LevelEditorView extends UIEngine {
         drawHorizontalLines();
 
         shapeRenderer.end();
-
-
-
 
     }
 
