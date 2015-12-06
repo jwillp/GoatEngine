@@ -1,10 +1,12 @@
 package com.brm.GoatEngine.GraphicsRendering;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
 import com.brashmonkey.spriter.Mainline;
 import com.brashmonkey.spriter.Player;
+import com.brashmonkey.spriter.Spriter;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
 
 /**
@@ -25,15 +27,23 @@ public class SpriterAnimationComponent extends EntityComponent {
 
     private boolean isComplete = false;
 
-    public SpriterAnimationComponent(Player player) {
-        this(player,0,0,1);
-    }
-
-    public SpriterAnimationComponent(Player player, float offsetX, float offsetY, float scale){
-        this.player = player;
+    /**
+     * Ctor
+     * @param animFile
+     * @param spriterEntityName
+     * @param offsetX
+     * @param offsetY
+     * @param scale
+     */
+    public SpriterAnimationComponent(String animFile, String spriterEntityName, float offsetX, float offsetY, float scale){
         this.offsetX = offsetX;
         this.offsetY = offsetY;
         this.scale = scale;
+
+        Spriter.load(Gdx.files.internal(animFile).read(), animFile);
+        player = Spriter.newPlayer(animFile, spriterEntityName);
+
+
 
         this.player.addListener(new Player.PlayerListener() {
             @Override

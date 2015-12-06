@@ -55,6 +55,7 @@ public class RenderingSystem extends EntitySystem {
     public void update(float dt) {
 
         cameraSystem.update(dt);
+        spriteBatch.setProjectionMatrix(cameraSystem.getMainCamera().projection);
 
         if(GoatEngine.gameScreenManager.getCurrentScreen().getConfig().TEXTURE_RENDERING){
             spriteBatch.begin();
@@ -99,6 +100,7 @@ public class RenderingSystem extends EntitySystem {
      * @param delta the delta time
      */
     private void renderSpriterAnimations(float delta){
+        //Spriter.update();
         //UPDATE SPRITER
         for(Entity entity: getEntityManager().getEntitiesWithComponent(SpriterAnimationComponent.ID)){
             SpriterAnimationComponent anim = (SpriterAnimationComponent)entity.getComponent(SpriterAnimationComponent.ID);
@@ -107,18 +109,16 @@ public class RenderingSystem extends EntitySystem {
             if(!anim.isEnabled()){
                 //anim.getPlayer().setScale(0); // Fake not draw
                 //TODO Fix this
-
             }else{
-                //float scale = phys.getHeight()/anim.getPlayer().get
+                anim.getPlayer().update();
                 float posX = phys.getPosition().x + anim.getOffsetX();
                 float posY =  phys.getPosition().y + anim.getOffsetY();
-
                 anim.getPlayer().setPosition(posX, posY);
                 anim.getPlayer().setAngle(phys.getBody().getAngle());
                 anim.getPlayer().setScale(anim.getScale());
             }
         }
-       // Spriter.draw();
+        Spriter.draw();
     }
 
 
