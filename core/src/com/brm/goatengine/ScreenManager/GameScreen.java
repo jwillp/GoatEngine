@@ -125,27 +125,27 @@ public final class GameScreen{
             // OTHER PARAMETERS
             this.config.PHYSICS_DEBUG_RENDERING = GameConfig.getBooleanProperty(
                     this.config.PHYSICS_DEBUG_RENDERING,
-                    "physics_debug_rendering"
+                    prop.getProperty("physics_debug_rendering")
             );
 
             this.config.CAMERA_DEBUG_RENDERING = GameConfig.getBooleanProperty(
                     this.config.CAMERA_DEBUG_RENDERING,
-                    "camera_debug_rendering"
+                    prop.getProperty("camera_debug_rendering")
             );
 
             this.config.TEXTURE_RENDERING = GameConfig.getBooleanProperty(
                     this.config.TEXTURE_RENDERING,
-                    "texture_rendering"
+                    prop.getProperty("texture_rendering")
             );
 
             this.config.FOG_RENDERING = GameConfig.getBooleanProperty(
                     this.config.FOG_RENDERING,
-                    "fog_rendering"
+                    prop.getProperty("fog_rendering")
             );
 
             this.config.LIGHTING_RENDERING = GameConfig.getBooleanProperty(
                     this.config.LIGHTING_RENDERING,
-                    "lighting_rendering"
+                    prop.getProperty("lighting_rendering")
             );
 
 
