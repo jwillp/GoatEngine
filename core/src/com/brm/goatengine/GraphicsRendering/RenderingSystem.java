@@ -3,6 +3,7 @@ package com.brm.GoatEngine.GraphicsRendering;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.utils.BooleanArray;
 import com.brashmonkey.spriter.Spriter;
 import com.brashmonkey.spriter.gdxIntegration.LibGdxSpriterDrawer;
 import com.brashmonkey.spriter.gdxIntegration.LibGdxSpriterLoader;
@@ -23,6 +24,8 @@ public class RenderingSystem extends EntitySystem {
 
     // SubSystem
     private CameraSystem cameraSystem;
+
+    private CameraDebugRenderer cameraDebugRenderer;
 
 
     /**
@@ -53,7 +56,7 @@ public class RenderingSystem extends EntitySystem {
      */
     @Override
     public void update(float dt) {
-       Spriter.update();
+
 
     }
 
@@ -78,8 +81,10 @@ public class RenderingSystem extends EntitySystem {
 
         // CAMERA DEBUG //
         if(GoatEngine.gameScreenManager.getCurrentScreen().getConfig().CAMERA_DEBUG_RENDERING){
-            //TODO reuse instead of creating one every frame
-            new CameraDebugRenderer(cameraSystem.getMainCamera(), shapeRenderer).render();
+            if(cameraDebugRenderer == null){
+                cameraDebugRenderer = new CameraDebugRenderer(cameraSystem.getMainCamera(), shapeRenderer);
+            }
+            cameraDebugRenderer.render();
         }
     }
 
@@ -109,7 +114,7 @@ public class RenderingSystem extends EntitySystem {
      */
     private void renderSpriterAnimations(float delta){
         //UPDATE SPRITER
-        spriteBatch.setProjectionMatrix(cameraSystem.getMainCamera().projection);
+        Spriter.update();
         for(Entity entity: getEntityManager().getEntitiesWithComponent(SpriterAnimationComponent.ID)){
             SpriterAnimationComponent anim = (SpriterAnimationComponent)entity.getComponent(SpriterAnimationComponent.ID);
             PhysicsComponent phys = (PhysicsComponent)  entity.getComponent(PhysicsComponent.ID);
@@ -118,6 +123,7 @@ public class RenderingSystem extends EntitySystem {
                 //anim.getPlayer().setScale(0); // Fake not draw
                 //TODO Fix this
             }else{
+                //anim.getPlayer().speed = GoatEngine.gameScreenManager.isRunning() ? 1 : 0;
                 float posX = phys.getPosition().x + anim.getOffsetX();
                 float posY =  phys.getPosition().y + anim.getOffsetY();
                 anim.getPlayer().setPosition(posX, posY);
@@ -125,6 +131,7 @@ public class RenderingSystem extends EntitySystem {
                 anim.getPlayer().setScale(anim.getScale());
             }
         }
+        spriteBatch.setProjectionMatrix(cameraSystem.getMainCamera().projection);
         Spriter.draw();
     }
 
