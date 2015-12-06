@@ -5,7 +5,7 @@ import com.brm.GoatEngine.ECS.common.TagsComponent;
 import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.GEConfig;
 import com.brm.GoatEngine.Physics.PhysicsSystem;
-import com.brm.GoatEngine.Rendering.RenderingSystem;
+import com.brm.GoatEngine.GraphicsRendering.RenderingSystem;
 import com.brm.GoatEngine.ScriptingEngine.ScriptComponent;
 import com.brm.GoatEngine.ScriptingEngine.ScriptSystem;
 import com.brm.GoatEngine.ECS.core.ECSManager;
@@ -20,7 +20,6 @@ import com.brm.GoatEngine.Utils.OrderedProperties;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.ArrayList;
 
 public final class GameScreen{

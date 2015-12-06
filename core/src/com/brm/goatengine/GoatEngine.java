@@ -2,10 +2,9 @@ package com.brm.GoatEngine;
 
 import com.badlogic.gdx.Gdx;
 import com.brm.GoatEngine.EventManager.EventManager;
-import com.brm.GoatEngine.GConsole.ConsoleCommand;
 import com.brm.GoatEngine.GConsole.DefaultCommands.ExitCommand;
 import com.brm.GoatEngine.GConsole.DefaultCommands.HelpCommand;
-import com.brm.GoatEngine.GraphicsEngine.GraphicsEngine;
+import com.brm.GoatEngine.GraphicsRendering.GraphicsEngine;
 import com.brm.GoatEngine.Input.InputManager;
 import com.brm.GoatEngine.GConsole.GConsole;
 import com.brm.GoatEngine.ScreenManager.GameScreenManager;
