@@ -2,24 +2,20 @@ package com.brm.GoatEngine.ScreenManager;
 
 import com.badlogic.gdx.math.Vector2;
 import com.brm.GoatEngine.ECS.common.TagsComponent;
+import com.brm.GoatEngine.ECS.core.ECSManager;
 import com.brm.GoatEngine.ECS.core.Entity;
+import com.brm.GoatEngine.ECS.core.EntityManager;
 import com.brm.GoatEngine.GEConfig;
-import com.brm.GoatEngine.LevelEditor.LevelEditor;
-import com.brm.GoatEngine.Physics.PhysicsSystem;
+import com.brm.GoatEngine.GoatEngine;
 import com.brm.GoatEngine.GraphicsRendering.RenderingSystem;
+import com.brm.GoatEngine.Physics.PhysicsSystem;
 import com.brm.GoatEngine.ScriptingEngine.ScriptComponent;
 import com.brm.GoatEngine.ScriptingEngine.ScriptSystem;
-import com.brm.GoatEngine.ECS.core.ECSManager;
-import com.brm.GoatEngine.ECS.core.EntityManager;
-import com.brm.GoatEngine.GoatEngine;
 import com.brm.GoatEngine.TmxSupport.MapConfig;
 import com.brm.GoatEngine.TmxSupport.MapConfigObject;
 import com.brm.GoatEngine.UI.UIEngine;
-import com.brm.GoatEngine.Utils.GameConfig;
 import com.brm.GoatEngine.Utils.Logger;
-import com.brm.GoatEngine.Utils.OrderedProperties;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;

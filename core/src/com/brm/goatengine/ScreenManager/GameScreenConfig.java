@@ -1,15 +1,16 @@
 package com.brm.GoatEngine.ScreenManager;
 
+import com.brm.GoatEngine.Utils.EngineConfig;
 import com.brm.GoatEngine.Utils.GameConfig;
 import com.brm.GoatEngine.Utils.OrderedProperties;
-
 import java.io.FileInputStream;
 import java.io.IOException;
+
 
 /**
  * Game screen config
  */
-public class GameScreenConfig extends GameConfig {
+public class GameScreenConfig extends EngineConfig {
 
     // CONFIG
     public String LEVEL_CONFIG = "";
@@ -62,13 +63,5 @@ public class GameScreenConfig extends GameConfig {
         this.FOG_RENDERING = GameConfig.getBooleanProperty(this.FOG_RENDERING, prop.getProperty("fog_rendering"));
 
         this.LIGHTING_RENDERING = GameConfig.getBooleanProperty(this.LIGHTING_RENDERING, prop.getProperty("lighting_rendering"));
-
-
     }
-
-
-
-
-
-
 }
