@@ -27,6 +27,11 @@ public class VirtualGamePad extends EntityComponent {
 
     }
 
+    @Override
+    public String getId() {
+        return ID;
+    }
+
     public enum InputSource{ USER_INPUT, AI_INPUT }
 
     private ArrayList<VirtualButton> justReleasedButtons; //A list of the buttons that where just released

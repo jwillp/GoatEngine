@@ -52,14 +52,9 @@ public abstract class Collider{
 
 
 
-                // STATIC METHODS //
-
-
-
-
-
+                             // STATIC METHODS //
     /**
-    * Creates a body according to some specifycations
+    * Creates a body according to some specifications
     * @param world the Box2D world in which to create the body
     * @param bodyType the type of the Body
     */

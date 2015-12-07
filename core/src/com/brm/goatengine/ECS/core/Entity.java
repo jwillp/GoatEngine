@@ -1,5 +1,7 @@
 package com.brm.GoatEngine.ECS.core;
 
+import java.util.HashMap;
+
 public class Entity {
 
     protected String ID;
@@ -121,6 +123,10 @@ public class Entity {
 
     public EntityManager getManager() {
         return manager;
+    }
+
+    public HashMap<String, EntityComponent> getComponents() {
+        return manager.getComponentsForEntity(this.getID());
     }
 
 

@@ -74,7 +74,7 @@ public class ScriptSystem extends EntitySystem {
 
     @Override
     public <T extends EntityEvent> void onEntityEvent(T event) {
-        Entity entity = getEntityManager().getEntity(event.getEntityId());
+        Entity entity = getEntityManager().getEntityObject(event.getEntityId());
         if(entity.hasComponentEnabled(ScriptComponent.ID)){
             ScriptComponent scripts = (ScriptComponent) entity.getComponent(ScriptComponent.ID);
 

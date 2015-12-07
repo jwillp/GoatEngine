@@ -51,9 +51,9 @@ public class GEConfig extends EngineConfig {
         public static String ON_EMPTY_STACK = FATAL;                   // Action to take when scrn mngr's stack is empty
 
         public static final String GAME_SCREEN_EXT = ".ges";           // Extension of Game Screen Config FILE
-        public static String MAIN_SCREEN = "main" + GAME_SCREEN_EXT;   // The main entry Screen (main.ges by default)
-
         public static String SCREEN_DIR = "data/screens/";             // The directory containing screens
+
+        public static String MAIN_SCREEN = "main" + GAME_SCREEN_EXT;   // The main entry Screen (main.ges by default)
 
         public static String LEVEL_DIR = "data/levels/";               // The Directory containing level config
 

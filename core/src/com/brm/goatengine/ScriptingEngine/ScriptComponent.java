@@ -66,4 +66,9 @@ public class ScriptComponent extends EntityComponent {
             this.addScript(script.getText());
         }
     }
+
+    @Override
+    public String getId() {
+        return ID;
+    }
 }
