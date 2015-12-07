@@ -9,10 +9,7 @@ import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.ECS.core.EntityManager;
 import com.brm.GoatEngine.GoatEngine;
 import com.brm.GoatEngine.GraphicsRendering.SpriterAnimationComponent;
-import com.brm.GoatEngine.Physics.BoxColliderDef;
-import com.brm.GoatEngine.Physics.CircleColliderDef;
-import com.brm.GoatEngine.Physics.Collider;
-import com.brm.GoatEngine.Physics.ColliderDef;
+import com.brm.GoatEngine.Physics.*;
 import com.brm.GoatEngine.ScriptingEngine.ScriptComponent;
 import com.brm.GoatEngine.Utils.Logger;
 import org.ini4j.Ini;
@@ -26,6 +23,7 @@ import static com.brm.GoatEngine.Physics.ColliderDef.*;
 /**
  * Creates entities from reading prefab files
  */
+// TODO Convert process* methods to Classes (PrefabFactoryProcessor)
 public class PrefabFactory {
 
     private static HashMap<String, Ini> prefabs = new HashMap<String, Ini>();
@@ -84,6 +82,9 @@ public class PrefabFactory {
                 Ini.Section colliderSec = ini.get(sectionName);
                 String colType = colliderSec.get("type");
                 ColliderDef colDef = null;
+
+                // Shared attributes among types
+
                                                             // Circle Collider //
                 if(colType.equals("circle")){
                     colDef = new CircleColliderDef();
@@ -91,24 +92,43 @@ public class PrefabFactory {
                     circDef.radius = colliderSec.fetch("radius", float.class);
                     Collider.addCircleCollider(entity, circDef);
 
+
+                    colDef.tag = colliderSec.fetch("tag");
+                    colDef.isSensor = colliderSec.fetch("is_sensor", boolean.class);
+                    colDef.x = colliderSec.fetch("x", float.class);
+                    colDef.y = colliderSec.fetch("y", float.class);
+
                                                             // Box Collider //
-                }  else if(colType.equals("box")){
+                }else if(colType.equals("box")){
                     colDef = new BoxColliderDef();
                     BoxColliderDef boxDef = (BoxColliderDef)colDef;
                     boxDef.width = colliderSec.fetch("width", float.class);
                     boxDef.height = colliderSec.fetch("height", float.class);
                     Collider.addBoxCollider(entity, boxDef);
 
+
+                    colDef.tag = colliderSec.fetch("tag");
+                    colDef.isSensor = colliderSec.fetch("is_sensor", boolean.class);
+                    colDef.x = colliderSec.fetch("x", float.class);
+                    colDef.y = colliderSec.fetch("y", float.class);
+
+                }else if(colType.equals("capsule")){
+                    colDef = new CapsuleColliderDef();
+                    CapsuleColliderDef capDef = (CapsuleColliderDef)colDef;
+                    capDef.width = colliderSec.fetch("width", float.class);
+                    capDef.height = colliderSec.fetch("height", float.class);
+                    Collider.addCapsuleCollider(entity,capDef);
+
+
+                    colDef.tag = colliderSec.fetch("tag");
+                    colDef.isSensor = colliderSec.fetch("is_sensor", boolean.class);
+                    colDef.x = colliderSec.fetch("x", float.class);
+                    colDef.y = colliderSec.fetch("y", float.class);
+
                 }else{
                     // Throw Unknown Collider Type Exception
                     throw new UnkownColliderTypeException(colType);
                 }
-
-                // Shared attributes among types
-                colDef.tag = colliderSec.fetch("tag");
-                colDef.isSensor = colliderSec.fetch("is_sensor", boolean.class);
-                colDef.x = colliderSec.fetch("x", float.class);
-                colDef.y = colliderSec.fetch("y", float.class);
             }
         }
 

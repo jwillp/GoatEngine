@@ -131,6 +131,40 @@ public abstract class Collider{
 
 
 
+    public static void addCapsuleCollider(Entity entity, CapsuleColliderDef def){
+
+        ///MIDDLE
+        BoxColliderDef middleDef = def.middleColliderDef;
+        middleDef.width = def.width * 0.90f;
+        middleDef.height = def.height * 0.5f;
+        middleDef.x = def.x;
+        middleDef.y = def.y;
+        middleDef.isSensor = def.isSensor;
+        addBoxCollider(entity, middleDef);
+
+
+        // Circle TOP (HEAD)
+        CircleColliderDef topDef = def.topColliderDef;
+        topDef.radius = def.width;
+        topDef.x = def.x;
+        topDef.y = def.y + def.height*0.5f;
+        topDef.isSensor = def.isSensor;
+        addCircleCollider(entity, topDef);
+
+
+        // Circle BOTTOM (LEGS)
+        CircleColliderDef bottomDef = def.bottomColliderDef;
+        bottomDef.radius = def.width;
+        bottomDef.x = def.x;
+        bottomDef.y = def.y  - def.height*0.5f;
+        bottomDef.isSensor = def.isSensor;
+        addCircleCollider(entity, bottomDef);
+
+
+        //FEET FIXTURE
+        /*PolygonShape footSensor = new PolygonShape();
+        footSensor.setAsBox(0.1f,0.1f, new Vector2(0, -height), 0);*/
+    }
 
 
 
