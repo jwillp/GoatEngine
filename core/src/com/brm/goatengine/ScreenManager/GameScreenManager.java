@@ -1,9 +1,7 @@
 package com.brm.GoatEngine.ScreenManager;
 
 
-import com.badlogic.gdx.assets.AssetManager;
 import com.brm.GoatEngine.GEConfig;
-import com.brm.GoatEngine.GoatEngine;
 import com.brm.GoatEngine.Utils.Logger;
 
 import java.util.Stack;

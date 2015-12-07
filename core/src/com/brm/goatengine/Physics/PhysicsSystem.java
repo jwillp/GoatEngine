@@ -42,6 +42,9 @@ public class PhysicsSystem extends EntitySystem implements ContactListener {
         collisions.clear();
     }
 
+    @Override
+    public void draw(){}
+
 
     // CONTACT LISTENING
     /**

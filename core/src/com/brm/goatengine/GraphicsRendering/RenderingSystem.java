@@ -24,6 +24,8 @@ public class RenderingSystem extends EntitySystem {
     // SubSystem
     private CameraSystem cameraSystem;
 
+    private CameraDebugRenderer cameraDebugRenderer;
+
 
     /**
      * Used to initialise the system
@@ -54,13 +56,19 @@ public class RenderingSystem extends EntitySystem {
     @Override
     public void update(float dt) {
 
-        cameraSystem.update(dt);
-        spriteBatch.setProjectionMatrix(cameraSystem.getMainCamera().projection);
+    }
+
+    @Override
+    public void draw() {
+        cameraSystem.update(0); // TODO deltatime  + documenting why this is here
+        spriteBatch.setProjectionMatrix(cameraSystem.getMainCamera().combined);
+
+
 
         if(GoatEngine.gameScreenManager.getCurrentScreen().getConfig().TEXTURE_RENDERING){
             spriteBatch.begin();
-            renderSpriterAnimations(dt);
-            renderSprites(dt);
+            renderSpriterAnimations(0);
+            renderSprites(0);
             spriteBatch.end();
         }
 
@@ -68,10 +76,13 @@ public class RenderingSystem extends EntitySystem {
             renderPhysicsDebug();
         }
 
+
         // CAMERA DEBUG //
         if(GoatEngine.gameScreenManager.getCurrentScreen().getConfig().CAMERA_DEBUG_RENDERING){
-            //TODO reuse instead of creating one every frame
-            new CameraDebugRenderer(cameraSystem.getMainCamera(), shapeRenderer).render();
+            if(cameraDebugRenderer == null){
+                cameraDebugRenderer = new CameraDebugRenderer(cameraSystem.getMainCamera(), shapeRenderer);
+            }
+            cameraDebugRenderer.render();
         }
     }
 
@@ -100,8 +111,8 @@ public class RenderingSystem extends EntitySystem {
      * @param delta the delta time
      */
     private void renderSpriterAnimations(float delta){
-        //Spriter.update();
         //UPDATE SPRITER
+        Spriter.update();
         for(Entity entity: getEntityManager().getEntitiesWithComponent(SpriterAnimationComponent.ID)){
             SpriterAnimationComponent anim = (SpriterAnimationComponent)entity.getComponent(SpriterAnimationComponent.ID);
             PhysicsComponent phys = (PhysicsComponent)  entity.getComponent(PhysicsComponent.ID);
@@ -110,7 +121,7 @@ public class RenderingSystem extends EntitySystem {
                 //anim.getPlayer().setScale(0); // Fake not draw
                 //TODO Fix this
             }else{
-                anim.getPlayer().update();
+                //anim.getPlayer().speed = GoatEngine.gameScreenManager.isRunning() ? 1 : 0;
                 float posX = phys.getPosition().x + anim.getOffsetX();
                 float posY =  phys.getPosition().y + anim.getOffsetY();
                 anim.getPlayer().setPosition(posX, posY);

@@ -1,9 +1,14 @@
 package com.brm.GoatEngine.Input;
 
+
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Buttons;
+import com.badlogic.gdx.math.Vector2;
 import com.brm.GoatEngine.GoatEngine;
+import com.brm.GoatEngine.Input.Events.*;
+
 
 /**
  * Manages Keyboard and Mouse Inputs
@@ -12,9 +17,17 @@ public class KeyboardInputManager implements InputProcessor {
 
     private final InputManager inputManager;
 
+    private boolean isDragging = false;
+
+    private final static int NO_BUTTON = -1;
+    private int lastMouseButton = NO_BUTTON;
+    private Vector2 lastMouseDragPos;
+
     public KeyboardInputManager(InputManager inputManager) {
         this.inputManager = inputManager;
     }
+
+
 
     /**
      * Called when a key was pressed
@@ -63,6 +76,10 @@ public class KeyboardInputManager implements InputProcessor {
      */
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        this.lastMouseButton = button;
+        isDragging = false;
+        GoatEngine.eventManager.fireEvent(new MousePressEvent(screenX, screenY, button));
+        lastMouseDragPos = new Vector2(screenX, screenY);
         return false;
     }
 
@@ -76,6 +93,13 @@ public class KeyboardInputManager implements InputProcessor {
      */
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        GoatEngine.eventManager.fireEvent(new MouseReleasedEvent(screenX, screenY, button));
+        if(!isDragging && button == lastMouseButton){
+            GoatEngine.eventManager.fireEvent(new MouseClickEvent(screenX, screenY, button));
+        }
+        lastMouseButton = NO_BUTTON;
+        isDragging = false;
+        lastMouseDragPos = null;
         return false;
     }
 
@@ -88,6 +112,15 @@ public class KeyboardInputManager implements InputProcessor {
      */
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
+        this.isDragging = true;
+        try {
+            GoatEngine.eventManager.fireEvent(
+                    new MouseDragEvent(lastMouseButton, screenX, screenY, lastMouseDragPos.x, lastMouseDragPos.y)
+            );
+            lastMouseDragPos.set(screenX, screenY);
+        }catch(NullPointerException e){
+            lastMouseDragPos = new Vector2(screenX, screenY);
+        }
         return false;
     }
 
@@ -111,6 +144,14 @@ public class KeyboardInputManager implements InputProcessor {
      */
     @Override
     public boolean scrolled(int amount) {
+        GoatEngine.eventManager.fireEvent(new MouseScrolledEvent(amount));
         return false;
     }
+
+    public boolean isKeyPressed(int key){
+        return Gdx.input.isKeyPressed(key);
+    }
+
+
+
 }

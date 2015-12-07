@@ -132,4 +132,9 @@ public class SpriterAnimationComponent extends EntityComponent {
     public void deserialize(Element componentData) {
 
     }
+
+    @Override
+    public String getId() {
+        return ID;
+    }
 }

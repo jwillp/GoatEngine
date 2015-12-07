@@ -2,22 +2,20 @@ package com.brm.GoatEngine.ScreenManager;
 
 import com.badlogic.gdx.math.Vector2;
 import com.brm.GoatEngine.ECS.common.TagsComponent;
+import com.brm.GoatEngine.ECS.core.ECSManager;
 import com.brm.GoatEngine.ECS.core.Entity;
+import com.brm.GoatEngine.ECS.core.EntityManager;
 import com.brm.GoatEngine.GEConfig;
-import com.brm.GoatEngine.Physics.PhysicsSystem;
+import com.brm.GoatEngine.GoatEngine;
 import com.brm.GoatEngine.GraphicsRendering.RenderingSystem;
+import com.brm.GoatEngine.Physics.PhysicsSystem;
 import com.brm.GoatEngine.ScriptingEngine.ScriptComponent;
 import com.brm.GoatEngine.ScriptingEngine.ScriptSystem;
-import com.brm.GoatEngine.ECS.core.ECSManager;
-import com.brm.GoatEngine.ECS.core.EntityManager;
-import com.brm.GoatEngine.GoatEngine;
 import com.brm.GoatEngine.TmxSupport.MapConfig;
 import com.brm.GoatEngine.TmxSupport.MapConfigObject;
-import com.brm.GoatEngine.Utils.GameConfig;
+import com.brm.GoatEngine.UI.UIEngine;
 import com.brm.GoatEngine.Utils.Logger;
-import com.brm.GoatEngine.Utils.OrderedProperties;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,12 +30,13 @@ public final class GameScreen{
 
     private GameScreenConfig config;
 
-
-
+    private UIEngine uiEngine;
+    private boolean initialized = false;
 
     public GameScreen(final String name){
         this.name = name;
         config = new GameScreenConfig();
+        uiEngine = new UIEngine();
     }
 
 
@@ -62,17 +61,17 @@ public final class GameScreen{
         ecsManager.getSystemManager().initSystems();
 
 
-
-
         //READ data from Config file
         loadConfigFile();
-
 
 
         // Apply Map Configuration
         applyMapConfig();
 
+        initialized = true;
         Logger.info("Game Screen: " + this.name + " initialised");
+
+
     }
 
     public void cleanUp() {
@@ -95,63 +94,24 @@ public final class GameScreen{
         ecsManager.getSystemManager().update();
     }
 
-    public void draw(GameScreenManager screenManager, float deltaTime){}
+    public void draw(GameScreenManager screenManager, float deltaTime){
+        uiEngine.render(deltaTime);
+        ecsManager.getSystemManager().draw();
+    }
 
 
     /**
      * Reads the game screen config file
      */
     private void loadConfigFile(){
-        FileInputStream inputStream;
-        try {
-            inputStream = new FileInputStream(GEConfig.ScreenManager.SCREEN_DIR + this.name);
-            OrderedProperties prop = new OrderedProperties();
-            prop.load(inputStream);
 
-            this.mapConfig = new MapConfig(GEConfig.ScreenManager.LEVEL_DIR + prop.getProperty("map_config_file")); // Required
+        try {
+            config.loadConfig(GEConfig.ScreenManager.SCREEN_DIR + this.name);
+            this.mapConfig = new MapConfig(GEConfig.ScreenManager.LEVEL_DIR + config.LEVEL_CONFIG); // Required
 
             //Gravity
-            Vector2 gravity = new Vector2();
-            if(prop.getProperty("gravity_x") != null){  // TODO put default values as private static constants
-                gravity.x = GameConfig.getFloatProperty(0.0f, prop.getProperty("gravity_x"));
-            }
-            if(prop.getProperty("gravity_y") != null){
-                gravity.y = GameConfig.getFloatProperty(0.0f, prop.getProperty("gravity_y"));
-            }
+            Vector2 gravity = new Vector2(config.GRAVITY_X, config.GRAVITY_Y);
             this.ecsManager.getSystemManager().getSystem(PhysicsSystem.class).setGravity(gravity);
-
-
-
-            // OTHER PARAMETERS
-            this.config.PHYSICS_DEBUG_RENDERING = GameConfig.getBooleanProperty(
-                    this.config.PHYSICS_DEBUG_RENDERING,
-                    prop.getProperty("physics_debug_rendering")
-            );
-
-            this.config.CAMERA_DEBUG_RENDERING = GameConfig.getBooleanProperty(
-                    this.config.CAMERA_DEBUG_RENDERING,
-                    prop.getProperty("camera_debug_rendering")
-            );
-
-            this.config.TEXTURE_RENDERING = GameConfig.getBooleanProperty(
-                    this.config.TEXTURE_RENDERING,
-                    prop.getProperty("texture_rendering")
-            );
-
-            this.config.FOG_RENDERING = GameConfig.getBooleanProperty(
-                    this.config.FOG_RENDERING,
-                    prop.getProperty("fog_rendering")
-            );
-
-            this.config.LIGHTING_RENDERING = GameConfig.getBooleanProperty(
-                    this.config.LIGHTING_RENDERING,
-                    prop.getProperty("lighting_rendering")
-            );
-
-
-
-
-
 
         } catch (FileNotFoundException e) {
             GameScreenNotFoundException exception = new GameScreenNotFoundException(this.name);
@@ -201,6 +161,18 @@ public final class GameScreen{
 
     public GameScreenConfig getConfig() {
         return config;
+    }
+
+    public UIEngine getUiEngine() {
+        return uiEngine;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isInitialized() {
+        return initialized;
     }
 
 

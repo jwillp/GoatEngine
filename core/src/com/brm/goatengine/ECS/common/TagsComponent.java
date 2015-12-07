@@ -55,4 +55,9 @@ public class TagsComponent extends EntityComponent {
     public void deserialize(XmlReader.Element componentData) {
 
     }
+
+    @Override
+    public String getId() {
+        return ID;
+    }
 }

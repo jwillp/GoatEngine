@@ -269,7 +269,7 @@ public class ScriptingEngine{
      * @param scriptName
      */
     private long getLastModified(String scriptName){
-        return Gdx.files.internal(SCRIPT_DIRECTORY+"/"+scriptName).lastModified();
+        return Gdx.files.internal(scriptName).lastModified();
 
     }
 

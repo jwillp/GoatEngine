@@ -13,4 +13,10 @@ public abstract class ColliderDef {
 
 
 
+    public static class UnkownColliderTypeException extends RuntimeException{
+        public UnkownColliderTypeException(String unkownType){
+            super("Unknown collider type '" + unkownType + "'.");
+        }
+    }
+
 }

@@ -14,7 +14,7 @@ import java.util.Hashtable;
  * Component to make to Store AI information on an entity
  */
 public class AIComponent extends EntityComponent {
-    public static final String ID = "KUBOTZ_AI_COMPONENT";
+    public static final String ID = "KUBOTZ_AI_COMPONENT"; // TODO CHANGE THIS
 
     private Timer reactionTime = new Timer(5); //The delay between AI logic updates
 
@@ -35,6 +35,11 @@ public class AIComponent extends EntityComponent {
     @Override
     public void deserialize(XmlReader.Element componentData) {
 
+    }
+
+    @Override
+    public String getId() {
+        return ID;
     }
 
 

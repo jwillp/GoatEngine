@@ -1,7 +1,7 @@
 package com.brm.GoatEngine;
 
 import com.brm.GoatEngine.Files.FileSystem;
-import com.brm.GoatEngine.Utils.GameConfig;
+import com.brm.GoatEngine.Utils.EngineConfig;
 import com.brm.GoatEngine.Utils.OrderedProperties;
 
 import java.io.FileInputStream;
@@ -15,7 +15,7 @@ import java.util.Date;
  * contains all the settings for the engine (and it's sub modules) to work
  * correctly, by reading them from a file
  */
-public class GEConfig extends GameConfig {
+public class GEConfig extends EngineConfig {
 
     public static final String CONFIG_FILE = "data/ge.ini";     // The file to read the configuration from
 
@@ -24,7 +24,7 @@ public class GEConfig extends GameConfig {
     /**
      * [DEV GENERAL]
      */
-    public static class DevGeneral extends GameConfig{
+    public static class DevGeneral extends EngineConfig {
         public static String GAME_NAME = "Goat Engine Game";
         public static boolean DEV_CTX = false;                  // Wether or not we are in dev context with stack traces
         public static int VIEWPORT_WIDTH = 840;
@@ -41,7 +41,7 @@ public class GEConfig extends GameConfig {
     /**
      * Contains Settings of the Screen Manager
      */
-    public static class ScreenManager extends GameConfig{
+    public static class ScreenManager extends EngineConfig {
 
         // ON EMPTY STACK VALUES
         public static final String EXIT = "EXIT";                      // Causes the program to exit correctly
@@ -51,9 +51,9 @@ public class GEConfig extends GameConfig {
         public static String ON_EMPTY_STACK = FATAL;                   // Action to take when scrn mngr's stack is empty
 
         public static final String GAME_SCREEN_EXT = ".ges";           // Extension of Game Screen Config FILE
-        public static String MAIN_SCREEN = "main" + GAME_SCREEN_EXT;   // The main entry Screen (main.ges by default)
-
         public static String SCREEN_DIR = "data/screens/";             // The directory containing screens
+
+        public static String MAIN_SCREEN = "main" + GAME_SCREEN_EXT;   // The main entry Screen (main.ges by default)
 
         public static String LEVEL_DIR = "data/levels/";               // The Directory containing level config
 
@@ -68,7 +68,7 @@ public class GEConfig extends GameConfig {
     /**
      * [SCRIPTING_ENGINE]
      */
-    public static class ScriptingEngine extends GameConfig{
+    public static class ScriptingEngine extends EngineConfig {
         public static boolean AUTO_RELOAD = true;              // If we need to reload scripts when their code change
         public static String  SCRIPTS_DIR= "data/scripts/";    // The directory where we store all scripts
 
@@ -81,7 +81,7 @@ public class GEConfig extends GameConfig {
     }
 
 
-    public static class Logger extends GameConfig{
+    public static class Logger extends EngineConfig {
         // [LOGGER]
         public static String LOG_DIRECTORY = "data/LOG/";                 // The directory where we store the logs
         // the format we use to name log file the %date% keyword will be replaced by the date of engine launch
@@ -97,7 +97,7 @@ public class GEConfig extends GameConfig {
 
 
     // CONSOLE
-    public static class Console extends GameConfig{
+    public static class Console extends EngineConfig {
         public static boolean CONS_ENABLED = false;     // Whether or not the console is enabled
 
 

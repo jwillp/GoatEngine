@@ -26,7 +26,7 @@ public class EntityManager {
     }
 
     /**
-     * Creates a new Entity and returns it
+     * Creates a new registered Entity and returns it
      * The entity has a ScriptComponent
      * @return
      */
@@ -36,7 +36,6 @@ public class EntityManager {
         entity.addComponent(new ScriptComponent(), ScriptComponent.ID);
         entity.addComponent(new TagsComponent(), TagsComponent.ID);
         return entity;
-
     }
 
 
@@ -114,7 +113,7 @@ public class EntityManager {
     /**
      * Returns all the components of a certain entity
      * @param entityId : the id of the entity
-     * @return //TODO understand this madness! What was I thinking?
+     * @return "HashMap<ComponentID,ComponentInstance>"
      */
     public HashMap<String, EntityComponent> getComponentsForEntity(String entityId){
         HashMap<String, EntityComponent> components = new HashMap<String, EntityComponent>();
@@ -148,7 +147,7 @@ public class EntityManager {
         ArrayList<Entity> entities = new ArrayList<Entity>();
         if(this.components.containsKey(componentId)){
             for(String enId : this.components.get(componentId).keySet()){
-                entities.add(getEntity(enId));
+                entities.add(getEntityObject(enId));
             }
         }
         return entities;
@@ -164,7 +163,7 @@ public class EntityManager {
         if(this.components.containsKey(componentId)){
             for(String enId : this.components.get(componentId).keySet()){
                 if(this.components.get(componentId).get(enId).isEnabled()){
-                    entities.add(getEntity(enId));
+                    entities.add(getEntityObject(enId));
                 }
             }
         }
@@ -216,7 +215,7 @@ public class EntityManager {
      * @param entityId
      * @return
      */
-    public Entity getEntity(String entityId){
+    public Entity getEntityObject(String entityId){
         Entity e = new Entity();
         e.setID(entityId);
         e.setManager(this);
@@ -228,13 +227,14 @@ public class EntityManager {
      * Returns all entities
      * @return
      */
-    public HashSet<Entity> getEntities(){
-        HashSet<Entity> entities = new HashSet<Entity>();
+    public ArrayList<Entity> getEntities(){
+        HashMap<String, Entity> entities = new HashMap<String, Entity>();
         for(String compId: this.components.keySet()){
-            entities.addAll(this.getEntitiesWithComponent(compId));
+            for(Entity entity: this.getEntitiesWithComponent(compId)){
+                entities.put(entity.getID(), entity);
+            }
         }
-
-        return entities;
+        return new ArrayList<Entity>(entities.values());
     }
 
     /**
@@ -261,6 +261,14 @@ public class EntityManager {
         return this.getEntities().size();
     }
 
+    public boolean entityExists(String entityId){
+        for(Entity e: this.getEntities()){
+            if(e.getID().equals(entityId)){
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * Deletes all the entities

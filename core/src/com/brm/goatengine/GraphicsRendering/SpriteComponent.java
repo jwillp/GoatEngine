@@ -61,6 +61,10 @@ public class SpriteComponent extends EntityComponent {
     @Override
     public void deserialize(XmlReader.Element componentData){}
 
+    @Override
+    public String getId() {
+        return ID;
+    }
 
     /**
      * Comparator used to sort in ascending order (greatest z to smallest z)
