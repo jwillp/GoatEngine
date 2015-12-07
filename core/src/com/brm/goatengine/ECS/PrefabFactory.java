@@ -8,6 +8,7 @@ import com.brm.GoatEngine.ECS.common.PhysicsComponent;
 import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.ECS.core.EntityManager;
 import com.brm.GoatEngine.GoatEngine;
+import com.brm.GoatEngine.GraphicsRendering.SpriterAnimationComponent;
 import com.brm.GoatEngine.Physics.BoxColliderDef;
 import com.brm.GoatEngine.Physics.CircleColliderDef;
 import com.brm.GoatEngine.Physics.Collider;
@@ -49,6 +50,7 @@ public class PrefabFactory {
             entity = manager.createEntity();
             processPhysics(entity, ini);
             processScripts(entity, ini);
+            processSpriterAnimation(entity, ini);
 
         } catch (IOException e) {
             Logger.error(e.getMessage());
@@ -135,6 +137,21 @@ public class PrefabFactory {
 
 
 
+
+
+    private void processSpriterAnimation(Entity entity, Ini ini){
+        if(!ini.containsKey("spriter_animation_component")) return;
+        Ini.Section animSec = ini.get("spriter_animation_component");
+
+        SpriterAnimationComponent anim = new SpriterAnimationComponent(
+                animSec.fetch("animation_file",String.class),
+                animSec.fetch("entity_name", String.class),
+                animSec.fetch("offset_x", float.class),
+                animSec.fetch("offset_y", float.class),
+                animSec.fetch("scale", float.class)
+        );
+        entity.addComponent(anim, SpriterAnimationComponent.ID);
+    }
 
 
 
