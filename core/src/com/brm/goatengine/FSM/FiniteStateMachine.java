@@ -1,12 +1,11 @@
 package com.brm.GoatEngine.FSM;
 
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
 import com.badlogic.gdx.utils.XmlWriter;
-import com.badlogic.gdx.utils.XmlReader;
 
 import java.io.FileOutputStream;
 import java.io.IOException;

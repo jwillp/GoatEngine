@@ -13,8 +13,11 @@
 
 package com.strongjoshua.console;
 
-import com.badlogic.gdx.*;
+import com.badlogic.gdx.Files;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector3;
@@ -28,7 +31,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.brm.GoatEngine.GConsole.ConsoleCommand;
 import com.brm.GoatEngine.GoatEngine;
-import com.brm.GoatEngine.Utils.Logger;
 import com.kotcrab.vis.ui.VisUI;
 
 import java.util.ArrayList;

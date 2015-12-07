@@ -7,7 +7,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
 import com.brm.GoatEngine.ECS.core.EntitySystem;
 import com.brm.GoatEngine.EventManager.EntityEvent;
-import com.brm.GoatEngine.GEConfig;
 import com.brm.GoatEngine.Utils.Logger;
 
 import java.util.ArrayList;

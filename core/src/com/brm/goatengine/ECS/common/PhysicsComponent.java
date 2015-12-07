@@ -2,13 +2,14 @@ package com.brm.GoatEngine.ECS.common;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.XmlReader.Element;
 import com.brm.GoatEngine.ECS.EntityXMLFactory;
-import com.brm.GoatEngine.ECS.core.EntityComponent;
 import com.brm.GoatEngine.ECS.core.Entity;
+import com.brm.GoatEngine.ECS.core.EntityComponent;
 import com.brm.GoatEngine.Physics.Hitbox.Hitbox;
-import com.brm.GoatEngine.Utils.Logger;
 
 /**
  * All the physical properties of the entity so it can exist in a physical World
@@ -167,7 +168,6 @@ public class PhysicsComponent extends EntityComponent {
      *
      * @param componentData the data as an XML element
      */
-    @Override
     public void deserialize(Element componentData) {}
 
     @Override

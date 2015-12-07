@@ -3,11 +3,7 @@ package com.brm.GoatEngine.Input;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.Controllers;
-import com.brm.GoatEngine.Input.GameControllerManager;
-import com.brm.GoatEngine.Input.KeyboardInputManager;
-import com.brm.GoatEngine.Utils.Logger;
 
 /**
  * Global input manager

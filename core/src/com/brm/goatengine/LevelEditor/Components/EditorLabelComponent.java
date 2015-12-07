@@ -23,7 +23,6 @@ public class EditorLabelComponent extends EntityComponent{
      *
      * @param componentData the data as an XML element
      */
-    @Override
     public void deserialize(XmlReader.Element componentData) {
 
     }

@@ -3,8 +3,9 @@ package com.brm.GoatEngine.ECS.core;
 import com.brm.GoatEngine.ECS.common.TagsComponent;
 import com.brm.GoatEngine.ScriptingEngine.ScriptComponent;
 
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.UUID;
 
 /**
  * Allows the retrieval of entities and their components

@@ -128,7 +128,6 @@ public class SpriterAnimationComponent extends EntityComponent {
      *
      * @param componentData the data as an XML element
      */
-    @Override
     public void deserialize(Element componentData) {
 
     }

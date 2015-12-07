@@ -18,23 +18,12 @@ public class CameraComponent extends EntityComponent{
         camera = new OrthographicCamera();
     }
 
-    /**
-     * Constructor getting a XML element to load data
-     * @param componentData
-     */
-    public  CameraComponent(XmlReader.Element componentData){
-        super(componentData);
-        camera = new OrthographicCamera();
-    }
-
-
 
     /**
      * Desiralizes a component
      *
      * @param componentData the data as an XML element
      */
-    @Override
     public void deserialize(XmlReader.Element componentData) {
 
     }

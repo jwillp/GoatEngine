@@ -1,15 +1,10 @@
 package com.brm.GoatEngine.LevelEditor.View;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.StringBuilder;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**

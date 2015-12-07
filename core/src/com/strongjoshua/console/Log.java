@@ -13,12 +13,12 @@
 
 package com.strongjoshua.console;
 
-import java.io.IOException;
-import java.io.Writer;
-
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Array;
 import com.strongjoshua.console.Console.LogLevel;
+
+import java.io.IOException;
+import java.io.Writer;
 
 class Log {
 	private Array<LogEntry> logEntries;

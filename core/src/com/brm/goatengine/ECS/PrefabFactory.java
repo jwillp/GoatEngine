@@ -17,7 +17,7 @@ import org.ini4j.Ini;
 import java.io.IOException;
 import java.util.HashMap;
 
-import static com.brm.GoatEngine.Physics.ColliderDef.*;
+import static com.brm.GoatEngine.Physics.ColliderDef.UnkownColliderTypeException;
 
 
 /**

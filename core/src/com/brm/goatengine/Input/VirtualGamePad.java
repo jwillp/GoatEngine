@@ -3,7 +3,6 @@ package com.brm.GoatEngine.Input;
 import com.badlogic.gdx.utils.XmlReader;
 import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
-import com.brm.GoatEngine.Utils.Logger;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,7 +21,6 @@ public class VirtualGamePad extends EntityComponent {
      *
      * @param componentData the data as an XML element
      */
-    @Override
     public void deserialize(XmlReader.Element componentData) {
 
     }
@@ -45,14 +43,6 @@ public class VirtualGamePad extends EntityComponent {
         this.pressedButtons = new ArrayList<VirtualButton>();
         this.justReleasedButtons = new ArrayList<VirtualButton>();
     }
-
-    public VirtualGamePad(XmlReader.Element componentData){
-        super(componentData);
-        this.setInputSource(InputSource.USER_INPUT);
-        this.pressedButtons = new ArrayList<VirtualButton>();
-        this.justReleasedButtons = new ArrayList<VirtualButton>();
-    }
-
 
 
     /**

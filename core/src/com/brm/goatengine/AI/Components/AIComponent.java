@@ -2,10 +2,9 @@ package com.brm.GoatEngine.AI.Components;
 
 
 import com.badlogic.gdx.utils.XmlReader;
+import com.brm.GoatEngine.AI.Pathfinding.PathNode;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
 import com.brm.GoatEngine.Utils.Timer;
-import com.brm.GoatEngine.AI.Pathfinding.PathNode;
-
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -32,7 +31,6 @@ public class AIComponent extends EntityComponent {
      *
      * @param componentData the data as an XML element
      */
-    @Override
     public void deserialize(XmlReader.Element componentData) {
 
     }

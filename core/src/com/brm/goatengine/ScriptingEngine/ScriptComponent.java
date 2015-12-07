@@ -2,12 +2,8 @@ package com.brm.GoatEngine.ScriptingEngine;
 
 import com.badlogic.gdx.utils.XmlReader;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
-import com.brm.GoatEngine.ECS.core.Entity;
-import com.brm.GoatEngine.Utils.Logger;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 
 /**
  * Enables entities to have Custom Behaviour using Scripts
@@ -18,9 +14,6 @@ public class ScriptComponent extends EntityComponent {
     private ArrayList<String> scripts;
 
 
-    public ScriptComponent(XmlReader.Element element){
-        super(element);
-    }
     public ScriptComponent(){
         scripts = new ArrayList<String>();
     }
@@ -60,7 +53,6 @@ public class ScriptComponent extends EntityComponent {
      *
      * @param componentData the data as an XML element
      */
-    @Override
     public void deserialize(XmlReader.Element componentData) {
         for(XmlReader.Element script: componentData.getChildrenByName("script")){
             this.addScript(script.getText());

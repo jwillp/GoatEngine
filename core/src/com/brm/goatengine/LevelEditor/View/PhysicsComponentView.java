@@ -6,9 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.brm.GoatEngine.ECS.common.PhysicsComponent;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.EnumSet;
 
 /**
  * View for the physics Component

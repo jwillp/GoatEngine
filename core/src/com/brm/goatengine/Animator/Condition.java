@@ -1,7 +1,5 @@
 package com.brm.GoatEngine.Animator;
 
-import java.util.IllegalFormatException;
-
 /**
  * A condition to change from one state
  * to another

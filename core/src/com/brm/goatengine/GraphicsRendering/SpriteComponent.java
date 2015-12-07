@@ -4,8 +4,8 @@ package com.brm.GoatEngine.GraphicsRendering;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.XmlReader;
-import com.brm.GoatEngine.ECS.core.EntityComponent;
 import com.brm.GoatEngine.ECS.core.Entity;
+import com.brm.GoatEngine.ECS.core.EntityComponent;
 
 import java.util.Comparator;
 
@@ -58,7 +58,6 @@ public class SpriteComponent extends EntityComponent {
      *
      * @param componentData the data as an XML element
      */
-    @Override
     public void deserialize(XmlReader.Element componentData){}
 
     @Override

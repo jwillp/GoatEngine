@@ -2,9 +2,9 @@ package com.brm.GoatEngine.Input;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Buttons;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.brm.GoatEngine.GoatEngine;
 import com.brm.GoatEngine.Input.Events.*;
