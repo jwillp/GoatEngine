@@ -1,18 +1,16 @@
 package com.brm.GoatEngine.ECS.core;
 
 import com.badlogic.gdx.Gdx;
+import com.brm.GoatEngine.ECS.ECSIniSerializer;
 import com.brm.GoatEngine.ECS.common.TagsComponent;
 import com.brm.GoatEngine.ScriptingEngine.ScriptComponent;
 import com.brm.GoatEngine.Utils.Logger;
 import com.brm.GoatEngine.Utils.PODType;
-import org.ini4j.Ini;
 import org.ini4j.Wini;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.*;
-
-import static com.brm.GoatEngine.ECS.core.EntityComponent.*;
 
 /**
  * Allows the retrieval of entities and their components
@@ -245,7 +243,7 @@ public class EntityManager {
      * Returns all entities Id
       * @return
      */
-    public Set<String> getEntitiesId(){
+    public Set<String> getEntityIds(){
         HashSet<String> ids = new HashSet<String>();
         for(String compId : this.components.keySet()){
             ids.addAll(components.get(compId).keySet());
@@ -276,7 +274,7 @@ public class EntityManager {
      * @return
      */
     public int getEntityCount(){
-        return this.getEntitiesId().size();
+        return this.getEntityIds().size();
     }
 
     /**
@@ -285,71 +283,22 @@ public class EntityManager {
      * @return true if an entity exists
      */
     public boolean entityExists(String entityId){
-       return getEntitiesId().contains(entityId);
+       return getEntityIds().contains(entityId);
     }
 
     /**
      * Deletes all the entities
      */
     public void clear(){
-        for(String id: this.getEntitiesId()){
+        for(String id: this.getEntityIds()){
             this.deleteEntity(id);
         }
     }
 
 
-    public ArrayList<EntityComponent.EntityComponentPOD> convertEntityToPOD(String entityId){
-        HashMap<String, EntityComponent> components = getComponentsForEntity(entityId);
-        for(String compId : components.keySet()){
-
-
-
-        }
-        return null;
-    }
-
-
     public void saveIni(String outputPath) {
-        Wini ini = null;
-        try {
-            ini = new Wini(Gdx.files.internal(outputPath).file());
-
-            // Entity Index
-            Ini.Section entitiesIndex = new Ini.Section();
-            ini.putAll("entity", getEntitiesId());
-
-
-
-
-
-            for(String id: getEntitiesId()){
-                ini.putComment("KEY", "Entity BEGIN");
-                HashMap<String, EntityComponent> components = getComponentsForEntity(id);
-                for(EntityComponent component: components.values()){
-                    String secName = id + "/" + component.getId().toLowerCase();
-                    EntityComponent.EntityComponentPOD pod = component.toPODType();
-                    Field[] fields = pod.getClass().getFields();
-                    for(int i=0; i<fields.length; i++){
-                        Field field = fields[i];
-                        field.setAccessible(true);
-                        String fieldName = field.getName();
-                        if(field.isAnnotationPresent(PODType.SerializeName.class)){
-                            fieldName = field.getAnnotation(PODType.SerializeName.class).value();
-                        }
-                        ini.put(secName, fieldName, field.get(pod).toString());
-                    }
-                }
-                ini.putComment("KEY", "Entity END");
-            }
-            Logger.debug(ini.toString());
-            ini.store();
-        } catch (IOException e) {
-            Logger.error(e.getMessage());
-            Logger.logStackTrace(e);
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+        ECSIniSerializer serializer = new ECSIniSerializer(outputPath, this);
+        serializer.save();
     }
 
 
