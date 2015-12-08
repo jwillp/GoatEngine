@@ -27,6 +27,26 @@ public class AIComponent extends EntityComponent {
     }
 
     /**
+     * Constructs a PODType, to be implemented by subclasses
+     *
+     * @return
+     */
+    @Override
+    protected EntityComponentPOD makePOD() {
+        return null;
+    }
+
+    /**
+     * Builds the current object from a pod representation
+     *
+     * @param pod the pod representation to use
+     */
+    @Override
+    protected void makeFromPOD(EntityComponentPOD pod) {
+
+    }
+
+    /**
      * Desiralizes a component
      *
      * @param componentData the data as an XML element

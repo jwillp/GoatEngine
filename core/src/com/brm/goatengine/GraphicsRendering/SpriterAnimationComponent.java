@@ -15,15 +15,28 @@ import com.brm.GoatEngine.ECS.core.EntityComponent;
 public class SpriterAnimationComponent extends EntityComponent {
     public final static String ID = "SPRITER_ANIMATION_COMPONENT";
 
-    private Player player;
+    public class SpriterAnimationComponentPOD extends EntityComponentPOD{
+        @SerializeName("offset_x")
+        public float offsetX;
+        @SerializeName("offset_y")
+        public float offsetY;
 
-    private float alpha = 1; //alpha level
+        public float scale;
+
+        @SerializeName("animation_file")
+        public String animationFile;
+
+        @SerializeName("entity_name")
+        public String entityName;
+    }
+
+
+
+    private Player player;
 
     private float offsetX;
     private float offsetY;
     private float scale;
-
-    private Color color = Color.WHITE;
 
     private boolean isComplete = false;
 
@@ -43,37 +56,8 @@ public class SpriterAnimationComponent extends EntityComponent {
         Spriter.load(Gdx.files.internal(animFile).read(), animFile);
         player = Spriter.newPlayer(animFile, spriterEntityName);
 
-
-
-        this.player.addListener(new Player.PlayerListener() {
-            @Override
-            public void animationFinished(com.brashmonkey.spriter.Animation animation){
-                SpriterAnimationComponent.this.isComplete = true;
-            }
-
-            @Override
-            public void animationChanged(com.brashmonkey.spriter.Animation oldAnim, com.brashmonkey.spriter.Animation newAnim){
-                SpriterAnimationComponent.this.isComplete = false;
-            }
-
-            @Override
-            public void preProcess(Player player) {}
-
-            @Override
-            public void postProcess(Player player) {}
-
-            @Override
-            public void mainlineKeyChanged(Mainline.Key prevKey, Mainline.Key newKey) {}
-        });
+        this.createPlayerListener();
     }
-
-
-
-
-    public SpriterAnimationComponent(XmlReader.Element element){
-        this.deserialize(element);
-    }
-
 
 
 
@@ -124,13 +108,68 @@ public class SpriterAnimationComponent extends EntityComponent {
 
 
     /**
-     * Deserialize a component
+     * Constructs a PODType, to be implemented by subclasses
      *
-     * @param componentData the data as an XML element
+     * @return
      */
-    public void deserialize(Element componentData) {
-
+    @Override
+    protected EntityComponentPOD makePOD() {
+        SpriterAnimationComponentPOD pod = new SpriterAnimationComponentPOD();
+        pod.offsetX = offsetX;
+        pod.offsetY = offsetY;
+        pod.scale = scale;
+        pod.animationFile = this.getAnimation().name;
+        pod.entityName = this.getPlayer().getEntity().name;
+        return pod;
     }
+
+    /**
+     * Builds the current object from a pod representation
+     *
+     * @param pod the pod representation to use
+     */
+    @Override
+    protected void makeFromPOD(EntityComponentPOD pod){
+        SpriterAnimationComponentPOD animPod = (SpriterAnimationComponentPOD) pod;
+        this.offsetX = animPod.offsetX;
+        this.offsetY = animPod.offsetY;
+        this.scale = animPod.scale;
+
+        Spriter.load(Gdx.files.internal(animPod.animationFile).read(), animPod.animationFile);
+        player = Spriter.newPlayer(animPod.animationFile, animPod.entityName);
+    }
+
+
+    /**
+     * Adds a Player Listener to the current player
+     */
+    private void createPlayerListener(){
+        this.player.addListener(new Player.PlayerListener() {
+            @Override
+            public void animationFinished(com.brashmonkey.spriter.Animation animation){
+                SpriterAnimationComponent.this.isComplete = true;
+            }
+
+            @Override
+            public void animationChanged(com.brashmonkey.spriter.Animation oldAnim, com.brashmonkey.spriter.Animation newAnim){
+                SpriterAnimationComponent.this.isComplete = false;
+            }
+
+            @Override
+            public void preProcess(Player player) {}
+
+            @Override
+            public void postProcess(Player player) {}
+
+            @Override
+            public void mainlineKeyChanged(Mainline.Key prevKey, Mainline.Key newKey) {}
+        });
+    }
+
+
+
+
+
 
     @Override
     public String getId() {

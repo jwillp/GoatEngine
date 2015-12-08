@@ -13,6 +13,34 @@ public class TagsComponent extends EntityComponent {
     public static final String ID = "TAGS_COMPONENT";
     private HashSet<String> tags = new HashSet<String>();
 
+
+    public class TagComponentPOD extends EntityComponentPOD{
+        public HashSet<String> tags;
+    }
+
+
+    /**
+     * Constructs a PODType, to be implemented by subclasses
+     *
+     * @return
+     */
+    @Override
+    protected EntityComponentPOD makePOD() {
+        TagComponentPOD pod = new TagComponentPOD();
+        pod.tags = tags;
+        return pod;
+    }
+
+    /**
+     * Builds the current object from a pod representation
+     *
+     * @param pod the pod representation to use
+     */
+    @Override
+    protected void makeFromPOD(EntityComponentPOD pod) {
+        this.tags = ((TagComponentPOD)pod).tags;
+    }
+
     /**
      * Adds a new tag to an entity
      * @param tag

@@ -13,9 +13,39 @@ public class ScriptComponent extends EntityComponent {
     public static final String ID = "SCRIPT_COMPONENT";
     private ArrayList<String> scripts;
 
+    class ScriptComponentPOD extends EntityComponentPOD{
+        public ArrayList<String> scripts;
+
+    }
+
+
+
 
     public ScriptComponent(){
         scripts = new ArrayList<String>();
+    }
+
+    /**
+     * Constructs a PODType, to be implemented by subclasses
+     *
+     * @return
+     */
+    @Override
+    protected EntityComponentPOD makePOD() {
+        ScriptComponentPOD pod = new ScriptComponentPOD();
+        pod.scripts = this.scripts;
+        return pod;
+    }
+
+    /**
+     * Builds the current object from a pod representation
+     *
+     * @param pod the pod representation to use
+     */
+    @Override
+    protected void makeFromPOD(EntityComponentPOD pod) {
+        ScriptComponentPOD scriptPOD = (ScriptComponentPOD) pod;
+        scripts = scriptPOD.scripts;
     }
 
 
@@ -47,17 +77,6 @@ public class ScriptComponent extends EntityComponent {
         return scripts;
     }
 
-
-    /**
-     * Desiralizes a component
-     *
-     * @param componentData the data as an XML element
-     */
-    public void deserialize(XmlReader.Element componentData) {
-        for(XmlReader.Element script: componentData.getChildrenByName("script")){
-            this.addScript(script.getText());
-        }
-    }
 
     @Override
     public String getId() {

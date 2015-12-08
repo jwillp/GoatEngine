@@ -57,11 +57,8 @@ project(":core") {
         compile "com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion"
         compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
         compile "org.codehaus.groovy:groovy-all:$groovyVersion"
-<<<<<<< HEAD
-=======
         compile "org.ini4j:ini4j:$ini4jVersion"
         compile "com.kotcrab.vis:vis-ui:$visUiVersion"
->>>>>>> levelEditor
         compile fileTree(dir: '../libs', include: ['*.jar'])
     }
 }

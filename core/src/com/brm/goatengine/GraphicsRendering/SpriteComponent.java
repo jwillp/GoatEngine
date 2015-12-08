@@ -17,6 +17,7 @@ public class SpriteComponent extends EntityComponent {
 
     public final static String ID = "SPRITE_COMPONENT";
 
+    private String resourceName;
     private TextureRegion currentSprite;
     private Color color = Color.WHITE;
 
@@ -24,6 +25,21 @@ public class SpriteComponent extends EntityComponent {
     public float offsetY = 0;
 
     private int zIndex = 0;
+
+
+    class SpriteComponentPOD extends EntityComponentPOD{
+
+        @SerializeName("offset_x")
+        public float offsetX;
+
+        @SerializeName("offset_y")
+        public float offsetY;
+
+        @SerializeName("resource_name")
+        public String resourceName;
+    }
+
+
 
     public TextureRegion getCurrentSprite() {
         return currentSprite;
@@ -41,7 +57,7 @@ public class SpriteComponent extends EntityComponent {
         this.color = color;
     }
 
-    public int getzIndex() {
+    public int getZIndex() {
         return zIndex;
     }
 
@@ -53,12 +69,33 @@ public class SpriteComponent extends EntityComponent {
         return color;
     }
 
+
     /**
-     * Desiralizes a component
+     * Constructs a PODType, to be implemented by subclasses
      *
-     * @param componentData the data as an XML element
+     * @return
      */
-    public void deserialize(XmlReader.Element componentData){}
+    @Override
+    protected EntityComponentPOD makePOD() {
+        SpriteComponentPOD pod = new SpriteComponentPOD();
+        pod.offsetX = this.offsetX;
+        pod.offsetY = offsetY;
+        pod.resourceName = this.resourceName;
+        return pod;
+    }
+
+    /**
+     * Builds the current object from a pod representation
+     *
+     * @param pod the pod representation to use
+     */
+    @Override
+    protected void makeFromPOD(EntityComponentPOD pod) {
+        SpriteComponentPOD spritePOD = (SpriteComponentPOD) pod;
+        this.offsetX = spritePOD.offsetX;
+        this.offsetY = spritePOD.offsetY;
+        this.resourceName = spritePOD.resourceName;
+    }
 
     @Override
     public String getId() {
@@ -75,7 +112,7 @@ public class SpriteComponent extends EntityComponent {
             SpriteComponent s1 = (SpriteComponent) e1.getComponent(SpriteComponent.ID);
             SpriteComponent s2 = (SpriteComponent) e2.getComponent(SpriteComponent.ID);
 
-            return (s2.getzIndex() - s1.getzIndex()) > 0 ? 1 : -1;
+            return (s2.getZIndex() - s1.getZIndex()) > 0 ? 1 : -1;
         }
     }
 

@@ -115,6 +115,10 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
             return;
         }
 
+        if(actor == view.getBtnSaveChanges()){
+            executeCommand(new SaveLevelCommand());
+        }
+
         // UNDOABLE COMMANDS
         // CREATE ENTITY
         if(actor == view.getBtnCreateEntity()){
@@ -136,9 +140,6 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
             this.redo();
             return;
         }
-
-
-
     }
 
 

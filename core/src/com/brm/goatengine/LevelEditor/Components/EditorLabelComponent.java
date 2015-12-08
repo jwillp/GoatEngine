@@ -18,14 +18,35 @@ public class EditorLabelComponent extends EntityComponent{
     }
 
 
-    /**
-     * Desiralizes a component
-     *
-     * @param componentData the data as an XML element
-     */
-    public void deserialize(XmlReader.Element componentData) {
-
+    class EditorLabelComponentPOD extends EntityComponentPOD{
+        public String label;
     }
+
+    /**
+     * Constructs a PODType, to be implemented by subclasses
+     *
+     * @return
+     */
+    @Override
+    protected EntityComponentPOD makePOD() {
+        EditorLabelComponentPOD pod = new EditorLabelComponentPOD();
+        pod.label = this.label;
+        return pod;
+    }
+
+    /**
+     * Builds the current object from a pod representation
+     *
+     * @param pod the pod representation to use
+     */
+    @Override
+    protected void makeFromPOD(EntityComponentPOD pod) {
+        EditorLabelComponentPOD editPOD = (EditorLabelComponentPOD)pod;
+        this.label = editPOD.label;
+    }
+
+
+
 
     @Override
     public String getId() {

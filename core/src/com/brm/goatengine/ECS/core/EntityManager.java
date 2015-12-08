@@ -1,11 +1,18 @@
 package com.brm.GoatEngine.ECS.core;
 
+import com.badlogic.gdx.Gdx;
 import com.brm.GoatEngine.ECS.common.TagsComponent;
 import com.brm.GoatEngine.ScriptingEngine.ScriptComponent;
+import com.brm.GoatEngine.Utils.Logger;
+import com.brm.GoatEngine.Utils.PODType;
+import org.ini4j.Ini;
+import org.ini4j.Wini;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.UUID;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.*;
+
+import static com.brm.GoatEngine.ECS.core.EntityComponent.*;
 
 /**
  * Allows the retrieval of entities and their components
@@ -195,11 +202,6 @@ public class EntityManager {
     }
 
 
-
-
-
-
-
     /**
      * Removes all references to a certain entity
      * @param entityId
@@ -225,7 +227,7 @@ public class EntityManager {
 
 
     /**
-     * Returns all entities
+     * Returns all entities as Entity Objec
      * @return
      */
     public ArrayList<Entity> getEntities(){
@@ -237,6 +239,21 @@ public class EntityManager {
         }
         return new ArrayList<Entity>(entities.values());
     }
+
+
+    /**
+     * Returns all entities Id
+      * @return
+     */
+    public Set<String> getEntitiesId(){
+        HashSet<String> ids = new HashSet<String>();
+        for(String compId : this.components.keySet()){
+            ids.addAll(components.get(compId).keySet());
+        }
+        return ids;
+    }
+
+
 
     /**
      * Returns all the components instance of a certain type
@@ -259,26 +276,83 @@ public class EntityManager {
      * @return
      */
     public int getEntityCount(){
-        return this.getEntities().size();
+        return this.getEntitiesId().size();
     }
 
+    /**
+     * Indicates if an entity exists
+     * @param entityId
+     * @return true if an entity exists
+     */
     public boolean entityExists(String entityId){
-        for(Entity e: this.getEntities()){
-            if(e.getID().equals(entityId)){
-                return true;
-            }
-        }
-        return false;
+       return getEntitiesId().contains(entityId);
     }
 
     /**
      * Deletes all the entities
      */
     public void clear(){
-        for(Entity e: this.getEntities()){
-            this.deleteEntity(e.getID());
+        for(String id: this.getEntitiesId()){
+            this.deleteEntity(id);
         }
     }
+
+
+    public ArrayList<EntityComponent.EntityComponentPOD> convertEntityToPOD(String entityId){
+        HashMap<String, EntityComponent> components = getComponentsForEntity(entityId);
+        for(String compId : components.keySet()){
+
+
+
+        }
+        return null;
+    }
+
+
+    public void saveIni(String outputPath) {
+        Wini ini = null;
+        try {
+            ini = new Wini(Gdx.files.internal(outputPath).file());
+
+            // Entity Index
+            Ini.Section entitiesIndex = new Ini.Section();
+            ini.putAll("entity", getEntitiesId());
+
+
+
+
+
+            for(String id: getEntitiesId()){
+                ini.putComment("KEY", "Entity BEGIN");
+                HashMap<String, EntityComponent> components = getComponentsForEntity(id);
+                for(EntityComponent component: components.values()){
+                    String secName = id + "/" + component.getId().toLowerCase();
+                    EntityComponent.EntityComponentPOD pod = component.toPODType();
+                    Field[] fields = pod.getClass().getFields();
+                    for(int i=0; i<fields.length; i++){
+                        Field field = fields[i];
+                        field.setAccessible(true);
+                        String fieldName = field.getName();
+                        if(field.isAnnotationPresent(PODType.SerializeName.class)){
+                            fieldName = field.getAnnotation(PODType.SerializeName.class).value();
+                        }
+                        ini.put(secName, fieldName, field.get(pod).toString());
+                    }
+                }
+                ini.putComment("KEY", "Entity END");
+            }
+            Logger.debug(ini.toString());
+            ini.store();
+        } catch (IOException e) {
+            Logger.error(e.getMessage());
+            Logger.logStackTrace(e);
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 
 }
