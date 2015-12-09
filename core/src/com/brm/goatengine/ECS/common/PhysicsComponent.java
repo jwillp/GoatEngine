@@ -4,13 +4,18 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.XmlReader.Element;
 import com.brm.GoatEngine.ECS.EntityXMLFactory;
 import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
+import com.brm.GoatEngine.Physics.Collider;
 import com.brm.GoatEngine.Physics.Hitbox.Hitbox;
 import com.brm.GoatEngine.Utils.PODType;
+
+import java.util.ArrayList;
 
 /**
  * All the physical properties of the entity so it can exist in a physical World
@@ -106,6 +111,18 @@ public class PhysicsComponent extends EntityComponent {
         this.setBodyType(physPOD.bodyType);
     }
 
+    /**
+     * Returns a list of colliders for the current body
+     * @return list of colliders
+     */
+    public ArrayList<Collider> getColliders(){
+        ArrayList<Collider> colliders = new ArrayList<Collider>();
+        Array<Fixture> fixtureArray = body.getFixtureList();
+        for(int i=0; i<fixtureArray.size; i++){
+            colliders.add((Collider) fixtureArray.get(i).getUserData());
+        }
+        return colliders;
+    }
 
     /**
      * Returns the entity's BoundingBox

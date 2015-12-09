@@ -1,9 +1,11 @@
 package com.brm.GoatEngine.Physics;
 
+import com.brm.GoatEngine.Utils.PODType;
+
 /**
  * The definition of a Collider
  */
-public abstract class ColliderDef {
+public abstract class ColliderDef extends PODType{
 
     public String tag = "";
     public Object userdata = null;
