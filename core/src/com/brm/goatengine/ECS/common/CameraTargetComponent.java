@@ -3,6 +3,9 @@ package com.brm.GoatEngine.ECS.common;
 import com.badlogic.gdx.utils.XmlReader;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Used to make an entity important for a camera.
  * The cameras concentrate on these kind of entities.
@@ -17,10 +20,10 @@ public class CameraTargetComponent extends EntityComponent {
     /**
      * Ctor taking a Pod Representation of the current component
      *
-     * @param pod
+     * @param map
      */
-    protected CameraTargetComponent(EntityComponentPOD pod) {
-        super(pod);
+    public CameraTargetComponent(Map<String, String> map) {
+        super(map);
     }
 
     /**
@@ -29,28 +32,17 @@ public class CameraTargetComponent extends EntityComponent {
      * @return
      */
     @Override
-    protected EntityComponentPOD makePOD() {
-        return new EntityComponentPOD();
+    protected Map<String, String> makeMap() {
+        return new HashMap<String, String>();
     }
 
     /**
      * Builds the current object from a pod representation
      *
-     * @param pod the pod representation to use
+     * @param map the pod representation to use
      */
-    @Override
-    protected void makeFromPOD(EntityComponentPOD pod) {
+    protected void makeFromMap(Map<String, String> map) {
 
-    }
-
-
-    /**
-     * Desiralizes a component
-     *
-     * @param componentData the data as an XML element
-     */
-    public void deserialize(XmlReader.Element componentData) {
-        //Nothing to do here
     }
 
     @Override

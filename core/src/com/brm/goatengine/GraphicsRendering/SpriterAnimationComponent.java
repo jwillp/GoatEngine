@@ -8,29 +8,17 @@ import com.brashmonkey.spriter.Mainline;
 import com.brashmonkey.spriter.Player;
 import com.brashmonkey.spriter.Spriter;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
+import com.brm.GoatEngine.Files.FileSystem;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * An animation component specialy made for Spriter animations
  */
 public class SpriterAnimationComponent extends EntityComponent {
     public final static String ID = "SPRITER_ANIMATION_COMPONENT";
-
-    public class SpriterAnimationComponentPOD extends EntityComponentPOD{
-        @SerializeName("offset_x")
-        public float offsetX;
-        @SerializeName("offset_y")
-        public float offsetY;
-
-        public float scale;
-
-        @SerializeName("animation_file")
-        public String animationFile;
-
-        @SerializeName("entity_name")
-        public String entityName;
-    }
-
-
+    private String animationFile;
 
     private Player player;
 
@@ -49,16 +37,20 @@ public class SpriterAnimationComponent extends EntityComponent {
      * @param scale
      */
     public SpriterAnimationComponent(String animFile, String spriterEntityName, float offsetX, float offsetY, float scale){
+        super(true);
         this.offsetX = offsetX;
         this.offsetY = offsetY;
         this.scale = scale;
-
+        animationFile = animFile;
         Spriter.load(Gdx.files.internal(animFile).read(), animFile);
         player = Spriter.newPlayer(animFile, spriterEntityName);
 
         this.createPlayerListener();
     }
 
+    public SpriterAnimationComponent(Map<String, String> map) {
+        super(map);
+    }
 
 
     public Player getPlayer() {
@@ -113,30 +105,35 @@ public class SpriterAnimationComponent extends EntityComponent {
      * @return
      */
     @Override
-    protected EntityComponentPOD makePOD() {
-        SpriterAnimationComponentPOD pod = new SpriterAnimationComponentPOD();
-        pod.offsetX = offsetX;
-        pod.offsetY = offsetY;
-        pod.scale = scale;
-        pod.animationFile = this.getAnimation().name;
-        pod.entityName = this.getPlayer().getEntity().name;
-        return pod;
+    protected Map<String, String>  makeMap() {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("offset_x", String.valueOf(offsetX));
+        map.put("offset_y", String.valueOf(offsetY));
+        map.put("scale", String.valueOf(scale));
+        map.put("animation_file", this.animationFile);
+        map.put("animation_title", this.getAnimation().name);
+        map.put("entity_name", this.getPlayer().getEntity().name);
+        return map;
     }
 
     /**
-     * Builds the current object from a pod representation
+     * Builds the current object from a map representation
      *
-     * @param pod the pod representation to use
+     * @param map the map representation to use
      */
     @Override
-    protected void makeFromPOD(EntityComponentPOD pod){
-        SpriterAnimationComponentPOD animPod = (SpriterAnimationComponentPOD) pod;
-        this.offsetX = animPod.offsetX;
-        this.offsetY = animPod.offsetY;
-        this.scale = animPod.scale;
-
-        Spriter.load(Gdx.files.internal(animPod.animationFile).read(), animPod.animationFile);
-        player = Spriter.newPlayer(animPod.animationFile, animPod.entityName);
+    protected void makeFromMap(Map<String, String> map){
+        this.offsetX = Float.parseFloat(map.get("offset_x"));
+        this.offsetY = Float.parseFloat(map.get("offset_y"));
+        this.scale = Float.parseFloat(map.get("scale"));
+        animationFile = map.get("animation_file");
+        Spriter.load(FileSystem.getFile(map.get("animation_file")).read(), map.get("animation_file"));
+        try{
+            player = Spriter.newPlayer(map.get("animation_file"), map.get("entity_name"));
+        }catch (java.lang.ArrayIndexOutOfBoundsException e){
+            throw new SpriterEntityNotFoundException(map.get("entity_name"));
+        }
+//        player.setAnimation(map.get("animation_title"));
     }
 
 
@@ -174,5 +171,11 @@ public class SpriterAnimationComponent extends EntityComponent {
     @Override
     public String getId() {
         return ID;
+    }
+
+    private class SpriterEntityNotFoundException extends RuntimeException {
+        public SpriterEntityNotFoundException(String entityName) {
+            super("Spriter Aniamtion Entity not found: " + entityName);
+        }
     }
 }

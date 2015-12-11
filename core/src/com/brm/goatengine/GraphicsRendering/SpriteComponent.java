@@ -8,6 +8,8 @@ import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
 
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -26,20 +28,14 @@ public class SpriteComponent extends EntityComponent {
 
     private int zIndex = 0;
 
-
-    class SpriteComponentPOD extends EntityComponentPOD{
-
-        @SerializeName("offset_x")
-        public float offsetX;
-
-        @SerializeName("offset_y")
-        public float offsetY;
-
-        @SerializeName("resource_name")
-        public String resourceName;
+    /**
+     * Ctor taking a map Representation of the current component
+     *
+     * @param map
+     */
+    public SpriteComponent(Map<String, String> map) {
+        super(map);
     }
-
-
 
     public TextureRegion getCurrentSprite() {
         return currentSprite;
@@ -76,25 +72,24 @@ public class SpriteComponent extends EntityComponent {
      * @return
      */
     @Override
-    protected EntityComponentPOD makePOD() {
-        SpriteComponentPOD pod = new SpriteComponentPOD();
-        pod.offsetX = this.offsetX;
-        pod.offsetY = offsetY;
-        pod.resourceName = this.resourceName;
-        return pod;
+    protected Map<String, String>  makeMap() {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("offset_x", String.valueOf(offsetX));
+        map.put("offset_y", String.valueOf(offsetY));
+        map.put("resource_name", resourceName);
+        return map;
     }
 
     /**
      * Builds the current object from a pod representation
      *
-     * @param pod the pod representation to use
+     * @param map the pod representation to use
      */
     @Override
-    protected void makeFromPOD(EntityComponentPOD pod) {
-        SpriteComponentPOD spritePOD = (SpriteComponentPOD) pod;
-        this.offsetX = spritePOD.offsetX;
-        this.offsetY = spritePOD.offsetY;
-        this.resourceName = spritePOD.resourceName;
+    protected void makeFromMap(Map<String, String> map) {
+        this.offsetX = Float.parseFloat(map.get("offset_x"));
+        this.offsetY = Float.parseFloat(map.get("offset_y"));
+        this.resourceName =  map.get("resource_name");
     }
 
     @Override

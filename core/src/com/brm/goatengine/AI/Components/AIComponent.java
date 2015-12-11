@@ -1,19 +1,20 @@
 package com.brm.GoatEngine.AI.Components;
 
 
-import com.badlogic.gdx.utils.XmlReader;
 import com.brm.GoatEngine.AI.Pathfinding.PathNode;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
 import com.brm.GoatEngine.Utils.Timer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Map;
 
 /**
  * Component to make to Store AI information on an entity
  */
 public class AIComponent extends EntityComponent {
-    public static final String ID = "KUBOTZ_AI_COMPONENT"; // TODO CHANGE THIS
+    public static final String ID = "AI_COMPONENT"; // TODO CHANGE THIS
 
     private Timer reactionTime = new Timer(5); //The delay between AI logic updates
 
@@ -23,7 +24,12 @@ public class AIComponent extends EntityComponent {
 
 
     public AIComponent(){
+        super(true);
         reactionTime.start();
+    }
+
+    public AIComponent(Map<String, String> map) {
+        super(map);
     }
 
     /**
@@ -32,8 +38,8 @@ public class AIComponent extends EntityComponent {
      * @return
      */
     @Override
-    protected EntityComponentPOD makePOD() {
-        return null;
+    protected Map<String, String> makeMap() {
+        return new HashMap<String, String>();
     }
 
     /**
@@ -42,16 +48,7 @@ public class AIComponent extends EntityComponent {
      * @param pod the pod representation to use
      */
     @Override
-    protected void makeFromPOD(EntityComponentPOD pod) {
-
-    }
-
-    /**
-     * Desiralizes a component
-     *
-     * @param componentData the data as an XML element
-     */
-    public void deserialize(XmlReader.Element componentData) {
+    protected void makeFromMap(Map<String, String> pod) {
 
     }
 

@@ -1,15 +1,9 @@
 package com.brm.GoatEngine.ECS.core;
 
-import com.badlogic.gdx.Gdx;
 import com.brm.GoatEngine.ECS.ECSIniSerializer;
 import com.brm.GoatEngine.ECS.common.TagsComponent;
 import com.brm.GoatEngine.ScriptingEngine.ScriptComponent;
-import com.brm.GoatEngine.Utils.Logger;
-import com.brm.GoatEngine.Utils.PODType;
-import org.ini4j.Wini;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.*;
 
 /**
@@ -39,8 +33,8 @@ public class EntityManager {
     public Entity createEntity(){
         Entity entity = new Entity();
         registerEntity(entity);
-        entity.addComponent(new ScriptComponent(), ScriptComponent.ID);
-        entity.addComponent(new TagsComponent(), TagsComponent.ID);
+        entity.addComponent(new ScriptComponent(true), ScriptComponent.ID);
+        entity.addComponent(new TagsComponent(true), TagsComponent.ID);
         return entity;
     }
 

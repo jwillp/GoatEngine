@@ -1,23 +1,24 @@
 package com.brm.GoatEngine.ECS;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.utils.Array;
+import com.brm.GoatEngine.AI.Components.AIComponent;
+import com.brm.GoatEngine.ECS.common.CameraTargetComponent;
 import com.brm.GoatEngine.ECS.common.PhysicsComponent;
+import com.brm.GoatEngine.ECS.common.TagsComponent;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
 import com.brm.GoatEngine.ECS.core.EntityManager;
-import com.brm.GoatEngine.Physics.BoxCollider;
+import com.brm.GoatEngine.GraphicsRendering.CameraComponent;
+import com.brm.GoatEngine.GraphicsRendering.SpriteComponent;
+import com.brm.GoatEngine.GraphicsRendering.SpriterAnimationComponent;
+import com.brm.GoatEngine.LevelEditor.Components.EditorLabelComponent;
 import com.brm.GoatEngine.Physics.Collider;
-import com.brm.GoatEngine.Physics.ColliderDef;
+import com.brm.GoatEngine.ScriptingEngine.ScriptComponent;
 import com.brm.GoatEngine.Utils.Logger;
-import com.brm.GoatEngine.Utils.PODType;
 import org.ini4j.Ini;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 /**
  * Used to serialize entities in Ini format
@@ -28,6 +29,7 @@ public class ECSIniSerializer {
     private EntityManager entityManager;
     private Ini ini;
     private HashSet<String> entityIds = new HashSet<String>();
+    private HashSet<String> keySet = new HashSet<String>(); // All properties in file
 
     public ECSIniSerializer(String iniPath, EntityManager entityManager){
         this.iniPath = iniPath;
@@ -43,17 +45,30 @@ public class ECSIniSerializer {
     }
 
 
-
-
-
-
+    /**
+     * Loads a manager from file
+     */
     public void load(){
+        Logger.info("Loading Level: " + iniPath);
+        try {
+            ini.getConfig().setTree(true);
+            ini.getConfig().setMultiSection(true);
+            ini.load();
+            loadEntityIndex();
+            for(String id: entityIds){
+                loadEntity(id);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-
+        Logger.info("Level: " + iniPath + " loaded");
     }
 
 
-
+    /**
+     * Saves a manager to file
+     */
     public void save(){
         entityIds.clear();
         entityIds.addAll(entityManager.getEntityIds());
@@ -76,6 +91,7 @@ public class ECSIniSerializer {
     }
 
 
+
     /**
      * Writes the entity index to file.
      * The index is used to make a list of all
@@ -83,7 +99,7 @@ public class ECSIniSerializer {
      * This is used to retrieve the info about
      * each entity in an easy way
      */
-    public void writeEntityIndex(){
+    private void writeEntityIndex(){
 
         Object[] array = entityIds.toArray();
 
@@ -99,10 +115,10 @@ public class ECSIniSerializer {
      * @param entityId
      * @param component
      */
-    public void writeComponent(String entityId, EntityComponent component) {
+    private void writeComponent(String entityId, EntityComponent component) {
         String secName = entityId + "/" + component.getId().toLowerCase();
-        EntityComponent.EntityComponentPOD pod = component.toPODType();
-        writePOD(secName, pod);
+        Map<String, String> map = component.toMap();
+        writeMap(secName, map);
 
         // Special Case
         // Physics Component's colliders
@@ -118,25 +134,11 @@ public class ECSIniSerializer {
     /**
      * Write a PODType object
      * @param sectionName the name of the section to write
-     * @param pod the pod object instance
+     * @param map the map object instance
      */
-    private void writePOD(String sectionName, PODType pod){
-        Field[] fields = pod.getClass().getFields();
-        for (int i = 0; i < fields.length; i++) {
-            Field field = fields[i];
-            field.setAccessible(true);
-            String fieldName = field.getName();
-            if (field.isAnnotationPresent(PODType.SerializeName.class)) {
-                fieldName = field.getAnnotation(PODType.SerializeName.class).value();
-            } try {
-                ini.put(sectionName, fieldName,  field.get(pod).toString());
-            } catch (IllegalAccessException e) {
-                Logger.error(e.getMessage());
-                Logger.logStackTrace(e);
-                e.printStackTrace();
-            }catch (NullPointerException e){
-                continue; // The attribute was likely null, in that case we dont write it
-            }
+    private void writeMap(String sectionName, Map<String, String> map){
+        for(String key: map.keySet()){
+            ini.put(sectionName, key, map.get(key));
         }
     }
 
@@ -145,12 +147,132 @@ public class ECSIniSerializer {
      * however they still need to be serialized
      */
     private void writePhysicsCollider(String entityId, Collider collider, int index){
-        PODType podType = collider.toPODType();
-        String colliderType = podType.getClass().getSimpleName().replace("ColliderDef", "");
+        Map<String, String> map = collider.toMap();
+        String colliderType = map.get("component_id").toLowerCase();
         String sectionName = entityId + "/" + "physics_collider_" + colliderType.toLowerCase() + index;
-        writePOD(sectionName, podType);
+        writeMap(sectionName, map);
     }
 
+
+    /**
+     * Loads the entity index
+     */
+    private void loadEntityIndex(){
+        Ini.Section index = ini.get("entity_index");
+        entityIds.addAll(index.values());
+        keySet.addAll(ini.keySet());
+    }
+
+    private void loadEntity(String id){
+        HashSet<String> components = getComponentsForEntity(id);
+        for(String key: components){
+            if(key.toUpperCase().endsWith("_COMPONENT")){
+                    EntityComponent comp = loadComponent(key);
+                    entityManager.addComponent(comp.getId(),comp,id);
+            }else{
+                // Collider
+                if(key.contains("physics_collider_")){
+                    loadCollider(key);
+                } // else we dont know what this is skip it
+            }
+        }
+    }
+
+
+    private EntityComponent loadComponent(String componentTitle){
+        Map<String, String> map = ini.get(componentTitle);
+        String componentId = map.get("component_id");
+        if(componentId == null){
+            throw new InvalidLevelDefinitionException("component_id is missing for " + componentTitle);
+        }
+
+        EntityComponent comp = null;
+
+        // ScriptComponent
+        if(isComponent(componentId, ScriptComponent.ID)){
+            comp = new ScriptComponent(map);
+
+        } // PhysicsComponent
+        else if(isComponent(componentId, PhysicsComponent.ID)){
+            comp = new PhysicsComponent(map);
+
+        } // TagsComponent
+        else if(isComponent(componentId, TagsComponent.ID)){
+            comp = new TagsComponent(map);
+
+        } // SpriteComponent
+        else if(isComponent(componentId, SpriteComponent.ID)){
+            comp = new SpriteComponent(map);
+
+        } // SpriterAnimationComponent
+        else if(isComponent(componentId, SpriterAnimationComponent.ID)){
+            comp = new SpriterAnimationComponent(map);
+
+
+        } // EditorLabelComponent
+        else if(isComponent(componentId, EditorLabelComponent.ID)){
+            comp = new EditorLabelComponent(map);
+
+        }// CameraComponent
+        else if(isComponent(componentId, CameraComponent.ID)){
+            comp = new CameraComponent(map);
+
+        } // CameraTargetComponent
+        else if(isComponent(componentId, CameraTargetComponent.ID)){
+            comp = new CameraTargetComponent(map);
+
+        }  // AIComponent
+        else if(isComponent(componentId, AIComponent.ID)){
+            comp = new AIComponent(map);
+        }
+
+        return comp;
+    }
+
+
+    /**
+     * Test if a string is a certain component
+     * @param componentId
+     * @param componentTest
+     * @return
+     */
+    private boolean isComponent(String componentId, String componentTest){
+        return componentId.toLowerCase().equals(componentTest.toLowerCase());
+    }
+
+
+
+
+    private Collider loadCollider(String colliderTitle){
+        return null;
+    }
+
+
+    /**
+     * Returns list of component names for a certain entity
+     * @param entityId
+     * @return
+     */
+    private HashSet<String> getComponentsForEntity(String entityId ) {
+        HashSet<String> comps = new HashSet<String>();
+        for (Iterator<String> iterator = keySet.iterator(); iterator.hasNext(); ) {
+            String c = iterator.next();
+            if (c.startsWith(entityId)){
+                if(c.contains("/"))
+                    comps.add(c);
+                iterator.remove();
+            }
+        }
+        return comps;
+    }
+
+
+
+    public class InvalidLevelDefinitionException extends RuntimeException{
+        public InvalidLevelDefinitionException(String reason){
+            super("Invalid Level Definition could not read level, reason: " + reason);
+        }
+    }
 
 
 }

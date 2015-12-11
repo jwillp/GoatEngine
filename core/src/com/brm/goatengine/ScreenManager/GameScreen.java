@@ -1,6 +1,7 @@
 package com.brm.GoatEngine.ScreenManager;
 
 import com.badlogic.gdx.math.Vector2;
+import com.brm.GoatEngine.ECS.ECSIniSerializer;
 import com.brm.GoatEngine.ECS.common.TagsComponent;
 import com.brm.GoatEngine.ECS.core.ECSManager;
 import com.brm.GoatEngine.ECS.core.Entity;
@@ -130,7 +131,7 @@ public final class GameScreen{
      */
     private void applyMapConfig(){
         // Load Map Config File
-        ArrayList<MapConfigObject> objects =  this.mapConfig.read();
+       /* ArrayList<MapConfigObject> objects =  this.mapConfig.read();
 
         for(MapConfigObject obj : objects){
             Entity entity = ecsManager.getEntityManager().createEntity();
@@ -142,9 +143,11 @@ public final class GameScreen{
                         GEConfig.ScriptingEngine.SCRIPTS_DIR + obj.script
                 );
             }
-        }
-
-        Logger.info("> Number of entity added: " + objects.size());
+        }*/
+        ECSIniSerializer serializer = new ECSIniSerializer(this.config.LEVEL_CONFIG, this.getEntityManager());
+        serializer.load();
+        // TODO : Read from serializer (maybe faster)
+        Logger.info("> Number of entity added: " + getEntityManager().getEntityCount());
     }
 
 

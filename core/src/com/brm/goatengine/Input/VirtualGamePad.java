@@ -6,6 +6,8 @@ import com.brm.GoatEngine.ECS.core.EntityComponent;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A virtual gamepad to be used by the AI
@@ -15,15 +17,6 @@ import java.util.Collection;
 public class VirtualGamePad extends EntityComponent {
 
     public final static String ID = "VIRTUAL_GAME_PAD";
-
-    /**
-     * Desiralizes a component
-     *
-     * @param componentData the data as an XML element
-     */
-    public void deserialize(XmlReader.Element componentData) {
-
-    }
 
     @Override
     public String getId() {
@@ -39,6 +32,7 @@ public class VirtualGamePad extends EntityComponent {
 
 
     public VirtualGamePad(InputSource inputSource){
+        super(true);
         this.setInputSource(inputSource);
         this.pressedButtons = new ArrayList<VirtualButton>();
         this.justReleasedButtons = new ArrayList<VirtualButton>();
@@ -142,8 +136,8 @@ public class VirtualGamePad extends EntityComponent {
      * @return
      */
     @Override
-    protected EntityComponentPOD makePOD() {
-        return null;
+    protected Map<String, String> makeMap() {
+        return new HashMap<String, String>();
     }
 
     /**
@@ -152,7 +146,7 @@ public class VirtualGamePad extends EntityComponent {
      * @param pod the pod representation to use
      */
     @Override
-    protected void makeFromPOD(EntityComponentPOD pod) {
+    protected void makeFromMap(Map<String, String> pod) {
 
     }
 }

@@ -34,6 +34,7 @@ public class CameraSystem extends EntitySystem {
     public void update(float dt){
         if(viewport == null)
             this.viewport = new FitViewport(80, 48, getMainCamera());
+        if(getMainCamera() == null) return;
         viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 

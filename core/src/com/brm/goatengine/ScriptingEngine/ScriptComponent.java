@@ -1,9 +1,10 @@
 package com.brm.GoatEngine.ScriptingEngine;
 
-import com.badlogic.gdx.utils.XmlReader;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Enables entities to have Custom Behaviour using Scripts
@@ -11,18 +12,18 @@ import java.util.ArrayList;
 public class ScriptComponent extends EntityComponent {
 
     public static final String ID = "SCRIPT_COMPONENT";
-    private ArrayList<String> scripts;
-
-    class ScriptComponentPOD extends EntityComponentPOD{
-        public ArrayList<String> scripts;
-
-    }
-
-
-
+    private ArrayList<String> scripts = new ArrayList<String>();
 
     public ScriptComponent(){
-        scripts = new ArrayList<String>();
+        super(true);
+    }
+
+    public ScriptComponent(boolean b) {
+        super(b);
+    }
+
+    public ScriptComponent(Map<String, String> map) {
+        super(map);
     }
 
     /**
@@ -31,21 +32,19 @@ public class ScriptComponent extends EntityComponent {
      * @return
      */
     @Override
-    protected EntityComponentPOD makePOD() {
-        ScriptComponentPOD pod = new ScriptComponentPOD();
-        pod.scripts = this.scripts;
-        return pod;
+    protected Map<String, String> makeMap() {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("scritps", this.scripts.toString()); // TODO CSV list
+        return map;
     }
 
     /**
-     * Builds the current object from a pod representation
+     * Builds the current object from a map representation
      *
-     * @param pod the pod representation to use
+     * @param map the map representation to use
      */
-    @Override
-    protected void makeFromPOD(EntityComponentPOD pod) {
-        ScriptComponentPOD scriptPOD = (ScriptComponentPOD) pod;
-        scripts = scriptPOD.scripts;
+    protected void makeFromMap(Map<String, String> map) {
+        scripts = new ArrayList<String>();/*map.get("scripts");*/ // TODO parse CSV List
     }
 
 

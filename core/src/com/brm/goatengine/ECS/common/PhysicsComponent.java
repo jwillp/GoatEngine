@@ -7,15 +7,14 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.XmlReader.Element;
-import com.brm.GoatEngine.ECS.EntityXMLFactory;
 import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
+import com.brm.GoatEngine.GoatEngine;
 import com.brm.GoatEngine.Physics.Collider;
-import com.brm.GoatEngine.Physics.Hitbox.Hitbox;
-import com.brm.GoatEngine.Utils.PODType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * All the physical properties of the entity so it can exist in a physical World
@@ -31,23 +30,7 @@ public class PhysicsComponent extends EntityComponent {
     private float width;   //The width of the entity(in game units)
     private float height;  //The height of the entity (in game units)
 
-
-    /**
-     * POD representation of PhysicsComponent
-     */
-    public class PhysicsComponentPOD extends EntityComponentPOD{
-        @PODType.SerializeName("body_type")
-        public BodyDef.BodyType bodyType;
-
-        @PODType.SerializeName("position_x")
-        public float positionX;
-
-        @PODType.SerializeName("position_y")
-        public float positionY;
-    }
-
-
-
+    public PhysicsComponent(Map<String, String> map){ super(map); }
 
     /**
      * CTOR
@@ -71,9 +54,6 @@ public class PhysicsComponent extends EntityComponent {
 
 
 
-
-
-
     @Override
     public void onAttach(Entity entity){
         this.body.setUserData(entity);
@@ -86,29 +66,35 @@ public class PhysicsComponent extends EntityComponent {
     }
 
     /**
-     * Constructs a PODType, to be implemented by subclasses
+     * Constructs a MapType, to be implemented by subclasses
      *
      * @return
      */
     @Override
-    protected EntityComponentPOD makePOD() {
-        PhysicsComponentPOD physPOD = new PhysicsComponentPOD();
-        physPOD.bodyType = this.body.getType();
-        physPOD.positionX = this.getPosition().x;
-        physPOD.positionY = this.getPosition().y;
-        return physPOD;
+    protected Map<String, String> makeMap() {
+        Map<String, String> physMap = new HashMap<String, String>();
+        physMap.put("body_type", String.valueOf(this.body.getType()));
+        physMap.put("position_x", String.valueOf(this.getPosition().x));
+        physMap.put("position_y", String.valueOf(this.getPosition().y));
+        return physMap;
     }
 
     /**
-     * Builds the current object from a pod representation
+     * Builds the current object from a Map representation
      *
-     * @param pod the pod representation to use
+     * @param map the Map representation to use
      */
     @Override
-    protected void makeFromPOD(EntityComponentPOD pod) {
-        PhysicsComponentPOD physPOD = (PhysicsComponentPOD)pod;
-        setPosition(physPOD.positionX, physPOD.positionY);
-        this.setBodyType(physPOD.bodyType);
+    protected void makeFromMap(Map<String, String> map) {
+        // Create Body
+        World world = GoatEngine.gameScreenManager.getCurrentScreen().getPhysicsSystem().getWorld();
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.valueOf(map.get("body_type"));
+        bodyDef.position.set(Float.parseFloat(map.get("position_x")), Float.parseFloat(map.get("position_y")));
+
+        this.body = world.createBody(bodyDef);
+
+        this.setBodyType(BodyDef.BodyType.valueOf(map.get("body_type")));
     }
 
     /**
@@ -131,9 +117,9 @@ public class PhysicsComponent extends EntityComponent {
      */
     public Rectangle getBounds(){
         return new Rectangle(this.getPosition().x - this.getWidth(),
-                             this.getPosition().y-this.getHeight(),
-                             this.getWidth(),
-                             this.getHeight());
+                this.getPosition().y-this.getHeight(),
+                this.getWidth(),
+                this.getHeight());
     }
 
     public Vector2 getPosition() {
@@ -182,12 +168,4 @@ public class PhysicsComponent extends EntityComponent {
     public String getId() {
         return ID;
     }
-
-
-
-
-
-
-
-
 }

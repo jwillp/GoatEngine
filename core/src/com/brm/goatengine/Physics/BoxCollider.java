@@ -2,7 +2,9 @@ package com.brm.GoatEngine.Physics;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.brm.GoatEngine.Utils.PODType;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A Rectangle Collider
@@ -43,15 +45,15 @@ public class BoxCollider extends Collider {
 
 
     @Override
-    public PODType toPODType() {
-        BoxColliderDef def = new BoxColliderDef();
-        def.width = width;
-        def.height = height;
-        def.isSensor = this.isSensor();
-        def.tag = this.tag;
+    public Map<String, String> toMap() {
+        Map<String, String> def = new HashMap<String, String>();
+        def.put("width", String.valueOf(width));
+        def.put("height", String.valueOf(height));
+        def.put("isSensor", String.valueOf(this.isSensor()));
+        def.put("tag", String.valueOf(this.tag));
         Vector2 pos = getCentroid();
-        def.x = pos.x;
-        def.y = pos.y;
+        def.put("x", String.valueOf(pos.x));
+        def.put("y", String.valueOf(pos.y));
         return def;
     }
 

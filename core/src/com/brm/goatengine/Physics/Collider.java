@@ -4,9 +4,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.brm.GoatEngine.ECS.common.PhysicsComponent;
 import com.brm.GoatEngine.ECS.core.Entity;
-import com.brm.GoatEngine.Utils.PODType;
 
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Used for Colliders
@@ -211,6 +211,6 @@ public abstract class Collider{
         }
     }
 
-    // TODO make something like entityComponent with makePOD instead
-    public abstract PODType toPODType();
+    // TODO make something like entityComponent with makeMap instead
+    public abstract Map<String, String> toMap();
 }
