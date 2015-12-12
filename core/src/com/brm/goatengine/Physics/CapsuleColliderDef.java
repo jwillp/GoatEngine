@@ -15,4 +15,5 @@ public class CapsuleColliderDef extends ColliderDef {
     public CircleColliderDef topColliderDef = new CircleColliderDef();
     public BoxColliderDef middleColliderDef = new BoxColliderDef();
     public CircleColliderDef bottomColliderDef = new CircleColliderDef();
+
 }

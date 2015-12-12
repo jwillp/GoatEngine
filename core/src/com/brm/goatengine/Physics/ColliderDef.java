@@ -1,5 +1,7 @@
 package com.brm.GoatEngine.Physics;
 
+import java.util.Map;
+
 /**
  * The definition of a Collider
  */
@@ -12,9 +14,8 @@ public abstract class ColliderDef{
     public boolean isSensor = false;
 
 
-
-    public static class UnkownColliderTypeException extends RuntimeException{
-        public UnkownColliderTypeException(String unkownType){
+    public static class UnknownColliderTypeException extends RuntimeException{
+        public UnknownColliderTypeException(String unkownType){
             super("Unknown collider type '" + unkownType + "'.");
         }
     }

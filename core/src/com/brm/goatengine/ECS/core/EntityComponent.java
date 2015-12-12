@@ -1,13 +1,16 @@
 package com.brm.GoatEngine.ECS.core;
 
 
+import java.util.HashMap;
 import java.util.Map;
 
 public abstract class EntityComponent {
 
 
-    private static final String ID = "ENTITY_COMPONENT";
     private boolean enabled = true; //By default a component is enabled
+
+    // Syntaxic sugar
+    public static class EntityComponentMap extends HashMap<String, String>{}
 
 
     public EntityComponent(boolean enabled){
@@ -22,7 +25,6 @@ public abstract class EntityComponent {
     public EntityComponent(Map<String, String> map){
         makeFromMap(map);
     }
-
 
 
     /**
@@ -47,7 +49,7 @@ public abstract class EntityComponent {
     }
 
     /**
-     * Constructs a PODType, to be implemented by subclasses
+     * Constructs a Map, to be implemented by subclasses
      * @return
      */
     protected abstract Map<String, String> makeMap();

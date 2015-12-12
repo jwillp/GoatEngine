@@ -25,14 +25,14 @@ public class CircleCollider extends Collider{
 
         Map<String, String> def = new HashMap<String, String>();
         def.put("radius",String.valueOf(getRadius()));
-        def.put("isSensor",String.valueOf(this.isSensor()));
+        def.put("is_sensor",String.valueOf(this.isSensor()));
         def.put("tag",String.valueOf(this.tag));
         // TODO get real position
 
         Vector2 pos = ((CircleShape)fixture.getShape()).getPosition();
 
-        def.put("x",String.valueOf(pos.x));
-        def.put("y",String.valueOf(pos.y));
+        def.put("position_x",String.valueOf(pos.x));
+        def.put("position_y",String.valueOf(pos.y));
         return def;
     }
 }

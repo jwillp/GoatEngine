@@ -130,7 +130,18 @@ public abstract class Collider{
 
     }
 
+    public static void addCollider(Entity entity, ColliderDef colliderDef){
+        if(colliderDef instanceof BoxColliderDef){
+            addBoxCollider(entity, (BoxColliderDef) colliderDef);
+        }
+        else if(colliderDef instanceof CircleColliderDef){
+            addCircleCollider(entity, (CircleColliderDef) colliderDef);
+        }
+        else if(colliderDef instanceof CapsuleColliderDef){
+            addCapsuleCollider(entity, (CapsuleColliderDef) colliderDef);
+        }
 
+    }
 
     public static void addCapsuleCollider(Entity entity, CapsuleColliderDef def){
 
