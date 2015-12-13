@@ -2,10 +2,7 @@ package com.brm.GoatEngine.ECS.common;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
@@ -26,9 +23,6 @@ public class PhysicsComponent extends EntityComponent {
 
     private Body body;  //the physical body of the entity
 
-    // TODO instead calculate from fixture sizes
-    private float width;   //The width of the entity(in game units)
-    private float height;  //The height of the entity (in game units)
 
     public PhysicsComponent(Map<String, String> map){ super(map); }
 
@@ -42,13 +36,9 @@ public class PhysicsComponent extends EntityComponent {
      */
     public PhysicsComponent(World world, BodyDef.BodyType bodyType, Vector2 position, float width, float height){
         super(true);
-        this.setWidth(width);
-        this.setHeight(height);
-
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = bodyType;
         bodyDef.position.set(position.x, position.y);
-
         this.body = world.createBody(bodyDef);
     }
 
@@ -132,23 +122,53 @@ public class PhysicsComponent extends EntityComponent {
 
     public Vector2 getVelocity(){return this.body.getLinearVelocity();}
 
-    // TODO instead calculate from fixture sizes
+
+    /**
+     * Returns the width of the entity (in game units)
+     * @return
+     */
     public float getWidth() {
+        float furthestX = 0.0f;
+        Array<Fixture> fixtureArray = body.getFixtureList();
+        for(int i=0; i<fixtureArray.size; i++){
+           Fixture fixture = fixtureArray.get(i);
+            if(fixture.getShape() instanceof PolygonShape){
+                PolygonShape shape = (PolygonShape) fixture.getShape();
+                Vector2 pos = new Vector2();
+                shape.getVertex(0, pos);
+                if(furthestX < pos.x) furthestX = pos.x;
+            }else{
+                CircleShape shape = (CircleShape) fixture.getShape();
+                float reach = shape.getPosition().x + shape.getRadius();
+                if(reach > furthestX) furthestX = reach;
+            }
 
-        return width;
+        }
+        return furthestX;
     }
 
-    public void setWidth(float width) {
-        this.width = width;
-    }
 
-    // TODO instead calculate from fixture sizes
+    /**
+     * Returns the height of the entity (in game units)
+     * @return
+     */
     public float getHeight() {
-        return height;
-    }
-
-    public void setHeight(float height) {
-        this.height = height;
+        float furthestY = 0.0f;
+        Array<Fixture> fixtureArray = body.getFixtureList();
+        for(int i=0; i<fixtureArray.size; i++){
+            Fixture fixture = fixtureArray.get(i);
+            if(fixture.getShape() instanceof PolygonShape){
+                PolygonShape shape = (PolygonShape) fixture.getShape();
+                Vector2 pos = new Vector2();
+                shape.getVertex(0, pos);
+                if(furthestY < pos.y) furthestY = pos.y;
+            }else{
+                CircleShape shape = (CircleShape) fixture.getShape();
+                float reach = shape.getPosition().y + shape.getRadius();
+                if(reach > furthestY) furthestY = reach;
+            }
+        }
+        return furthestY;
     }
 
     public Body getBody() {
