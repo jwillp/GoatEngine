@@ -1,7 +1,9 @@
 package com.brm.GoatEngine.GraphicsRendering;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.XmlReader;
 import com.brm.GoatEngine.ECS.core.Entity;
@@ -90,6 +92,8 @@ public class SpriteComponent extends EntityComponent {
         this.offsetX = Float.parseFloat(map.get("offset_x"));
         this.offsetY = Float.parseFloat(map.get("offset_y"));
         this.resourceName =  map.get("resource_name");
+        this.currentSprite = new TextureRegion(new Texture(Gdx.files.internal(resourceName)));
+
     }
 
     @Override

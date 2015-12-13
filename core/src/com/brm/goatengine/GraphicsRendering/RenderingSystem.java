@@ -96,12 +96,12 @@ public class RenderingSystem extends EntitySystem {
             PhysicsComponent phys = (PhysicsComponent) entity.getComponent(PhysicsComponent.ID);
 
             float ratio = sprite.getCurrentSprite().getRegionWidth()/sprite.getCurrentSprite().getRegionHeight();
-            float width = phys.getWidth() * 2;
+            float width = phys.getWidth();
             spriteBatch.draw(sprite.getCurrentSprite(),
-                    phys.getPosition().x - width + sprite.offsetX,
-                    phys.getPosition().y - phys.getHeight()*4 + sprite.offsetY,
+                    phys.getPosition().x - width/2 + sprite.offsetX,
+                    phys.getPosition().y - phys.getHeight()/2 + sprite.offsetY,
                     width,
-                    width * ratio
+                    ratio
             );
         }
     }

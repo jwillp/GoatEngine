@@ -128,14 +128,14 @@ public class PhysicsComponent extends EntityComponent {
      * @return
      */
     public float getWidth() {
-        float furthestX = 0.0f;
+        float furthestX = -0.0f;
         Array<Fixture> fixtureArray = body.getFixtureList();
         for(int i=0; i<fixtureArray.size; i++){
            Fixture fixture = fixtureArray.get(i);
             if(fixture.getShape() instanceof PolygonShape){
                 PolygonShape shape = (PolygonShape) fixture.getShape();
                 Vector2 pos = new Vector2();
-                shape.getVertex(0, pos);
+                shape.getVertex(1, pos);
                 if(furthestX < pos.x) furthestX = pos.x;
             }else{
                 CircleShape shape = (CircleShape) fixture.getShape();
@@ -144,7 +144,7 @@ public class PhysicsComponent extends EntityComponent {
             }
 
         }
-        return furthestX;
+        return Math.abs(furthestX);
     }
 
 
@@ -153,14 +153,14 @@ public class PhysicsComponent extends EntityComponent {
      * @return
      */
     public float getHeight() {
-        float furthestY = 0.0f;
+        float furthestY = -750.0f;
         Array<Fixture> fixtureArray = body.getFixtureList();
         for(int i=0; i<fixtureArray.size; i++){
             Fixture fixture = fixtureArray.get(i);
             if(fixture.getShape() instanceof PolygonShape){
                 PolygonShape shape = (PolygonShape) fixture.getShape();
                 Vector2 pos = new Vector2();
-                shape.getVertex(0, pos);
+                shape.getVertex(1, pos);
                 if(furthestY < pos.y) furthestY = pos.y;
             }else{
                 CircleShape shape = (CircleShape) fixture.getShape();
@@ -168,7 +168,7 @@ public class PhysicsComponent extends EntityComponent {
                 if(reach > furthestY) furthestY = reach;
             }
         }
-        return furthestY;
+        return Math.abs(furthestY);
     }
 
     public Body getBody() {
