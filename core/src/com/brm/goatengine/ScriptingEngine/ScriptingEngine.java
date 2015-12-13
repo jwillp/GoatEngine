@@ -22,8 +22,6 @@ import java.util.Map;
  */
 public class ScriptingEngine{
 
-    public final static String SCRIPT_DIRECTORY = "scripts";
-
     private GroovyScriptEngine engine;
     private Binding globalScope;
 
@@ -108,7 +106,7 @@ public class ScriptingEngine{
         config.setScriptBaseClass(EntityScript.class.getCanonicalName());
 
         try {
-            engine = new GroovyScriptEngine(SCRIPT_DIRECTORY, this.getClass().getClassLoader());
+            engine = new GroovyScriptEngine(GEConfig.ScriptingEngine.SCRIPTS_DIR, this.getClass().getClassLoader());
             engine.setConfig(config);
         } catch (IOException e) {
             e.printStackTrace();

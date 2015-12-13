@@ -59,13 +59,8 @@ public class EntityFactory{
      */
     private static void processScriptComponent(String componentId, Entity entity, EntityComponentMap componentData){
         if(!isComponent(componentId, ScriptComponent.ID)){ return; }
-            // TODO Complete this
-           /* String scripts[] = componentData.get("scripts");
-            ScriptComponent scriptComp = new ScriptComponent();
-            for(String s: scripts){
-                scriptComp.addScript(s);
-            }
-            entity.addComponent(scriptComp, ScriptComponent.ID);*/
+            ScriptComponent scriptComp = new ScriptComponent(componentData);
+            entity.addComponent(scriptComp, ScriptComponent.ID);
     }
 
     /**

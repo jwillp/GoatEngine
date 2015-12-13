@@ -69,5 +69,4 @@ public class GenericComponentView extends ComponentView {
 
     }
 
-
 }
