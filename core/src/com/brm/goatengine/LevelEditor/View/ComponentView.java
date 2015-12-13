@@ -122,11 +122,12 @@ public abstract class ComponentView extends Table {
      * @param fieldName
      * @param value
      */
-    protected void addStringField(String fieldName, String value){
+    protected TextField addStringField(String fieldName, String value){
         TextField txtField = new TextField(value, getSkin());
         txtField.setScale(0.5f);
         stringFields.put(fieldName, txtField);
         addRow(fieldName, txtField);
+        return txtField;
     }
 
     /**

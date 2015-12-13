@@ -1,6 +1,10 @@
 package com.brm.GoatEngine.LevelEditor.View;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
 import com.brm.GoatEngine.Utils.Logger;
 
@@ -17,36 +21,6 @@ public class GenericComponentView extends ComponentView {
         super(c, skin);
     }
 
-
-    protected void initContent2() {
-        // For each field try to generate a UI field
-        Field[] fields = component.getClass().getDeclaredFields();
-        for(int i=0; i<fields.length; i++){
-            Field field = fields[i];
-            field.setAccessible(true);
-
-            // Special cases
-            if(field.getName().equals("ID")){
-                continue;
-            }
-            /*if(!field.getType().isPrimitive()){
-                continue;
-            }*/;
-
-            try {
-                if(field.getType().equals(boolean.class)){
-                    addBooleanField(field.getName(), field.getBoolean(component));
-                }else{
-                    addStringReadOnly(field.getName(), field.get(component).toString());
-                }
-            } catch (IllegalAccessException e) {
-                Logger.error(e.getMessage());
-                Logger.logStackTrace(e);
-            }
-        }
-    }
-
-
     @Override
     protected void initContent() {
         Map<String, String> map = component.toMap();
@@ -58,7 +32,13 @@ public class GenericComponentView extends ComponentView {
             if(value.equals("true") || value.equals("false")){
                 addBooleanField(key, Boolean.parseBoolean(value));
             }else{
-                addStringField(key, value);
+                TextField field = addStringField(key, value);
+                /*field.addListener(new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        onApply();
+                    }
+                });*/ // Auto Update
             }
         }
     }
@@ -80,8 +60,12 @@ public class GenericComponentView extends ComponentView {
         }
 
         // TODO array
-
-        component.fromMap(map);
+        try{
+            component.fromMap(map);
+        }catch (RuntimeException e){
+            new WarningDialog(e.getCause() + " " + e.getMessage(), getSkin()).show(this.getStage());
+            e.printStackTrace();
+        }
 
     }
 
