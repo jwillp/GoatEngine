@@ -16,6 +16,8 @@ public class ScriptComponent extends EntityComponent {
     public static final String ID = "SCRIPT_COMPONENT";
     private ArrayList<String> scripts = new ArrayList<String>();
 
+    // TODO maybe keep script instances, because values can differ for the same script in two different entities
+
     public ScriptComponent(){
         super(true);
     }

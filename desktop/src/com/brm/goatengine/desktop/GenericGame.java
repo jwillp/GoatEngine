@@ -45,7 +45,7 @@ public class GenericGame extends Game implements GameEventListener{
         if(!prefabed){
             // Prefabs test
             PrefabFactory prefabFactory = new PrefabFactory();
-            prefabFactory.createEntity("data/prefabs/Wall.prefab");
+            prefabFactory.createEntity("data/prefabs/Kubotz.prefab");
             prefabed = !prefabed;
         }
 

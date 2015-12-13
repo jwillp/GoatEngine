@@ -113,7 +113,7 @@ public class RenderingSystem extends EntitySystem {
     private void renderSpriterAnimations(float delta){
         //UPDATE SPRITER
         Spriter.update();
-        for(Entity entity: getEntityManager().getEntitiesWithComponent(SpriterAnimationComponent.ID)){
+        for(Entity entity: getEntityManager().getEntitiesWithComponentEnabled(SpriterAnimationComponent.ID)){
             SpriterAnimationComponent anim = (SpriterAnimationComponent)entity.getComponent(SpriterAnimationComponent.ID);
             PhysicsComponent phys = (PhysicsComponent)  entity.getComponent(PhysicsComponent.ID);
 

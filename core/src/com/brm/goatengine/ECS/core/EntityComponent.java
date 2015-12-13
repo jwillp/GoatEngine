@@ -9,7 +9,7 @@ public abstract class EntityComponent {
 
     private boolean enabled = true; //By default a component is enabled
 
-    // Syntaxic sugar
+    // Syntactic sugar
     public static class EntityComponentMap extends HashMap<String, String>{}
 
 
@@ -50,9 +50,10 @@ public abstract class EntityComponent {
 
     /**
      * Constructs a Map, to be implemented by subclasses
-     * @return
+     * @return the map built
      */
     protected abstract Map<String, String> makeMap();
+
 
     /**
      * Builds the current object from a map representation
@@ -60,6 +61,13 @@ public abstract class EntityComponent {
      */
     protected abstract void makeFromMap(Map<String, String>  map);
 
+    /**
+     * Builds the current object from a map representation public method
+     * @param map the map representation to use
+     */
+    public void fromMap(Map<String, String> map){
+        makeFromMap(map);
+    }
 
 
     /**

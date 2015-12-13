@@ -134,6 +134,7 @@ public class PhysicsComponent extends EntityComponent {
 
     // TODO instead calculate from fixture sizes
     public float getWidth() {
+
         return width;
     }
 
@@ -161,6 +162,14 @@ public class PhysicsComponent extends EntityComponent {
     public void setBodyType(BodyDef.BodyType type) {
         if(body.getType() != type)
             body.setType(type);
+    }
+
+    public void setAngle(float angle){
+        this.body.setTransform(getPosition(), angle);
+    }
+
+    public float getAngle(){
+        return body.getAngle();
     }
 
 

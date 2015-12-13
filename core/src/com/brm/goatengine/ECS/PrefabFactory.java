@@ -36,7 +36,7 @@ public class PrefabFactory {
     public Entity createEntity(final String prefab){
 
         Entity entity = null;
-        Ini ini = null;
+        Ini ini;
         try {
             if(prefabs.containsKey(prefab)){
                 ini = prefabs.get(prefab);

@@ -128,12 +128,25 @@ public class SpriterAnimationComponent extends EntityComponent {
         this.scale = Float.parseFloat(map.get("scale"));
         animationFile = map.get("animation_file");
         Spriter.load(FileSystem.getFile(map.get("animation_file")).read(), map.get("animation_file"));
-        try{
-            player = Spriter.newPlayer(map.get("animation_file"), map.get("entity_name"));
-        }catch (java.lang.ArrayIndexOutOfBoundsException e){
-            throw new SpriterEntityNotFoundException(map.get("entity_name"));
+
+        // We only create a new player if there is not already one
+        if(player == null){
+            try{
+                player = Spriter.newPlayer(map.get("animation_file"), map.get("entity_name"));
+            }catch (java.lang.ArrayIndexOutOfBoundsException e){
+                throw new SpriterEntityNotFoundException(map.get("entity_name"));
+            }
         }
-//        player.setAnimation(map.get("animation_title"));
+
+        // We'll specify the animation to play if it was provided, else we use the default one
+
+        if(map.containsKey("animation_title")){
+            String animationTitle = map.get("animation_title");
+            if(player.getEntity().getAnimation(animationTitle) != null){
+                player.setAnimation(animationTitle);
+            }
+        }
+
     }
 
 

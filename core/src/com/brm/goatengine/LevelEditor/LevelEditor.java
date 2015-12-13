@@ -265,7 +265,7 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
 
                              // Remove Entity
         if(e.getKey() == Input.Keys.DEL && selectedEntity != null){
-            executeCommand(new DeleteEntityCommand(selectedEntity));
+            executeCommand(new DeleteEntityCommand(selectedEntity, this));
         }
     }
 

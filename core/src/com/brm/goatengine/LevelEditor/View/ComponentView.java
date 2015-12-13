@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
+import com.brm.GoatEngine.Utils.Logger;
 
 import java.util.HashMap;
 
@@ -51,10 +52,20 @@ public abstract class ComponentView extends Table {
         checkBoxEnable.setChecked(component.isEnabled());
         add(checkBoxEnable);
 
+
+
         btnRemove = new TextButton("-", skin);
         add(btnRemove).top().right();
-
         row();
+
+
+        // Connect buttons
+        checkBoxEnable.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                component.setEnabled(!component.isEnabled());
+            }
+        });
 
     }
     private void initContentTable(){

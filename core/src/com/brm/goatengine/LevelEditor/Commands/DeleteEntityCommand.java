@@ -4,6 +4,7 @@ import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
 import com.brm.GoatEngine.ECS.core.EntityManager;
 import com.brm.GoatEngine.GoatEngine;
+import com.brm.GoatEngine.LevelEditor.LevelEditor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,9 +16,11 @@ public class DeleteEntityCommand extends UndoCommand {
 
     Entity deletedEntity;
     HashMap<String, EntityComponent> components;
+    LevelEditor editor;
 
-    public DeleteEntityCommand(Entity e){
+    public DeleteEntityCommand(Entity e, LevelEditor editor){
         deletedEntity = e;
+        this.editor = editor;
     }
 
 
@@ -42,5 +45,7 @@ public class DeleteEntityCommand extends UndoCommand {
         EntityManager manager = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager();
         components = manager.getComponentsForEntity(deletedEntity.getID());
         manager.deleteEntity(deletedEntity.getID());
+        editor.setSelectedEntity(null);
+
     }
 }

@@ -171,8 +171,11 @@ public class EntityManager {
     }
 
 
-
-
+    /**
+     * Returns entities having a specific tag
+     * @param tag
+     * @return
+     */
     public ArrayList<Entity> getEntitiesWithTag(String tag){
         ArrayList<Entity> entitiesWithTag = new ArrayList<Entity>();
         for(Entity e: getEntitiesWithComponent(TagsComponent.ID)){
