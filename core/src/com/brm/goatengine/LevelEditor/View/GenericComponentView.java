@@ -63,7 +63,7 @@ public class GenericComponentView extends ComponentView {
         try{
             component.fromMap(map);
         }catch (RuntimeException e){
-            new WarningDialog(e.getCause() + " " + e.getMessage(), getSkin()).show(this.getStage());
+            new WarningDialog(e.getCause() + "\n" + e.getMessage(), getSkin()).show(this.getStage());
             e.printStackTrace();
         }
 
