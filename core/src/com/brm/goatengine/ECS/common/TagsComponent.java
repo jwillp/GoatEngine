@@ -1,11 +1,12 @@
 package com.brm.GoatEngine.ECS.common;
 
-import com.badlogic.gdx.utils.XmlReader;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+
 
 /**
  * Used to add tags to an entity
@@ -36,7 +37,7 @@ public class TagsComponent extends EntityComponent {
     @Override
     protected Map<String, String> makeMap() {
         Map<String, String>  map = new HashMap<String, String>();
-        map.put("tags", String.valueOf(tags));
+        map.put("tags", tags.toString());
         return map;
     }
 
@@ -46,9 +47,9 @@ public class TagsComponent extends EntityComponent {
      * @param map the map representation to use
      */
     @Override
-    protected void makeFromMap(Map<String, String>  map){
+    protected void makeFromMap(Map<String, String> map){
 
-        //this.tags = map.get("tags"); // TODO
+        tags = new HashSet<String>(Arrays.asList(map.get("tags").replace("\\[|\\]", "").split(";")));
     }
 
     /**
@@ -82,15 +83,6 @@ public class TagsComponent extends EntityComponent {
      */
     public HashSet<String> getTags() {
         return tags;
-    }
-
-    /**
-     * Desiralizes a component
-     *
-     * @param componentData the data as an XML element
-     */
-    public void deserialize(XmlReader.Element componentData) {
-
     }
 
     @Override

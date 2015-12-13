@@ -1,8 +1,10 @@
 package com.brm.GoatEngine.ScriptingEngine;
 
 import com.brm.GoatEngine.ECS.core.EntityComponent;
+import com.sun.deploy.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,7 +36,9 @@ public class ScriptComponent extends EntityComponent {
     @Override
     protected Map<String, String> makeMap() {
         Map<String, String> map = new HashMap<String, String>();
-        map.put("scritps", this.scripts.toString()); // TODO CSV list
+        // Convert array to csv
+        String csv = this.scripts.toString().replace(", ", ";").replace("\\[|\\]", "");
+        map.put("scripts", this.scripts.toString());
         return map;
     }
 
@@ -44,7 +48,8 @@ public class ScriptComponent extends EntityComponent {
      * @param map the map representation to use
      */
     protected void makeFromMap(Map<String, String> map) {
-        scripts = new ArrayList<String>();/*map.get("scripts");*/ // TODO parse CSV List
+        // Convert
+        scripts = new ArrayList<String>(Arrays.asList(map.get("scripts").split(";*")));
     }
 
 
