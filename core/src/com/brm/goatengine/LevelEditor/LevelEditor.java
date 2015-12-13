@@ -236,6 +236,7 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
     }
 
     private void onMouseDrag(MouseDragEvent e) {
+        if(!enabled) return;
         // If mouse drag + space pressed = moving camera
         boolean spaceMouseCtrl = GoatEngine.inputManager.getKeyboardInputManager().isKeyPressed(Input.Keys.SPACE);
         boolean middleClickMouseCtrl = Gdx.input.isButtonPressed(Input.Buttons.MIDDLE);
@@ -251,6 +252,7 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
 
 
     private void onMouseSrcoll(MouseScrolledEvent e){
+        if(!enabled) return;
         if(e.amount == 0) return;
         ZoomCameraCommand.Mode mode = e.amount > 0 ? ZoomCameraCommand.Mode.OUT : ZoomCameraCommand.Mode.IN;
         executeCommand(new ZoomCameraCommand(mode));
