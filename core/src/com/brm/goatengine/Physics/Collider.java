@@ -82,12 +82,13 @@ public abstract class Collider{
         box.setTag(boxDef.tag);
 
         PolygonShape polygonShape = new PolygonShape();
-        polygonShape.setAsBox(boxDef.width, boxDef.height);
+        polygonShape.setAsBox(boxDef.width, boxDef.height, new Vector2(boxDef.x, boxDef.y) ,0);
         box.setSize(boxDef.width, boxDef.height);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
         fixtureDef.isSensor = boxDef.isSensor;
+
 
         box.setFixture(phys.getBody().createFixture(fixtureDef));
         box.getFixture().setUserData(box);

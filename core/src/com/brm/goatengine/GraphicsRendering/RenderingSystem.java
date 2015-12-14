@@ -94,15 +94,29 @@ public class RenderingSystem extends EntitySystem {
         for(Entity entity: getEntityManager().getEntitiesWithComponentEnabled(SpriteComponent.ID)){
             SpriteComponent sprite = (SpriteComponent) entity.getComponent(SpriteComponent.ID);
             PhysicsComponent phys = (PhysicsComponent) entity.getComponent(PhysicsComponent.ID);
+            if(sprite.autoAdjust){
 
-            float ratio = sprite.getCurrentSprite().getRegionWidth()/sprite.getCurrentSprite().getRegionHeight();
-            float width = phys.getWidth();
-            spriteBatch.draw(sprite.getCurrentSprite(),
-                    phys.getPosition().x - width/2 + sprite.offsetX,
-                    phys.getPosition().y - phys.getHeight()/2 + sprite.offsetY,
-                    width,
-                    ratio
-            );
+                float ratio = sprite.getCurrentSprite().getRegionWidth()/sprite.getCurrentSprite().getRegionHeight();
+                float width = phys.getWidth();
+                spriteBatch.draw(sprite.getCurrentSprite(),
+                        phys.getPosition().x - width + sprite.offsetX,
+                        phys.getPosition().y - phys.getHeight() + sprite.offsetY,
+                        width * 2,
+                        phys.getHeight() * 2
+                );
+            }else{
+                float width = sprite.getCurrentSprite().getRegionWidth() * sprite.scale;
+                float height = sprite.getCurrentSprite().getRegionHeight() * sprite.scale;
+                spriteBatch.draw(
+                        sprite.getCurrentSprite(),
+                        phys.getPosition().x - width + sprite.offsetX,
+                        phys.getPosition().y - height + sprite.offsetY,
+                        width,
+                        height
+
+                );
+            }
+
         }
     }
 

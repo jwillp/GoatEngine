@@ -25,10 +25,15 @@ public class SpriteComponent extends EntityComponent {
     private TextureRegion currentSprite;
     private Color color = Color.WHITE;
 
-    public float offsetX = 0;
-    public float offsetY = 0;
+    public float offsetX;
+    public float offsetY;
 
-    private int zIndex = 0;
+    // When set to true the rendering engines will force a ration and size according to PhysicsComponent
+    public boolean autoAdjust;
+    // If auto adjust is on, this value is updated automatically,
+    public float scale;
+
+    private int zIndex;
 
     /**
      * Ctor taking a map Representation of the current component
@@ -79,6 +84,8 @@ public class SpriteComponent extends EntityComponent {
         map.put("offset_x", String.valueOf(offsetX));
         map.put("offset_y", String.valueOf(offsetY));
         map.put("resource_name", resourceName);
+        map.put("auto_adjust", String.valueOf(autoAdjust));
+        map.put("scale", String.valueOf(scale));
         return map;
     }
 
@@ -92,6 +99,8 @@ public class SpriteComponent extends EntityComponent {
         this.offsetX = Float.parseFloat(map.get("offset_x"));
         this.offsetY = Float.parseFloat(map.get("offset_y"));
         this.resourceName =  map.get("resource_name");
+        this.autoAdjust = Boolean.parseBoolean(map.get("auto_adjust"));
+        this.scale = Float.parseFloat(map.get("scale"));
         this.currentSprite = new TextureRegion(new Texture(Gdx.files.internal(resourceName)));
 
     }
