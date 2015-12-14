@@ -8,6 +8,7 @@ import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
 import com.brm.GoatEngine.GraphicsRendering.CameraComponent;
 import com.brm.GoatEngine.LevelEditor.Components.EditorLabelComponent;
+import com.brm.GoatEngine.Physics.Collider;
 import com.brm.GoatEngine.ScriptingEngine.ScriptComponent;
 
 import java.util.HashMap;
@@ -108,6 +109,12 @@ public class EntityInspector extends Window {
         // Special cases
         if(c.getId().equals(PhysicsComponent.ID)){
             componentView = new PhysicsComponentView(c, getSkin());
+            // For each collider add a ColliderView
+            PhysicsComponent phys = (PhysicsComponent) c;
+            for(Collider col: phys.getColliders()){
+                componentList.add(new ColliderView(phys, col, getSkin())).fill().expandX();
+                componentList.row().padBottom(5).padTop(5);
+            }
         }
         else if(c.getId().equals(ScriptComponent.ID)){
             ScriptComponent scriptComponent = (ScriptComponent) c;
@@ -117,9 +124,6 @@ public class EntityInspector extends Window {
                 componentList.row().padBottom(5).padTop(5);
             }
         }
-        /*else if(c.getId().equals(CameraComponent.ID)){
-            componentView = new CameraComponentView(c,getSkin());
-        }*/
         else if(c.getId().equals(EditorLabelComponent.ID)){
             // Do nothing it is already handled by one of the field in the header of inspector
             return;

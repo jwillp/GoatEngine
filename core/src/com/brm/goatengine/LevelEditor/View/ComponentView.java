@@ -50,7 +50,7 @@ public abstract class ComponentView extends Table {
         // Header [enable] Component name [remove]
         checkBoxEnable = new CheckBox(component.getId(), skin);
         checkBoxEnable.setChecked(component.isEnabled());
-        add(checkBoxEnable);
+        add(checkBoxEnable).padRight(5);
 
 
 
