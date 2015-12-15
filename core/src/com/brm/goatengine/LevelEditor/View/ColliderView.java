@@ -95,5 +95,8 @@ public class ColliderView extends ComponentView {
             e.printStackTrace();
         }
 
+        // Update Inspector
+
+
     }
 }
