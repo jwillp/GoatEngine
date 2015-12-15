@@ -35,7 +35,7 @@ public final class GameScreen{
 
 
     public void init(GameScreenManager screenManager) {
-        Logger.info("Game Screen: " + this.name + " initialisation ... ");
+        Logger.info("> Game Screen: " + this.name + " initialisation ... ");
 
         // The Default Script System
         GoatEngine.eventManager.registerListener(this.ecsManager.getSystemManager());
@@ -59,7 +59,7 @@ public final class GameScreen{
         applyLevelConfig();
 
         initialized = true;
-        Logger.info("Game Screen: " + this.name + " initialised");
+        Logger.info("> Game Screen: " + this.name + " initialised");
 
 
     }

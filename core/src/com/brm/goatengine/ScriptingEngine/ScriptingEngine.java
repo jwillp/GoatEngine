@@ -119,11 +119,8 @@ public class ScriptingEngine{
         addObject("GoatEngine", new GoatEngine()); //Don't mind the new we'll only access static methods
 
         //Put some helpers Globals
-        addObject("console", GoatEngine.console); //Console for console.log, instead of doing GoatEngine.getConsole()
+        addObject("Console", GoatEngine.console); //Console for console.log, instead of doing GoatEngine.getConsole()
         addObject("EventManager", GoatEngine.eventManager); // To access event manager
-
-
-        Logger.info("Scripting Engine initialised");
     }
 
 
