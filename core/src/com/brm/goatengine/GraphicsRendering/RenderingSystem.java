@@ -3,6 +3,7 @@ package com.brm.GoatEngine.GraphicsRendering;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.brashmonkey.spriter.Loader;
 import com.brashmonkey.spriter.Spriter;
 import com.brashmonkey.spriter.gdxIntegration.LibGdxSpriterDrawer;
 import com.brashmonkey.spriter.gdxIntegration.LibGdxSpriterLoader;
@@ -11,6 +12,9 @@ import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.ECS.core.EntitySystem;
 import com.brm.GoatEngine.GoatEngine;
 import com.brm.GoatEngine.Utils.Logger;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Responsible for displaying all visual elements on screen
@@ -25,6 +29,10 @@ public class RenderingSystem extends EntitySystem {
     private CameraSystem cameraSystem;
 
     private CameraDebugRenderer cameraDebugRenderer;
+
+
+    private ArrayList<Entity> entitiesByZIndex = new ArrayList<Entity>(); // Entities ordered by Zindex
+
 
 
     /**
@@ -54,23 +62,30 @@ public class RenderingSystem extends EntitySystem {
      * @param dt
      */
     @Override
-    public void update(float dt) {
+    public void update(float dt){
+
+        //Order entities by ZIndex // TODO When TransformComponent will exist use it's Z position instead
+        entitiesByZIndex = getEntityManager().getEntitiesWithComponent(ZIndexComponent.ID);
+        Collections.sort(entitiesByZIndex, new ZIndexComponent.ZIndexComparator());
 
     }
 
     @Override
     public void draw() {
-        cameraSystem.update(0); // TODO deltatime  + documenting why this is here
+        cameraSystem.update(0); // TODO deltatime  + documenting why this is here instead of update?
         spriteBatch.setProjectionMatrix(cameraSystem.getMainCamera().combined);
 
+        // Render entities based on ZIndex
+        for(Entity e: entitiesByZIndex){
 
-
-        if(GoatEngine.gameScreenManager.getCurrentScreen().getConfig().TEXTURE_RENDERING){
-            spriteBatch.begin();
-            renderSpriterAnimations(0);
-            renderSprites(0);
-            spriteBatch.end();
+            if(GoatEngine.gameScreenManager.getCurrentScreen().getConfig().TEXTURE_RENDERING){
+                spriteBatch.begin();
+                renderSpriterAnimations(e,0);
+                renderSprites(e,0);
+                spriteBatch.end();
+            }
         }
+
 
         if(GoatEngine.gameScreenManager.getCurrentScreen().getConfig().PHYSICS_DEBUG_RENDERING){
             renderPhysicsDebug();
@@ -90,8 +105,8 @@ public class RenderingSystem extends EntitySystem {
      * Renders simple 2D game  sprites
      * @param dt
      */
-    private void renderSprites(float dt){
-        for(Entity entity: getEntityManager().getEntitiesWithComponentEnabled(SpriteComponent.ID)){
+    private void renderSprites(Entity entity, float dt){
+        if(entity.hasComponentEnabled(SpriteComponent.ID)){
             SpriteComponent sprite = (SpriteComponent) entity.getComponent(SpriteComponent.ID);
             PhysicsComponent phys = (PhysicsComponent) entity.getComponent(PhysicsComponent.ID);
             if(sprite.autoAdjust){
@@ -116,7 +131,6 @@ public class RenderingSystem extends EntitySystem {
 
                 );
             }
-
         }
     }
 
@@ -124,10 +138,10 @@ public class RenderingSystem extends EntitySystem {
      * Renders spriter animations
      * @param delta the delta time
      */
-    private void renderSpriterAnimations(float delta){
+    private void renderSpriterAnimations(Entity entity, float delta){
         //UPDATE SPRITER
         Spriter.update();
-        for(Entity entity: getEntityManager().getEntitiesWithComponentEnabled(SpriterAnimationComponent.ID)){
+        if(entity.hasComponentEnabled(SpriterAnimationComponent.ID)){
             SpriterAnimationComponent anim = (SpriterAnimationComponent)entity.getComponent(SpriterAnimationComponent.ID);
             PhysicsComponent phys = (PhysicsComponent)  entity.getComponent(PhysicsComponent.ID);
 
@@ -142,8 +156,9 @@ public class RenderingSystem extends EntitySystem {
                 anim.getPlayer().setAngle(phys.getBody().getAngle());
                 anim.getPlayer().setScale(anim.getScale());
             }
+            //Spriter.drawer().draw(anim.getPlayer());
         }
-        Spriter.draw();
+        Spriter.draw(); // TODO Change source to enable Z-Order drawing
     }
 
 

@@ -10,6 +10,7 @@ import com.brm.GoatEngine.GoatEngine;
 import com.brm.GoatEngine.GraphicsRendering.CameraComponent;
 import com.brm.GoatEngine.GraphicsRendering.SpriteComponent;
 import com.brm.GoatEngine.GraphicsRendering.SpriterAnimationComponent;
+import com.brm.GoatEngine.GraphicsRendering.ZIndexComponent;
 import com.brm.GoatEngine.LevelEditor.Components.EditorLabelComponent;
 import com.brm.GoatEngine.Physics.*;
 import com.brm.GoatEngine.ScriptingEngine.ScriptComponent;
@@ -47,6 +48,7 @@ public class EntityFactory{
             processCameraComponent(componentId, entity, map);
             processCameraTargetComponent(componentId, entity, map);
             processAIComponent(componentId, entity, map);
+            processZIndex(componentId, entity, map);
         }
         return entity;
     }
@@ -202,6 +204,12 @@ public class EntityFactory{
     private static void processAIComponent(String componentId, Entity entity, EntityComponentMap componentData){
         if(!isComponent(componentId, AIComponent.ID)){ return; }
         entity.addComponent(new AIComponent(componentData), AIComponent.ID);
+    }
+
+
+    private static void processZIndex(String componentId, Entity entity, EntityComponentMap componentMap){
+        if(!isComponent(componentId, ZIndexComponent.ID)) return;
+        entity.addComponent(new ZIndexComponent(componentMap), ZIndexComponent.ID);
     }
 
     /**

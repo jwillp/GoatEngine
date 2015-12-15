@@ -110,18 +110,6 @@ public class SpriteComponent extends EntityComponent {
         return ID;
     }
 
-    /**
-     * Comparator used to sort in ascending order (greatest z to smallest z)
-     * source: https://github.com/libgdx/libgdx/blob/master/tests/gdx-tests/src/com/badlogic/gdx/tests/SortedSpriteTest.java
-     */
-    public static class EntitySpriteComponentComparator implements Comparator<Entity>{
-        @Override
-        public int compare(Entity e1, Entity e2) {
-            SpriteComponent s1 = (SpriteComponent) e1.getComponent(SpriteComponent.ID);
-            SpriteComponent s2 = (SpriteComponent) e2.getComponent(SpriteComponent.ID);
 
-            return (s2.getZIndex() - s1.getZIndex()) > 0 ? 1 : -1;
-        }
-    }
 
 }
