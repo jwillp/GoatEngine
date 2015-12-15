@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.XmlReader.Element;
 import com.brashmonkey.spriter.Mainline;
 import com.brashmonkey.spriter.Player;
 import com.brashmonkey.spriter.Spriter;
+import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
 import com.brm.GoatEngine.Files.FileSystem;
 
@@ -177,9 +178,10 @@ public class SpriterAnimationComponent extends EntityComponent {
     }
 
 
-
-
-
+    @Override
+    public void onDetach(Entity entity) {
+        // Spriter.remove(this.player); // TODO Update spriter library
+    }
 
     @Override
     public String getId() {

@@ -67,6 +67,7 @@ public class PhysicsComponent extends EntityComponent {
         physMap.put("body_type", String.valueOf(this.body.getType()));
         physMap.put("position_x", String.valueOf(this.getPosition().x));
         physMap.put("position_y", String.valueOf(this.getPosition().y));
+        physMap.put("fixed_rotation", String.valueOf(body.isFixedRotation()));
         return physMap;
     }
 
@@ -87,6 +88,10 @@ public class PhysicsComponent extends EntityComponent {
 
         this.setBodyType(BodyDef.BodyType.valueOf(map.get("body_type")));
         body.setSleepingAllowed(false);
+
+        if(map.containsKey("fixed_rotation")){
+            body.setFixedRotation(Boolean.parseBoolean(map.get("fixed_rotation")));
+        }
     }
 
     /**
