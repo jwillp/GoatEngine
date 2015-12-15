@@ -131,6 +131,11 @@ public abstract class Collider{
 
     }
 
+    /**
+     * Adds a collider to an entity
+     * @param entity
+     * @param colliderDef
+     */
     public static void addCollider(Entity entity, ColliderDef colliderDef){
         if(colliderDef instanceof BoxColliderDef){
             addBoxCollider(entity, (BoxColliderDef) colliderDef);
@@ -144,6 +149,11 @@ public abstract class Collider{
 
     }
 
+    /**
+     * Adds a cpasule collider to an entity
+     * @param entity
+     * @param def
+     */
     public static void addCapsuleCollider(Entity entity, CapsuleColliderDef def){
 
         ///MIDDLE
@@ -225,4 +235,14 @@ public abstract class Collider{
 
     // TODO make something like entityComponent with makeMap instead
     public abstract Map<String, String> toMap();
+
+    /**
+     * Updates a collider according to a new Definition, must be of same type
+     * @param collider
+     * @param newDef
+     */
+    public static void updateCollider(Entity entity, Collider collider, ColliderDef newDef) {
+        removeCollider(entity, collider);
+        addCollider(entity, newDef);
+    }
 }

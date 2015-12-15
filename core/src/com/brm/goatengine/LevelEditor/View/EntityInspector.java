@@ -92,7 +92,7 @@ public class EntityInspector extends Window {
 
             HashMap<String, EntityComponent> comps = e.getComponents();
             for(String cId :  comps.keySet()){
-                addComponentToList(comps.get(cId));
+                addComponentToList(e, comps.get(cId));
             }
 
         }
@@ -103,7 +103,7 @@ public class EntityInspector extends Window {
 
 
 
-    public void addComponentToList(EntityComponent c){
+    public void addComponentToList(Entity e, EntityComponent c){
         ComponentView componentView = null;
 
         // Special cases
@@ -112,7 +112,7 @@ public class EntityInspector extends Window {
             // For each collider add a ColliderView
             PhysicsComponent phys = (PhysicsComponent) c;
             for(Collider col: phys.getColliders()){
-                componentList.add(new ColliderView(phys, col, getSkin())).fill().expandX();
+                componentList.add(new ColliderView(phys, col, e, getSkin())).fill().expandX();
                 componentList.row().padBottom(5).padTop(5);
             }
         }

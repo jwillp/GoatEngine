@@ -40,6 +40,7 @@ public class PhysicsComponent extends EntityComponent {
         bodyDef.type = bodyType;
         bodyDef.position.set(position.x, position.y);
         this.body = world.createBody(bodyDef);
+        body.setSleepingAllowed(false);
     }
 
 
@@ -85,6 +86,7 @@ public class PhysicsComponent extends EntityComponent {
         this.body = world.createBody(bodyDef);
 
         this.setBodyType(BodyDef.BodyType.valueOf(map.get("body_type")));
+        body.setSleepingAllowed(false);
     }
 
     /**
