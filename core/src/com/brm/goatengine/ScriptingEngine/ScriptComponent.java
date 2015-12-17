@@ -36,8 +36,8 @@ public class ScriptComponent extends EntityComponent {
     protected Map<String, String> makeMap() {
         Map<String, String> map = new HashMap<String, String>();
         // Convert array to csv
-        String csv = this.scripts.toString().replace(", ", ";").replace("\\[|\\]", "");
-        map.put("scripts", this.scripts.toString());
+        String csv = this.scripts.toString().replace(", ", ";").replace("[", "").replace("]", "");
+        map.put("scripts", csv);
         return map;
     }
 
@@ -48,7 +48,11 @@ public class ScriptComponent extends EntityComponent {
      */
     protected void makeFromMap(Map<String, String> map) {
         // Convert
-        scripts = new ArrayList<String>(Arrays.asList(map.get("scripts").split(";")));
+        if(map.get("scripts").equals("")){
+            scripts = new ArrayList<String>();
+        }else{
+            scripts = new ArrayList<String>(Arrays.asList(map.get("scripts").split(";")));
+        }
     }
 
 
