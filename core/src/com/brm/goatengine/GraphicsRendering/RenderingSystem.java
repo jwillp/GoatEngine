@@ -11,6 +11,7 @@ import com.brm.GoatEngine.ECS.common.PhysicsComponent;
 import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.ECS.core.EntitySystem;
 import com.brm.GoatEngine.GoatEngine;
+import com.brm.GoatEngine.ScreenManager.GameScreenManager;
 import com.brm.GoatEngine.Utils.Logger;
 
 import java.util.ArrayList;
@@ -67,13 +68,18 @@ public class RenderingSystem extends EntitySystem {
         //Order entities by ZIndex // TODO When TransformComponent will exist use it's Z position instead
         entitiesByZIndex = getEntityManager().getEntitiesWithComponent(ZIndexComponent.ID);
         Collections.sort(entitiesByZIndex, new ZIndexComponent.ZIndexComparator());
-
     }
 
     @Override
     public void draw() {
         cameraSystem.update(0); // TODO deltatime  + documenting why this is here instead of update?
         spriteBatch.setProjectionMatrix(cameraSystem.getMainCamera().combined);
+
+
+        //UPDATE SPRITER
+
+
+        Spriter.update();
 
         // Render entities based on ZIndex
         for(Entity e: entitiesByZIndex){
@@ -139,11 +145,12 @@ public class RenderingSystem extends EntitySystem {
      * @param delta the delta time
      */
     private void renderSpriterAnimations(Entity entity, float delta){
-        //UPDATE SPRITER
-        Spriter.update();
         if(entity.hasComponentEnabled(SpriterAnimationComponent.ID)){
             SpriterAnimationComponent anim = (SpriterAnimationComponent)entity.getComponent(SpriterAnimationComponent.ID);
             PhysicsComponent phys = (PhysicsComponent)  entity.getComponent(PhysicsComponent.ID);
+
+            // 15 == Default speed
+            anim.getPlayer().speed = !GoatEngine.gameScreenManager.isRunning() ? 0 : 15;
 
             if(!anim.isEnabled()){
                 //anim.getPlayer().setScale(0); // Fake not draw
@@ -155,10 +162,11 @@ public class RenderingSystem extends EntitySystem {
                 anim.getPlayer().setPosition(posX, posY);
                 anim.getPlayer().setAngle(phys.getBody().getAngle());
                 anim.getPlayer().setScale(anim.getScale());
+                Spriter.drawer().setLoader((Loader)Spriter.getLoader(anim.getAnimationFile()));
+                Spriter.drawer().draw(anim.getPlayer());
             }
-            //Spriter.drawer().draw(anim.getPlayer());
+
         }
-        Spriter.draw(); // TODO Change source to enable Z-Order drawing
     }
 
 

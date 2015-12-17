@@ -188,6 +188,10 @@ public class SpriterAnimationComponent extends EntityComponent {
         return ID;
     }
 
+    public String getAnimationFile() {
+        return animationFile;
+    }
+
     private class SpriterEntityNotFoundException extends RuntimeException {
         public SpriterEntityNotFoundException(String entityName) {
             super("Spriter Aniamtion Entity not found: " + entityName);
