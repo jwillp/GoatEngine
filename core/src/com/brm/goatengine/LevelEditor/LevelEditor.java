@@ -116,7 +116,7 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
         }
 
         if(actor == view.getBtnSaveChanges()){
-            executeCommand(new SaveLevelCommand());
+            executeCommand(new SaveLevelCommand(this));
         }
 
         // UNDOABLE COMMANDS
