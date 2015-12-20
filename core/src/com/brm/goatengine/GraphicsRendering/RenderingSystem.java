@@ -8,15 +8,12 @@ import com.brashmonkey.spriter.Loader;
 import com.brashmonkey.spriter.Spriter;
 import com.brashmonkey.spriter.gdxIntegration.LibGdxSpriterDrawer;
 import com.brashmonkey.spriter.gdxIntegration.LibGdxSpriterLoader;
-import com.brm.GoatEngine.AI.Components.AIComponent;
-import com.brm.GoatEngine.AI.Pathfinding.AISystem;
+import com.brm.GoatEngine.AI.AISystem;
 import com.brm.GoatEngine.AI.Pathfinding.PathNode;
 import com.brm.GoatEngine.ECS.common.PhysicsComponent;
 import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.ECS.core.EntitySystem;
 import com.brm.GoatEngine.GoatEngine;
-import com.brm.GoatEngine.ScreenManager.GameScreenManager;
-import com.brm.GoatEngine.Utils.GameConfig;
 import com.brm.GoatEngine.Utils.Logger;
 
 import java.util.ArrayList;

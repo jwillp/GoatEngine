@@ -1,7 +1,7 @@
 package com.brm.GoatEngine.ScreenManager;
 
 import com.badlogic.gdx.math.Vector2;
-import com.brm.GoatEngine.AI.Pathfinding.AISystem;
+import com.brm.GoatEngine.AI.AISystem;
 import com.brm.GoatEngine.ECS.ECSIniSerializer;
 import com.brm.GoatEngine.ECS.core.ECSManager;
 import com.brm.GoatEngine.ECS.core.EntityManager;

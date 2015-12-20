@@ -1,5 +1,6 @@
-package com.brm.GoatEngine.AI.Pathfinding;
+package com.brm.GoatEngine.AI;
 
+import com.brm.GoatEngine.AI.Pathfinding.Pathfinder;
 import com.brm.GoatEngine.ECS.core.EntitySystem;
 import com.brm.GoatEngine.Utils.Timer;
 
