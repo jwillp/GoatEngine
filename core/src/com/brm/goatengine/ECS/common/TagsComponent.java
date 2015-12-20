@@ -2,10 +2,7 @@ package com.brm.GoatEngine.ECS.common;
 
 import com.brm.GoatEngine.ECS.core.EntityComponent;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -14,7 +11,7 @@ import java.util.Map;
 public class TagsComponent extends EntityComponent {
 
     public static final String ID = "TAGS_COMPONENT";
-    private HashSet<String> tags = new HashSet<String>();
+    private HashSet<String> tags;
 
     /**
      * Ctor taking a map Representation of the current component
@@ -27,7 +24,9 @@ public class TagsComponent extends EntityComponent {
 
     public TagsComponent(boolean b) {
         super(b);
+        tags = new HashSet<String>();
     }
+
 
     /**
      * Constructs a PODType, to be implemented by subclasses
@@ -36,8 +35,10 @@ public class TagsComponent extends EntityComponent {
      */
     @Override
     protected Map<String, String> makeMap() {
-        Map<String, String>  map = new HashMap<String, String>();
-        map.put("tags", tags.toString());
+        Map<String, String> map = new HashMap<String, String>();
+        // Convert array to csv
+        String csv = this.tags.toString().replace(", ", ";").replace("[", "").replace("]", "");
+        map.put("tags", csv);
         return map;
     }
 
@@ -49,7 +50,12 @@ public class TagsComponent extends EntityComponent {
     @Override
     protected void makeFromMap(Map<String, String> map){
 
-        tags = new HashSet<String>(Arrays.asList(map.get("tags").replace("\\[|\\]", "").split(";")));
+        // Convert
+        if(map.get("tags").equals("")){
+            tags = new HashSet<String>();
+        }else{
+            tags = new HashSet<String>(Arrays.asList(map.get("tags").split(";")));
+        }
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.brm.GoatEngine.GraphicsRendering;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -7,11 +8,15 @@ import com.brashmonkey.spriter.Loader;
 import com.brashmonkey.spriter.Spriter;
 import com.brashmonkey.spriter.gdxIntegration.LibGdxSpriterDrawer;
 import com.brashmonkey.spriter.gdxIntegration.LibGdxSpriterLoader;
+import com.brm.GoatEngine.AI.Components.AIComponent;
+import com.brm.GoatEngine.AI.Pathfinding.AISystem;
+import com.brm.GoatEngine.AI.Pathfinding.PathNode;
 import com.brm.GoatEngine.ECS.common.PhysicsComponent;
 import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.ECS.core.EntitySystem;
 import com.brm.GoatEngine.GoatEngine;
 import com.brm.GoatEngine.ScreenManager.GameScreenManager;
+import com.brm.GoatEngine.Utils.GameConfig;
 import com.brm.GoatEngine.Utils.Logger;
 
 import java.util.ArrayList;
@@ -98,6 +103,10 @@ public class RenderingSystem extends EntitySystem {
         }
 
 
+        // PATHFINDING NODES //
+        renderPathfinding();
+
+
         // CAMERA DEBUG //
         if(GoatEngine.gameScreenManager.getCurrentScreen().getConfig().CAMERA_DEBUG_RENDERING){
             if(cameraDebugRenderer == null){
@@ -182,4 +191,66 @@ public class RenderingSystem extends EntitySystem {
         );
         this.spriteBatch.end();
     }
+
+
+
+
+
+
+
+
+    /**
+     * Debug method to render the path and nodes of AI
+     */
+    private void renderPathfinding() {
+        if(!GoatEngine.gameScreenManager.getCurrentScreen().getConfig().PATFINDING_DEBUG_RENDERING) return;
+        float NODE_SIZE = 0.4f;
+        for(PathNode node: AISystem.pathfinder.nodes) {
+            shapeRenderer.setProjectionMatrix(this.cameraSystem.getMainCamera().combined);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            if (node.isWalkable)
+                shapeRenderer.setColor(Color.RED);
+            shapeRenderer.rect(node.position.x, node.position.y, NODE_SIZE, NODE_SIZE);
+            shapeRenderer.end();
+        }
+
+        //Pathfinding display
+        /*for (Entity e : this.getEntityManager().getEntitiesWithComponent(AIComponent.ID)){
+
+           // AIComponent aiComp = (AIComponent) e.getComponent(AIComponent.ID);
+
+            //NODES
+            for(PathNode node: aiComp.getCurrentPath()) {
+            for(PathNode node: AISystem.pathfinder.openNodes) {
+                shapeRenderer.setProjectionMatrix(this.cameraSystem.getMainCamera().combined);
+                shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+                if (node.isWalkable)
+                    shapeRenderer.setColor(Color.RED);
+                if(aiComp.getCurrentPath().indexOf(node) == 0)
+                    shapeRenderer.setColor(Color.GREEN);
+                if(aiComp.getCurrentPath().indexOf(node) == aiComp.getCurrentPath().size()-1)
+                    shapeRenderer.setColor(Color.MAGENTA);
+                shapeRenderer.rect(node.position.x, node.position.y, NODE_SIZE, NODE_SIZE);
+                shapeRenderer.end();
+            }
+
+            // PATH
+            /*for(PathNode node: aiComp.getCurrentPath()){
+                if(node.parent != null){
+                    shapeRenderer.begin(ShapeRenderer.ShapeType.Line); // shape type
+                    shapeRenderer.setColor(1, 0, 0, 1); // line's color
+
+                    float offset = NODE_SIZE/2;
+                    shapeRenderer.line(
+                            node.position.x + offset , node.position.y + offset,
+                            node.parent.position.x + offset, node.parent.position.y + offset
+                    );
+                    shapeRenderer.end();
+                }
+            }*/
+        }
+
+
+
+
 }

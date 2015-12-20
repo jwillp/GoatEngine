@@ -28,7 +28,7 @@ public class GameScreenConfig extends EngineConfig {
     public boolean FOG_RENDERING = true;
     public boolean LIGHTING_RENDERING = true;
 
-
+    public boolean PATFINDING_DEBUG_RENDERING = false;
 
 
 
@@ -64,5 +64,9 @@ public class GameScreenConfig extends EngineConfig {
         this.FOG_RENDERING = GameConfig.getBooleanProperty(this.FOG_RENDERING, prop.getProperty("fog_rendering"));
 
         this.LIGHTING_RENDERING = GameConfig.getBooleanProperty(this.LIGHTING_RENDERING, prop.getProperty("lighting_rendering"));
+
+
+        this.PATFINDING_DEBUG_RENDERING = GameConfig.getBooleanProperty(
+                this.PATFINDING_DEBUG_RENDERING, prop.getProperty("pathfinding_debug_rendering"));
     }
 }

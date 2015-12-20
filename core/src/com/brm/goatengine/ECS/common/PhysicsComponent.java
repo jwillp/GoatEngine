@@ -23,6 +23,16 @@ public class PhysicsComponent extends EntityComponent {
 
     private Body body;  //the physical body of the entity
 
+    // Variable used in order not to calculate the size all the time
+    private boolean dirtyWidth = true;
+    private boolean dirtyHeight = true;
+    private float width;
+    private float height;
+
+
+
+
+
 
     public PhysicsComponent(Map<String, String> map){ super(map); }
 
@@ -135,6 +145,10 @@ public class PhysicsComponent extends EntityComponent {
      * @return
      */
     public float getWidth() {
+        // Return last calculation
+        if(!dirtyWidth)
+            return width;
+
         float furthestX = -0.0f;
         Array<Fixture> fixtureArray = body.getFixtureList();
         for(int i=0; i<fixtureArray.size; i++){
@@ -151,7 +165,9 @@ public class PhysicsComponent extends EntityComponent {
             }
 
         }
-        return Math.abs(furthestX);
+        dirtyWidth = false;
+        width = Math.abs(furthestX);
+        return width;
     }
 
 
@@ -160,6 +176,10 @@ public class PhysicsComponent extends EntityComponent {
      * @return
      */
     public float getHeight() {
+        // Return last calculation
+        if(!dirtyHeight)
+            return height;
+
         float furthestY = -750.0f;
         Array<Fixture> fixtureArray = body.getFixtureList();
         for(int i=0; i<fixtureArray.size; i++){
@@ -175,7 +195,9 @@ public class PhysicsComponent extends EntityComponent {
                 if(reach > furthestY) furthestY = reach;
             }
         }
-        return Math.abs(furthestY);
+        dirtyHeight = false;
+        height = Math.abs(furthestY);
+        return height;
     }
 
     public Body getBody() {

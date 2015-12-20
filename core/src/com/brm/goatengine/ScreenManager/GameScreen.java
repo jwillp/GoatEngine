@@ -1,6 +1,7 @@
 package com.brm.GoatEngine.ScreenManager;
 
 import com.badlogic.gdx.math.Vector2;
+import com.brm.GoatEngine.AI.Pathfinding.AISystem;
 import com.brm.GoatEngine.ECS.ECSIniSerializer;
 import com.brm.GoatEngine.ECS.core.ECSManager;
 import com.brm.GoatEngine.ECS.core.EntityManager;
@@ -44,8 +45,11 @@ public final class GameScreen{
         physicsSystem = new PhysicsSystem();
         ecsManager.getSystemManager().addSystem(PhysicsSystem.class, physicsSystem);
 
-
         ecsManager.getSystemManager().addSystem(RenderingSystem.class, new RenderingSystem());
+        ecsManager.getSystemManager().addSystem(AISystem.class, new AISystem());
+
+
+
 
 
         ecsManager.getSystemManager().initSystems();
