@@ -20,7 +20,8 @@ import java.util.Map;
 import static com.brm.GoatEngine.ECS.core.EntityComponent.EntityComponentMap;
 
 /**
- * Creates entity using a Collection of Component as Maps
+ * Class used to create instances of Entities in such ways:
+ *  - Creates entity using a Collection of Component as Maps
  */
 public class EntityFactory{
 

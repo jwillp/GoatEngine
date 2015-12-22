@@ -1,5 +1,6 @@
 package com.brm.GoatEngine.ECS.core;
 
+import com.badlogic.gdx.utils.Pool;
 import com.brm.GoatEngine.ECS.ECSIniSerializer;
 import com.brm.GoatEngine.ECS.common.TagsComponent;
 import com.brm.GoatEngine.ScriptingEngine.ScriptComponent;
@@ -14,9 +15,22 @@ public class EntityManager {
     //HashMap<COMPONENT_ID, HashMap<ENTITY_ID, COMPONENT_ISNTANCE>>
     private HashMap<String, HashMap<String, EntityComponent>> components = new HashMap<String, HashMap<String, EntityComponent>>();
 
+
+    private final Pool<Entity> entities = new Pool<Entity>() {
+        /**
+         * Creates a new registered Entity and returns it
+         * The entity has a ScriptComponent
+         * @return
+         */
+        @Override
+        protected Entity newObject() {
+            Entity entity = new Entity();
+            return entity;
+        }
+    };
+
+
     public EntityManager(){}
-
-
 
     /**
      * Generates a unique ID for the entities
@@ -26,18 +40,37 @@ public class EntityManager {
     }
 
     /**
-     * Creates a new registered Entity and returns it
+     * Creates a new registered Entity instance and returns it
      * The entity has a ScriptComponent
      * @return
      */
     public Entity createEntity(){
-        Entity entity = new Entity();
+        Entity entity =  entities.obtain();
         registerEntity(entity);
         entity.addComponent(new ScriptComponent(true), ScriptComponent.ID);
         entity.addComponent(new TagsComponent(true), TagsComponent.ID);
         return entity;
     }
 
+    /**
+     * Returns an instance of entity with ID
+     * @param id
+     * @return instance of entity with ID
+     */
+    public Entity getEntity(String id){
+        Entity e = entities.obtain();
+        e.setID(id);
+        return e;
+    }
+
+
+    /**
+     * Frees an entity
+     * @param entity
+     */
+    public void freeEntity(Entity entity){
+        entities.free(entity);
+    }
 
 
     /**
@@ -71,7 +104,9 @@ public class EntityManager {
         this.components.put(componentId, componentContainer);
 
         //Call on attach
-        component.onAttach(new Entity(entityId));
+        Entity e = getEntity(entityId);
+        component.onAttach(e);
+        freeEntity(e);
         return this;
     }
 
@@ -87,8 +122,10 @@ public class EntityManager {
         //Test if the entity has the component
         if(this.hasComponent(componentId, entityId)) {
             //Call onDetach
-            componentEntry.get(entityId).onDetach(new Entity(entityId));
+            Entity e = getEntity(entityId);
+            componentEntry.get(entityId).onDetach(e);
             componentEntry.remove(entityId);
+            freeEntity(e);
         }
         return this;
     }
@@ -214,7 +251,7 @@ public class EntityManager {
      * @return
      */
     public Entity getEntityObject(String entityId){
-        Entity e = new Entity();
+        Entity e = entities.obtain();
         e.setID(entityId);
         e.setManager(this);
         return e;

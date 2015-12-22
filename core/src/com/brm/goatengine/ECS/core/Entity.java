@@ -1,8 +1,10 @@
 package com.brm.GoatEngine.ECS.core;
 
+import com.badlogic.gdx.utils.Pool;
+
 import java.util.HashMap;
 
-public class Entity {
+public class Entity implements Pool.Poolable {
 
     protected String ID;
     protected EntityManager manager;
@@ -131,6 +133,20 @@ public class Entity {
 
 
     /**
+     * Resets the object for reuse. Object references should be nulled and fields may be set to default values.
+     */
+    @Override
+    public void reset() {
+        this.setManager(null);
+        this.setID("");
+    }
+
+
+    /// EXCEPTIONS ///
+
+
+
+    /**
      * Thrown when an unregistered entity tries to access a null EntityManager
      */
     public static class UnregisteredEntityException extends RuntimeException{
@@ -145,7 +161,6 @@ public class Entity {
      * that does not poses that particular component
      */
     public static class EntityComponentNotFoundException extends RuntimeException{
-
         //Constructor that accepts a message
         public EntityComponentNotFoundException(String componentName){
             super("The Component \"" + componentName + "\" was not found in Entity");

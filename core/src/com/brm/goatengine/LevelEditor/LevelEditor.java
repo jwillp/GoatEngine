@@ -60,6 +60,8 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
                 this.view.getInspector().inspectEntity(selectedEntity);
             else
                 this.view.getInspector().clear();
+        }else{
+            view.renderStats(); // Always render stats
         }
     }
 
@@ -240,7 +242,6 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
         // If mouse drag + space pressed = moving camera
         boolean spaceMouseCtrl = GoatEngine.inputManager.getKeyboardInputManager().isKeyPressed(Input.Keys.SPACE);
         boolean middleClickMouseCtrl = Gdx.input.isButtonPressed(Input.Buttons.MIDDLE);
-        Logger.debug("Curr Mouse Button : " + e.button + " MIDDLE: " + Input.Buttons.MIDDLE);
         if(middleClickMouseCtrl || spaceMouseCtrl){
             executeCommand(new MoveDragCameraCommand(e.screenX, e.screenY, e.lastScreenX, e.lastScreenY));
         }else{

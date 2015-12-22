@@ -286,6 +286,16 @@ public class LevelEditorView extends UIEngine {
         btnPlayPause.setText(GoatEngine.gameScreenManager.isRunning() ? "Pause" : "Play");
 
         // Update stats
+        renderStats();
+
+        // Selection rendering
+        renderSelection();
+        // Grid
+        // drawGrid();
+    }
+
+    public void renderStats(){
+        // Update stats
         int entityCount = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager().getEntityCount();
         labelEntityCount.setText(Integer.toString(entityCount));
         labelFPS.setText(Integer.toString(Gdx.graphics.getFramesPerSecond()));
@@ -296,11 +306,6 @@ public class LevelEditorView extends UIEngine {
         EntityManager manager = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager();
         CameraComponent cam = (CameraComponent) manager.getComponents(CameraComponent.ID).get(0);
         labelCameraPosition.setText(cam.getCamera().position.toString());
-
-        // Selection rendering
-        renderSelection();
-        // Grid
-        // drawGrid();
     }
 
 
