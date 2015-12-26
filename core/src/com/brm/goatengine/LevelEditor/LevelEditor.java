@@ -283,6 +283,10 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
     }
 
     public void setSelectedEntity(Entity selectedEntity) {
+        // Free old entity
+        if(this.selectedEntity != null) {
+            GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager().freeEntity(this.selectedEntity);
+        }
         this.selectedEntity = selectedEntity;
     }
 

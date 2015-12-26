@@ -33,9 +33,9 @@ public class EntityManager {
      * @return
      */
     public Entity createEntity(){
-        Entity entity =  entityPool.obtain();
+        Entity entity =  getEntityObject("null");
         registerEntity(entity);
-        entity.addComponent(new ScriptComponent(true), ScriptComponent.ID);
+        //entity.addComponent(new ScriptComponent(true), ScriptComponent.ID);
         entity.addComponent(new TagsComponent(true), TagsComponent.ID);
         return entity;
     }

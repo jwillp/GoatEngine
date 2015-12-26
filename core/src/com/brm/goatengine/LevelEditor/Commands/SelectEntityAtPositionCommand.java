@@ -36,10 +36,10 @@ public class SelectEntityAtPositionCommand extends EditorCommand {
      */
     @Override
     public void exec() {
-        Entity entity = findEntity();
-        if(entity != null) {
+        String entityId = findEntity();
+        if(entityId != null) {
             //Make sure it is registered
-            entity = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager().getEntityObject(entity.getID());
+            Entity entity = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager().getEntityObject(entityId);
             selectEntity(entity);
         }else{
             editor.setSelectedEntity(null);
@@ -63,7 +63,7 @@ public class SelectEntityAtPositionCommand extends EditorCommand {
     /**
      * Tries to find an entity at the position of the mouse
      */
-    private Entity findEntity(){
+    private String findEntity(){
         EntityManager manager = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager();
         CameraComponent cam = (CameraComponent) manager.getComponents(CameraComponent.ID).get(0);
         final Vector3 pos = new Vector3();
@@ -86,11 +86,11 @@ public class SelectEntityAtPositionCommand extends EditorCommand {
             }
         }, pos.x - mousePointerSize, pos.y - mousePointerSize, pos.x + mousePointerSize, pos.y + mousePointerSize);
         // If we hit something
-        Entity entity = null;
+        String entityId = null;
         if (hitBody[0] != null) {
-            entity =  (Entity) hitBody[0].getUserData();
+            entityId = (String) hitBody[0].getUserData();
         }
-        return entity;
+        return entityId;
     }
 
 
