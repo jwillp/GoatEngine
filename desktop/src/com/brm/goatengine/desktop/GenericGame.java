@@ -24,7 +24,7 @@ public class GenericGame extends Game implements GameEventListener{
     @Override
     public void onEvent(GameEvent e) {
         if(e.isOfType(ControllerConnectedEvent.class)){
-            Logger.debug("Contoller Connected");
+            Logger.debug("Controller Connected");
         }
     }
 
@@ -35,20 +35,11 @@ public class GenericGame extends Game implements GameEventListener{
         try{
             GoatEngine.update();
         }catch (RuntimeException e){
-            Logger.fatal("AN ERROR OCCURED");
+            Logger.fatal("AN ERROR OCCURRED");
             Logger.fatal(e.getMessage());
             Logger.logStackTrace(e);
             throw e;
         }
-
-
-        if(!prefabed){
-            // Prefabs test
-            PrefabFactory prefabFactory = new PrefabFactory();
-            prefabFactory.createEntity("data/prefabs/Kubotz.prefab");
-            prefabed = !prefabed;
-        }
-
     }
 
     private boolean prefabed = false;

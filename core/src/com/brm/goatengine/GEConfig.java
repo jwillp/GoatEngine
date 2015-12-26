@@ -60,7 +60,7 @@ public class GEConfig extends EngineConfig {
 
         private static void loadConfig(OrderedProperties prop){
             applyProperty(GEConfig.ScreenManager.ON_EMPTY_STACK, prop.getProperty("on_empty_stack"));
-            applyProperty(GEConfig.ScreenManager.MAIN_SCREEN, prop.getProperty("main_screen"));
+            GEConfig.ScreenManager.MAIN_SCREEN = applyProperty(GEConfig.ScreenManager.MAIN_SCREEN, prop.getProperty("main_screen"));
             applyProperty(GEConfig.ScreenManager.SCREEN_DIR, FileSystem.sanitiseDir(prop.getProperty("screens_dir")));
         }
     }

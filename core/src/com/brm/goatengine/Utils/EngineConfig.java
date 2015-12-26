@@ -12,10 +12,11 @@ public abstract class EngineConfig {
      * @param defaultProperty the default value of Config Property
      * @param readProperty the read from file property
      */
-    public static void applyProperty(String defaultProperty, final String readProperty){
+    public static String applyProperty(String defaultProperty, final String readProperty){
         if(!readProperty.isEmpty()){
-            defaultProperty = readProperty;
+            return readProperty;
         }
+        return defaultProperty;
     }
     /**
      * Try to applied a property, if the property string is Empty
