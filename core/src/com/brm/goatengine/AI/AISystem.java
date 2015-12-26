@@ -30,9 +30,9 @@ public class AISystem extends EntitySystem {
     @Override
     public void update(float dt) {
         // UPDATE PATHFINDER (RESCAN MAP)
-        if(scanTimer.isDone()){ // TODO Find an efficient way to rescan
+       /* if(scanTimer.isDone()){ // TODO Find an efficient way to rescan
             pathfinder.scanMap(getEntityManager().getEntitiesWithTag("platform"));
             scanTimer.reset();
-        }
+        }*/
     }
 }

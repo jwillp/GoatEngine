@@ -73,7 +73,8 @@ public class ECSIniSerializer {
             ini.load();
             loadEntityIndex();
             for(String id: entityIds){
-                EntityFactory.createFromMap(getComponentsForEntity(id));
+                Entity e = EntityFactory.createFromMap(getComponentsForEntity(id));
+                entityManager.freeEntity(e);
             }
         } catch (IOException e) {
             e.printStackTrace();

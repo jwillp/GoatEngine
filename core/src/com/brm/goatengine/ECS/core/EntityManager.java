@@ -1,6 +1,5 @@
 package com.brm.GoatEngine.ECS.core;
 
-import com.badlogic.gdx.utils.Pool;
 import com.brm.GoatEngine.ECS.ECSIniSerializer;
 import com.brm.GoatEngine.ECS.common.TagsComponent;
 import com.brm.GoatEngine.ScriptingEngine.ScriptComponent;
@@ -8,7 +7,7 @@ import com.brm.GoatEngine.ScriptingEngine.ScriptComponent;
 import java.util.*;
 
 /**
- * Allows the retrieval of entities and their components
+ * Allows the retrieval of entityPool and their components
  */
 public class EntityManager {
 
@@ -16,24 +15,13 @@ public class EntityManager {
     private HashMap<String, HashMap<String, EntityComponent>> components = new HashMap<String, HashMap<String, EntityComponent>>();
 
 
-    private final Pool<Entity> entities = new Pool<Entity>() {
-        /**
-         * Creates a new registered Entity and returns it
-         * The entity has a ScriptComponent
-         * @return
-         */
-        @Override
-        protected Entity newObject() {
-            Entity entity = new Entity();
-            return entity;
-        }
-    };
+    private final EntityPool entityPool = new EntityPool();
 
 
     public EntityManager(){}
 
     /**
-     * Generates a unique ID for the entities
+     * Generates a unique ID for the entityPool
      */
     public String generateId(){
         return UUID.randomUUID().toString();
@@ -45,7 +33,7 @@ public class EntityManager {
      * @return
      */
     public Entity createEntity(){
-        Entity entity =  entities.obtain();
+        Entity entity =  entityPool.obtain();
         registerEntity(entity);
         entity.addComponent(new ScriptComponent(true), ScriptComponent.ID);
         entity.addComponent(new TagsComponent(true), TagsComponent.ID);
@@ -58,7 +46,7 @@ public class EntityManager {
      * @return instance of entity with ID
      */
     public Entity getEntity(String id){
-        Entity e = entities.obtain();
+        Entity e = entityPool.obtain();
         e.setID(id);
         return e;
     }
@@ -69,7 +57,7 @@ public class EntityManager {
      * @param entity
      */
     public void freeEntity(Entity entity){
-        entities.free(entity);
+        entityPool.free(entity);
     }
 
 
@@ -251,7 +239,7 @@ public class EntityManager {
      * @return
      */
     public Entity getEntityObject(String entityId){
-        Entity e = entities.obtain();
+        Entity e = entityPool.obtain();
         e.setID(entityId);
         e.setManager(this);
         return e;
@@ -259,7 +247,7 @@ public class EntityManager {
 
 
     /**
-     * Returns all entities as Entity Objec
+     * Returns all entityPool as Entity Objec
      * @return
      */
     public ArrayList<Entity> getEntities(){

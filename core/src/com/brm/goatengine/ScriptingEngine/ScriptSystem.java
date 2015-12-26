@@ -19,7 +19,6 @@ public class ScriptSystem extends EntitySystem {
     @Override
     public void init() {
 
-
     }
 
     @Override
@@ -28,6 +27,7 @@ public class ScriptSystem extends EntitySystem {
             if(entity.hasComponentEnabled(VirtualGamePad.ID)){
                 handleInputForEntity(entity);
             }
+            getEntityManager().freeEntity(entity);
         }
     }
 
@@ -68,6 +68,7 @@ public class ScriptSystem extends EntitySystem {
                     GoatEngine.scriptEngine.logError(scriptFile, e.getMessage());
                 }
             }
+            getEntityManager().freeEntity(entity);
         }
     }
 
@@ -96,6 +97,7 @@ public class ScriptSystem extends EntitySystem {
                 }
             }
         }
+        getEntityManager().freeEntity(entity);
     }
 
 

@@ -67,6 +67,9 @@ public class RenderingSystem extends EntitySystem {
     @Override
     public void update(float dt){
 
+        for(Entity e: entitiesByZIndex) {
+            getEntityManager().freeEntity(e);
+        }
         //Order entities by ZIndex // TODO When TransformComponent will exist use it's Z position instead
         entitiesByZIndex = getEntityManager().getEntitiesWithComponent(ZIndexComponent.ID);
         Collections.sort(entitiesByZIndex, new ZIndexComponent.ZIndexComparator());
