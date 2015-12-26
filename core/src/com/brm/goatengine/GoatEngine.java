@@ -4,14 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.brm.GoatEngine.EventManager.EventManager;
 import com.brm.GoatEngine.GConsole.DefaultCommands.ExitCommand;
 import com.brm.GoatEngine.GConsole.DefaultCommands.HelpCommand;
-import com.brm.GoatEngine.LevelEditor.ConsoleCommands.ShowLevelEditor;
 import com.brm.GoatEngine.GConsole.GConsole;
 import com.brm.GoatEngine.GraphicsRendering.GraphicsEngine;
 import com.brm.GoatEngine.Input.InputManager;
+import com.brm.GoatEngine.LevelEditor.ConsoleCommands.ShowLevelEditor;
 import com.brm.GoatEngine.LevelEditor.LevelEditor;
 import com.brm.GoatEngine.ScreenManager.GameScreenManager;
 import com.brm.GoatEngine.ScriptingEngine.ScriptingEngine;
 import com.brm.GoatEngine.Utils.Logger;
+import com.brm.GoatEngine.Utils.Timer;
 import com.strongjoshua.console.Console;
 
 /**
@@ -62,48 +63,56 @@ public class GoatEngine {
      */
     public static void init(){
         Logger.info("Engine Initialisation ...");
+        Timer initTimer = new Timer(Timer.INFINITE);
+        initTimer.start();
 
         // Load configuration
         GEConfig.loadConfig();
-        Logger.info(" > Engine config read and applied");
+        Logger.info(" > Engine config read and applied " + initTimer.getDeltaTime() + "ms");
+        initTimer.reset();
 
-        //Graphics Engine
+        // Graphics Engine
         graphicsEngine = new GraphicsEngine();
-        Logger.info(" > Graphics Engine initialised");
+        Logger.info(" > Graphics Engine initialised "+ initTimer.getDeltaTime() + "ms");
+        initTimer.reset();
 
         // Event Manager
         eventManager = new EventManager();
-        Logger.info(" > Event Manager initialised");
+        Logger.info(" > Event Manager initialised "+ initTimer.getDeltaTime() + "ms");
+        initTimer.reset();
 
-        // input manager
+        // Input manager
         inputManager = new InputManager();
         inputManager.init();
-        Logger.info(" > Input Manager initialised");
+        Logger.info(" > Input Manager initialised "+ initTimer.getDeltaTime() + "ms");
+        initTimer.reset();
 
         // Audio Manager
         audioMixer = new AudioMixer();
-        Logger.info(" > Audio Manager initialised");
+        Logger.info(" > Audio Manager initialised "+ initTimer.getDeltaTime() + "ms");
+        initTimer.reset();
 
-        //Init the console
+        // Init the console
         console = new GConsole();
         console.setDisabled(!GEConfig.Console.CONS_ENABLED);
         console.log("Dev Console initialised", Console.LogLevel.SUCCESS);
         if(GEConfig.Console.CONS_ENABLED)
-            Logger.info(" > Dev Console initialised");
+            Logger.info(" > Dev Console initialised "+ initTimer.getDeltaTime() + "ms");
+        initTimer.reset();
 
 
-
-        //Script Engine Init
+        // Script Engine Init
         scriptEngine = new ScriptingEngine();
         scriptEngine.init();
-        Logger.info(" > Scripting Engine initialised");
+        Logger.info(" > Scripting Engine initialised " + initTimer.getDeltaTime() + "ms");
+        initTimer.reset();
 
 
-
-        //Game Screen manager
+        // Game Screen manager
         gameScreenManager = new GameScreenManager();
         gameScreenManager.init();
-        Logger.info(" > Game screen Manager initialised");
+        Logger.info(" > Game screen Manager initialised " + initTimer.getDeltaTime() + "ms");
+        initTimer.reset();
 
         // Level Editor
         levelEditor = new LevelEditor();
@@ -121,7 +130,7 @@ public class GoatEngine {
         initialised = true;
         running = true;
 
-        Logger.info("Engine initialisation complete");
+        Logger.info("Engine initialisation complete " + initTimer.getRunningTime() + "ms");
     }
 
 

@@ -1,9 +1,9 @@
 package com.brm.GoatEngine.Files;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 /**
  * Used to handle Files
@@ -21,6 +21,20 @@ public class FileSystem{
         }
         return directory;
     }
+
+    /**
+     * Find file in internal
+     * @return
+     */
+    public static FileHandle getFile(String path){
+        try {
+            return Gdx.files.internal(path);
+        }catch (GdxRuntimeException e){
+            throw new FileNotFoundException(path);
+        }
+    }
+
+
 
     /**
      * This is recursive
@@ -48,5 +62,13 @@ public class FileSystem{
                 handles.add(f);
             }
         }
+    }
+
+
+    public static class FileNotFoundException extends RuntimeException{
+        public FileNotFoundException(String path){
+            super("File not found: " + path);
+        }
+
     }
 }

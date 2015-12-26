@@ -1,0 +1,8 @@
+Merge branch 'config-files' into levelEditor
+
+# Conflicts:
+#	build.gradle
+#	core/src/com/brm/goatengine/Files/FileSystem.java
+#	core/src/com/brm/goatengine/ScreenManager/GameScreen.java
+#	core/src/com/brm/goatengine/ScreenManager/GameScreenConfig.java
+#	desktop/src/com/brm/goatengine/desktop/GenericGame.java

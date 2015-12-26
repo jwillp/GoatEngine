@@ -1,8 +1,8 @@
 package com.brm.GoatEngine.ECS.core;
 
+import com.brm.GoatEngine.ECS.ECSIniSerializer;
 import com.brm.GoatEngine.ECS.common.TagsComponent;
 import com.brm.GoatEngine.ScriptingEngine.ScriptComponent;
-
 
 import java.util.*;
 
@@ -11,12 +11,14 @@ import java.util.*;
  */
 public class EntityManager {
 
-    //HashMap<COMPONENT_ID, HashMap<ENTITY_ID, COMPONENT_ISNTANCE>>
+    //HashMap<COMPONENT_ID, HashMap<ENTITY_ID, COMPONENT_INSTANCE>>
     private HashMap<String, HashMap<String, EntityComponent>> components = new HashMap<String, HashMap<String, EntityComponent>>();
 
+
+    private final EntityPool entities = new EntityPool();
+
+
     public EntityManager(){}
-
-
 
     /**
      * Generates a unique ID for the entities
@@ -26,18 +28,37 @@ public class EntityManager {
     }
 
     /**
-     * Creates a new registered Entity and returns it
+     * Creates a new registered Entity instance and returns it
      * The entity has a ScriptComponent
      * @return
      */
     public Entity createEntity(){
-        Entity entity = new Entity();
+        Entity entity =  entities.obtain();
         registerEntity(entity);
-        entity.addComponent(new ScriptComponent(), ScriptComponent.ID);
-        entity.addComponent(new TagsComponent(), TagsComponent.ID);
+        entity.addComponent(new ScriptComponent(true), ScriptComponent.ID);
+        entity.addComponent(new TagsComponent(true), TagsComponent.ID);
         return entity;
     }
 
+    /**
+     * Returns an instance of entity with ID
+     * @param id
+     * @return instance of entity with ID
+     */
+    public Entity getEntity(String id){
+        Entity e = entities.obtain();
+        e.setID(id);
+        return e;
+    }
+
+
+    /**
+     * Frees an entity
+     * @param entity
+     */
+    public void freeEntity(Entity entity){
+        entities.free(entity);
+    }
 
 
     /**
@@ -71,7 +92,9 @@ public class EntityManager {
         this.components.put(componentId, componentContainer);
 
         //Call on attach
-        component.onAttach(new Entity(entityId));
+        Entity e = getEntity(entityId);
+        component.onAttach(e);
+        freeEntity(e);
         return this;
     }
 
@@ -87,8 +110,10 @@ public class EntityManager {
         //Test if the entity has the component
         if(this.hasComponent(componentId, entityId)) {
             //Call onDetach
-            componentEntry.get(entityId).onDetach(new Entity(entityId));
+            Entity e = getEntity(entityId);
+            componentEntry.get(entityId).onDetach(e);
             componentEntry.remove(entityId);
+            freeEntity(e);
         }
         return this;
     }
@@ -171,8 +196,11 @@ public class EntityManager {
     }
 
 
-
-
+    /**
+     * Returns entities having a specific tag
+     * @param tag
+     * @return
+     */
     public ArrayList<Entity> getEntitiesWithTag(String tag){
         ArrayList<Entity> entitiesWithTag = new ArrayList<Entity>();
         for(Entity e: getEntitiesWithComponent(TagsComponent.ID)){
@@ -194,11 +222,6 @@ public class EntityManager {
     }
 
 
-
-
-
-
-
     /**
      * Removes all references to a certain entity
      * @param entityId
@@ -216,7 +239,7 @@ public class EntityManager {
      * @return
      */
     public Entity getEntityObject(String entityId){
-        Entity e = new Entity();
+        Entity e = entities.obtain();
         e.setID(entityId);
         e.setManager(this);
         return e;
@@ -224,7 +247,7 @@ public class EntityManager {
 
 
     /**
-     * Returns all entities
+     * Returns all entities as Entity Objec
      * @return
      */
     public ArrayList<Entity> getEntities(){
@@ -236,6 +259,21 @@ public class EntityManager {
         }
         return new ArrayList<Entity>(entities.values());
     }
+
+
+    /**
+     * Returns all entities Id
+      * @return
+     */
+    public Set<String> getEntityIds(){
+        HashSet<String> ids = new HashSet<String>();
+        for(String compId : this.components.keySet()){
+            ids.addAll(components.get(compId).keySet());
+        }
+        return ids;
+    }
+
+
 
     /**
      * Returns all the components instance of a certain type
@@ -258,26 +296,37 @@ public class EntityManager {
      * @return
      */
     public int getEntityCount(){
-        return this.getEntities().size();
+        return this.getEntityIds().size();
     }
 
+    /**
+     * Indicates if an entity exists
+     * @param entityId
+     * @return true if an entity exists
+     */
     public boolean entityExists(String entityId){
-        for(Entity e: this.getEntities()){
-            if(e.getID().equals(entityId)){
-                return true;
-            }
-        }
-        return false;
+       return getEntityIds().contains(entityId);
     }
 
     /**
      * Deletes all the entities
      */
     public void clear(){
-        for(Entity e: this.getEntities()){
-            this.deleteEntity(e.getID());
+        for(String id: this.getEntityIds()){
+            this.deleteEntity(id);
         }
     }
+
+    /**
+     * Export current Entity Manager to file
+     * @param outputPath
+     */
+    public void saveIni(String outputPath) {
+        ECSIniSerializer serializer = new ECSIniSerializer(outputPath, this);
+        serializer.save();
+    }
+
+
 
 
 }

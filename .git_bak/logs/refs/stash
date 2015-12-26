@@ -1,0 +1,4 @@
+0000000000000000000000000000000000000000 f4c77cc644c5134ceb12dff299b8d59edb20ddd5 fireraccoon <jwilliam.perreault@gmail.com> 1449443983 -0500	WIP on levelEditor: 64adf7b Added Camera Position info in level editor + fixed graphics displaying
+f4c77cc644c5134ceb12dff299b8d59edb20ddd5 5a730f4a0e104853ca517f5fd18a18bd4f670ef3 fireraccoon <jwilliam.perreault@gmail.com> 1449447676 -0500	WIP on config-files: 616eef4 Spriter animation prefab support
+5a730f4a0e104853ca517f5fd18a18bd4f670ef3 a6b4c7bebdc7498dd510dedf336ec2fd3b1b8503 fireraccoon <jwilliam.perreault@gmail.com> 1449449955 -0500	WIP on config-files: e0f1144 gitignore : ignore core/data directory
+a6b4c7bebdc7498dd510dedf336ec2fd3b1b8503 6904aafd1585d6f2644711156c4932d73606b0e5 fireraccoon <jwilliam.perreault@gmail.com> 1449965881 -0500	WIP on master: 401925b Removed Xml Serialization of Components

@@ -1,9 +1,9 @@
 package com.brm.GoatEngine.ECS.common;
 
-import com.badlogic.gdx.utils.XmlReader;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
 
-import java.util.HashSet;
+import java.util.*;
+
 
 /**
  * Used to add tags to an entity
@@ -11,7 +11,52 @@ import java.util.HashSet;
 public class TagsComponent extends EntityComponent {
 
     public static final String ID = "TAGS_COMPONENT";
-    private HashSet<String> tags = new HashSet<String>();
+    private HashSet<String> tags;
+
+    /**
+     * Ctor taking a map Representation of the current component
+     *
+     * @param map
+     */
+    public TagsComponent(Map<String, String> map) {
+        super(map);
+    }
+
+    public TagsComponent(boolean b) {
+        super(b);
+        tags = new HashSet<String>();
+    }
+
+
+    /**
+     * Constructs a PODType, to be implemented by subclasses
+     *
+     * @return
+     */
+    @Override
+    protected Map<String, String> makeMap() {
+        Map<String, String> map = new HashMap<String, String>();
+        // Convert array to csv
+        String csv = this.tags.toString().replace(", ", ";").replace("[", "").replace("]", "");
+        map.put("tags", csv);
+        return map;
+    }
+
+    /**
+     * Builds the current object from a pod representation
+     *
+     * @param map the map representation to use
+     */
+    @Override
+    protected void makeFromMap(Map<String, String> map){
+
+        // Convert
+        if(map.get("tags").equals("")){
+            tags = new HashSet<String>();
+        }else{
+            tags = new HashSet<String>(Arrays.asList(map.get("tags").split(";")));
+        }
+    }
 
     /**
      * Adds a new tag to an entity
@@ -44,16 +89,6 @@ public class TagsComponent extends EntityComponent {
      */
     public HashSet<String> getTags() {
         return tags;
-    }
-
-    /**
-     * Desiralizes a component
-     *
-     * @param componentData the data as an XML element
-     */
-    @Override
-    public void deserialize(XmlReader.Element componentData) {
-
     }
 
     @Override

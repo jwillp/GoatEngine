@@ -3,10 +3,9 @@ package com.brm.GoatEngine.AI.Pathfinding;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.ECS.common.PhysicsComponent;
+import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.Utils.Math.Vectors;
-
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,7 +51,7 @@ public class Pathfinder {
 
             //Add a node for the whole length of the platform
             for(float i = 0; i < rect.getWidth(); i++){
-                PathNode nodeWalk = new PathNode(null, new Vector2(rect.getX() + i, rect.getY() + rect.getHeight()));
+                PathNode nodeWalk = new PathNode(null, new Vector2(rect.getX() + i * 2 , rect.getY() + rect.getHeight()*2));
                 //Node nodeBlock = new Node(null, new Vector2(rect.getX() + i, rect.getY()));
                 //nodeBlock.isWalkable = false;
                 //this.nodes.add(nodeBlock);
@@ -60,10 +59,10 @@ public class Pathfinder {
             }
 
             //Add nodes to the left and the right edges of platform as nodes (out of the platform)
-            PathNode leftEdgeNode = new PathNode(null, new Vector2(rect.getX()-1, rect.getY() + rect.getHeight()));
+            PathNode leftEdgeNode = new PathNode(null, new Vector2(rect.getX()-1, rect.getY() + rect.getHeight() * 2));
 
-            PathNode rightEdgeNode = new PathNode(null, new Vector2(rect.getX() + rect.getWidth() - NODE_SIZE + 1,
-                    rect.getY() + rect.getHeight())
+            PathNode rightEdgeNode = new PathNode(null, new Vector2(rect.getX() + rect.getWidth()*2 - NODE_SIZE + 1,
+                    rect.getY() + rect.getHeight() * 2)
             );
 
             leftEdgeNode.isLedge = true;
@@ -71,10 +70,6 @@ public class Pathfinder {
 
             this.nodes.add(leftEdgeNode);
             this.nodes.add(rightEdgeNode);
-
-
-
-
         }
     }
 

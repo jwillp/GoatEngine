@@ -1,7 +1,6 @@
 package com.brm.GoatEngine.GConsole;
 
 import com.brm.GoatEngine.GoatEngine;
-import com.brm.GoatEngine.Utils.Logger;
 import com.strongjoshua.console.Console;
 
 /**

@@ -3,10 +3,12 @@ package com.brm.GoatEngine.LevelEditor.View;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.brm.GoatEngine.ECS.common.PhysicsComponent;
+import com.brm.GoatEngine.ECS.common.TagsComponent;
 import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
 import com.brm.GoatEngine.GraphicsRendering.CameraComponent;
 import com.brm.GoatEngine.LevelEditor.Components.EditorLabelComponent;
+import com.brm.GoatEngine.Physics.Collider;
 import com.brm.GoatEngine.ScriptingEngine.ScriptComponent;
 
 import java.util.HashMap;
@@ -90,7 +92,7 @@ public class EntityInspector extends Window {
 
             HashMap<String, EntityComponent> comps = e.getComponents();
             for(String cId :  comps.keySet()){
-                addComponentToList(comps.get(cId));
+                addComponentToList(e, comps.get(cId));
             }
 
         }
@@ -101,12 +103,18 @@ public class EntityInspector extends Window {
 
 
 
-    public void addComponentToList(EntityComponent c){
+    public void addComponentToList(Entity e, EntityComponent c){
         ComponentView componentView = null;
 
         // Special cases
         if(c.getId().equals(PhysicsComponent.ID)){
             componentView = new PhysicsComponentView(c, getSkin());
+            // For each collider add a ColliderView
+            PhysicsComponent phys = (PhysicsComponent) c;
+            for(Collider col: phys.getColliders()){
+                componentList.add(new ColliderView(phys, col, e, getSkin())).fill().expandX();
+                componentList.row().padBottom(5).padTop(5);
+            }
         }
         else if(c.getId().equals(ScriptComponent.ID)){
             ScriptComponent scriptComponent = (ScriptComponent) c;
@@ -116,24 +124,16 @@ public class EntityInspector extends Window {
                 componentList.row().padBottom(5).padTop(5);
             }
         }
-        else if(c.getId().equals(CameraComponent.ID)){
-            componentView = new CameraComponentView(c,getSkin());
-        }
         else if(c.getId().equals(EditorLabelComponent.ID)){
             // Do nothing it is already handled by one of the field in the header of inspector
             return;
-        }else{
+        }
+        /*else if(c.getId().equals(TagsComponent.ID)){
+            componentView = new TagsComponentView(c,getSkin());
+        }*/
+        else{
             componentView = new GenericComponentView(c, getSkin());
         }
-
-
-
-
-
-
-
-
-
 
 
         componentList.add(componentView).fill().expandX();

@@ -58,6 +58,7 @@ public class LevelEditorView extends UIEngine {
     private Label labelEntityCount;
     private Label labelNativeHeap;
     private Label labelJavaHeap;
+    private Label labelCameraPosition;
 
 
     // Zoom Controls
@@ -223,11 +224,12 @@ public class LevelEditorView extends UIEngine {
         labelScreenName = new Label(
                 GoatEngine.gameScreenManager.getCurrentScreen().getName().replace(
                         GEConfig.ScreenManager.GAME_SCREEN_EXT,""), skin);
-        labelFPS = new Label(Integer.toString(Gdx.graphics.getFramesPerSecond()), skin);
-        labelEntityCount = new Label(Integer.toString(0), skin);
+        labelFPS = new Label("", skin);
+        labelEntityCount = new Label("", skin);
 
         labelNativeHeap = new Label("", skin);
         labelJavaHeap = new Label("", skin);
+        labelCameraPosition = new Label("", skin);
 
 
         statsBar.top().left().padLeft(30).padBottom(30);
@@ -252,6 +254,11 @@ public class LevelEditorView extends UIEngine {
         statsBar.add("Native heap: ");
         statsBar.add(labelNativeHeap);
         statsBar.row();
+
+        statsBar.add("Camera Position: ");
+        statsBar.add(labelCameraPosition);
+        statsBar.row();
+
 
 
         // Put statistics on
@@ -279,6 +286,16 @@ public class LevelEditorView extends UIEngine {
         btnPlayPause.setText(GoatEngine.gameScreenManager.isRunning() ? "Pause" : "Play");
 
         // Update stats
+        renderStats();
+
+        // Selection rendering
+        renderSelection();
+        // Grid
+        // drawGrid();
+    }
+
+    public void renderStats(){
+        // Update stats
         int entityCount = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager().getEntityCount();
         labelEntityCount.setText(Integer.toString(entityCount));
         labelFPS.setText(Integer.toString(Gdx.graphics.getFramesPerSecond()));
@@ -286,10 +303,9 @@ public class LevelEditorView extends UIEngine {
         labelNativeHeap.setText(Long.toString(Gdx.app.getNativeHeap()/1024/1024) + "MB");
         labelJavaHeap.setText(Long.toString(Gdx.app.getJavaHeap()/1024/1024) + "MB");
 
-        // Selection rendering
-        renderSelection();
-        // Grid
-        // drawGrid();
+        EntityManager manager = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager();
+        CameraComponent cam = (CameraComponent) manager.getComponents(CameraComponent.ID).get(0);
+        labelCameraPosition.setText(cam.getCamera().position.toString());
     }
 
 

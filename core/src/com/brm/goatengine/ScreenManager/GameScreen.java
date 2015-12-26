@@ -1,35 +1,26 @@
 package com.brm.GoatEngine.ScreenManager;
 
 import com.badlogic.gdx.math.Vector2;
-import com.brm.GoatEngine.ECS.common.TagsComponent;
-import com.brm.GoatEngine.ECS.core.Entity;
-import com.brm.GoatEngine.GEConfig;
-import com.brm.GoatEngine.LevelEditor.LevelEditor;
-import com.brm.GoatEngine.Physics.PhysicsSystem;
-import com.brm.GoatEngine.GraphicsRendering.RenderingSystem;
-import com.brm.GoatEngine.ScriptingEngine.ScriptComponent;
-import com.brm.GoatEngine.ScriptingEngine.ScriptSystem;
+import com.brm.GoatEngine.AI.AISystem;
+import com.brm.GoatEngine.ECS.ECSIniSerializer;
 import com.brm.GoatEngine.ECS.core.ECSManager;
 import com.brm.GoatEngine.ECS.core.EntityManager;
+import com.brm.GoatEngine.GEConfig;
 import com.brm.GoatEngine.GoatEngine;
-import com.brm.GoatEngine.TmxSupport.MapConfig;
-import com.brm.GoatEngine.TmxSupport.MapConfigObject;
+import com.brm.GoatEngine.GraphicsRendering.RenderingSystem;
+import com.brm.GoatEngine.Physics.PhysicsSystem;
+import com.brm.GoatEngine.ScriptingEngine.ScriptSystem;
 import com.brm.GoatEngine.UI.UIEngine;
-import com.brm.GoatEngine.Utils.GameConfig;
 import com.brm.GoatEngine.Utils.Logger;
-import com.brm.GoatEngine.Utils.OrderedProperties;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public final class GameScreen{
 
     protected ECSManager ecsManager = new ECSManager();
     private String name;
 
-    private MapConfig mapConfig;
     private PhysicsSystem physicsSystem;
 
     private GameScreenConfig config;
@@ -44,12 +35,8 @@ public final class GameScreen{
     }
 
 
-
-
-
-
     public void init(GameScreenManager screenManager) {
-        Logger.info("Game Screen: " + this.name + " initialisation ... ");
+        Logger.info("> Game Screen: " + this.name + " initialisation ... ");
 
         // The Default Script System
         GoatEngine.eventManager.registerListener(this.ecsManager.getSystemManager());
@@ -58,8 +45,11 @@ public final class GameScreen{
         physicsSystem = new PhysicsSystem();
         ecsManager.getSystemManager().addSystem(PhysicsSystem.class, physicsSystem);
 
-
         ecsManager.getSystemManager().addSystem(RenderingSystem.class, new RenderingSystem());
+       // ecsManager.getSystemManager().addSystem(AISystem.class, new AISystem());
+
+
+
 
 
         ecsManager.getSystemManager().initSystems();
@@ -69,11 +59,11 @@ public final class GameScreen{
         loadConfigFile();
 
 
-        // Apply Map Configuration
-        applyMapConfig();
+        // Apply Level Configuration
+        applyLevelConfig();
 
         initialized = true;
-        Logger.info("Game Screen: " + this.name + " initialised");
+        Logger.info("> Game Screen: " + this.name + " initialised");
 
 
     }
@@ -111,8 +101,6 @@ public final class GameScreen{
 
         try {
             config.loadConfig(GEConfig.ScreenManager.SCREEN_DIR + this.name);
-            this.mapConfig = new MapConfig(GEConfig.ScreenManager.LEVEL_DIR + config.LEVEL_CONFIG); // Required
-
             //Gravity
             Vector2 gravity = new Vector2(config.GRAVITY_X, config.GRAVITY_Y);
             this.ecsManager.getSystemManager().getSystem(PhysicsSystem.class).setGravity(gravity);
@@ -130,25 +118,14 @@ public final class GameScreen{
 
     /**
      * Applies the info (add entities/objects) read from
-     * the Map Config file
+     * the Level Config file
      */
-    private void applyMapConfig(){
-        // Load Map Config File
-        ArrayList<MapConfigObject> objects =  this.mapConfig.read();
-
-        for(MapConfigObject obj : objects){
-            Entity entity = ecsManager.getEntityManager().createEntity();
-            if(obj.tag != null){
-                ((TagsComponent)entity.getComponent(TagsComponent.ID)).addTag(obj.tag);
-            }
-            if(obj.script != null){
-                ((ScriptComponent)entity.getComponent(ScriptComponent.ID)).addScript(
-                        GEConfig.ScriptingEngine.SCRIPTS_DIR + obj.script
-                );
-            }
-        }
-
-        Logger.info("> Number of entity added: " + objects.size());
+    private void applyLevelConfig(){
+        // Load Level Config File
+        ECSIniSerializer serializer = new ECSIniSerializer(this.config.LEVEL_CONFIG, this.getEntityManager());
+        serializer.load();
+        // TODO : Read from serializer (maybe faster)
+        Logger.info("> Number of entity added: " + getEntityManager().getEntityCount());
     }
 
 

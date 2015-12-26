@@ -1,0 +1,7 @@
+0000000000000000000000000000000000000000 071d9e7bf04b4b0900bbb4bbe3cf2db12a630f0b fireraccoon <jwilliam.perreault@gmail.com> 1449300449 -0500	branch: Created from refs/remotes/origin/config-files
+071d9e7bf04b4b0900bbb4bbe3cf2db12a630f0b 22e2cfec0c5eb8c506f7fb71f0343f895f87dd77 fireraccoon <jwilliam.perreault@gmail.com> 1449305582 -0500	commit: Game Config: game specific config system with overrides
+22e2cfec0c5eb8c506f7fb71f0343f895f87dd77 161ebfdd6110c29c57fa15b4671f7c2fae681859 fireraccoon <jwilliam.perreault@gmail.com> 1449358326 -0500	commit: Prefab Reading: Physics component
+161ebfdd6110c29c57fa15b4671f7c2fae681859 09535a1adad97dfaeb51da7b66278e78a70b8d01 fireraccoon <jwilliam.perreault@gmail.com> 1449358790 -0500	commit: Prefab Reading: script component
+09535a1adad97dfaeb51da7b66278e78a70b8d01 e6ff94903bc4fd78d844e268a8f2d285eaba1a9e fireraccoon <jwilliam.perreault@gmail.com> 1449447253 -0500	commit: Merged Level Editor
+e6ff94903bc4fd78d844e268a8f2d285eaba1a9e 616eef4f8d6dc721369dd36d8ab699b949359119 fireraccoon <jwilliam.perreault@gmail.com> 1449447291 -0500	commit: Spriter animation prefab support
+616eef4f8d6dc721369dd36d8ab699b949359119 e0f114497b51554e6313f0ba8251a47e25edf192 fireraccoon <jwilliam.perreault@gmail.com> 1449448044 -0500	commit: gitignore : ignore core/data directory

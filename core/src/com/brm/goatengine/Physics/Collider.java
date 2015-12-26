@@ -6,6 +6,7 @@ import com.brm.GoatEngine.ECS.common.PhysicsComponent;
 import com.brm.GoatEngine.ECS.core.Entity;
 
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Used for Colliders
@@ -81,12 +82,13 @@ public abstract class Collider{
         box.setTag(boxDef.tag);
 
         PolygonShape polygonShape = new PolygonShape();
-        polygonShape.setAsBox(boxDef.width, boxDef.height);
+        polygonShape.setAsBox(boxDef.width, boxDef.height, new Vector2(boxDef.x, boxDef.y) ,0);
         box.setSize(boxDef.width, boxDef.height);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
         fixtureDef.isSensor = boxDef.isSensor;
+
 
         box.setFixture(phys.getBody().createFixture(fixtureDef));
         box.getFixture().setUserData(box);
@@ -129,8 +131,63 @@ public abstract class Collider{
 
     }
 
+    /**
+     * Adds a collider to an entity
+     * @param entity
+     * @param colliderDef
+     */
+    public static void addCollider(Entity entity, ColliderDef colliderDef){
+        if(colliderDef instanceof BoxColliderDef){
+            addBoxCollider(entity, (BoxColliderDef) colliderDef);
+        }
+        else if(colliderDef instanceof CircleColliderDef){
+            addCircleCollider(entity, (CircleColliderDef) colliderDef);
+        }
+        else if(colliderDef instanceof CapsuleColliderDef){
+            addCapsuleCollider(entity, (CapsuleColliderDef) colliderDef);
+        }
+
+    }
+
+    /**
+     * Adds a cpasule collider to an entity
+     * @param entity
+     * @param def
+     */
+    public static void addCapsuleCollider(Entity entity, CapsuleColliderDef def){
+
+        ///MIDDLE
+        BoxColliderDef middleDef = def.middleColliderDef;
+        middleDef.width = def.width * 0.90f;
+        middleDef.height = def.height * 0.5f;
+        middleDef.x = def.x;
+        middleDef.y = def.y;
+        middleDef.isSensor = def.isSensor;
+        addBoxCollider(entity, middleDef);
 
 
+        // Circle TOP (HEAD)
+        CircleColliderDef topDef = def.topColliderDef;
+        topDef.radius = def.width;
+        topDef.x = def.x;
+        topDef.y = def.y + def.height*0.5f;
+        topDef.isSensor = def.isSensor;
+        addCircleCollider(entity, topDef);
+
+
+        // Circle BOTTOM (LEGS)
+        CircleColliderDef bottomDef = def.bottomColliderDef;
+        bottomDef.radius = def.width;
+        bottomDef.x = def.x;
+        bottomDef.y = def.y  - def.height*0.5f;
+        bottomDef.isSensor = def.isSensor;
+        addCircleCollider(entity, bottomDef);
+
+
+        //FEET FIXTURE
+        /*PolygonShape footSensor = new PolygonShape();
+        footSensor.setAsBox(0.1f,0.1f, new Vector2(0, -height), 0);*/
+    }
 
 
 
@@ -176,4 +233,16 @@ public abstract class Collider{
         }
     }
 
+    // TODO make something like entityComponent with makeMap instead
+    public abstract Map<String, String> toMap();
+
+    /**
+     * Updates a collider according to a new Definition, must be of same type
+     * @param collider
+     * @param newDef
+     */
+    public static void updateCollider(Entity entity, Collider collider, ColliderDef newDef) {
+        removeCollider(entity, collider);
+        addCollider(entity, newDef);
+    }
 }

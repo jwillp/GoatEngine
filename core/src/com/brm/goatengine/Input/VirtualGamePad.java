@@ -3,10 +3,11 @@ package com.brm.GoatEngine.Input;
 import com.badlogic.gdx.utils.XmlReader;
 import com.brm.GoatEngine.ECS.core.Entity;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
-import com.brm.GoatEngine.Utils.Logger;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A virtual gamepad to be used by the AI
@@ -16,16 +17,6 @@ import java.util.Collection;
 public class VirtualGamePad extends EntityComponent {
 
     public final static String ID = "VIRTUAL_GAME_PAD";
-
-    /**
-     * Desiralizes a component
-     *
-     * @param componentData the data as an XML element
-     */
-    @Override
-    public void deserialize(XmlReader.Element componentData) {
-
-    }
 
     @Override
     public String getId() {
@@ -41,18 +32,11 @@ public class VirtualGamePad extends EntityComponent {
 
 
     public VirtualGamePad(InputSource inputSource){
+        super(true);
         this.setInputSource(inputSource);
         this.pressedButtons = new ArrayList<VirtualButton>();
         this.justReleasedButtons = new ArrayList<VirtualButton>();
     }
-
-    public VirtualGamePad(XmlReader.Element componentData){
-        super(componentData);
-        this.setInputSource(InputSource.USER_INPUT);
-        this.pressedButtons = new ArrayList<VirtualButton>();
-        this.justReleasedButtons = new ArrayList<VirtualButton>();
-    }
-
 
 
     /**
@@ -143,6 +127,26 @@ public class VirtualGamePad extends EntityComponent {
 
     @Override
     public void onDetach(Entity entity) {
+
+    }
+
+    /**
+     * Constructs a PODType, to be implemented by subclasses
+     *
+     * @return
+     */
+    @Override
+    protected Map<String, String> makeMap() {
+        return new HashMap<String, String>();
+    }
+
+    /**
+     * Builds the current object from a pod representation
+     *
+     * @param pod the pod representation to use
+     */
+    @Override
+    protected void makeFromMap(Map<String, String> pod) {
 
     }
 }

@@ -1,0 +1,7 @@
+0000000000000000000000000000000000000000 401925b2793566d29e9cad0b2934930ae40568b9 fireraccoon <jwilliam.perreault@gmail.com> 1449544973 -0500	branch: Created from refs/remotes/origin/level-serialization
+401925b2793566d29e9cad0b2934930ae40568b9 44e869f5fbc8e83173280b61d894282aee0f0f04 fireraccoon <jwilliam.perreault@gmail.com> 1449544996 -0500	commit: Basic Level serialization structure
+44e869f5fbc8e83173280b61d894282aee0f0f04 52eacb20076a32b61cecf4cf15fb4479ed741f97 fireraccoon <jwilliam.perreault@gmail.com> 1449578875 -0500	commit: ECS Ini serializer + entity index
+52eacb20076a32b61cecf4cf15fb4479ed741f97 b9c01634c0567f72a856a22e6518d88cf3479705 fireraccoon <jwilliam.perreault@gmail.com> 1449633509 -0500	commit: Working Level Ini Serialization
+b9c01634c0567f72a856a22e6518d88cf3479705 8ca873fd89a65a08a501b9e4e11300b617b71f21 fireraccoon <jwilliam.perreault@gmail.com> 1449838859 -0500	commit: Level Serialization: Read level
+8ca873fd89a65a08a501b9e4e11300b617b71f21 9a259d73d91b9204a409f1732f516714ab73c861 fireraccoon <jwilliam.perreault@gmail.com> 1449962718 -0500	commit: Better serialization for level and prefabs collider compatible
+9a259d73d91b9204a409f1732f516714ab73c861 7138211b8b874eebb37dd84754e8c9cb71966b9e fireraccoon <jwilliam.perreault@gmail.com> 1449965720 -0500	commit: Reading Tags and Scripts

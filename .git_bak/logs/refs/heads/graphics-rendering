@@ -1,0 +1,5 @@
+0000000000000000000000000000000000000000 071d9e7bf04b4b0900bbb4bbe3cf2db12a630f0b fireraccoon <jwilliam.perreault@gmail.com> 1449382456 -0500	branch: Created from refs/remotes/origin/graphics-rendering
+071d9e7bf04b4b0900bbb4bbe3cf2db12a630f0b 3466c48b728e57840fc2e7307131beb5ad9eac61 fireraccoon <jwilliam.perreault@gmail.com> 1449382554 -0500	commit: Removed BasicPlan.txt
+3466c48b728e57840fc2e7307131beb5ad9eac61 f2c8a03a9a0b218ce21d1f9a1e6e84693b4aa8ee fireraccoon <jwilliam.perreault@gmail.com> 1449382923 -0500	commit: Created Package Graphics Rendering
+f2c8a03a9a0b218ce21d1f9a1e6e84693b4aa8ee 67e1fdc557d35f323d5339e940eee82232c31e3a fireraccoon <jwilliam.perreault@gmail.com> 1449387363 -0500	commit: Added basic classes for rendering + Removed useless jars in lib (Konsole + Groovy)
+67e1fdc557d35f323d5339e940eee82232c31e3a 6d73c7911d7cbbd8c7a2fc473302687268e9f4cf fireraccoon <jwilliam.perreault@gmail.com> 1449428369 -0500	commit: Rendering Animations

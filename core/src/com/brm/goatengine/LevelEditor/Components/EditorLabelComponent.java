@@ -3,6 +3,9 @@ package com.brm.GoatEngine.LevelEditor.Components;
 import com.badlogic.gdx.utils.XmlReader;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * A label to be used by the editor to
  * visually give name to entities.
@@ -13,20 +16,40 @@ public class EditorLabelComponent extends EntityComponent{
     public static final String ID = "EDITOR_LABEL_COMPONENT";
     private String label;
 
-    public EditorLabelComponent(String label) {
+    public EditorLabelComponent(String label){
+        super(true);
         this.label = label;
+    }
+
+    public EditorLabelComponent(Map<String, String> map) {
+        super(map);
     }
 
 
     /**
-     * Desiralizes a component
+     * Constructs a Map, to be implemented by subclasses
      *
-     * @param componentData the data as an XML element
+     * @return
      */
     @Override
-    public void deserialize(XmlReader.Element componentData) {
-
+    protected Map<String, String> makeMap() {
+        Map<String, String>  map = new HashMap<String, String>();
+        map.put("label", this.label);
+        return map;
     }
+
+    /**
+     * Builds the current object from a map representation
+     *
+     * @param map the map representation to use
+     */
+    @Override
+    protected void makeFromMap(Map<String, String> map) {
+        this.label = map.get("label");
+    }
+
+
+
 
     @Override
     public String getId() {

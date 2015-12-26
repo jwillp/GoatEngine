@@ -2,7 +2,6 @@ package com.brm.GoatEngine.ECS.core;
 
 
 import com.brm.GoatEngine.EventManager.EntityEvent;
-import com.brm.GoatEngine.EventManager.GameEvent;
 
 public abstract class EntitySystem {
 

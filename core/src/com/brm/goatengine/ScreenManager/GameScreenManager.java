@@ -70,13 +70,13 @@ public class GameScreenManager {
      * @param screen
      */
     private void addScreen(GameScreen screen){
-        Logger.info("Game Engine adding Screen ...");
+        Logger.info("> Game Engine adding Screen ...");
         if(!this.screens.isEmpty())
             this.screens.peek().pause();
 
         this.screens.push(screen);
         this.screens.peek().init(this);
-        Logger.info("Game Engine Screen Added");
+        Logger.info("> Game Engine Screen Added");
     }
 
     /**

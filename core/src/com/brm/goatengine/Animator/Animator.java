@@ -1,14 +1,7 @@
 package com.brm.GoatEngine.Animator;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.XmlReader;
-import com.badlogic.gdx.utils.XmlWriter;
 import com.brm.GoatEngine.Utils.Logger;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 

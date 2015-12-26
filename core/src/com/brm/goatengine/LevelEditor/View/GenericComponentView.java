@@ -1,10 +1,16 @@
 package com.brm.GoatEngine.LevelEditor.View;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
 import com.brm.GoatEngine.Utils.Logger;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A Component View using reflexion to display fields
@@ -17,38 +23,50 @@ public class GenericComponentView extends ComponentView {
 
     @Override
     protected void initContent() {
-        // For each field try to generate a UI field
-        Field[] fields = component.getClass().getDeclaredFields();
-        for(int i=0; i<fields.length; i++){
-            Field field = fields[i];
-            field.setAccessible(true);
-
-            // Special cases
-            if(field.getName().equals("ID")){
+        Map<String, String> map = component.toMap();
+        for(String key: map.keySet()){
+            if(key.equals("component_id") || key.equals("enabled")){
                 continue;
             }
-            /*if(!field.getType().isPrimitive()){
-                continue;
-            }*/;
-
-            try {
-                if(field.getType().equals(boolean.class)){
-                    addBooleanField(field.getName(), field.getBoolean(component));
-                }else{
-                    addStringField(field.getName(), field.get(component).toString());
-                }
-            } catch (IllegalAccessException e) {
-                Logger.error(e.getMessage());
-                Logger.logStackTrace(e);
+            String value = map.get(key);
+            if(value.equals("true") || value.equals("false")){
+                addBooleanField(key, Boolean.parseBoolean(value));
+            }else{
+                TextField field = addStringField(key, value);
+                /*field.addListener(new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        onApply();
+                    }
+                });*/ // Auto Update
             }
         }
     }
 
+
+
     @Override
     protected void onApply() {
+        Map<String, String> map = new HashMap<String, String>();
 
+        //Strings
+        for(String key: this.stringFields.keySet()){
+            map.put(key, this.stringFields.get(key).getText());
+        }
+
+        // Booleans
+        for(String key: this.booleanFields.keySet()){
+            map.put(key, String.valueOf(this.booleanFields.get(key).isChecked()));
+        }
+
+        // TODO array
+        try{
+            component.fromMap(map);
+        }catch (RuntimeException e){
+            new WarningDialog(e.getCause() + "\n" + e.getMessage(), getSkin()).show(this.getStage());
+            e.printStackTrace();
+        }
 
     }
-
 
 }

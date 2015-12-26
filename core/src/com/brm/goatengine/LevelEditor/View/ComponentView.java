@@ -1,15 +1,11 @@
 package com.brm.GoatEngine.LevelEditor.View;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.StringBuilder;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
+import com.brm.GoatEngine.Utils.Logger;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -54,12 +50,22 @@ public abstract class ComponentView extends Table {
         // Header [enable] Component name [remove]
         checkBoxEnable = new CheckBox(component.getId(), skin);
         checkBoxEnable.setChecked(component.isEnabled());
-        add(checkBoxEnable);
+        add(checkBoxEnable).padRight(5);
+
+
 
         btnRemove = new TextButton("-", skin);
         add(btnRemove).top().right();
-
         row();
+
+
+        // Connect buttons
+        checkBoxEnable.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                component.setEnabled(!component.isEnabled());
+            }
+        });
 
     }
     private void initContentTable(){
@@ -116,11 +122,12 @@ public abstract class ComponentView extends Table {
      * @param fieldName
      * @param value
      */
-    protected void addStringField(String fieldName, String value){
+    protected TextField addStringField(String fieldName, String value){
         TextField txtField = new TextField(value, getSkin());
         txtField.setScale(0.5f);
         stringFields.put(fieldName, txtField);
         addRow(fieldName, txtField);
+        return txtField;
     }
 
     /**

@@ -1,13 +1,12 @@
 package com.brm.GoatEngine.ScriptingEngine;
 
-import com.badlogic.gdx.utils.XmlReader;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
-import com.brm.GoatEngine.ECS.core.Entity;
-import com.brm.GoatEngine.Utils.Logger;
+import com.sun.deploy.util.StringUtils;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Enables entities to have Custom Behaviour using Scripts
@@ -17,12 +16,43 @@ public class ScriptComponent extends EntityComponent {
     public static final String ID = "SCRIPT_COMPONENT";
     private ArrayList<String> scripts;
 
+    // TODO maybe keep script instances, because values can differ for the same script in two different entities
 
-    public ScriptComponent(XmlReader.Element element){
-        super(element);
-    }
-    public ScriptComponent(){
+    public ScriptComponent(boolean b) {
+        super(b);
         scripts = new ArrayList<String>();
+    }
+
+    public ScriptComponent(Map<String, String> map) {
+        super(map);
+    }
+
+    /**
+     * Constructs a PODType, to be implemented by subclasses
+     *
+     * @return
+     */
+    @Override
+    protected Map<String, String> makeMap() {
+        Map<String, String> map = new HashMap<String, String>();
+        // Convert array to csv
+        String csv = this.scripts.toString().replace(", ", ";").replace("[", "").replace("]", "");
+        map.put("scripts", csv);
+        return map;
+    }
+
+    /**
+     * Builds the current object from a map representation
+     *
+     * @param map the map representation to use
+     */
+    protected void makeFromMap(Map<String, String> map) {
+        // Convert
+        if(map.get("scripts").equals("")){
+            scripts = new ArrayList<String>();
+        }else{
+            scripts = new ArrayList<String>(Arrays.asList(map.get("scripts").split(";")));
+        }
     }
 
 
@@ -54,18 +84,6 @@ public class ScriptComponent extends EntityComponent {
         return scripts;
     }
 
-
-    /**
-     * Desiralizes a component
-     *
-     * @param componentData the data as an XML element
-     */
-    @Override
-    public void deserialize(XmlReader.Element componentData) {
-        for(XmlReader.Element script: componentData.getChildrenByName("script")){
-            this.addScript(script.getText());
-        }
-    }
 
     @Override
     public String getId() {

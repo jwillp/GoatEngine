@@ -60,6 +60,8 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
                 this.view.getInspector().inspectEntity(selectedEntity);
             else
                 this.view.getInspector().clear();
+        }else{
+            view.renderStats(); // Always render stats
         }
     }
 
@@ -115,6 +117,10 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
             return;
         }
 
+        if(actor == view.getBtnSaveChanges()){
+            executeCommand(new SaveLevelCommand(this));
+        }
+
         // UNDOABLE COMMANDS
         // CREATE ENTITY
         if(actor == view.getBtnCreateEntity()){
@@ -136,9 +142,6 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
             this.redo();
             return;
         }
-
-
-
     }
 
 
@@ -235,10 +238,10 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
     }
 
     private void onMouseDrag(MouseDragEvent e) {
+        if(!enabled) return;
         // If mouse drag + space pressed = moving camera
         boolean spaceMouseCtrl = GoatEngine.inputManager.getKeyboardInputManager().isKeyPressed(Input.Keys.SPACE);
         boolean middleClickMouseCtrl = Gdx.input.isButtonPressed(Input.Buttons.MIDDLE);
-        Logger.debug("Curr Mouse Button : " + e.button + " MIDDLE: " + Input.Buttons.MIDDLE);
         if(middleClickMouseCtrl || spaceMouseCtrl){
             executeCommand(new MoveDragCameraCommand(e.screenX, e.screenY, e.lastScreenX, e.lastScreenY));
         }else{
@@ -250,6 +253,7 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
 
 
     private void onMouseSrcoll(MouseScrolledEvent e){
+        if(!enabled) return;
         if(e.amount == 0) return;
         ZoomCameraCommand.Mode mode = e.amount > 0 ? ZoomCameraCommand.Mode.OUT : ZoomCameraCommand.Mode.IN;
         executeCommand(new ZoomCameraCommand(mode));
@@ -264,7 +268,7 @@ public class LevelEditor extends ChangeListener implements GameEventListener{
 
                              // Remove Entity
         if(e.getKey() == Input.Keys.DEL && selectedEntity != null){
-            executeCommand(new DeleteEntityCommand(selectedEntity));
+            executeCommand(new DeleteEntityCommand(selectedEntity, this));
         }
     }
 

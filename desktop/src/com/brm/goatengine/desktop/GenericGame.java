@@ -1,7 +1,7 @@
 package com.brm.GoatEngine.desktop;
 
 import com.badlogic.gdx.Game;
-import com.brm.GoatEngine.ECS.core.CameraTargetComponent;
+import com.brm.GoatEngine.ECS.PrefabFactory;
 import com.brm.GoatEngine.EventManager.GameEvent;
 import com.brm.GoatEngine.EventManager.GameEventListener;
 import com.brm.GoatEngine.GoatEngine;
@@ -40,7 +40,19 @@ public class GenericGame extends Game implements GameEventListener{
             Logger.logStackTrace(e);
             throw e;
         }
+
+
+        if(!prefabed){
+            // Prefabs test
+            PrefabFactory prefabFactory = new PrefabFactory();
+            prefabFactory.createEntity("data/prefabs/Kubotz.prefab");
+            prefabed = !prefabed;
+        }
+
     }
+
+    private boolean prefabed = false;
+
 
     @Override
     public void dispose() {

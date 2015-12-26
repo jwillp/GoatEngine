@@ -1,8 +1,10 @@
 package com.brm.GoatEngine.GraphicsRendering;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.utils.XmlReader;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A component enabling an entity to act as a camera.
@@ -12,32 +14,46 @@ public class CameraComponent extends EntityComponent{
 
     public static final String ID = "CAMERA_COMPONENT";
 
-    private final OrthographicCamera camera;
+    private OrthographicCamera camera = null;
 
     public CameraComponent(){
+        super(true);
         camera = new OrthographicCamera();
     }
 
-    /**
-     * Constructor getting a XML element to load data
-     * @param componentData
-     */
-    public  CameraComponent(XmlReader.Element componentData){
-        super(componentData);
+    public CameraComponent(Map<String, String> map) {
+        super(map);
         camera = new OrthographicCamera();
     }
 
 
-
     /**
-     * Desiralizes a component
+     * Constructs a Map, to be implemented by subclasses
      *
-     * @param componentData the data as an XML element
+     * @return
      */
     @Override
-    public void deserialize(XmlReader.Element componentData) {
-
+    protected Map<String, String> makeMap() {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("zoom", String.valueOf(camera.zoom));
+        map.put("position_x", String.valueOf(camera.position.x));
+        map.put("position_y", String.valueOf(camera.position.y));
+        return map;
     }
+
+    /**
+     * Builds the current object from a pod representation
+     *
+     * @param map the pod representation to use
+     */
+    @Override
+    protected void makeFromMap(Map<String, String> map) {
+        camera = new OrthographicCamera();
+        camera.position.x = Float.parseFloat(map.get("position_x"));
+        camera.position.y = Float.parseFloat(map.get("position_y"));
+        camera.zoom = Float.parseFloat(map.get("zoom"));
+    }
+
 
     @Override
     public String getId() {

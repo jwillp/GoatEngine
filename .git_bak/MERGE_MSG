@@ -1,0 +1,6 @@
+Merge branch 'master' of gitlab.com:GoatGames/GoatEngine
+
+# Conflicts:
+#	core/data/skins/default_skin/default.fnt
+#	core/data/skins/default_skin/uiskin.atlas
+#	core/data/skins/default_skin/uiskin.json

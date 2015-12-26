@@ -1,0 +1,30 @@
+0000000000000000000000000000000000000000 166249632c4e8dde0dbd8fd927f1ee9692d71ede fireraccoon <jwilliam.perreault@gmail.com> 1447009144 -0500	clone: from git@gitlab.com:GoatGames/GoatEngine.git
+166249632c4e8dde0dbd8fd927f1ee9692d71ede 6a572db84c9b738d515ad175ec194263af13f84b fireraccoon <jwilliam.perreault@gmail.com> 1447017889 -0500	pull: Fast-forward
+fc0b00167fb95fdcc2cf543a2866a459db7bb26e 071d9e7bf04b4b0900bbb4bbe3cf2db12a630f0b fireraccoon <jwilliam.perreault@gmail.com> 1447210077 -0500	commit (merge): Merge
+071d9e7bf04b4b0900bbb4bbe3cf2db12a630f0b 6d73c7911d7cbbd8c7a2fc473302687268e9f4cf fireraccoon <jwilliam.perreault@gmail.com> 1449428392 -0500	merge graphics-rendering: Fast-forward
+6d73c7911d7cbbd8c7a2fc473302687268e9f4cf 7fa61738c4eab50aeb8c958e8cb2b2b58bdf1776 fireraccoon <jwilliam.perreault@gmail.com> 1449454205 -0500	commit (merge): merge level editor
+7fa61738c4eab50aeb8c958e8cb2b2b58bdf1776 3da4444019fd3b2f87b30945aafdcd5fc07b6c8f fireraccoon <jwilliam.perreault@gmail.com> 1449454343 -0500	commit: Removed useless junk
+3da4444019fd3b2f87b30945aafdcd5fc07b6c8f 76fd3f2c1a2c8aa35f3533cffb43537dec2e0688 fireraccoon <jwilliam.perreault@gmail.com> 1449456707 -0500	commit: Added Capsule Collider Def
+76fd3f2c1a2c8aa35f3533cffb43537dec2e0688 401925b2793566d29e9cad0b2934930ae40568b9 fireraccoon <jwilliam.perreault@gmail.com> 1449489712 -0500	commit: Removed Xml Serialization of Components
+401925b2793566d29e9cad0b2934930ae40568b9 7138211b8b874eebb37dd84754e8c9cb71966b9e fireraccoon <jwilliam.perreault@gmail.com> 1449965923 -0500	merge level-serialization: Fast-forward
+7138211b8b874eebb37dd84754e8c9cb71966b9e 7c85c8d275914a84b06cfec47489e4f032aeffd2 fireraccoon <jwilliam.perreault@gmail.com> 1449986768 -0500	commit: Level Editor: Better Generic ComponentView, it is possible to save
+7c85c8d275914a84b06cfec47489e4f032aeffd2 ea4243de93d7a1b578abb56acad6c9bb5040cdf0 fireraccoon <jwilliam.perreault@gmail.com> 1449987616 -0500	commit: Detect size of body by evaluating fixtures
+ea4243de93d7a1b578abb56acad6c9bb5040cdf0 94ae335696181bd4535dd2d02312526d14f79780 fireraccoon <jwilliam.perreault@gmail.com> 1449988319 -0500	commit: Level Editor: Display Message when invalid input in Generic Componetn View
+94ae335696181bd4535dd2d02312526d14f79780 b49d5bf41ae4a73f5f3b8926190101789a8f0817 fireraccoon <jwilliam.perreault@gmail.com> 1449989594 -0500	commit: Fixed Scripting Engine
+b49d5bf41ae4a73f5f3b8926190101789a8f0817 54941cab8dfb98f10c226d9d462558b8e12b7673 fireraccoon <jwilliam.perreault@gmail.com> 1449989637 -0500	pull: Merge made by the 'recursive' strategy.
+54941cab8dfb98f10c226d9d462558b8e12b7673 ebc0e3da61ff15c940081ca012e0e056767329d7 fireraccoon <jwilliam.perreault@gmail.com> 1450028526 -0500	commit: Better sprites rendering
+ebc0e3da61ff15c940081ca012e0e056767329d7 77562d8261a892da8fcef630c2acb20da407cbd8 fireraccoon <jwilliam.perreault@gmail.com> 1450036290 -0500	commit: Level Editor: Better Warning on invalid input
+77562d8261a892da8fcef630c2acb20da407cbd8 3c8fd75cf96089d59b6b0d27e61ef75b61efaabc fireraccoon <jwilliam.perreault@gmail.com> 1450037411 -0500	commit: Level Editor: Do not allow mouse drag when editor is not enabled
+3c8fd75cf96089d59b6b0d27e61ef75b61efaabc abc327e72676aa35ff86cec4b96dca9146086089 fireraccoon <jwilliam.perreault@gmail.com> 1450095234 -0500	commit: set position of box collider in prefabs
+abc327e72676aa35ff86cec4b96dca9146086089 5d30bf0f24b68a00c8901cebfa371cbbd9f40ceb fireraccoon <jwilliam.perreault@gmail.com> 1450096712 -0500	commit: Level Editor: Display colliders
+5d30bf0f24b68a00c8901cebfa371cbbd9f40ceb cb3ada4086198e9933f664443c01cd44a352faa7 fireraccoon <jwilliam.perreault@gmail.com> 1450146425 -0500	commit: Disable body sleeping by default + Collider View in Level Editor
+cb3ada4086198e9933f664443c01cd44a352faa7 c088150098dec834f467ff4b4bb1f8d12ef22ad2 fireraccoon <jwilliam.perreault@gmail.com> 1450147657 -0500	commit: Load prefabs from editor
+c088150098dec834f467ff4b4bb1f8d12ef22ad2 21288bcd6aba64d2c03d47f25bc8e8d232f45fcf fireraccoon <jwilliam.perreault@gmail.com> 1450149462 -0500	commit: Fixed rotation as prefab settings
+21288bcd6aba64d2c03d47f25bc8e8d232f45fcf 12e0c5c9eb9a27e6deef34a97c347bf405a5d4fc fireraccoon <jwilliam.perreault@gmail.com> 1450182712 -0500	commit: SpriteComponent Z Index sorted Rendering
+12e0c5c9eb9a27e6deef34a97c347bf405a5d4fc 35ed8236cb54456aed08b47e5e08168e7fd076b8 fireraccoon <jwilliam.perreault@gmail.com> 1450183667 -0500	commit: Timer of GoatEngine initialization operations in log
+35ed8236cb54456aed08b47e5e08168e7fd076b8 dacdee783299ca2883d995c3915ed53d95905936 fireraccoon <jwilliam.perreault@gmail.com> 1450352955 -0500	commit: Better Level Saving
+dacdee783299ca2883d995c3915ed53d95905936 9eb9220468212a234d23722ff5cbfe767f066ff5 fireraccoon <jwilliam.perreault@gmail.com> 1450354177 -0500	commit: Repaired Script Saving
+9eb9220468212a234d23722ff5cbfe767f066ff5 82a46169cdf0f025108ef0af0273fe5c1cbc3f39 fireraccoon <jwilliam.perreault@gmail.com> 1450356541 -0500	commit: Fixed ZOrder for spriter + pause engine pauses animtion
+82a46169cdf0f025108ef0af0273fe5c1cbc3f39 524b74ffd82083f54ae9223c9ce3a2a4a1953874 fireraccoon <jwilliam.perreault@gmail.com> 1450624826 -0500	commit: Pathfinding node placement + rendergin
+524b74ffd82083f54ae9223c9ce3a2a4a1953874 9d76fe5445d34a879c5e807bda25f2b9701a810f fireraccoon <jwilliam.perreault@gmail.com> 1450647307 -0500	commit: Added Setting for Pathfinding rendering
+9d76fe5445d34a879c5e807bda25f2b9701a810f 8998f36ab028e3738c56c4a00c01cd03bee9e61c fireraccoon <jwilliam.perreault@gmail.com> 1450786425 -0500	commit: Pooling of Entities (Slow)

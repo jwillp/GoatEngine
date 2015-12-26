@@ -1,13 +1,17 @@
 package com.brm.GoatEngine.GraphicsRendering;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.XmlReader;
-import com.brm.GoatEngine.ECS.core.EntityComponent;
 import com.brm.GoatEngine.ECS.core.Entity;
+import com.brm.GoatEngine.ECS.core.EntityComponent;
 
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -17,13 +21,28 @@ public class SpriteComponent extends EntityComponent {
 
     public final static String ID = "SPRITE_COMPONENT";
 
+    private String resourceName;
     private TextureRegion currentSprite;
     private Color color = Color.WHITE;
 
-    public float offsetX = 0;
-    public float offsetY = 0;
+    public float offsetX;
+    public float offsetY;
 
-    private int zIndex = 0;
+    // When set to true the rendering engines will force a ration and size according to PhysicsComponent
+    public boolean autoAdjust;
+    // If auto adjust is on, this value is updated automatically,
+    public float scale;
+
+    private int zIndex;
+
+    /**
+     * Ctor taking a map Representation of the current component
+     *
+     * @param map
+     */
+    public SpriteComponent(Map<String, String> map) {
+        super(map);
+    }
 
     public TextureRegion getCurrentSprite() {
         return currentSprite;
@@ -41,7 +60,7 @@ public class SpriteComponent extends EntityComponent {
         this.color = color;
     }
 
-    public int getzIndex() {
+    public int getZIndex() {
         return zIndex;
     }
 
@@ -53,13 +72,38 @@ public class SpriteComponent extends EntityComponent {
         return color;
     }
 
+
     /**
-     * Desiralizes a component
+     * Constructs a PODType, to be implemented by subclasses
      *
-     * @param componentData the data as an XML element
+     * @return
      */
     @Override
-    public void deserialize(XmlReader.Element componentData){}
+    protected Map<String, String>  makeMap() {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("offset_x", String.valueOf(offsetX));
+        map.put("offset_y", String.valueOf(offsetY));
+        map.put("resource_name", resourceName);
+        map.put("auto_adjust", String.valueOf(autoAdjust));
+        map.put("scale", String.valueOf(scale));
+        return map;
+    }
+
+    /**
+     * Builds the current object from a pod representation
+     *
+     * @param map the pod representation to use
+     */
+    @Override
+    protected void makeFromMap(Map<String, String> map) {
+        this.offsetX = Float.parseFloat(map.get("offset_x"));
+        this.offsetY = Float.parseFloat(map.get("offset_y"));
+        this.resourceName =  map.get("resource_name");
+        this.autoAdjust = Boolean.parseBoolean(map.get("auto_adjust"));
+        this.scale = Float.parseFloat(map.get("scale"));
+        this.currentSprite = new TextureRegion(new Texture(Gdx.files.internal(resourceName)));
+
+    }
 
     @Override
     public String getId() {
@@ -67,18 +111,5 @@ public class SpriteComponent extends EntityComponent {
     }
 
 
-    /**
-     * Comparator used to sort in ascending order (greatest z to smallest z)
-     * source: https://github.com/libgdx/libgdx/blob/master/tests/gdx-tests/src/com/badlogic/gdx/tests/SortedSpriteTest.java
-     */
-    public static class EntitySpriteComponentComparator implements Comparator<Entity>{
-        @Override
-        public int compare(Entity e1, Entity e2) {
-            SpriteComponent s1 = (SpriteComponent) e1.getComponent(SpriteComponent.ID);
-            SpriteComponent s2 = (SpriteComponent) e2.getComponent(SpriteComponent.ID);
-
-            return (s2.getzIndex() - s1.getzIndex()) > 0 ? 1 : -1;
-        }
-    }
 
 }

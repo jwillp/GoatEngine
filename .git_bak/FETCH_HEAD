@@ -1,0 +1,9 @@
+6726823774dbec0985141c27a7705e7641ba9312		branch 'master' of gitlab.com:GoatGames/GoatEngine
+5157999ebaf327a1239026c6e727fddab46039b0	not-for-merge	branch 'AI-Pathfinding' of gitlab.com:GoatGames/GoatEngine
+98109b74c57d3811848c5bb618b748cbd0a3e7f5	not-for-merge	branch 'Input-Handling' of gitlab.com:GoatGames/GoatEngine
+a46dee12a433dbca24e152e8deda09961edc0b13	not-for-merge	branch 'better-console' of gitlab.com:GoatGames/GoatEngine
+351ce5b69fa51ea47eb00cfe68122a638e5de82d	not-for-merge	branch 'ci-build' of gitlab.com:GoatGames/GoatEngine
+a4cd79c1ea969729a416d5b95202cb24e60cb130	not-for-merge	branch 'config-files' of gitlab.com:GoatGames/GoatEngine
+6edacc2cefd133be5a4116b0c0f4aed722617403	not-for-merge	branch 'graphics-rendering' of gitlab.com:GoatGames/GoatEngine
+91022dcc382b651ce659e8cdea67a99f2b447009	not-for-merge	branch 'level-serialization' of gitlab.com:GoatGames/GoatEngine
+f5f6e8f72e7044ed22a0066fdcf5cd52671b776b	not-for-merge	branch 'levelEditor' of gitlab.com:GoatGames/GoatEngine

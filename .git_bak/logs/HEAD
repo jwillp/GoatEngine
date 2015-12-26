@@ -1,0 +1,105 @@
+0000000000000000000000000000000000000000 166249632c4e8dde0dbd8fd927f1ee9692d71ede fireraccoon <jwilliam.perreault@gmail.com> 1447009144 -0500	clone: from git@gitlab.com:GoatGames/GoatEngine.git
+166249632c4e8dde0dbd8fd927f1ee9692d71ede 6a572db84c9b738d515ad175ec194263af13f84b fireraccoon <jwilliam.perreault@gmail.com> 1447017889 -0500	pull: Fast-forward
+fc0b00167fb95fdcc2cf543a2866a459db7bb26e 071d9e7bf04b4b0900bbb4bbe3cf2db12a630f0b fireraccoon <jwilliam.perreault@gmail.com> 1447210077 -0500	commit (merge): Merge
+071d9e7bf04b4b0900bbb4bbe3cf2db12a630f0b 071d9e7bf04b4b0900bbb4bbe3cf2db12a630f0b fireraccoon <jwilliam.perreault@gmail.com> 1447210434 -0500	checkout: moving from master to Input-Handling
+071d9e7bf04b4b0900bbb4bbe3cf2db12a630f0b 071d9e7bf04b4b0900bbb4bbe3cf2db12a630f0b fireraccoon <jwilliam.perreault@gmail.com> 1447210480 -0500	rebase: aborting
+071d9e7bf04b4b0900bbb4bbe3cf2db12a630f0b 071d9e7bf04b4b0900bbb4bbe3cf2db12a630f0b fireraccoon <jwilliam.perreault@gmail.com> 1447210492 -0500	checkout: moving from master to Input-Handling
+071d9e7bf04b4b0900bbb4bbe3cf2db12a630f0b 1c5cbe3bf007e4562bc725e27dd72ed46fcb7109 fireraccoon <jwilliam.perreault@gmail.com> 1447812490 -0500	commit: idk stuff
+1c5cbe3bf007e4562bc725e27dd72ed46fcb7109 071d9e7bf04b4b0900bbb4bbe3cf2db12a630f0b fireraccoon <jwilliam.perreault@gmail.com> 1447812517 -0500	checkout: moving from Input-Handling to master
+071d9e7bf04b4b0900bbb4bbe3cf2db12a630f0b 071d9e7bf04b4b0900bbb4bbe3cf2db12a630f0b fireraccoon <jwilliam.perreault@gmail.com> 1447812610 -0500	checkout: moving from master to levelEditor
+071d9e7bf04b4b0900bbb4bbe3cf2db12a630f0b d5f1a1ba389fa485c91e7000694b3e0b8e79e801 fireraccoon <jwilliam.perreault@gmail.com> 1447900169 -0500	commit: Moved skins and display button
+d5f1a1ba389fa485c91e7000694b3e0b8e79e801 d48cf8d3c13571538d6aaf066f5b354daaa0caa5 fireraccoon <jwilliam.perreault@gmail.com> 1447902069 -0500	commit: Adding Buttons
+d48cf8d3c13571538d6aaf066f5b354daaa0caa5 7af1eb8a8793385511767ab573ca9ebc04f26832 fireraccoon <jwilliam.perreault@gmail.com> 1448065880 -0500	commit: Level Editor Toolbar (visuals only)
+7af1eb8a8793385511767ab573ca9ebc04f26832 7e8223dd42d1c9f0a7e70e7edc8d332adc33407f fireraccoon <jwilliam.perreault@gmail.com> 1448072616 -0500	commit: Play Pause from Level Editor
+7e8223dd42d1c9f0a7e70e7edc8d332adc33407f 49efdc75261032e7a2ef45d6f74b095d3b02c8a8 fireraccoon <jwilliam.perreault@gmail.com> 1448080430 -0500	commit: Added Statistics
+49efdc75261032e7a2ef45d6f74b095d3b02c8a8 0ee85295601a124b9dc95abc2ea03934cedf1897 fireraccoon <jwilliam.perreault@gmail.com> 1448089954 -0500	commit: Buggy Inspector Gui
+0ee85295601a124b9dc95abc2ea03934cedf1897 a6c2ebf562ae0692bda54bac73b17a6369e68a47 fireraccoon <jwilliam.perreault@gmail.com> 1448154465 -0500	commit: Opening editor pauses the game, and closing it resumes the game
+a6c2ebf562ae0692bda54bac73b17a6369e68a47 8953f8af20b93d4cbc37b62eeb8d1a3cc99be70b fireraccoon <jwilliam.perreault@gmail.com> 1448170963 -0500	commit: Undo/Redo system (createEntityCommand)
+8953f8af20b93d4cbc37b62eeb8d1a3cc99be70b 320d7659ff35c0f29fe4a714a945319279799a59 fireraccoon <jwilliam.perreault@gmail.com> 1448241563 -0500	commit: Better Input
+320d7659ff35c0f29fe4a714a945319279799a59 353e9a71f4c2d1d4c16eb66c8c4308950d45acd1 fireraccoon <jwilliam.perreault@gmail.com> 1448334428 -0500	commit: Mouse Click Event
+353e9a71f4c2d1d4c16eb66c8c4308950d45acd1 eb383c07c0f4f9c9c73078f45c4e50a020d7fb13 fireraccoon <jwilliam.perreault@gmail.com> 1448837521 -0500	commit: Better Input system + Level Editor: single entity selection
+eb383c07c0f4f9c9c73078f45c4e50a020d7fb13 17855aa86761d408ab4651d9009422fce3f0dd08 fireraccoon <jwilliam.perreault@gmail.com> 1448837666 -0500	commit (amend): Better Input system + Level Editor: single entity selection closes #12
+17855aa86761d408ab4651d9009422fce3f0dd08 3104919331ce364945fc81fc22e8f5d2f75186e8 fireraccoon <jwilliam.perreault@gmail.com> 1448840153 -0500	commit: Level Editor: added Selection rectangle around selected objects
+3104919331ce364945fc81fc22e8f5d2f75186e8 c3f0fa710e91945d1aed6852a5ee822ba089c4cb fireraccoon <jwilliam.perreault@gmail.com> 1448840683 -0500	commit: Changed editor theme to color green
+c3f0fa710e91945d1aed6852a5ee822ba089c4cb 740888f0b3a1cd898b18567c6de96b72e109376f fireraccoon <jwilliam.perreault@gmail.com> 1448851300 -0500	commit: Level Editor: Zoom In/Out closes #18
+740888f0b3a1cd898b18567c6de96b72e109376f cdbe62f350ee5e5bc15c170ca9d0539d3bbd9e60 fireraccoon <jwilliam.perreault@gmail.com> 1448932311 -0500	commit: Level Editor: Navigation using Mouse Dragging closes #19
+cdbe62f350ee5e5bc15c170ca9d0539d3bbd9e60 ed4fb6f1b19153e029c866622b04ab405dc28d3f fireraccoon <jwilliam.perreault@gmail.com> 1448935964 -0500	commit: Level Editor: Moving entities around by dragging them closes #17
+ed4fb6f1b19153e029c866622b04ab405dc28d3f 3d961e9138c656d469d98b514a1b920ca487ab7c fireraccoon <jwilliam.perreault@gmail.com> 1448974013 -0500	commit: Level Editor: Delete entity but no undo
+3d961e9138c656d469d98b514a1b920ca487ab7c 38da7eab1b6a2bac67181392ac026ab7ee7d4b35 fireraccoon <jwilliam.perreault@gmail.com> 1449055666 -0500	commit: Level Editor: Added Script View && Physics View
+38da7eab1b6a2bac67181392ac026ab7ee7d4b35 e0897da08fb6c2376aee9f5ad68a62b68174ec56 fireraccoon <jwilliam.perreault@gmail.com> 1449059101 -0500	commit: Level Editor: Inspector refreshing
+e0897da08fb6c2376aee9f5ad68a62b68174ec56 2738ec9d8b43330d7ed997c2a83b5a1de6c91a0e fireraccoon <jwilliam.perreault@gmail.com> 1449233833 -0500	commit: Level Editor: Physics Componetn Can be Updated from inspector
+2738ec9d8b43330d7ed997c2a83b5a1de6c91a0e d8c3d7b446f8e24d23437c88ed7cf10217eace3c fireraccoon <jwilliam.perreault@gmail.com> 1449271523 -0500	commit: camera Update + Physics Compo Validation
+d8c3d7b446f8e24d23437c88ed7cf10217eace3c a1190faaf5962b73682f2081dbdd523a8a3a96fc fireraccoon <jwilliam.perreault@gmail.com> 1449271550 -0500	commit (amend): Level Editor: camera Update + Physics Compo Validation
+a1190faaf5962b73682f2081dbdd523a8a3a96fc 21592a3f47179caa1296501618f719d93569eb8e fireraccoon <jwilliam.perreault@gmail.com> 1449275003 -0500	commit: Level Editor: Added VisUI
+21592a3f47179caa1296501618f719d93569eb8e 90b2738c00f110aa5ace1d2493691ad2effb3363 fireraccoon <jwilliam.perreault@gmail.com> 1449275229 -0500	commit: Level Editor: Middle mouse button Navigation
+90b2738c00f110aa5ace1d2493691ad2effb3363 385592a5753283f66b707b57e896d48892f8bbf9 fireraccoon <jwilliam.perreault@gmail.com> 1449299752 -0500	commit: Level Editor: Combobox for body types
+385592a5753283f66b707b57e896d48892f8bbf9 071d9e7bf04b4b0900bbb4bbe3cf2db12a630f0b fireraccoon <jwilliam.perreault@gmail.com> 1449300449 -0500	checkout: moving from levelEditor to config-files
+071d9e7bf04b4b0900bbb4bbe3cf2db12a630f0b 22e2cfec0c5eb8c506f7fb71f0343f895f87dd77 fireraccoon <jwilliam.perreault@gmail.com> 1449305582 -0500	commit: Game Config: game specific config system with overrides
+22e2cfec0c5eb8c506f7fb71f0343f895f87dd77 161ebfdd6110c29c57fa15b4671f7c2fae681859 fireraccoon <jwilliam.perreault@gmail.com> 1449358326 -0500	commit: Prefab Reading: Physics component
+161ebfdd6110c29c57fa15b4671f7c2fae681859 09535a1adad97dfaeb51da7b66278e78a70b8d01 fireraccoon <jwilliam.perreault@gmail.com> 1449358790 -0500	commit: Prefab Reading: script component
+09535a1adad97dfaeb51da7b66278e78a70b8d01 b74da73dbda357f09937cb0c0da16b995d3a7c8d fireraccoon <jwilliam.perreault@gmail.com> 1449381851 -0500	checkout: moving from config-files to graphics-comp
+b74da73dbda357f09937cb0c0da16b995d3a7c8d 071d9e7bf04b4b0900bbb4bbe3cf2db12a630f0b fireraccoon <jwilliam.perreault@gmail.com> 1449382456 -0500	checkout: moving from graphics-comp to graphics-rendering
+071d9e7bf04b4b0900bbb4bbe3cf2db12a630f0b 3466c48b728e57840fc2e7307131beb5ad9eac61 fireraccoon <jwilliam.perreault@gmail.com> 1449382554 -0500	commit: Removed BasicPlan.txt
+3466c48b728e57840fc2e7307131beb5ad9eac61 f2c8a03a9a0b218ce21d1f9a1e6e84693b4aa8ee fireraccoon <jwilliam.perreault@gmail.com> 1449382923 -0500	commit: Created Package Graphics Rendering
+f2c8a03a9a0b218ce21d1f9a1e6e84693b4aa8ee 67e1fdc557d35f323d5339e940eee82232c31e3a fireraccoon <jwilliam.perreault@gmail.com> 1449387363 -0500	commit: Added basic classes for rendering + Removed useless jars in lib (Konsole + Groovy)
+67e1fdc557d35f323d5339e940eee82232c31e3a 6d73c7911d7cbbd8c7a2fc473302687268e9f4cf fireraccoon <jwilliam.perreault@gmail.com> 1449428369 -0500	commit: Rendering Animations
+6d73c7911d7cbbd8c7a2fc473302687268e9f4cf 071d9e7bf04b4b0900bbb4bbe3cf2db12a630f0b fireraccoon <jwilliam.perreault@gmail.com> 1449428387 -0500	checkout: moving from graphics-rendering to master
+071d9e7bf04b4b0900bbb4bbe3cf2db12a630f0b 6d73c7911d7cbbd8c7a2fc473302687268e9f4cf fireraccoon <jwilliam.perreault@gmail.com> 1449428392 -0500	merge graphics-rendering: Fast-forward
+6d73c7911d7cbbd8c7a2fc473302687268e9f4cf 385592a5753283f66b707b57e896d48892f8bbf9 fireraccoon <jwilliam.perreault@gmail.com> 1449428771 -0500	checkout: moving from master to levelEditor
+385592a5753283f66b707b57e896d48892f8bbf9 39c451a9df27738e19f81afabd01400de85d1727 fireraccoon <jwilliam.perreault@gmail.com> 1449431396 -0500	commit (merge): Merged Branch Graphics Rendering
+39c451a9df27738e19f81afabd01400de85d1727 385592a5753283f66b707b57e896d48892f8bbf9 fireraccoon <jwilliam.perreault@gmail.com> 1449431457 -0500	reset: moving to HEAD^
+385592a5753283f66b707b57e896d48892f8bbf9 4127159e866e20e4456183441e5aa71fbbe55f23 fireraccoon <jwilliam.perreault@gmail.com> 1449431486 -0500	commit: Merged Branch Graphics Rendering
+4127159e866e20e4456183441e5aa71fbbe55f23 262b0847a5e01ecb30e25ae9f528dbabdc082a87 fireraccoon <jwilliam.perreault@gmail.com> 1449432328 -0500	commit: Display Java and Native Heap
+262b0847a5e01ecb30e25ae9f528dbabdc082a87 a679e06a3873a1dfc35f302b0cb06a573e337192 fireraccoon <jwilliam.perreault@gmail.com> 1449433961 -0500	commit: Reuse Camera renderer instead of new one
+a679e06a3873a1dfc35f302b0cb06a573e337192 64adf7be090dd43fc4779f9c21110e9e4fe18d7b fireraccoon <jwilliam.perreault@gmail.com> 1449443238 -0500	commit: Added Camera Position info in level editor + fixed graphics displaying
+64adf7be090dd43fc4779f9c21110e9e4fe18d7b 09535a1adad97dfaeb51da7b66278e78a70b8d01 fireraccoon <jwilliam.perreault@gmail.com> 1449444001 -0500	checkout: moving from levelEditor to config-files
+09535a1adad97dfaeb51da7b66278e78a70b8d01 e6ff94903bc4fd78d844e268a8f2d285eaba1a9e fireraccoon <jwilliam.perreault@gmail.com> 1449447253 -0500	commit: Merged Level Editor
+e6ff94903bc4fd78d844e268a8f2d285eaba1a9e 616eef4f8d6dc721369dd36d8ab699b949359119 fireraccoon <jwilliam.perreault@gmail.com> 1449447291 -0500	commit: Spriter animation prefab support
+616eef4f8d6dc721369dd36d8ab699b949359119 e0f114497b51554e6313f0ba8251a47e25edf192 fireraccoon <jwilliam.perreault@gmail.com> 1449448044 -0500	commit: gitignore : ignore core/data directory
+e0f114497b51554e6313f0ba8251a47e25edf192 64adf7be090dd43fc4779f9c21110e9e4fe18d7b fireraccoon <jwilliam.perreault@gmail.com> 1449449961 -0500	checkout: moving from config-files to levelEditor
+64adf7be090dd43fc4779f9c21110e9e4fe18d7b 0bf1c48efb313559ab20c29cdd3bd5f76f2a6f50 fireraccoon <jwilliam.perreault@gmail.com> 1449452893 -0500	commit (merge): Merged branch config-file
+0bf1c48efb313559ab20c29cdd3bd5f76f2a6f50 6d73c7911d7cbbd8c7a2fc473302687268e9f4cf fireraccoon <jwilliam.perreault@gmail.com> 1449452966 -0500	checkout: moving from levelEditor to master
+6d73c7911d7cbbd8c7a2fc473302687268e9f4cf 7fa61738c4eab50aeb8c958e8cb2b2b58bdf1776 fireraccoon <jwilliam.perreault@gmail.com> 1449454205 -0500	commit (merge): merge level editor
+7fa61738c4eab50aeb8c958e8cb2b2b58bdf1776 3da4444019fd3b2f87b30945aafdcd5fc07b6c8f fireraccoon <jwilliam.perreault@gmail.com> 1449454343 -0500	commit: Removed useless junk
+3da4444019fd3b2f87b30945aafdcd5fc07b6c8f 76fd3f2c1a2c8aa35f3533cffb43537dec2e0688 fireraccoon <jwilliam.perreault@gmail.com> 1449456707 -0500	commit: Added Capsule Collider Def
+76fd3f2c1a2c8aa35f3533cffb43537dec2e0688 401925b2793566d29e9cad0b2934930ae40568b9 fireraccoon <jwilliam.perreault@gmail.com> 1449489712 -0500	commit: Removed Xml Serialization of Components
+401925b2793566d29e9cad0b2934930ae40568b9 401925b2793566d29e9cad0b2934930ae40568b9 fireraccoon <jwilliam.perreault@gmail.com> 1449544973 -0500	checkout: moving from master to level-serialization
+401925b2793566d29e9cad0b2934930ae40568b9 44e869f5fbc8e83173280b61d894282aee0f0f04 fireraccoon <jwilliam.perreault@gmail.com> 1449544996 -0500	commit: Basic Level serialization structure
+44e869f5fbc8e83173280b61d894282aee0f0f04 52eacb20076a32b61cecf4cf15fb4479ed741f97 fireraccoon <jwilliam.perreault@gmail.com> 1449578875 -0500	commit: ECS Ini serializer + entity index
+52eacb20076a32b61cecf4cf15fb4479ed741f97 b9c01634c0567f72a856a22e6518d88cf3479705 fireraccoon <jwilliam.perreault@gmail.com> 1449633509 -0500	commit: Working Level Ini Serialization
+b9c01634c0567f72a856a22e6518d88cf3479705 8ca873fd89a65a08a501b9e4e11300b617b71f21 fireraccoon <jwilliam.perreault@gmail.com> 1449838859 -0500	commit: Level Serialization: Read level
+8ca873fd89a65a08a501b9e4e11300b617b71f21 9a259d73d91b9204a409f1732f516714ab73c861 fireraccoon <jwilliam.perreault@gmail.com> 1449962718 -0500	commit: Better serialization for level and prefabs collider compatible
+9a259d73d91b9204a409f1732f516714ab73c861 7138211b8b874eebb37dd84754e8c9cb71966b9e fireraccoon <jwilliam.perreault@gmail.com> 1449965720 -0500	commit: Reading Tags and Scripts
+7138211b8b874eebb37dd84754e8c9cb71966b9e 401925b2793566d29e9cad0b2934930ae40568b9 fireraccoon <jwilliam.perreault@gmail.com> 1449965846 -0500	checkout: moving from level-serialization to master
+401925b2793566d29e9cad0b2934930ae40568b9 7138211b8b874eebb37dd84754e8c9cb71966b9e fireraccoon <jwilliam.perreault@gmail.com> 1449965923 -0500	merge level-serialization: Fast-forward
+7138211b8b874eebb37dd84754e8c9cb71966b9e 7c85c8d275914a84b06cfec47489e4f032aeffd2 fireraccoon <jwilliam.perreault@gmail.com> 1449986768 -0500	commit: Level Editor: Better Generic ComponentView, it is possible to save
+7c85c8d275914a84b06cfec47489e4f032aeffd2 ea4243de93d7a1b578abb56acad6c9bb5040cdf0 fireraccoon <jwilliam.perreault@gmail.com> 1449987616 -0500	commit: Detect size of body by evaluating fixtures
+ea4243de93d7a1b578abb56acad6c9bb5040cdf0 94ae335696181bd4535dd2d02312526d14f79780 fireraccoon <jwilliam.perreault@gmail.com> 1449988319 -0500	commit: Level Editor: Display Message when invalid input in Generic Componetn View
+94ae335696181bd4535dd2d02312526d14f79780 b49d5bf41ae4a73f5f3b8926190101789a8f0817 fireraccoon <jwilliam.perreault@gmail.com> 1449989594 -0500	commit: Fixed Scripting Engine
+b49d5bf41ae4a73f5f3b8926190101789a8f0817 54941cab8dfb98f10c226d9d462558b8e12b7673 fireraccoon <jwilliam.perreault@gmail.com> 1449989637 -0500	pull: Merge made by the 'recursive' strategy.
+54941cab8dfb98f10c226d9d462558b8e12b7673 ebc0e3da61ff15c940081ca012e0e056767329d7 fireraccoon <jwilliam.perreault@gmail.com> 1450028526 -0500	commit: Better sprites rendering
+ebc0e3da61ff15c940081ca012e0e056767329d7 77562d8261a892da8fcef630c2acb20da407cbd8 fireraccoon <jwilliam.perreault@gmail.com> 1450036290 -0500	commit: Level Editor: Better Warning on invalid input
+77562d8261a892da8fcef630c2acb20da407cbd8 3c8fd75cf96089d59b6b0d27e61ef75b61efaabc fireraccoon <jwilliam.perreault@gmail.com> 1450037411 -0500	commit: Level Editor: Do not allow mouse drag when editor is not enabled
+3c8fd75cf96089d59b6b0d27e61ef75b61efaabc abc327e72676aa35ff86cec4b96dca9146086089 fireraccoon <jwilliam.perreault@gmail.com> 1450095234 -0500	commit: set position of box collider in prefabs
+abc327e72676aa35ff86cec4b96dca9146086089 5d30bf0f24b68a00c8901cebfa371cbbd9f40ceb fireraccoon <jwilliam.perreault@gmail.com> 1450096712 -0500	commit: Level Editor: Display colliders
+5d30bf0f24b68a00c8901cebfa371cbbd9f40ceb cb3ada4086198e9933f664443c01cd44a352faa7 fireraccoon <jwilliam.perreault@gmail.com> 1450146425 -0500	commit: Disable body sleeping by default + Collider View in Level Editor
+cb3ada4086198e9933f664443c01cd44a352faa7 c088150098dec834f467ff4b4bb1f8d12ef22ad2 fireraccoon <jwilliam.perreault@gmail.com> 1450147657 -0500	commit: Load prefabs from editor
+c088150098dec834f467ff4b4bb1f8d12ef22ad2 21288bcd6aba64d2c03d47f25bc8e8d232f45fcf fireraccoon <jwilliam.perreault@gmail.com> 1450149462 -0500	commit: Fixed rotation as prefab settings
+21288bcd6aba64d2c03d47f25bc8e8d232f45fcf 12e0c5c9eb9a27e6deef34a97c347bf405a5d4fc fireraccoon <jwilliam.perreault@gmail.com> 1450182712 -0500	commit: SpriteComponent Z Index sorted Rendering
+12e0c5c9eb9a27e6deef34a97c347bf405a5d4fc 35ed8236cb54456aed08b47e5e08168e7fd076b8 fireraccoon <jwilliam.perreault@gmail.com> 1450183667 -0500	commit: Timer of GoatEngine initialization operations in log
+35ed8236cb54456aed08b47e5e08168e7fd076b8 dacdee783299ca2883d995c3915ed53d95905936 fireraccoon <jwilliam.perreault@gmail.com> 1450352955 -0500	commit: Better Level Saving
+dacdee783299ca2883d995c3915ed53d95905936 9eb9220468212a234d23722ff5cbfe767f066ff5 fireraccoon <jwilliam.perreault@gmail.com> 1450354177 -0500	commit: Repaired Script Saving
+9eb9220468212a234d23722ff5cbfe767f066ff5 82a46169cdf0f025108ef0af0273fe5c1cbc3f39 fireraccoon <jwilliam.perreault@gmail.com> 1450356541 -0500	commit: Fixed ZOrder for spriter + pause engine pauses animtion
+82a46169cdf0f025108ef0af0273fe5c1cbc3f39 9eb9220468212a234d23722ff5cbfe767f066ff5 fireraccoon <jwilliam.perreault@gmail.com> 1450357261 -0500	checkout: moving from master to AI-Pathfinding
+9eb9220468212a234d23722ff5cbfe767f066ff5 82a46169cdf0f025108ef0af0273fe5c1cbc3f39 fireraccoon <jwilliam.perreault@gmail.com> 1450441825 -0500	checkout: moving from AI-Pathfinding to master
+82a46169cdf0f025108ef0af0273fe5c1cbc3f39 524b74ffd82083f54ae9223c9ce3a2a4a1953874 fireraccoon <jwilliam.perreault@gmail.com> 1450624826 -0500	commit: Pathfinding node placement + rendergin
+524b74ffd82083f54ae9223c9ce3a2a4a1953874 9d76fe5445d34a879c5e807bda25f2b9701a810f fireraccoon <jwilliam.perreault@gmail.com> 1450647307 -0500	commit: Added Setting for Pathfinding rendering
+9d76fe5445d34a879c5e807bda25f2b9701a810f 8998f36ab028e3738c56c4a00c01cd03bee9e61c fireraccoon <jwilliam.perreault@gmail.com> 1450786425 -0500	commit: Pooling of Entities (Slow)
+8998f36ab028e3738c56c4a00c01cd03bee9e61c 9d76fe5445d34a879c5e807bda25f2b9701a810f fireraccoon <jwilliam.perreault@gmail.com> 1450787753 -0500	checkout: moving from master to 9d76fe5445d34a879c5e807bda25f2b9701a810f
+9d76fe5445d34a879c5e807bda25f2b9701a810f b25dc6cd5ca59fb7903a0096552555ef8ebc4bcc fireraccoon <jwilliam.perreault@gmail.com> 1450960657 -0500	commit: Update gitignore to ignore core/data/*
+b25dc6cd5ca59fb7903a0096552555ef8ebc4bcc 769ef12fc4a9c5dd4df1d40f5765afec7acd7c12 fireraccoon <jwilliam.perreault@gmail.com> 1450960839 -0500	commit: fixed untracked files
+769ef12fc4a9c5dd4df1d40f5765afec7acd7c12 5942f7a1403d3335c2ba0901576092233e97f6f0 fireraccoon <jwilliam.perreault@gmail.com> 1450960907 -0500	commit: Fixed gitignore
+5942f7a1403d3335c2ba0901576092233e97f6f0 336fb3a0f5d7e36af9e251139ffbd355cfc6149b fireraccoon <jwilliam.perreault@gmail.com> 1450960907 -0500	filter-branch: rewrite
+336fb3a0f5d7e36af9e251139ffbd355cfc6149b 6f52b7b1c322a65e628435c4028ca13750014de6 fireraccoon <jwilliam.perreault@gmail.com> 1450961710 -0500	commit: Removing core/data from git history
+6f52b7b1c322a65e628435c4028ca13750014de6 8ea8fee97c36240f95329ef9a0b8aeff86b48abc fireraccoon <jwilliam.perreault@gmail.com> 1451080313 -0500	commit: Entity pooling (more efficient)
+8ea8fee97c36240f95329ef9a0b8aeff86b48abc 8998f36ab028e3738c56c4a00c01cd03bee9e61c fireraccoon <jwilliam.perreault@gmail.com> 1451080416 -0500	checkout: moving from 8ea8fee97c36240f95329ef9a0b8aeff86b48abc to master

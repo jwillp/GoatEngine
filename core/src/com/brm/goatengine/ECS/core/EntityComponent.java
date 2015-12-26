@@ -1,30 +1,30 @@
 package com.brm.GoatEngine.ECS.core;
 
 
-import com.badlogic.gdx.utils.XmlReader.Element;
-import com.brm.GoatEngine.Files.XmlSerializable;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
-
-public abstract class EntityComponent implements XmlSerializable{
+public abstract class EntityComponent {
 
 
-    private static final String ID = "ENTITY_COMPONENT";
     private boolean enabled = true; //By default a component is enabled
 
+    // Syntactic sugar
+    public static class EntityComponentMap extends HashMap<String, String>{}
 
-    public EntityComponent(Element element){
-        this.deserialize(element);
-    }
 
     public EntityComponent(boolean enabled){
         this.setEnabled(enabled);
     }
 
-    public EntityComponent(){}
 
-
+    /**
+     * Ctor taking a map Representation of the current component
+     * @param map
+     */
+    public EntityComponent(Map<String, String> map){
+        makeFromMap(map);
+    }
 
 
     /**
@@ -37,7 +37,37 @@ public abstract class EntityComponent implements XmlSerializable{
      */
     public void onDetach(Entity entity){}
 
+    /**
+     * Converts the current component to a POD Representation
+     * @return a POD representation of the current component
+     */
+    public final Map<String, String> toMap(){
+        Map<String, String> map = makeMap();
+        map.put("component_id", this.getId());
+        map.put("enabled", String.valueOf(this.enabled));
+        return map;
+    }
 
+    /**
+     * Constructs a Map, to be implemented by subclasses
+     * @return the map built
+     */
+    protected abstract Map<String, String> makeMap();
+
+
+    /**
+     * Builds the current object from a map representation
+     * @param map the map representation to use
+     */
+    protected abstract void makeFromMap(Map<String, String>  map);
+
+    /**
+     * Builds the current object from a map representation public method
+     * @param map the map representation to use
+     */
+    public void fromMap(Map<String, String> map){
+        makeFromMap(map);
+    }
 
 
     /**
@@ -58,43 +88,6 @@ public abstract class EntityComponent implements XmlSerializable{
      */
     public boolean isDisabled(){
         return !enabled;
-    }
-
-
-
-
-
-
-    /**
-     * Desiralizes a component
-     * @param componentData the data as an XML element
-     */
-    public abstract void deserialize(Element componentData);
-
-
-
-
-
-    /**
-     * Writes the data to xml via an XmlReader
-     *
-     * @param xml
-     */
-    @Override
-    public void serialize(com.badlogic.gdx.utils.XmlWriter xml){
-        try {
-            xml.element("component", this.getClass().getCanonicalName());
-            Class<?> clazz = this.getClass();
-            for(Field f : clazz.getDeclaredFields()){
-                xml.element("param").attribute("name", f.getName())
-                        .text(f.get(this));
-            }
-            xml.pop();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
 

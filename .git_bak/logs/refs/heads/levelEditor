@@ -1,0 +1,34 @@
+0000000000000000000000000000000000000000 071d9e7bf04b4b0900bbb4bbe3cf2db12a630f0b fireraccoon <jwilliam.perreault@gmail.com> 1447812610 -0500	branch: Created from refs/remotes/origin/levelEditor
+071d9e7bf04b4b0900bbb4bbe3cf2db12a630f0b d5f1a1ba389fa485c91e7000694b3e0b8e79e801 fireraccoon <jwilliam.perreault@gmail.com> 1447900169 -0500	commit: Moved skins and display button
+d5f1a1ba389fa485c91e7000694b3e0b8e79e801 d48cf8d3c13571538d6aaf066f5b354daaa0caa5 fireraccoon <jwilliam.perreault@gmail.com> 1447902069 -0500	commit: Adding Buttons
+d48cf8d3c13571538d6aaf066f5b354daaa0caa5 7af1eb8a8793385511767ab573ca9ebc04f26832 fireraccoon <jwilliam.perreault@gmail.com> 1448065880 -0500	commit: Level Editor Toolbar (visuals only)
+7af1eb8a8793385511767ab573ca9ebc04f26832 7e8223dd42d1c9f0a7e70e7edc8d332adc33407f fireraccoon <jwilliam.perreault@gmail.com> 1448072616 -0500	commit: Play Pause from Level Editor
+7e8223dd42d1c9f0a7e70e7edc8d332adc33407f 49efdc75261032e7a2ef45d6f74b095d3b02c8a8 fireraccoon <jwilliam.perreault@gmail.com> 1448080430 -0500	commit: Added Statistics
+49efdc75261032e7a2ef45d6f74b095d3b02c8a8 0ee85295601a124b9dc95abc2ea03934cedf1897 fireraccoon <jwilliam.perreault@gmail.com> 1448089954 -0500	commit: Buggy Inspector Gui
+0ee85295601a124b9dc95abc2ea03934cedf1897 a6c2ebf562ae0692bda54bac73b17a6369e68a47 fireraccoon <jwilliam.perreault@gmail.com> 1448154465 -0500	commit: Opening editor pauses the game, and closing it resumes the game
+a6c2ebf562ae0692bda54bac73b17a6369e68a47 8953f8af20b93d4cbc37b62eeb8d1a3cc99be70b fireraccoon <jwilliam.perreault@gmail.com> 1448170963 -0500	commit: Undo/Redo system (createEntityCommand)
+8953f8af20b93d4cbc37b62eeb8d1a3cc99be70b 320d7659ff35c0f29fe4a714a945319279799a59 fireraccoon <jwilliam.perreault@gmail.com> 1448241563 -0500	commit: Better Input
+320d7659ff35c0f29fe4a714a945319279799a59 353e9a71f4c2d1d4c16eb66c8c4308950d45acd1 fireraccoon <jwilliam.perreault@gmail.com> 1448334428 -0500	commit: Mouse Click Event
+353e9a71f4c2d1d4c16eb66c8c4308950d45acd1 eb383c07c0f4f9c9c73078f45c4e50a020d7fb13 fireraccoon <jwilliam.perreault@gmail.com> 1448837521 -0500	commit: Better Input system + Level Editor: single entity selection
+eb383c07c0f4f9c9c73078f45c4e50a020d7fb13 17855aa86761d408ab4651d9009422fce3f0dd08 fireraccoon <jwilliam.perreault@gmail.com> 1448837666 -0500	commit (amend): Better Input system + Level Editor: single entity selection closes #12
+17855aa86761d408ab4651d9009422fce3f0dd08 3104919331ce364945fc81fc22e8f5d2f75186e8 fireraccoon <jwilliam.perreault@gmail.com> 1448840153 -0500	commit: Level Editor: added Selection rectangle around selected objects
+3104919331ce364945fc81fc22e8f5d2f75186e8 c3f0fa710e91945d1aed6852a5ee822ba089c4cb fireraccoon <jwilliam.perreault@gmail.com> 1448840683 -0500	commit: Changed editor theme to color green
+c3f0fa710e91945d1aed6852a5ee822ba089c4cb 740888f0b3a1cd898b18567c6de96b72e109376f fireraccoon <jwilliam.perreault@gmail.com> 1448851300 -0500	commit: Level Editor: Zoom In/Out closes #18
+740888f0b3a1cd898b18567c6de96b72e109376f cdbe62f350ee5e5bc15c170ca9d0539d3bbd9e60 fireraccoon <jwilliam.perreault@gmail.com> 1448932311 -0500	commit: Level Editor: Navigation using Mouse Dragging closes #19
+cdbe62f350ee5e5bc15c170ca9d0539d3bbd9e60 ed4fb6f1b19153e029c866622b04ab405dc28d3f fireraccoon <jwilliam.perreault@gmail.com> 1448935964 -0500	commit: Level Editor: Moving entities around by dragging them closes #17
+ed4fb6f1b19153e029c866622b04ab405dc28d3f 3d961e9138c656d469d98b514a1b920ca487ab7c fireraccoon <jwilliam.perreault@gmail.com> 1448974013 -0500	commit: Level Editor: Delete entity but no undo
+3d961e9138c656d469d98b514a1b920ca487ab7c 38da7eab1b6a2bac67181392ac026ab7ee7d4b35 fireraccoon <jwilliam.perreault@gmail.com> 1449055666 -0500	commit: Level Editor: Added Script View && Physics View
+38da7eab1b6a2bac67181392ac026ab7ee7d4b35 e0897da08fb6c2376aee9f5ad68a62b68174ec56 fireraccoon <jwilliam.perreault@gmail.com> 1449059101 -0500	commit: Level Editor: Inspector refreshing
+e0897da08fb6c2376aee9f5ad68a62b68174ec56 2738ec9d8b43330d7ed997c2a83b5a1de6c91a0e fireraccoon <jwilliam.perreault@gmail.com> 1449233833 -0500	commit: Level Editor: Physics Componetn Can be Updated from inspector
+2738ec9d8b43330d7ed997c2a83b5a1de6c91a0e d8c3d7b446f8e24d23437c88ed7cf10217eace3c fireraccoon <jwilliam.perreault@gmail.com> 1449271523 -0500	commit: camera Update + Physics Compo Validation
+d8c3d7b446f8e24d23437c88ed7cf10217eace3c a1190faaf5962b73682f2081dbdd523a8a3a96fc fireraccoon <jwilliam.perreault@gmail.com> 1449271550 -0500	commit (amend): Level Editor: camera Update + Physics Compo Validation
+a1190faaf5962b73682f2081dbdd523a8a3a96fc 21592a3f47179caa1296501618f719d93569eb8e fireraccoon <jwilliam.perreault@gmail.com> 1449275003 -0500	commit: Level Editor: Added VisUI
+21592a3f47179caa1296501618f719d93569eb8e 90b2738c00f110aa5ace1d2493691ad2effb3363 fireraccoon <jwilliam.perreault@gmail.com> 1449275229 -0500	commit: Level Editor: Middle mouse button Navigation
+90b2738c00f110aa5ace1d2493691ad2effb3363 385592a5753283f66b707b57e896d48892f8bbf9 fireraccoon <jwilliam.perreault@gmail.com> 1449299752 -0500	commit: Level Editor: Combobox for body types
+385592a5753283f66b707b57e896d48892f8bbf9 39c451a9df27738e19f81afabd01400de85d1727 fireraccoon <jwilliam.perreault@gmail.com> 1449431396 -0500	commit (merge): Merged Branch Graphics Rendering
+39c451a9df27738e19f81afabd01400de85d1727 385592a5753283f66b707b57e896d48892f8bbf9 fireraccoon <jwilliam.perreault@gmail.com> 1449431457 -0500	reset: moving to HEAD^
+385592a5753283f66b707b57e896d48892f8bbf9 4127159e866e20e4456183441e5aa71fbbe55f23 fireraccoon <jwilliam.perreault@gmail.com> 1449431486 -0500	commit: Merged Branch Graphics Rendering
+4127159e866e20e4456183441e5aa71fbbe55f23 262b0847a5e01ecb30e25ae9f528dbabdc082a87 fireraccoon <jwilliam.perreault@gmail.com> 1449432328 -0500	commit: Display Java and Native Heap
+262b0847a5e01ecb30e25ae9f528dbabdc082a87 a679e06a3873a1dfc35f302b0cb06a573e337192 fireraccoon <jwilliam.perreault@gmail.com> 1449433961 -0500	commit: Reuse Camera renderer instead of new one
+a679e06a3873a1dfc35f302b0cb06a573e337192 64adf7be090dd43fc4779f9c21110e9e4fe18d7b fireraccoon <jwilliam.perreault@gmail.com> 1449443238 -0500	commit: Added Camera Position info in level editor + fixed graphics displaying
+64adf7be090dd43fc4779f9c21110e9e4fe18d7b 0bf1c48efb313559ab20c29cdd3bd5f76f2a6f50 fireraccoon <jwilliam.perreault@gmail.com> 1449452893 -0500	commit (merge): Merged branch config-file

@@ -22,8 +22,6 @@ import java.util.Map;
  */
 public class ScriptingEngine{
 
-    public final static String SCRIPT_DIRECTORY = "scripts";
-
     private GroovyScriptEngine engine;
     private Binding globalScope;
 
@@ -108,7 +106,7 @@ public class ScriptingEngine{
         config.setScriptBaseClass(EntityScript.class.getCanonicalName());
 
         try {
-            engine = new GroovyScriptEngine(SCRIPT_DIRECTORY, this.getClass().getClassLoader());
+            engine = new GroovyScriptEngine(GEConfig.ScriptingEngine.SCRIPTS_DIR, this.getClass().getClassLoader());
             engine.setConfig(config);
         } catch (IOException e) {
             e.printStackTrace();
@@ -121,11 +119,8 @@ public class ScriptingEngine{
         addObject("GoatEngine", new GoatEngine()); //Don't mind the new we'll only access static methods
 
         //Put some helpers Globals
-        addObject("console", GoatEngine.console); //Console for console.log, instead of doing GoatEngine.getConsole()
+        addObject("Console", GoatEngine.console); //Console for console.log, instead of doing GoatEngine.getConsole()
         addObject("EventManager", GoatEngine.eventManager); // To access event manager
-
-
-        Logger.info("Scripting Engine initialised");
     }
 
 

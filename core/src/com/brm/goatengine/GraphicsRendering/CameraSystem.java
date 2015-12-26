@@ -7,7 +7,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.brm.GoatEngine.ECS.core.EntityComponent;
 import com.brm.GoatEngine.ECS.core.EntitySystem;
 import com.brm.GoatEngine.EventManager.EntityEvent;
-import com.brm.GoatEngine.GEConfig;
 import com.brm.GoatEngine.Utils.Logger;
 
 import java.util.ArrayList;
@@ -35,6 +34,7 @@ public class CameraSystem extends EntitySystem {
     public void update(float dt){
         if(viewport == null)
             this.viewport = new FitViewport(80, 48, getMainCamera());
+        if(getMainCamera() == null) return;
         viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 

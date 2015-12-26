@@ -28,6 +28,7 @@ public class ScriptSystem extends EntitySystem {
             if(entity.hasComponentEnabled(VirtualGamePad.ID)){
                 handleInputForEntity(entity);
             }
+            getEntityManager().freeEntity(entity);
         }
     }
 
@@ -51,7 +52,7 @@ public class ScriptSystem extends EntitySystem {
     @Override
     public void update(float dt) {
 
-        for(Entity entity: getEntityManager().getEntitiesWithComponent(ScriptComponent.ID)){
+        /*for(Entity entity: getEntityManager().getEntitiesWithComponent(ScriptComponent.ID)){
             ScriptComponent scriptComp = (ScriptComponent) entity.getComponent(ScriptComponent.ID);
             for(String scriptFile: scriptComp.getScripts()){
 
@@ -68,7 +69,8 @@ public class ScriptSystem extends EntitySystem {
                     GoatEngine.scriptEngine.logError(scriptFile, e.getMessage());
                 }
             }
-        }
+            getEntityManager().freeEntity(entity);
+        }*/
     }
 
 
@@ -96,6 +98,7 @@ public class ScriptSystem extends EntitySystem {
                 }
             }
         }
+        getEntityManager().freeEntity(entity);
     }
 
 
