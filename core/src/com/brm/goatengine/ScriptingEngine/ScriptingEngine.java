@@ -33,60 +33,6 @@ public class ScriptingEngine{
     // A list of scripts that ran with errors
     private ArrayList<String> errorScripts = new ArrayList<String>();
 
-    /**
-     * Represents info about a script (last edit date, path etc.)
-     */
-    private class EntityScriptInfo{
-
-        private long lastModified = 0;
-        private final HashMap<String, EntityScript> instances = new HashMap<String, EntityScript>();
-
-
-        private EntityScriptInfo(long lastModified) {
-            this.lastModified = lastModified;
-        }
-
-        /**
-         * get the script instance for a certain entity Id
-         * @param id
-         * @return
-         */
-        public EntityScript getInstance(String id){
-            return this.instances.get(id);
-        }
-
-        /**
-         * Adds a new instance
-         * @param entityId
-         * @param instance
-         */
-        public void addInstance(String entityId, EntityScript instance){
-            this.instances.put(entityId, instance);
-        }
-
-        /**
-         * Gets the last time the script was modified
-         * @return
-         */
-        public long getLastModified() {
-            return lastModified;
-        }
-
-        /**
-         * Sets the last time the script was modified
-         * @param lastModified
-         */
-        public void setLastModified(long lastModified) {
-            this.lastModified = lastModified;
-        }
-
-        public HashMap<String,EntityScript> getInstances() {
-            return instances;
-        }
-    }
-
-
-
 
     /**
      * Default ctor
@@ -182,9 +128,9 @@ public class ScriptingEngine{
      */
     public EntityScript runEntityScript(String scriptName, Entity entityObject){
 
-        //If the script is not in memory, we'll "load" it
-        if(!this.entityScripts.containsKey(scriptName)){
-            this.entityScripts.put(scriptName, new EntityScriptInfo(this.getLastModified(scriptName)));
+        //If the script is not in memory, we'll "register" it. (List as a potential script)
+        if(!isRegistered(scriptName)){
+            registerScript(scriptName);
         }
 
         //Does the current entity has an instance of that script?
@@ -208,6 +154,29 @@ public class ScriptingEngine{
     }
 
 
+    /**
+     * Registers the script with the engine. (Make it available to the engine)
+     * @param scriptName
+     */
+    private void registerScript(String scriptName){
+        this.entityScripts.put(scriptName, new EntityScriptInfo(this.getLastModified(scriptName)));
+    }
+
+    /**
+     * Indicates if a script was registered with the engine
+     * @param scriptName
+     * @return true if registered
+     */
+    private boolean isRegistered(String scriptName){
+        return this.entityScripts.containsKey(scriptName);
+    }
+
+    /**
+     * Runs a script in the Engine
+     * @param scriptName
+     * @param binding
+     * @return
+     */
     private EntityScript groovyRunEntityScript(String scriptName, Binding binding){
         try {
             return (EntityScript)engine.run(scriptName, binding);
@@ -220,15 +189,6 @@ public class ScriptingEngine{
         }
         return null;
     }
-
-
-    public void logError(String scriptName, String message){
-        if(!errorScripts.contains(scriptName)){
-            Logger.error(message);
-            errorScripts.add(scriptName);
-        }
-    }
-
 
 
     /**
@@ -245,8 +205,14 @@ public class ScriptingEngine{
     }
 
 
+
+
+
+
+
+
     /**
-     * Returns whether a Script file was changed on disk but no in memory
+     * Returns whether a Script file was changed on disk but not in memory
      * @param scriptName the name of the script to test
      * @return
      */
@@ -258,7 +224,7 @@ public class ScriptingEngine{
 
 
     /**
-     * Returns when a script was last modified
+     * Returns when a script file was last modified
      * on disk (not in memory)
      * @return
      * @param scriptName
@@ -267,7 +233,6 @@ public class ScriptingEngine{
         return Gdx.files.internal(scriptName).lastModified();
 
     }
-
 
 
     /**
@@ -283,6 +248,22 @@ public class ScriptingEngine{
 
     public void dispose() { }
 
+
+    /**
+     * Logs Scripts related errors
+     * @param scriptName
+     * @param message
+     */
+    public void logError(String scriptName, String message){
+        if(!errorScripts.contains(scriptName)){
+            Logger.error(message);
+            errorScripts.add(scriptName);
+        }
+    }
+
+
+
+    // EXCEPTIONS //
 
     /**
      * Exception for Script not found
