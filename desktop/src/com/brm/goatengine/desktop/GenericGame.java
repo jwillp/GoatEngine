@@ -1,12 +1,11 @@
 package com.brm.GoatEngine.desktop;
 
 import com.badlogic.gdx.Game;
-import com.brm.GoatEngine.ECS.PrefabFactory;
-import com.brm.GoatEngine.EventManager.GameEvent;
-import com.brm.GoatEngine.EventManager.GameEventListener;
-import com.brm.GoatEngine.GoatEngine;
-import com.brm.GoatEngine.Input.Events.ControllerConnectedEvent;
-import com.brm.GoatEngine.Utils.Logger;
+import com.goatgames.goatengine.eventmanager.GameEvent;
+import com.goatgames.goatengine.eventmanager.GameEventListener;
+import com.goatgames.goatengine.GoatEngine;
+import com.goatgames.goatengine.input.Events.ControllerConnectedEvent;
+import com.goatgames.goatengine.utils.Logger;
 
 /**
  * Generic Game class used to test the engine

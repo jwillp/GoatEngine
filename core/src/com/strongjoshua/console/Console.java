@@ -29,8 +29,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
-import com.brm.GoatEngine.GConsole.ConsoleCommand;
-import com.brm.GoatEngine.GoatEngine;
+import com.goatgames.goatengine.gconsole.ConsoleCommand;
+import com.goatgames.goatengine.GoatEngine;
 import com.kotcrab.vis.ui.VisUI;
 
 import java.util.ArrayList;

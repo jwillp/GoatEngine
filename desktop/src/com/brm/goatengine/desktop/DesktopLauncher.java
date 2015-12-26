@@ -2,8 +2,7 @@ package com.brm.GoatEngine.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.brm.GoatEngine.GEConfig;
-import org.ini4j.Ini;
+import com.goatgames.goatengine.GEConfig;
 
 
 public class DesktopLauncher {
