@@ -28,7 +28,7 @@ public class CollisionEvent extends EntityEvent {
     }
 
     public CollisionEvent(String entityA, Fixture fixtureA, String entityB, Fixture fixtureB, Describer describer){
-        super((String)((Entity)fixtureA.getBody().getUserData()).getID());
+        super(entityA);
         this.entityA = entityA;
         this.fixtureA = fixtureA;
 

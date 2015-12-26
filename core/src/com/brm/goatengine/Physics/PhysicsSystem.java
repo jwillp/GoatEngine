@@ -74,24 +74,24 @@ public class PhysicsSystem extends EntitySystem implements ContactListener {
         Fixture fixtureA = contact.getFixtureA();
         Fixture fixtureB = contact.getFixtureB();
 
-        Entity entityA = (Entity) fixtureA.getBody().getUserData();
-        Entity entityB = (Entity) fixtureB.getBody().getUserData();
+        String entityA = (String) fixtureA.getBody().getUserData();
+        String entityB = (String) fixtureB.getBody().getUserData();
 
 
         if(fixtureA.getUserData() != null && fixtureA.getBody().getUserData() != null) {
             this.collisions.add(new CollisionEvent(
-                            entityA.getID(),
+                            entityA,
                             fixtureA,
-                            entityB.getID(),
+                            entityB,
                             fixtureB,
                             describer)
             );
         }
         if(fixtureB.getUserData() != null && fixtureB.getBody().getUserData() != null) {
             this.collisions.add(new CollisionEvent(
-                            entityB.getID(),
+                            entityB,
                             fixtureB,
-                            entityA.getID(),
+                            entityA,
                             fixtureA,
                             describer)
             );

@@ -57,7 +57,7 @@ public class PhysicsComponent extends EntityComponent {
 
     @Override
     public void onAttach(Entity entity){
-        this.body.setUserData(entity);
+        this.body.setUserData(entity.getID());
     }
 
     @Override
