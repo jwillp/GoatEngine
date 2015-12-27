@@ -19,7 +19,7 @@ public abstract class EngineConfig {
         return defaultProperty;
     }
     /**
-     * Try to applied a property, if the property string is Empty
+     * Try to apply a property, if the property string is Empty
      * keep the default value of the parameter
      * @param defaultProperty the default value of Config Property
      * @param readProperty the read from file property
@@ -32,7 +32,7 @@ public abstract class EngineConfig {
     }
 
     /**
-     * Try to applied a property, if the property string is Empty
+     * Try to apply a property, if the property string is Empty
      * keep the default value of the parameter
      * @param defaultProperty the default value of Config Property
      * @param readProperty the read from file property
@@ -46,6 +46,18 @@ public abstract class EngineConfig {
 
 
 
+    /**
+     * Try to apply a property, if the property string is Empty
+     * keep the default value of the parameter
+     * @param defaultProperty the default value of Config Property
+     * @param readProperty the read from file property
+     */
+    public static int getIntProperty(int defaultProperty, final String readProperty){
+        if(!readProperty.isEmpty()){
+            return Integer.parseInt(readProperty);
+        }
+        return defaultProperty;
+    }
 
 
 

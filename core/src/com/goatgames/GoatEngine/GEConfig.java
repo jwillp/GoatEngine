@@ -26,14 +26,19 @@ public class GEConfig extends EngineConfig {
      */
     public static class DevGeneral extends EngineConfig {
         public static String GAME_NAME = "Goat Engine Game";
-        public static boolean DEV_CTX = false;                  // Wether or not we are in dev context with stack traces
+        public static boolean DEV_CTX = false;                  // Whether or not we are in dev context with stack traces
         public static int VIEWPORT_WIDTH = 840;
         public static int VIEWPORT_HEIGHT = 640;
         public static boolean FULLSCREEN = false;
 
         private static void loadConfig(OrderedProperties prop){
             DevGeneral.DEV_CTX = getBooleanProperty(DevGeneral.DEV_CTX, prop.getProperty("dev_ctx"));
+            DevGeneral.VIEWPORT_WIDTH = getIntProperty(DevGeneral.VIEWPORT_WIDTH, prop.getProperty("viewport_width"));
+            DevGeneral.VIEWPORT_HEIGHT = getIntProperty(DevGeneral.VIEWPORT_HEIGHT, prop.getProperty("viewport_height"));
+            DevGeneral.FULLSCREEN = getBooleanProperty(DevGeneral.FULLSCREEN, prop.getProperty("fullscreen"));
         }
+
+
 
     }
 
