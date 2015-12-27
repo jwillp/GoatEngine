@@ -1,4 +1,4 @@
-package com.brm.GoatEngine.desktop;
+package com.goatgames.goatengine;
 
 import com.badlogic.gdx.Game;
 import com.goatgames.goatengine.eventmanager.GameEvent;
