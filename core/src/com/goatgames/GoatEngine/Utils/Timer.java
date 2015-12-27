@@ -39,6 +39,10 @@ public class Timer {
         this.delay = delayInMs;
     }
 
+    public Timer(){
+        this(INFINITE);
+    }
+
     public void start(){
         this.startTime = currentTimeMillis();
         this.lastCheck = startTime;

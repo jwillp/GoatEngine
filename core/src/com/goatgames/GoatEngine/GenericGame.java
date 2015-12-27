@@ -30,7 +30,6 @@ public class GenericGame extends Game implements GameEventListener{
 
     @Override
     public void render() {
-        super.render();
         try{
             GoatEngine.update();
         }catch (RuntimeException e){
@@ -40,9 +39,6 @@ public class GenericGame extends Game implements GameEventListener{
             throw e;
         }
     }
-
-    private boolean prefabed = false;
-
 
     @Override
     public void dispose() {

@@ -57,62 +57,65 @@ public class GoatEngine {
     private static boolean initialised = false;
     private static boolean running = false;
 
+    // Performance profiling
+    private static Timer performanceTimer = new Timer();
+    private static long lastLogicTime = 0;
+    private static long lastRenderTime = 0;
 
     /**
      * This initializes the Game Engine
      */
     public static void init(){
         Logger.info("Engine Initialisation ...");
-        Timer initTimer = new Timer(Timer.INFINITE);
-        initTimer.start();
+        performanceTimer.start();
 
         // Load configuration
         GEConfig.loadConfig();
-        Logger.info(" > Engine config read and applied " + initTimer.getDeltaTime() + "ms");
-        initTimer.reset();
+        Logger.info(" > Engine config read and applied " + performanceTimer.getDeltaTime() + "ms");
+        performanceTimer.reset();
 
         // Graphics Engine
         graphicsEngine = new GraphicsEngine();
-        Logger.info(" > Graphics Engine initialised "+ initTimer.getDeltaTime() + "ms");
-        initTimer.reset();
+        Logger.info(" > Graphics Engine initialised "+ performanceTimer.getDeltaTime() + "ms");
+        performanceTimer.reset();
 
         // Event Manager
         eventManager = new EventManager();
-        Logger.info(" > Event Manager initialised "+ initTimer.getDeltaTime() + "ms");
-        initTimer.reset();
+        Logger.info(" > Event Manager initialised "+ performanceTimer.getDeltaTime() + "ms");
+        performanceTimer.reset();
 
         // Input manager
         inputManager = new InputManager();
         inputManager.init();
-        Logger.info(" > Input Manager initialised "+ initTimer.getDeltaTime() + "ms");
-        initTimer.reset();
+        Logger.info(" > Input Manager initialised "+ performanceTimer.getDeltaTime() + "ms");
+        performanceTimer.reset();
 
         // Audio Manager
         audioMixer = new AudioMixer();
-        Logger.info(" > Audio Manager initialised "+ initTimer.getDeltaTime() + "ms");
-        initTimer.reset();
+        Logger.info(" > Audio Manager initialised "+ performanceTimer.getDeltaTime() + "ms");
+        performanceTimer.reset();
 
         // Init the console
         console = new GConsole();
         console.setDisabled(!GEConfig.Console.CONS_ENABLED);
         console.log("Dev Console initialised", Console.LogLevel.SUCCESS);
         if(GEConfig.Console.CONS_ENABLED)
-            Logger.info(" > Dev Console initialised "+ initTimer.getDeltaTime() + "ms");
-        initTimer.reset();
+            Logger.info(" > Dev Console initialised "+ performanceTimer.getDeltaTime() + "ms");
+        performanceTimer.reset();
 
 
         // Script Engine Init
         scriptEngine = new ScriptingEngine();
         scriptEngine.init();
-        Logger.info(" > Scripting Engine initialised " + initTimer.getDeltaTime() + "ms");
-        initTimer.reset();
+        Logger.info(" > Scripting Engine initialised " + performanceTimer.getDeltaTime() + "ms");
+        performanceTimer.reset();
 
 
         // Game Screen manager
         gameScreenManager = new GameScreenManager();
         gameScreenManager.init();
-        Logger.info(" > Game screen Manager initialised " + initTimer.getDeltaTime() + "ms");
-        initTimer.reset();
+        Logger.info(" > Game screen Manager initialised " + performanceTimer.getDeltaTime() + "ms");
+        performanceTimer.reset();
 
         // Level Editor
         levelEditor = new LevelEditor();
@@ -130,7 +133,8 @@ public class GoatEngine {
         initialised = true;
         running = true;
 
-        Logger.info("Engine initialisation complete " + initTimer.getRunningTime() + "ms");
+        Logger.info("Engine initialisation complete " + performanceTimer.getRunningTime() + "ms");
+        performanceTimer.reset();
     }
 
 
@@ -146,14 +150,28 @@ public class GoatEngine {
             float deltaTime = Gdx.graphics.getDeltaTime();
 
             //Clears the screen
+            performanceTimer.reset();
+            lastLogicTime = 0;
+            lastRenderTime = 0;
+
             graphicsEngine.clearScreen();
 
             if(gameScreenManager.isRunning()){
                 //Game Screen Manager
                 gameScreenManager.handleEvents();
                 gameScreenManager.update(deltaTime);
+                lastLogicTime = performanceTimer.getDeltaTime();
+
             }
+
             gameScreenManager.draw(deltaTime);
+            lastRenderTime = performanceTimer.getDeltaTime() - lastLogicTime;
+
+            if(performanceTimer.getDeltaTime() > 16){
+                Logger.warn("Tick longer than a frame: " + performanceTimer.getDeltaTime() + "ms" +
+                        " logic: " + lastLogicTime + "ms render: " + lastRenderTime + "ms");
+
+            }
 
             levelEditor.update(deltaTime);
 
