@@ -20,6 +20,6 @@ public class ExitCommand extends ConsoleCommand {
     @Override
     public void exec(String... args) {
         super.exec(args);
-        GoatEngine.gameScreenManager.pause();
+        GoatEngine.gameScreenManager.cleanUp();
     }
 }

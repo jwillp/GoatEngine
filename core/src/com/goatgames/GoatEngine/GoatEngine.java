@@ -2,6 +2,7 @@ package com.goatgames.goatengine;
 
 import com.badlogic.gdx.Gdx;
 import com.goatgames.goatengine.eventmanager.EventManager;
+import com.goatgames.goatengine.eventmanager.engineevents.*;
 import com.goatgames.goatengine.gconsole.DefaultCommands.ExitCommand;
 import com.goatgames.goatengine.gconsole.DefaultCommands.HelpCommand;
 import com.goatgames.goatengine.gconsole.GConsole;
@@ -11,6 +12,7 @@ import com.goatgames.goatengine.leveleditor.ConsoleCommands.ShowLevelEditor;
 import com.goatgames.goatengine.leveleditor.LevelEditor;
 import com.goatgames.goatengine.screenmanager.GameScreenManager;
 import com.goatgames.goatengine.scriptingengine.ScriptingEngine;
+import com.goatgames.goatengine.utils.EngineProfiler;
 import com.goatgames.goatengine.utils.Logger;
 import com.goatgames.goatengine.utils.Timer;
 import com.strongjoshua.console.Console;
@@ -59,8 +61,11 @@ public class GoatEngine {
 
     // Performance profiling
     private static Timer performanceTimer = new Timer();
-    private static long lastLogicTime = 0;
-    private static long lastRenderTime = 0;
+    private static EngineProfiler profiler = new EngineProfiler();
+
+
+
+
 
     /**
      * This initializes the Game Engine
@@ -68,6 +73,7 @@ public class GoatEngine {
     public static void init(){
         Logger.info("Engine Initialisation ...");
         performanceTimer.start();
+
 
         // Load configuration
         GEConfig.loadConfig();
@@ -82,6 +88,7 @@ public class GoatEngine {
         // Event Manager
         eventManager = new EventManager();
         Logger.info(" > Event Manager initialised "+ performanceTimer.getDeltaTime() + "ms");
+        eventManager.registerListener(profiler);
         performanceTimer.reset();
 
         // Input manager
@@ -146,38 +153,33 @@ public class GoatEngine {
             if(!initialised){
                 throw new EngineUninitializedException();
             }
+            eventManager.fireEvent(new EngineEvents.GameTickBeginEvent());
 
             float deltaTime = Gdx.graphics.getDeltaTime();
 
             //Clears the screen
-            performanceTimer.reset();
-            lastLogicTime = 0;
-            lastRenderTime = 0;
-
             graphicsEngine.clearScreen();
 
             if(gameScreenManager.isRunning()){
                 //Game Screen Manager
+                eventManager.fireEvent(new EngineEvents.LogicTickBeginEvent());
                 gameScreenManager.handleEvents();
                 gameScreenManager.update(deltaTime);
-                lastLogicTime = performanceTimer.getDeltaTime();
+                eventManager.fireEvent(new EngineEvents.LogicTickEndEvent());
 
             }
-
+            eventManager.fireEvent(new EngineEvents.RenderTickBeginEvent());
             gameScreenManager.draw(deltaTime);
-            lastRenderTime = performanceTimer.getDeltaTime() - lastLogicTime;
+            eventManager.fireEvent(new EngineEvents.RenderTickEndEvent());
 
-            if(performanceTimer.getDeltaTime() > 16){
-                Logger.warn("Tick longer than a frame: " + performanceTimer.getDeltaTime() + "ms" +
-                        " logic: " + lastLogicTime + "ms render: " + lastRenderTime + "ms");
-
-            }
 
             levelEditor.update(deltaTime);
 
             //Draw Console
             console.refresh();
             console.draw();
+
+            eventManager.fireEvent(new EngineEvents.GameTickEndEvent());
         }
     }
 
