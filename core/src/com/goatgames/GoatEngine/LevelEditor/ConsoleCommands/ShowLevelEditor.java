@@ -13,10 +13,8 @@ public class ShowLevelEditor extends ConsoleCommand {
         this.usage = "Usage: level_editor";
     }
 
-
     @Override
-    public void exec(String... args) {
-        super.exec(args);
+    protected void execute(String... args) {
         GoatEngine.showLevelEditor();
         this.console.toggle();
     }

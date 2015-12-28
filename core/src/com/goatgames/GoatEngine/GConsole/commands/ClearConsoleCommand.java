@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.gconsole.DefaultCommands;
+package com.goatgames.goatengine.gconsole.commands;
 
 import com.goatgames.goatengine.gconsole.ConsoleCommand;
 import com.goatgames.goatengine.GoatEngine;
@@ -15,11 +15,8 @@ public class ClearConsoleCommand extends ConsoleCommand {
         this.usage = "Usage: clear";
     }
 
-
-
     @Override
-    public void exec(String... args) {
-        super.exec(args);
+    protected void execute(String... args) {
         GoatEngine.console.clear();
     }
 }

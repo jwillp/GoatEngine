@@ -335,7 +335,7 @@ public class Console implements Disposable {
 	 * Executes the command passed
 	 * @param command
 	 */
-	private void execCommand (String command) {
+	public void execCommand (String command) {
 		log(command, LogLevel.COMMAND);
 
 		String[] parts = command.split(" ");

@@ -26,7 +26,12 @@ public abstract class ConsoleCommand {
             GoatEngine.console.log(usage, Console.LogLevel.DEFAULT);
             return;
         }
+        execute(args);
     }
+
+    protected abstract void execute(String... args);
+
+
 
     /**
      * Indicates if the user wanted to see the help associated with the current command

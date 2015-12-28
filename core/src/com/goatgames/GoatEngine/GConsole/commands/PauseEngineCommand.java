@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.gconsole.DefaultCommands;
+package com.goatgames.goatengine.gconsole.commands;
 
 import com.goatgames.goatengine.gconsole.ConsoleCommand;
 import com.goatgames.goatengine.GoatEngine;
@@ -15,13 +15,8 @@ public class PauseEngineCommand extends ConsoleCommand {
         this.usage = "Usage: pause";
     }
 
-
-
     @Override
-    public void exec(String... args) {
-        super.exec(args);
-        // TODO
+    protected void execute(String... args) {
         GoatEngine.gameScreenManager.pause();
-       
     }
 }

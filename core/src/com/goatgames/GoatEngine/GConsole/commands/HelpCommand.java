@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.gconsole.DefaultCommands;
+package com.goatgames.goatengine.gconsole.commands;
 
 import com.goatgames.goatengine.gconsole.ConsoleCommand;
 import com.strongjoshua.console.Console;
@@ -15,8 +15,7 @@ public class HelpCommand extends ConsoleCommand{
     }
 
     @Override
-    public void exec(String... args) {
-        super.exec(args);
+    protected void execute(String... args) {
         console.log("HELP COMMAND", Console.LogLevel.INFO);
         for(ConsoleCommand c: this.console.getCommands()){
             String helpString = String.format("%-60s %s" ,c.getName(), c.getDesc());

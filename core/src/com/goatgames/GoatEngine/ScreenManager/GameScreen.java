@@ -159,7 +159,7 @@ public final class GameScreen{
 
     // EXCEPTIONS //
 
-    private class GameScreenNotFoundException extends RuntimeException {
+    public class GameScreenNotFoundException extends RuntimeException {
         public GameScreenNotFoundException(String name) {
             super("Could not find game screen : " + name + " File not found : " + GEConfig.ScreenManager.SCREEN_DIR + name);
         }

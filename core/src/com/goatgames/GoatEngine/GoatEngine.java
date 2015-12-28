@@ -3,8 +3,7 @@ package com.goatgames.goatengine;
 import com.badlogic.gdx.Gdx;
 import com.goatgames.goatengine.eventmanager.EventManager;
 import com.goatgames.goatengine.eventmanager.engineevents.*;
-import com.goatgames.goatengine.gconsole.DefaultCommands.ExitCommand;
-import com.goatgames.goatengine.gconsole.DefaultCommands.HelpCommand;
+import com.goatgames.goatengine.gconsole.commands.*;
 import com.goatgames.goatengine.gconsole.GConsole;
 import com.goatgames.goatengine.graphicsrendering.GraphicsEngine;
 import com.goatgames.goatengine.input.InputManager;
@@ -15,7 +14,6 @@ import com.goatgames.goatengine.scriptingengine.ScriptingEngine;
 import com.goatgames.goatengine.utils.EngineProfiler;
 import com.goatgames.goatengine.utils.Logger;
 import com.goatgames.goatengine.utils.Timer;
-import com.strongjoshua.console.Console;
 
 /**
  * The base class for the whole GamEngine
@@ -105,9 +103,19 @@ public class GoatEngine {
         // Init the console
         console = new GConsole();
         console.setDisabled(!GEConfig.Console.CONS_ENABLED);
-        console.log("Dev Console initialised", Console.LogLevel.SUCCESS);
-        if(GEConfig.Console.CONS_ENABLED)
-            Logger.info(" > Dev Console initialised "+ performanceTimer.getDeltaTime() + "ms");
+        if(GEConfig.Console.CONS_ENABLED) {
+            Logger.info(" > Dev Console initialised " + performanceTimer.getDeltaTime() + "ms");
+
+            // Default commands
+            console.addCommand(new ExitCommand());
+            console.addCommand(new HelpCommand());
+            console.addCommand(new ShowLevelEditor());
+            console.addCommand(new ClearConsoleCommand());
+            console.addCommand(new PauseEngineCommand());
+            console.addCommand(new ResumeEngineCommand());
+            console.addCommand(new ReloadScreenCommand());
+            console.addCommand(new ChangeScreenCommand());
+        }
         performanceTimer.reset();
 
 
@@ -127,10 +135,8 @@ public class GoatEngine {
         // Level Editor
         levelEditor = new LevelEditor();
 
-        // RUN DEFAULT MAIN SCRIPT
-        console.addCommand(new ExitCommand());
-        console.addCommand(new HelpCommand());
-        console.addCommand(new ShowLevelEditor());
+
+
         /*try{
             scriptEngine.("scripts/main.groovy");
         }catch(Exception e){
@@ -180,11 +186,15 @@ public class GoatEngine {
             console.draw();
 
             eventManager.fireEvent(new EngineEvents.GameTickEndEvent());
+        }else{
+            Gdx.app.exit();
         }
     }
 
 
-
+    public static void shutdown(){
+        running = false;
+    }
 
     /**
      * Cleans up the Engine before close

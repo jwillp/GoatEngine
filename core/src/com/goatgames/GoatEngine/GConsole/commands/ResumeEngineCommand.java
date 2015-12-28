@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.gconsole.DefaultCommands;
+package com.goatgames.goatengine.gconsole.commands;
 
 import com.goatgames.goatengine.gconsole.ConsoleCommand;
 import com.goatgames.goatengine.GoatEngine;
@@ -16,12 +16,8 @@ public class ResumeEngineCommand extends ConsoleCommand {
     }
 
 
-
     @Override
-    public void exec(String... args) {
-        super.exec(args);
-        // TODO
-       GoatEngine.gameScreenManager.resume();
-
+    protected void execute(String... args) {
+        GoatEngine.gameScreenManager.resume();
     }
 }
