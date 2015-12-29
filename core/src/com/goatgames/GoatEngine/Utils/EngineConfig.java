@@ -13,7 +13,7 @@ public abstract class EngineConfig {
      * @param readProperty the read from file property
      */
     public static String applyProperty(String defaultProperty, final String readProperty){
-        if(!readProperty.isEmpty()){
+        if(readProperty != null && !readProperty.isEmpty()){
             return readProperty;
         }
         return defaultProperty;

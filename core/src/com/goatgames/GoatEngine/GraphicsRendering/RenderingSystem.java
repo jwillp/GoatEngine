@@ -430,7 +430,9 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
     private void onScreenResize(EngineEvents.ScreenResizedEvent e) {
         updateFakeLights(e.newWidth, e.newHeight);
 
-        if(GEConfig.DevGeneral.DEV_CTX){ Gdx.graphics.setTitle("[" + e.newWidth + "x" +  e.newHeight + "]"); }
+        if(GEConfig.DevGeneral.DEV_CTX){
+            Gdx.graphics.setTitle(GEConfig.DevGeneral.GAME_NAME + "[" + e.newWidth + "x" +  e.newHeight + "]");
+        }
     }
 
 

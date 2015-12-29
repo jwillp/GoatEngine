@@ -33,6 +33,7 @@ public class GEConfig extends EngineConfig {
 
         private static void loadConfig(OrderedProperties prop){
             DevGeneral.DEV_CTX = getBooleanProperty(DevGeneral.DEV_CTX, prop.getProperty("dev_ctx"));
+            DevGeneral.GAME_NAME = applyProperty(DevGeneral.GAME_NAME, prop.getProperty("game_name"));
             DevGeneral.VIEWPORT_WIDTH = getIntProperty(DevGeneral.VIEWPORT_WIDTH, prop.getProperty("viewport_width"));
             DevGeneral.VIEWPORT_HEIGHT = getIntProperty(DevGeneral.VIEWPORT_HEIGHT, prop.getProperty("viewport_height"));
             DevGeneral.FULLSCREEN = getBooleanProperty(DevGeneral.FULLSCREEN, prop.getProperty("fullscreen"));
