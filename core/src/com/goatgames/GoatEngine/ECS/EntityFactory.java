@@ -2,7 +2,7 @@ package com.goatgames.goatengine.ecs;
 
 import com.goatgames.goatengine.ai.Components.AIComponent;
 import com.goatgames.goatengine.ecs.common.CameraTargetComponent;
-import com.goatgames.goatengine.ecs.common.PhysicsComponent;
+import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.ecs.common.TagsComponent;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityManager;

@@ -2,7 +2,6 @@ package com.goatgames.goatengine.physics;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.goatgames.goatengine.ecs.common.PhysicsComponent;
 import com.goatgames.goatengine.ecs.core.Entity;
 
 import java.util.Iterator;

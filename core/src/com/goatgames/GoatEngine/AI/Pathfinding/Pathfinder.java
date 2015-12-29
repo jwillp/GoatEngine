@@ -3,7 +3,7 @@ package com.goatgames.goatengine.ai.Pathfinding;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.goatgames.goatengine.ecs.common.PhysicsComponent;
+import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.utils.Math.Vectors;
 

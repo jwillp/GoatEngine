@@ -2,7 +2,7 @@ package com.goatgames.goatengine.leveleditor.Commands;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.goatgames.goatengine.ecs.common.PhysicsComponent;
+import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.graphicsrendering.CameraComponent;

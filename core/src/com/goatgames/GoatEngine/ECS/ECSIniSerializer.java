@@ -1,7 +1,7 @@
 package com.goatgames.goatengine.ecs;
 
 import com.badlogic.gdx.Gdx;
-import com.goatgames.goatengine.ecs.common.PhysicsComponent;
+import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.physics.BoxCollider;

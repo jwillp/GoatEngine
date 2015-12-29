@@ -3,7 +3,7 @@ package com.goatgames.goatengine.leveleditor.View;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.goatgames.goatengine.ecs.common.PhysicsComponent;
+import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 
 import java.util.Arrays;

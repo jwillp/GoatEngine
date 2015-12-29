@@ -3,7 +3,7 @@ package com.goatgames.goatengine.leveleditor.View;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.goatgames.goatengine.ecs.EntityFactory;
-import com.goatgames.goatengine.ecs.common.PhysicsComponent;
+import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.physics.BoxCollider;
 import com.goatgames.goatengine.physics.CircleCollider;

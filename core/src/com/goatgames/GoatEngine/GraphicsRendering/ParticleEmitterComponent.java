@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.ecs.common;
+package com.goatgames.goatengine.graphicsrendering;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
