@@ -163,8 +163,6 @@ public class GoatEngine {
 
             float deltaTime = Gdx.graphics.getDeltaTime();
 
-            //Clears the screen
-            graphicsEngine.clearScreen();
 
             if(gameScreenManager.isRunning()){
                 //Game Screen Manager
