@@ -2,15 +2,12 @@ package com.goatgames.goatengine.ecs;
 
 import com.goatgames.goatengine.ai.Components.AIComponent;
 import com.goatgames.goatengine.ecs.common.CameraTargetComponent;
+import com.goatgames.goatengine.graphicsrendering.*;
 import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.ecs.common.TagsComponent;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.GoatEngine;
-import com.goatgames.goatengine.graphicsrendering.CameraComponent;
-import com.goatgames.goatengine.graphicsrendering.SpriteComponent;
-import com.goatgames.goatengine.graphicsrendering.SpriterAnimationComponent;
-import com.goatgames.goatengine.graphicsrendering.ZIndexComponent;
 import com.goatgames.goatengine.leveleditor.Components.EditorLabelComponent;
 import com.goatgames.goatengine.physics.*;
 import com.goatgames.goatengine.scriptingengine.ScriptComponent;
@@ -49,9 +46,15 @@ public class EntityFactory{
             processCameraComponent(componentId, entity, map);
             processCameraTargetComponent(componentId, entity, map);
             processAIComponent(componentId, entity, map);
-            processZIndex(componentId, entity, map);
+            processZIndexComponent(componentId, entity, map);
+            processFakeLightComponent(componentId, entity, map);
         }
         return entity;
+    }
+
+    private static void processFakeLightComponent(String componentId, Entity entity, EntityComponentMap componentData) {
+        if(!isComponent(componentId, FakeLightComponent.ID)){return;}
+        entity.addComponent(new FakeLightComponent(componentData), FakeLightComponent.ID);
     }
 
     /**
@@ -208,7 +211,7 @@ public class EntityFactory{
     }
 
 
-    private static void processZIndex(String componentId, Entity entity, EntityComponentMap componentMap){
+    private static void processZIndexComponent(String componentId, Entity entity, EntityComponentMap componentMap){
         if(!isComponent(componentId, ZIndexComponent.ID)) return;
         entity.addComponent(new ZIndexComponent(componentMap), ZIndexComponent.ID);
     }

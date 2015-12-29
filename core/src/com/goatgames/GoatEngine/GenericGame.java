@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.goatgames.goatengine.eventmanager.GameEvent;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
 import com.goatgames.goatengine.GoatEngine;
+import com.goatgames.goatengine.eventmanager.engineevents.EngineEvents;
 import com.goatgames.goatengine.input.Events.ControllerConnectedEvent;
 import com.goatgames.goatengine.utils.Logger;
 
@@ -43,5 +44,12 @@ public class GenericGame extends Game implements GameEventListener{
     @Override
     public void dispose() {
         GoatEngine.cleanUp();
+    }
+
+
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+        GoatEngine.eventManager.fireEvent(new EngineEvents.ScreenResizedEvent(width, height));
     }
 }

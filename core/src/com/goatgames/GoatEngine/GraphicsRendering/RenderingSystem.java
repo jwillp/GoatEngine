@@ -18,8 +18,12 @@ import com.brashmonkey.spriter.Loader;
 import com.brashmonkey.spriter.Spriter;
 import com.brashmonkey.spriter.gdxIntegration.LibGdxSpriterDrawer;
 import com.brashmonkey.spriter.gdxIntegration.LibGdxSpriterLoader;
+import com.goatgames.goatengine.GEConfig;
 import com.goatgames.goatengine.ai.AISystem;
 import com.goatgames.goatengine.ai.Pathfinding.PathNode;
+import com.goatgames.goatengine.eventmanager.GameEvent;
+import com.goatgames.goatengine.eventmanager.GameEventListener;
+import com.goatgames.goatengine.eventmanager.engineevents.EngineEvents;
 import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
@@ -32,7 +36,7 @@ import java.util.Collections;
 /**
  * Responsible for displaying all visual elements on screen
  */
-public class RenderingSystem extends EntitySystem {
+public class RenderingSystem extends EntitySystem implements GameEventListener{
 
     private Box2DDebugRenderer debugRenderer;
     private SpriteBatch spriteBatch = new SpriteBatch();
@@ -113,6 +117,8 @@ public class RenderingSystem extends EntitySystem {
        // postProcessor.addEffect(crt);
         postProcessor.addEffect(bloom);
 
+
+        GoatEngine.eventManager.registerListener(this);
         Logger.info("GraphicsRendering System initalised");
     }
 
@@ -157,7 +163,7 @@ public class RenderingSystem extends EntitySystem {
 
 
         // Render lights
-        // TODO
+        //renderFakeLights();
 
 
 
@@ -247,10 +253,11 @@ public class RenderingSystem extends EntitySystem {
 
     }
 
-    private void updateFakeLights(){
+    private void updateFakeLights(int newWidth, int newHeight){
+        if(true) return;
         // Fakedlight system (alpha blending)
-        int lowDisplayW = Gdx.graphics.getWidth();
-        int lowDisplayH = Gdx.graphics.getHeight();
+        int lowDisplayW = newWidth;
+        int lowDisplayH = newHeight;
 
         // if lightBuffer was created before, dispose, we recreate a new one
         if (lightBuffer!=null) lightBuffer.dispose();
@@ -279,6 +286,7 @@ public class RenderingSystem extends EntitySystem {
         spriteBatch.dispose();
         shapeRenderer.dispose();
         postProcessor.dispose();
+        GoatEngine.eventManager.unregisterListener(this);
     }
 
 
@@ -411,6 +419,19 @@ public class RenderingSystem extends EntitySystem {
             }*/
         }
 
+
+    @Override
+    public void onEvent(GameEvent e) {
+        if(e instanceof EngineEvents.ScreenResizedEvent){
+            onScreenResize((EngineEvents.ScreenResizedEvent) e);
+        }
+    }
+
+    private void onScreenResize(EngineEvents.ScreenResizedEvent e) {
+        updateFakeLights(e.newWidth, e.newHeight);
+
+        if(GEConfig.DevGeneral.DEV_CTX){ Gdx.graphics.setTitle("[" + e.newWidth + "x" +  e.newHeight + "]"); }
+    }
 
 
 

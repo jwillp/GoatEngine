@@ -47,4 +47,19 @@ public class EngineEvents extends GameEvent {
     }
 
 
+
+
+
+    public static class ScreenResizedEvent extends GameEvent{
+        public final int newWidth;
+        public final int newHeight;
+
+        public ScreenResizedEvent(int newWidth, int newHeight) {
+            this.newWidth = newWidth;
+            this.newHeight = newHeight;
+        }
+    }
+
+
+
 }
