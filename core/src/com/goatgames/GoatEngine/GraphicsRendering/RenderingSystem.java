@@ -13,6 +13,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.bitfire.postprocessing.PostProcessor;
 import com.bitfire.postprocessing.effects.*;
+import com.bitfire.postprocessing.filters.Combine;
+import com.bitfire.postprocessing.filters.CrtScreen;
 import com.bitfire.utils.ShaderLoader;
 import com.brashmonkey.spriter.Loader;
 import com.brashmonkey.spriter.Spriter;
@@ -46,6 +48,10 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
 
     // SubSystem
     private CameraSystem cameraSystem;
+    private FakeLightSystem lightSystem;
+
+
+
 
     private CameraDebugRenderer cameraDebugRenderer;
 
@@ -83,6 +89,12 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
         // Physic 2D debug rendering
         debugRenderer = new Box2DDebugRenderer();
 
+        // LightSystem
+        lightSystem = new FakeLightSystem(spriteBatch);
+        this.lightSystem.setEntityManager(getEntityManager());
+
+
+
         // Spriter
         Spriter.setDrawerDependencies(spriteBatch, shapeRenderer);
         Spriter.init(LibGdxSpriterLoader.class, LibGdxSpriterDrawer.class);
@@ -100,21 +112,21 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
         int vpW = Gdx.graphics.getWidth();
         int vpH = Gdx.graphics.getHeight();
 
-        /*int effects = CrtScreen.Effect.TweakContrast.v |
+        int effects = CrtScreen.Effect.TweakContrast.v |
                 CrtScreen.Effect.PhosphorVibrance.v |
                 CrtScreen.Effect.Scanlines.v |
                 CrtScreen.Effect.Tint.v;
         crt = new CrtMonitor( vpW, vpH, false, false, CrtScreen.RgbMode.ChromaticAberrations, effects );
         Combine combine = crt.getCombinePass();
         combine.setSource1Intensity( 0f );
-        combine.setSource2Intensity( 1f );
+        combine.setSource2Intensity( 0.5f );
         combine.setSource1Saturation( 0f );
-        combine.setSource2Saturation( 1f );
-        crt = new CrtMonitor( vpW, vpH, false, false, CrtScreen.RgbMode.ChromaticAberrations, effects );*/
+        combine.setSource2Saturation( 0.5f );
+        crt = new CrtMonitor( vpW, vpH, false, false, CrtScreen.RgbMode.ChromaticAberrations, effects );
 
         Bloom bloom = new Bloom((int)(Gdx.graphics.getWidth() * 0.25f), (int)(Gdx.graphics.getHeight() * 0.25f));
         bloom.setBlurAmount(20);
-       // postProcessor.addEffect(crt);
+        postProcessor.addEffect(crt);
         postProcessor.addEffect(bloom);
 
 
@@ -160,14 +172,10 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
                 renderSprites(e,0);
             }
         }
-
+        spriteBatch.end();
 
         // Render lights
-        //renderFakeLights();
-
-
-
-        spriteBatch.end();
+        this.lightSystem.draw();
 
         postProcessor.render();
 
@@ -187,98 +195,6 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
             cameraDebugRenderer.render();
         }
     }
-
-    /**
-     * Renders fake light
-     */
-    private void renderFakeLights() {
-        // start rendering to the lightBuffer
-        lightBuffer.begin();
-
-        // setup the right blending
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE);
-        Gdx.gl.glEnable(GL20.GL_BLEND);
-
-        // set the ambient color values, this is the "global" light of your scene
-        // imagine it being the sun.  Usually the alpha value is just 1, and you change the darkness/brightness
-        // with the Red, Green and Blue values for best effect
-
-        Gdx.gl.glClearColor(0.3f,0.38f,0.4f,1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        // start rendering the lights to our spriteBatch
-        spriteBatch.begin();
-
-        int lowDisplayW = Gdx.graphics.getWidth();
-        int lowDisplayH = Gdx.graphics.getHeight();
-        int displayW = lowDisplayW;
-        int displayH = lowDisplayH;
-
-        // set the color of your light (red,green,blue,alpha values)
-        spriteBatch.setColor(0.9f, 0.4f, 0f, 1f);
-
-        // tx and ty contain the center of the light source
-        float tx= (lowDisplayW/2);
-        float ty= (lowDisplayH/2);
-
-        // tw will be the size of the light source based on the "distance"
-        // (the light image is 128x128)
-        // and 96 is the "distance"
-        // Experiment with this value between based on your game resolution
-        // my lights are 8 up to 128 in distance
-        float tw=(128/100f)*96;
-
-        // make sure the center is still the center based on the "distance"
-        tx-=(tw/2);
-        ty-=(tw/2);
-
-        // and render the sprite
-        // TODO for every fake light components
-        // spriteBatch.draw(lightSprite, tx,ty,tw,tw,0,0,128,128,false,true);
-
-        spriteBatch.end();
-        lightBuffer.end();
-
-
-        // now we render the lightBuffer to the default "frame buffer"
-        // with the right blending !
-
-        Gdx.gl.glBlendFunc(GL20.GL_DST_COLOR, GL20.GL_ZERO);
-        spriteBatch.begin();
-        spriteBatch.draw(lightBufferRegion, 0, 0,displayW,displayH);
-        spriteBatch.end();
-
-        // post light-rendering
-        // you might want to render your status bar stuff here
-
-    }
-
-    private void updateFakeLights(int newWidth, int newHeight){
-        if(true) return;
-        // Fakedlight system (alpha blending)
-        int lowDisplayW = newWidth;
-        int lowDisplayH = newHeight;
-
-        // if lightBuffer was created before, dispose, we recreate a new one
-        if (lightBuffer!=null) lightBuffer.dispose();
-        lightBuffer = new FrameBuffer(
-                Pixmap.Format.RGBA8888,
-                (int)Math.pow(lowDisplayW,2),
-                (int)Math.pow(lowDisplayH,2),
-                false);
-
-        lightBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-
-        lightBufferRegion = new TextureRegion(
-                lightBuffer.getColorBufferTexture(),
-                0,
-                lightBuffer.getHeight()-lowDisplayH
-                ,lowDisplayW,
-                lowDisplayH);
-
-        lightBufferRegion.flip(false, false);
-    }
-
 
 
     @Override
@@ -428,8 +344,7 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
     }
 
     private void onScreenResize(EngineEvents.ScreenResizedEvent e) {
-        updateFakeLights(e.newWidth, e.newHeight);
-
+        this.lightSystem.onResize(e.newWidth, e.newHeight);
         if(GEConfig.DevGeneral.DEV_CTX){
             Gdx.graphics.setTitle(GEConfig.DevGeneral.GAME_NAME + "[" + e.newWidth + "x" +  e.newHeight + "]");
         }
