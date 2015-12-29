@@ -1,9 +1,17 @@
 package com.goatgames.goatengine.graphicsrendering;
 
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.bitfire.postprocessing.PostProcessor;
+import com.bitfire.postprocessing.effects.*;
+import com.bitfire.postprocessing.filters.Combine;
+import com.bitfire.postprocessing.filters.CrtScreen;
+import com.bitfire.utils.ShaderLoader;
 import com.brashmonkey.spriter.Loader;
 import com.brashmonkey.spriter.Spriter;
 import com.brashmonkey.spriter.gdxIntegration.LibGdxSpriterDrawer;
@@ -28,6 +36,8 @@ public class RenderingSystem extends EntitySystem {
     private SpriteBatch spriteBatch = new SpriteBatch();
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
 
+    private PostProcessor postProcessor;
+
     // SubSystem
     private CameraSystem cameraSystem;
 
@@ -36,7 +46,7 @@ public class RenderingSystem extends EntitySystem {
 
     private ArrayList<Entity> entitiesByZIndex = new ArrayList<Entity>(); // Entities ordered by Zindex
 
-
+    CrtMonitor crt;
 
     /**
      * Used to initialise the system
@@ -56,6 +66,37 @@ public class RenderingSystem extends EntitySystem {
         Spriter.setDrawerDependencies(spriteBatch, shapeRenderer);
         Spriter.init(LibGdxSpriterLoader.class, LibGdxSpriterDrawer.class);
 
+
+
+
+        // Post processor //
+        ShaderLoader.BasePath = "data/shaders/";
+
+
+
+        boolean isDesktop = Gdx.app.getType() == Application.ApplicationType.Desktop;
+        postProcessor = new PostProcessor(false,false, true);
+
+        int vpW = Gdx.graphics.getWidth();
+        int vpH = Gdx.graphics.getHeight();
+
+        /*int effects = CrtScreen.Effect.TweakContrast.v |
+                CrtScreen.Effect.PhosphorVibrance.v |
+                CrtScreen.Effect.Scanlines.v |
+                CrtScreen.Effect.Tint.v;
+        crt = new CrtMonitor( vpW, vpH, false, false, CrtScreen.RgbMode.ChromaticAberrations, effects );
+        Combine combine = crt.getCombinePass();
+        combine.setSource1Intensity( 0f );
+        combine.setSource2Intensity( 1f );
+        combine.setSource1Saturation( 0f );
+        combine.setSource2Saturation( 1f );
+        crt = new CrtMonitor( vpW, vpH, false, false, CrtScreen.RgbMode.ChromaticAberrations, effects );*/
+
+        Bloom bloom = new Bloom((int)(Gdx.graphics.getWidth() * 0.25f), (int)(Gdx.graphics.getHeight() * 0.25f));
+        bloom.setBlurAmount(20);
+       // postProcessor.addEffect(crt);
+        postProcessor.addEffect(bloom);
+
         Logger.info("GraphicsRendering System initalised");
     }
 
@@ -73,6 +114,8 @@ public class RenderingSystem extends EntitySystem {
         //Order entities by ZIndex // TODO When TransformComponent will exist use it's Z position instead
         entitiesByZIndex = getEntityManager().getEntitiesWithComponent(ZIndexComponent.ID);
         Collections.sort(entitiesByZIndex, new ZIndexComponent.ZIndexComparator());
+
+        //crt.setTime( dt * 1000 );
     }
 
     @Override
@@ -82,21 +125,23 @@ public class RenderingSystem extends EntitySystem {
 
 
         //UPDATE SPRITER
-
-
         Spriter.update();
+
+
+        postProcessor.capture();
+        spriteBatch.begin();
 
         // Render entities based on ZIndex
         for(Entity e: entitiesByZIndex){
-
             if(GoatEngine.gameScreenManager.getCurrentScreen().getConfig().TEXTURE_RENDERING){
-                spriteBatch.begin();
                 renderSpriterAnimations(e,0);
                 renderSprites(e,0);
-                spriteBatch.end();
             }
         }
 
+        spriteBatch.end();
+
+        postProcessor.render();
 
         if(GoatEngine.gameScreenManager.getCurrentScreen().getConfig().PHYSICS_DEBUG_RENDERING){
             renderPhysicsDebug();
@@ -115,6 +160,16 @@ public class RenderingSystem extends EntitySystem {
             cameraDebugRenderer.render();
         }
     }
+
+    @Override
+    public void deInit(){
+        spriteBatch.dispose();
+        shapeRenderer.dispose();
+        postProcessor.dispose();
+    }
+
+
+
 
     /**
      * Renders simple 2D game  sprites

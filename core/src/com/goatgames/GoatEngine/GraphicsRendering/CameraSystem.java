@@ -18,7 +18,7 @@ import java.util.ArrayList;
  */
 public class CameraSystem extends EntitySystem {
 
-    private Viewport viewport;
+    Viewport viewport;
 
     public CameraSystem(){}
 
