@@ -1,6 +1,7 @@
 package com.goatgames.goatengine.graphicsrendering;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -17,7 +18,7 @@ import com.goatgames.goatengine.physics.PhysicsComponent;
 public class FakeLightSystem extends EntitySystem {
 
     private FrameBuffer lightBuffer;
-    TextureRegion lightBufferRegion;
+    private TextureRegion lightBufferRegion;
 
     SpriteBatch spriteBatch;
 
@@ -52,15 +53,20 @@ public class FakeLightSystem extends EntitySystem {
         // start rendering to the lightBuffer
         lightBuffer.begin();
 
+
         // setup the right blending
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE);
-        Gdx.gl.glEnable(GL20.GL_BLEND);
+        spriteBatch.enableBlending();
+        spriteBatch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE);
+
+
+
 
         // set the ambient color values, this is the "global" light of your scene
         // imagine it being the sun.  Usually the alpha value is just 1, and you change the darkness/brightness
         // with the Red, Green and Blue values for best effect
 
         Gdx.gl.glClearColor(0.3f,0.38f,0.4f,1);
+        //Gdx.gl.glClearColor(0.3f,0,0f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // start rendering the lights to our spriteBatch
@@ -80,19 +86,34 @@ public class FakeLightSystem extends EntitySystem {
         // TODO for every fake light components
         for(Entity e: getEntityManager().getEntitiesWithComponent(FakeLightComponent.ID)){
            this.renderSprites(e);
+            getEntityManager().freeEntity(e);
         }
 
         spriteBatch.end();
         lightBuffer.end();
 
+        //spriteBatch.setProjectionMatrix(gameCamera.combined);
+
+
 
         // now we render the lightBuffer to the default "frame buffer"
         // with the right blending !
 
-        Gdx.gl.glBlendFunc(GL20.GL_DST_COLOR, GL20.GL_ZERO);
+        spriteBatch.setBlendFunction(GL20.GL_DST_COLOR, GL20.GL_ZERO);
+        spriteBatch.setColor(Color.WHITE);
+
         spriteBatch.begin();
-        spriteBatch.draw(lightBufferRegion, 0, 0,displayW,displayH);
+        spriteBatch.draw(lightBufferRegion, -displayW*0.5f, -displayH*0.5f,displayW,displayH);
         spriteBatch.end();
+
+        // draw fbo without fancy blending, for debug
+        spriteBatch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        spriteBatch.begin();
+        spriteBatch.draw(lightBufferRegion, displayW / 4, -displayH/2, displayW / 4, displayH / 4);
+        spriteBatch.end();
+
+
+
 
         // post light-rendering
         // you might want to render your status bar stuff here
