@@ -41,7 +41,7 @@ public class LightSystem extends EntitySystem {
      */
     @Override
     public void init() {
-
+        onResize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     public void initMatrix(){
