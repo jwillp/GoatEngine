@@ -28,7 +28,6 @@ public class FakeLightSystem extends EntitySystem {
     public FakeLightSystem(RenderingSystem renderingSystem){
         this.renderingSystem = renderingSystem;
         spriteBatch = renderingSystem.getSpriteBatch();
-        renderingSystem.getCamera();
     }
 
     /**
