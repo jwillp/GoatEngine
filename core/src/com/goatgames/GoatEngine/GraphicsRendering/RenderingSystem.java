@@ -45,7 +45,7 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
 
     // SubSystem
     private CameraSystem cameraSystem;
-    private FakeLightSystem lightSystem;
+    private LightSystem lightSystem;
 
 
 
@@ -80,7 +80,7 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
         debugRenderer = new Box2DDebugRenderer();
 
         // LightSystem
-        lightSystem = new FakeLightSystem(this);
+        lightSystem = new LightSystem(this);
         this.lightSystem.setEntityManager(getEntityManager());
 
 
