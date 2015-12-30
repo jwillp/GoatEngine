@@ -89,10 +89,6 @@ public class FakeLightSystem extends EntitySystem {
         int displayW = lowDisplayW;
         int displayH = lowDisplayH;
 
-        // set the color of your light (red,green,blue,alpha values)
-        //spriteBatch.setColor(0.9f, 0.4f, 0f, 1f);
-        spriteBatch.setColor(0.2f, 0.4f, 0.5f, 1f);
-
 
         // and render the sprite
         // TODO for every fake light components
@@ -120,11 +116,11 @@ public class FakeLightSystem extends EntitySystem {
         spriteBatch.end();
 
         // draw fbo without fancy blending, for debug
-        float scale = 0.4f;
+        /*float scale = 0.4f;
         spriteBatch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         spriteBatch.begin();
         spriteBatch.draw(lightBufferRegion, 0, displayH - displayH * scale, displayW * scale, displayH * scale);
-        spriteBatch.end();
+        spriteBatch.end();*/
 
         // BLEND ALPHA
         spriteBatch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -163,24 +159,25 @@ public class FakeLightSystem extends EntitySystem {
 
 
     private void renderSprites(Entity entity){
-        FakeLightComponent sprite = (FakeLightComponent) entity.getComponent(FakeLightComponent.ID);
+        FakeLightComponent light = (FakeLightComponent) entity.getComponent(FakeLightComponent.ID);
         PhysicsComponent phys = (PhysicsComponent) entity.getComponent(PhysicsComponent.ID);
-        if(sprite.autoAdjust){
+        spriteBatch.setColor(light.getColor());
+        if(light.autoAdjust){
 
             float width = phys.getWidth();
-            spriteBatch.draw(sprite.getCurrentSprite(),
-                    phys.getPosition().x - width + sprite.offsetX,
-                    phys.getPosition().y - phys.getHeight() + sprite.offsetY,
+            spriteBatch.draw(light.getCurrentSprite(),
+                    phys.getPosition().x - width + light.offsetX,
+                    phys.getPosition().y - phys.getHeight() + light.offsetY,
                     width * 2,
                     phys.getHeight() * 2
             );
         }else{
-            float width = sprite.getCurrentSprite().getRegionWidth() * sprite.scale;
-            float height = sprite.getCurrentSprite().getRegionHeight() * sprite.scale;
+            float width = light.getCurrentSprite().getRegionWidth() * light.scale;
+            float height = light.getCurrentSprite().getRegionHeight() * light.scale;
             spriteBatch.draw(
-                    sprite.getCurrentSprite(),
-                    phys.getPosition().x - width + sprite.offsetX,
-                    phys.getPosition().y - height + sprite.offsetY,
+                    light.getCurrentSprite(),
+                    phys.getPosition().x - width + light.offsetX,
+                    phys.getPosition().y - height + light.offsetY,
                     width,
                     height
 

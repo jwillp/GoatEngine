@@ -20,7 +20,7 @@ public class SpriteComponent extends EntityComponent {
 
     private String resourceName;
     private TextureRegion currentSprite;
-    private Color color = Color.WHITE;
+    protected Color color;
 
     public float offsetX;
     public float offsetY;
