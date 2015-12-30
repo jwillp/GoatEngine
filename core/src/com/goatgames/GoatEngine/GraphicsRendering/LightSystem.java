@@ -8,11 +8,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.physics.PhysicsComponent;
+import com.goatgames.goatengine.utils.Logger;
 
 /**
  * System responsible of rendering Fake lights
@@ -28,12 +30,14 @@ public class LightSystem extends EntitySystem {
     private Matrix4 overlayMatrix;
 
 
-
+    private String lastAmbientColor;
+    private Color ambientColor;
 
 
     public LightSystem(RenderingSystem renderingSystem){
         this.renderingSystem = renderingSystem;
         spriteBatch = renderingSystem.getSpriteBatch();
+        onResize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     /**
@@ -41,7 +45,7 @@ public class LightSystem extends EntitySystem {
      */
     @Override
     public void init() {
-        onResize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
     }
 
     public void initMatrix(){
@@ -77,9 +81,11 @@ public class LightSystem extends EntitySystem {
         // set the ambient color values, this is the "global" light of your scene
         // imagine it being the sun.  Usually the alpha value is just 1, and you change the darkness/brightness
         // with the Red, Green and Blue values for best effect
-        Color c = Color.valueOf(GoatEngine.gameScreenManager.getCurrentScreen().getConfig().AMBIENT_LIGHT);
-        Gdx.gl.glClearColor(c.r,c.g,c.b,c.a);
-        //Gdx.gl.glClearColor(0.3f,0,0f,1);
+        if(!GoatEngine.gameScreenManager.getCurrentScreen().getConfig().AMBIENT_LIGHT.equals(lastAmbientColor)){
+            lastAmbientColor = GoatEngine.gameScreenManager.getCurrentScreen().getConfig().AMBIENT_LIGHT;
+            ambientColor = Color.valueOf(lastAmbientColor);
+        }
+        Gdx.gl.glClearColor(ambientColor.r,ambientColor.g,ambientColor.b,ambientColor.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // start rendering the lights to our spriteBatch
@@ -99,10 +105,6 @@ public class LightSystem extends EntitySystem {
 
         spriteBatch.end();
         lightBuffer.end();
-
-        //spriteBatch.setProjectionMatrix(gameCamera.combined);
-
-
 
         // now we render the lightBuffer to the default "frame buffer"
         // with the right blending !
@@ -136,8 +138,8 @@ public class LightSystem extends EntitySystem {
         if (lightBuffer!=null) lightBuffer.dispose();
         lightBuffer = new FrameBuffer(
                 Pixmap.Format.RGBA8888,
-                newWidth,
-                newHeight,
+                MathUtils.nextPowerOfTwo(newWidth),
+                MathUtils.nextPowerOfTwo(newHeight),
                 false);
 
         lightBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
