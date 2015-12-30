@@ -176,8 +176,8 @@ public class FakeLightSystem extends EntitySystem {
             float height = light.getCurrentSprite().getRegionHeight() * light.scale;
             spriteBatch.draw(
                     light.getCurrentSprite(),
-                    phys.getPosition().x - width + light.offsetX,
-                    phys.getPosition().y - height + light.offsetY,
+                    phys.getPosition().x - width * 0.5f + light.offsetX,
+                    phys.getPosition().y - height * 0.5f + light.offsetY,
                     width,
                     height
 
