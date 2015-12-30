@@ -90,7 +90,7 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
         debugRenderer = new Box2DDebugRenderer();
 
         // LightSystem
-        lightSystem = new FakeLightSystem(spriteBatch);
+        lightSystem = new FakeLightSystem(this);
         this.lightSystem.setEntityManager(getEntityManager());
 
 
@@ -351,5 +351,7 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
     }
 
 
-
+    public SpriteBatch getSpriteBatch() {
+        return spriteBatch;
+    }
 }

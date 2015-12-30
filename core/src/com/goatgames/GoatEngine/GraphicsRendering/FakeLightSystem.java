@@ -16,15 +16,17 @@ import com.goatgames.goatengine.physics.PhysicsComponent;
  */
 public class FakeLightSystem extends EntitySystem {
 
+    private RenderingSystem renderingSystem;
+    SpriteBatch spriteBatch;
+
     private FrameBuffer lightBuffer;
     TextureRegion lightBufferRegion;
 
-    SpriteBatch spriteBatch;
 
 
-
-    public FakeLightSystem(SpriteBatch batch){
-        spriteBatch = batch;
+    public FakeLightSystem(RenderingSystem renderingSystem){
+        this.renderingSystem = renderingSystem;
+        spriteBatch = renderingSystem.getSpriteBatch();
     }
 
     /**
@@ -80,6 +82,7 @@ public class FakeLightSystem extends EntitySystem {
         // TODO for every fake light components
         for(Entity e: getEntityManager().getEntitiesWithComponent(FakeLightComponent.ID)){
            this.renderSprites(e);
+            getEntityManager().freeEntity(e);
         }
 
         spriteBatch.end();
