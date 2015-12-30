@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.leveleditor.ConsoleCommands;
+package com.goatgames.goatengine.leveleditor.consolecommands;
 
 import com.goatgames.goatengine.gconsole.ConsoleCommand;
 import com.goatgames.goatengine.GoatEngine;

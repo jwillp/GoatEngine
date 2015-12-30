@@ -19,7 +19,7 @@ import com.brashmonkey.spriter.gdxIntegration.LibGdxSpriterDrawer;
 import com.brashmonkey.spriter.gdxIntegration.LibGdxSpriterLoader;
 import com.goatgames.goatengine.GEConfig;
 import com.goatgames.goatengine.ai.AISystem;
-import com.goatgames.goatengine.ai.Pathfinding.PathNode;
+import com.goatgames.goatengine.ai.pathfinding.PathNode;
 import com.goatgames.goatengine.eventmanager.GameEvent;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
 import com.goatgames.goatengine.eventmanager.engineevents.EngineEvents;

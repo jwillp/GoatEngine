@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.physics.Hitbox;
+package com.goatgames.goatengine.physics.hitbox;
 
 /**
  * Represents a hitbox. A hitbox is the main structure to represent

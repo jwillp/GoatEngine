@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.leveleditor.Events;
+package com.goatgames.goatengine.leveleditor.events;
 
 import com.goatgames.goatengine.eventmanager.GameEvent;
 

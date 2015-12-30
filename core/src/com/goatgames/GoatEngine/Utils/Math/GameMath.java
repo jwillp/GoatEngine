@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.utils.Math;
+package com.goatgames.goatengine.utils.math;
 
 /**
  * common Math

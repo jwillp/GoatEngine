@@ -1,6 +1,6 @@
 package com.goatgames.goatengine.ai;
 
-import com.goatgames.goatengine.ai.Pathfinding.Pathfinder;
+import com.goatgames.goatengine.ai.pathfinding.Pathfinder;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.utils.Timer;
 

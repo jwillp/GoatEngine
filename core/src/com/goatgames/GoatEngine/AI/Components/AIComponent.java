@@ -1,7 +1,7 @@
-package com.goatgames.goatengine.ai.Components;
+package com.goatgames.goatengine.ai.components;
 
 
-import com.goatgames.goatengine.ai.Pathfinding.PathNode;
+import com.goatgames.goatengine.ai.pathfinding.PathNode;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.utils.Timer;
 

@@ -1,6 +1,6 @@
 package com.goatgames.goatengine.ecs;
 
-import com.goatgames.goatengine.ai.Components.AIComponent;
+import com.goatgames.goatengine.ai.components.AIComponent;
 import com.goatgames.goatengine.ecs.common.CameraTargetComponent;
 import com.goatgames.goatengine.graphicsrendering.*;
 import com.goatgames.goatengine.physics.PhysicsComponent;
@@ -8,7 +8,7 @@ import com.goatgames.goatengine.ecs.common.TagsComponent;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.GoatEngine;
-import com.goatgames.goatengine.leveleditor.Components.EditorLabelComponent;
+import com.goatgames.goatengine.leveleditor.components.EditorLabelComponent;
 import com.goatgames.goatengine.physics.*;
 import com.goatgames.goatengine.scriptingengine.ScriptComponent;
 

@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.leveleditor.Commands;
+package com.goatgames.goatengine.leveleditor.commands;
 
 import com.badlogic.gdx.Gdx;
 import com.goatgames.goatengine.GoatEngine;

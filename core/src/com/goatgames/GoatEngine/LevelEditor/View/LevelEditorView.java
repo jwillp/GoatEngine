@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.leveleditor.View;
+package com.goatgames.goatengine.leveleditor.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;

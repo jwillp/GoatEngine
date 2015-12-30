@@ -1,10 +1,10 @@
-package com.goatgames.goatengine.leveleditor.Commands;
+package com.goatgames.goatengine.leveleditor.commands;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.goatgames.goatengine.ecs.PrefabFactory;
 import com.goatgames.goatengine.leveleditor.LevelEditor;
-import com.goatgames.goatengine.leveleditor.View.WarningDialog;
+import com.goatgames.goatengine.leveleditor.view.WarningDialog;
 import com.goatgames.goatengine.utils.Logger;
 import com.kotcrab.vis.ui.widget.file.FileChooser;
 import com.kotcrab.vis.ui.widget.file.FileChooserAdapter;

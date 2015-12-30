@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.ai.BehaviourTree;
+package com.goatgames.goatengine.ai.behaviourtree;
 
 import java.util.Hashtable;
 

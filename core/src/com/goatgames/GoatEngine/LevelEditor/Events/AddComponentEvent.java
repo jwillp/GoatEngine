@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.leveleditor.Events;
+package com.goatgames.goatengine.leveleditor.events;
 
 /**
  * Triggered when an entity craetes a new component
