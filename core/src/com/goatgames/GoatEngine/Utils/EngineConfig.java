@@ -25,7 +25,7 @@ public abstract class EngineConfig {
      * @param readProperty the read from file property
      */
     public static boolean getBooleanProperty(boolean defaultProperty, final String readProperty){
-        if(!readProperty.isEmpty()){
+        if(readProperty != null && !readProperty.isEmpty()){
             return Boolean.parseBoolean(readProperty);
         }
         return defaultProperty;
@@ -38,7 +38,7 @@ public abstract class EngineConfig {
      * @param readProperty the read from file property
      */
     public static float getFloatProperty(float defaultProperty, final String readProperty){
-        if(!readProperty.isEmpty()){
+        if(readProperty != null && !readProperty.isEmpty()){
             return Float.parseFloat(readProperty);
         }
         return defaultProperty;
@@ -53,7 +53,7 @@ public abstract class EngineConfig {
      * @param readProperty the read from file property
      */
     public static int getIntProperty(int defaultProperty, final String readProperty){
-        if(!readProperty.isEmpty()){
+        if(readProperty != null && !readProperty.isEmpty()){
             return Integer.parseInt(readProperty);
         }
         return defaultProperty;

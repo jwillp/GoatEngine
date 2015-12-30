@@ -167,7 +167,9 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
         spriteBatch.end();
 
         // Render lights
-        this.lightSystem.draw(/*cameraSystem.getMainCamera().combined*/);
+        if(GoatEngine.gameScreenManager.getCurrentScreen().getConfig().LIGHTING_RENDERING){
+            this.lightSystem.draw();
+        }
 
        // postProcessor.render();
 
@@ -280,7 +282,7 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
      * Debug method to render the path and nodes of AI
      */
     private void renderPathfinding() {
-        if(!GoatEngine.gameScreenManager.getCurrentScreen().getConfig().PATFINDING_DEBUG_RENDERING) return;
+        if(!GoatEngine.gameScreenManager.getCurrentScreen().getConfig().PATHFINDER_DEBUG_RENDERING) return;
         float NODE_SIZE = 0.4f;
         for(PathNode node: AISystem.pathfinder.nodes) {
             shapeRenderer.setProjectionMatrix(this.cameraSystem.getMainCamera().combined);

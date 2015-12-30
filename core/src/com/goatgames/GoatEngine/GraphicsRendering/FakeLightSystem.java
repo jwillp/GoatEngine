@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.Matrix4;
+import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.physics.PhysicsComponent;
@@ -76,8 +77,8 @@ public class FakeLightSystem extends EntitySystem {
         // set the ambient color values, this is the "global" light of your scene
         // imagine it being the sun.  Usually the alpha value is just 1, and you change the darkness/brightness
         // with the Red, Green and Blue values for best effect
-
-        Gdx.gl.glClearColor(0.3f,0.38f,0.4f,1);
+        Color c = Color.valueOf(GoatEngine.gameScreenManager.getCurrentScreen().getConfig().AMBIENT_LIGHT);
+        Gdx.gl.glClearColor(c.r,c.g,c.b,c.a);
         //Gdx.gl.glClearColor(0.3f,0,0f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 

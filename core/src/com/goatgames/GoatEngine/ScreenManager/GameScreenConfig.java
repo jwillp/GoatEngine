@@ -28,9 +28,9 @@ public class GameScreenConfig extends EngineConfig {
     public boolean FOG_RENDERING = true;
     public boolean LIGHTING_RENDERING = true;
 
-    public boolean PATFINDING_DEBUG_RENDERING = false;
+    public String AMBIENT_LIGHT = "FFFFFFFF"; // WHITE
 
-
+    public boolean PATHFINDER_DEBUG_RENDERING = false;
 
 
 
@@ -65,8 +65,10 @@ public class GameScreenConfig extends EngineConfig {
 
         this.LIGHTING_RENDERING = GameConfig.getBooleanProperty(this.LIGHTING_RENDERING, prop.getProperty("lighting_rendering"));
 
+        this.AMBIENT_LIGHT = GameConfig.applyProperty(this.AMBIENT_LIGHT, prop.getProperty("ambient_light"));
 
-        this.PATFINDING_DEBUG_RENDERING = GameConfig.getBooleanProperty(
-                this.PATFINDING_DEBUG_RENDERING, prop.getProperty("pathfinding_debug_rendering"));
+
+        this.PATHFINDER_DEBUG_RENDERING = GameConfig.getBooleanProperty(
+                this.PATHFINDER_DEBUG_RENDERING, prop.getProperty("pathfinder_debug_rendering"));
     }
 }
