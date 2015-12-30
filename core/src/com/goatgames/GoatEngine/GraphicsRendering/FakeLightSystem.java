@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.math.Matrix4;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.physics.PhysicsComponent;
@@ -23,6 +24,10 @@ public class FakeLightSystem extends EntitySystem {
     private FrameBuffer lightBuffer;
     private TextureRegion lightBufferRegion;
 
+    private Matrix4 overlayMatrix;
+
+
+
 
 
     public FakeLightSystem(RenderingSystem renderingSystem){
@@ -36,6 +41,11 @@ public class FakeLightSystem extends EntitySystem {
     @Override
     public void init() {
 
+    }
+
+    public void initMatrix(){
+        overlayMatrix = renderingSystem.getCamera().combined.cpy();
+        overlayMatrix.setToOrtho2D(0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     /**
@@ -103,20 +113,21 @@ public class FakeLightSystem extends EntitySystem {
 
         spriteBatch.setBlendFunction(GL20.GL_DST_COLOR, GL20.GL_ZERO);
         spriteBatch.setColor(Color.WHITE);
-
+        if(overlayMatrix == null) initMatrix();
+        spriteBatch.setProjectionMatrix(overlayMatrix);
         spriteBatch.begin();
-        spriteBatch.draw(lightBufferRegion, -displayW*0.5f, -displayH*0.5f,displayW,displayH);
+        spriteBatch.draw(lightBufferRegion,0, 0,displayW,displayH);
         spriteBatch.end();
 
         // draw fbo without fancy blending, for debug
-        float scale = 0.01f;
+        float scale = 0.4f;
         spriteBatch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         spriteBatch.begin();
-        spriteBatch.draw(lightBufferRegion, 0, 0, displayW * scale, displayH * scale);
+        spriteBatch.draw(lightBufferRegion, 0, displayH - displayH * scale, displayW * scale, displayH * scale);
         spriteBatch.end();
 
-
-
+        // BLEND ALPHA
+        spriteBatch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
         // post light-rendering
         // you might want to render your status bar stuff here
@@ -124,15 +135,13 @@ public class FakeLightSystem extends EntitySystem {
 
     public void onResize(int newWidth, int newHeight){
         // Fakedlight system (alpha blending)
-        int lowDisplayW = newWidth;
-        int lowDisplayH = newHeight;
 
         // if lightBuffer was created before, dispose, we recreate a new one
         if (lightBuffer!=null) lightBuffer.dispose();
         lightBuffer = new FrameBuffer(
                 Pixmap.Format.RGBA8888,
-                lowDisplayW,
-                lowDisplayH,
+                newWidth,
+                newHeight,
                 false);
 
         lightBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
@@ -140,9 +149,9 @@ public class FakeLightSystem extends EntitySystem {
         lightBufferRegion = new TextureRegion(
                 lightBuffer.getColorBufferTexture(),
                 0,
-                lightBuffer.getHeight()-lowDisplayH
-                ,lowDisplayW,
-                lowDisplayH);
+                lightBuffer.getHeight()- newHeight
+                , newWidth,
+                newHeight);
 
         lightBufferRegion.flip(false, true);
 
@@ -158,7 +167,6 @@ public class FakeLightSystem extends EntitySystem {
         PhysicsComponent phys = (PhysicsComponent) entity.getComponent(PhysicsComponent.ID);
         if(sprite.autoAdjust){
 
-            float ratio = sprite.getCurrentSprite().getRegionWidth()/sprite.getCurrentSprite().getRegionHeight();
             float width = phys.getWidth();
             spriteBatch.draw(sprite.getCurrentSprite(),
                     phys.getPosition().x - width + sprite.offsetX,
