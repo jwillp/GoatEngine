@@ -154,6 +154,8 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
 
     @Override
     public void draw() {
+        GoatEngine.graphicsEngine.clearScreen();
+
         cameraSystem.update(0); // TODO deltatime  + documenting why this is here instead of update?
         spriteBatch.setProjectionMatrix(cameraSystem.getMainCamera().combined);
 
@@ -162,7 +164,7 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
         Spriter.update();
 
 
-        postProcessor.capture();
+       // postProcessor.capture();
         spriteBatch.begin();
 
         // Render entities based on ZIndex
@@ -175,9 +177,9 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
         spriteBatch.end();
 
         // Render lights
-        this.lightSystem.draw();
+        this.lightSystem.draw(/*cameraSystem.getMainCamera().combined*/);
 
-        postProcessor.render();
+       // postProcessor.render();
 
         if(GoatEngine.gameScreenManager.getCurrentScreen().getConfig().PHYSICS_DEBUG_RENDERING){
             renderPhysicsDebug();
