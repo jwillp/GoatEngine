@@ -28,6 +28,7 @@ public class FakeLightSystem extends EntitySystem {
     public FakeLightSystem(RenderingSystem renderingSystem){
         this.renderingSystem = renderingSystem;
         spriteBatch = renderingSystem.getSpriteBatch();
+        renderingSystem.getCamera();
     }
 
     /**
@@ -109,9 +110,10 @@ public class FakeLightSystem extends EntitySystem {
         spriteBatch.end();
 
         // draw fbo without fancy blending, for debug
+        float scale = 0.01f;
         spriteBatch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         spriteBatch.begin();
-        spriteBatch.draw(lightBufferRegion, displayW / 4, -displayH/2, displayW / 4, displayH / 4);
+        spriteBatch.draw(lightBufferRegion, 0, 0, displayW * scale, displayH * scale);
         spriteBatch.end();
 
 
@@ -143,7 +145,7 @@ public class FakeLightSystem extends EntitySystem {
                 ,lowDisplayW,
                 lowDisplayH);
 
-        lightBufferRegion.flip(false, false);
+        lightBufferRegion.flip(false, true);
 
     }
 

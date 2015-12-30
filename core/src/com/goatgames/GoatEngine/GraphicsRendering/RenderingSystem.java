@@ -2,10 +2,7 @@ package com.goatgames.goatengine.graphicsrendering;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
@@ -65,14 +62,7 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
     // LightBuffer
     FrameBuffer lightBuffer;
     TextureRegion lightBufferRegion;
-
-
-
-
-
-
-
-
+    private Object camera;
 
 
     /**
@@ -355,5 +345,9 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
 
     public SpriteBatch getSpriteBatch() {
         return spriteBatch;
+    }
+
+    public OrthographicCamera getCamera() {
+        return cameraSystem.getMainCamera();
     }
 }
