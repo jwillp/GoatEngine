@@ -53,8 +53,8 @@ public class EntityFactory{
     }
 
     private static void processFakeLightComponent(String componentId, Entity entity, EntityComponentMap componentData) {
-        if(!isComponent(componentId, FakeLightComponent.ID)){return;}
-        entity.addComponent(new FakeLightComponent(componentData), FakeLightComponent.ID);
+        if(!isComponent(componentId, LightComponent.ID)){return;}
+        entity.addComponent(new LightComponent(componentData), LightComponent.ID);
     }
 
     /**

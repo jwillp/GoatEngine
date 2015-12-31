@@ -7,9 +7,9 @@ import java.util.Map;
 /**
  * Used to display simple fake lights (alpha blending)
  */
-public class FakeLightComponent extends SpriteComponent {
+public class LightComponent extends SpriteComponent {
 
-    public final static String ID = "FAKE_LIGHT_COMPONENT";
+    public final static String ID = "LIGHT_COMPONENT";
 
 
     /**
@@ -17,7 +17,7 @@ public class FakeLightComponent extends SpriteComponent {
      *
      * @param map
      */
-    public FakeLightComponent(Map<String, String> map) {
+    public LightComponent(Map<String, String> map) {
         super(map);
     }
 

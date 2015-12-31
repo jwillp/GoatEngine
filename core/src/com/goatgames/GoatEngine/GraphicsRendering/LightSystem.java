@@ -17,7 +17,7 @@ import com.goatgames.goatengine.physics.PhysicsComponent;
 /**
  * System responsible of rendering Fake lights
  */
-public class FakeLightSystem extends EntitySystem {
+public class LightSystem extends EntitySystem {
 
     private RenderingSystem renderingSystem;
     SpriteBatch spriteBatch;
@@ -31,7 +31,7 @@ public class FakeLightSystem extends EntitySystem {
 
 
 
-    public FakeLightSystem(RenderingSystem renderingSystem){
+    public LightSystem(RenderingSystem renderingSystem){
         this.renderingSystem = renderingSystem;
         spriteBatch = renderingSystem.getSpriteBatch();
     }
@@ -93,7 +93,7 @@ public class FakeLightSystem extends EntitySystem {
 
         // and render the sprite
         // TODO for every fake light components
-        for(Entity e: getEntityManager().getEntitiesWithComponent(FakeLightComponent.ID)){
+        for(Entity e: getEntityManager().getEntitiesWithComponent(LightComponent.ID)){
            this.renderSprites(e);
             getEntityManager().freeEntity(e);
         }
@@ -160,7 +160,7 @@ public class FakeLightSystem extends EntitySystem {
 
 
     private void renderSprites(Entity entity){
-        FakeLightComponent light = (FakeLightComponent) entity.getComponent(FakeLightComponent.ID);
+        LightComponent light = (LightComponent) entity.getComponent(LightComponent.ID);
         PhysicsComponent phys = (PhysicsComponent) entity.getComponent(PhysicsComponent.ID);
         spriteBatch.setColor(light.getColor());
         if(light.autoAdjust){
