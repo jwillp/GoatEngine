@@ -225,11 +225,10 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
                 float height = sprite.getCurrentSprite().getRegionHeight() * sprite.scale;
                 spriteBatch.draw(
                         sprite.getCurrentSprite(),
-                        phys.getPosition().x - width * 0.5f + sprite.offsetX,
-                        phys.getPosition().y - height * 0.5f+ sprite.offsetY,
+                        phys.getPosition().x - width  * 0.5f + sprite.offsetX,
+                        phys.getPosition().y - height * 0.5f + sprite.offsetY,
                         width,
                         height
-
                 );
             }
         }
