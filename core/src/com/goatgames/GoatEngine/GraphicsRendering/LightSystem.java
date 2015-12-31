@@ -34,6 +34,7 @@ public class LightSystem extends EntitySystem {
     public LightSystem(RenderingSystem renderingSystem){
         this.renderingSystem = renderingSystem;
         spriteBatch = renderingSystem.getSpriteBatch();
+        onResize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     /**
