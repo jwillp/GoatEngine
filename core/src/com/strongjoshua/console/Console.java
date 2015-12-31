@@ -92,7 +92,7 @@ public class Console implements Disposable {
 	/** Use to set the amount of entries to be stored to unlimited. */
 	public static final int UNLIMITED_ENTRIES = -1;
 
-	protected int keyID = Input.Keys.GRAVE;
+	protected int keyID = Keys.F1;
 	protected boolean disabled;
 	protected Log log;
 	protected ConsoleDisplay display;

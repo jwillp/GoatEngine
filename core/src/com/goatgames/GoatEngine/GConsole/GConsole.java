@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.strongjoshua.console.Console;
 
 /**
- * A custom GConsole with some more functionalities
+ * A custom GConsole with some more functionality
  */
 public class GConsole extends Console {
 
