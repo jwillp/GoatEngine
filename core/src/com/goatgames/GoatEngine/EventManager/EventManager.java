@@ -1,5 +1,7 @@
 package com.goatgames.goatengine.eventmanager;
 
+import com.goatgames.goatengine.eventmanager.engineevents.EngineEvents;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
@@ -34,16 +36,6 @@ public class EventManager{
 
 
 
-    /**
-     * Fires an event to all the listeners
-     * @param e
-     */
-    public void fireEvent(GameEvent e){
-        this.events.put(getCurrentTime(), e);
-        for(GameEventListener listener: this.listeners){
-            listener.onEvent(e);
-        }
-    }
 
 
 
@@ -55,4 +47,26 @@ public class EventManager{
     }
 
 
+
+    /**
+     * Fires an event to all the listeners logging it
+     * @param e
+     */
+    public void fireEvent(GameEvent e){
+        fireEvent(e, true);
+    }
+
+
+    /**
+     * Fires an event to all the listeners
+     * @param e event
+     * @param mustLogEvent whether or not to log
+     */
+    public void fireEvent(GameEvent e, boolean mustLogEvent) {
+        if(mustLogEvent)
+            this.events.put(getCurrentTime(), e);
+        for(GameEventListener listener: this.listeners){
+            listener.onEvent(e);
+        }
+    }
 }

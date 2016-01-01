@@ -159,22 +159,22 @@ public class GoatEngine {
             if(!initialised){
                 throw new EngineUninitializedException();
             }
-            eventManager.fireEvent(new EngineEvents.GameTickBeginEvent());
+            eventManager.fireEvent(new EngineEvents.GameTickBeginEvent(), false);
 
             float deltaTime = Gdx.graphics.getDeltaTime();
 
 
             if(gameScreenManager.isRunning()){
                 //Game Screen Manager
-                eventManager.fireEvent(new EngineEvents.LogicTickBeginEvent());
+                eventManager.fireEvent(new EngineEvents.LogicTickBeginEvent(), false);
                 gameScreenManager.handleEvents();
                 gameScreenManager.update(deltaTime);
-                eventManager.fireEvent(new EngineEvents.LogicTickEndEvent());
+                eventManager.fireEvent(new EngineEvents.LogicTickEndEvent(), false);
 
             }
-            eventManager.fireEvent(new EngineEvents.RenderTickBeginEvent());
+            eventManager.fireEvent(new EngineEvents.RenderTickBeginEvent(), false);
             gameScreenManager.draw(deltaTime);
-            eventManager.fireEvent(new EngineEvents.RenderTickEndEvent());
+            eventManager.fireEvent(new EngineEvents.RenderTickEndEvent(), false);
 
 
             levelEditor.update(deltaTime);
