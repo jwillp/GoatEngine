@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.leveleditor.View;
+package com.goatgames.goatengine.leveleditor.view;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;

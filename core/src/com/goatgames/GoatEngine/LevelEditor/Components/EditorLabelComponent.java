@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.leveleditor.Components;
+package com.goatgames.goatengine.leveleditor.components;
 
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 

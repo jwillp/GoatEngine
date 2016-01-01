@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.leveleditor.Commands;
+package com.goatgames.goatengine.leveleditor.commands;
 
 /**
  * Commands that can be undone and redone

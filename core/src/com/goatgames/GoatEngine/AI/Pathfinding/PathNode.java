@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.ai.Pathfinding;
+package com.goatgames.goatengine.ai.pathfinding;
 
 import com.badlogic.gdx.math.Vector2;
 

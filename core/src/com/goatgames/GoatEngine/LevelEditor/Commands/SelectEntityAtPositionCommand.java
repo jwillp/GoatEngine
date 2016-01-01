@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.leveleditor.Commands;
+package com.goatgames.goatengine.leveleditor.commands;
 
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -9,7 +9,7 @@ import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.graphicsrendering.CameraComponent;
-import com.goatgames.goatengine.leveleditor.Components.EditorLabelComponent;
+import com.goatgames.goatengine.leveleditor.components.EditorLabelComponent;
 import com.goatgames.goatengine.leveleditor.LevelEditor;
 import com.goatgames.goatengine.utils.Logger;
 

@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.utils.Math;
+package com.goatgames.goatengine.utils.math;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;

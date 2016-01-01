@@ -7,7 +7,7 @@ import com.goatgames.goatengine.gconsole.commands.*;
 import com.goatgames.goatengine.gconsole.GConsole;
 import com.goatgames.goatengine.graphicsrendering.GraphicsEngine;
 import com.goatgames.goatengine.input.InputManager;
-import com.goatgames.goatengine.leveleditor.ConsoleCommands.ShowLevelEditor;
+import com.goatgames.goatengine.leveleditor.consolecommands.ShowLevelEditor;
 import com.goatgames.goatengine.leveleditor.LevelEditor;
 import com.goatgames.goatengine.screenmanager.GameScreenManager;
 import com.goatgames.goatengine.scriptingengine.ScriptingEngine;

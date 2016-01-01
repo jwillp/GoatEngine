@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.leveleditor.Commands;
+package com.goatgames.goatengine.leveleditor.commands;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;

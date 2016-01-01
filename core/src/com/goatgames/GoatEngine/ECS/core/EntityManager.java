@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class EntityManager {
 
-    //HashMap<COMPONENT_ID, HashMap<ENTITY_ID, COMPONENT_ISNTANCE>>
+    //HashMap<COMPONENT_ID, HashMap<ENTITY_ID, COMPONENT_INSTANCE>>
     private HashMap<String, HashMap<String, EntityComponent>> components = new HashMap<String, HashMap<String, EntityComponent>>();
 
 

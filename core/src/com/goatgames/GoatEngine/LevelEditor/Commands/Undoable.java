@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.leveleditor.Commands;
+package com.goatgames.goatengine.leveleditor.commands;
 
 /**
  * Represents actions that can be undone

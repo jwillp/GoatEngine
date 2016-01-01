@@ -1,11 +1,12 @@
-package com.goatgames.goatengine.ai.Pathfinding;
+package com.goatgames.goatengine.ai.pathfinding;
 
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.ecs.core.Entity;
-import com.goatgames.goatengine.utils.Math.Vectors;
+import com.goatgames.goatengine.utils.math.Vectors;
+
 
 import java.util.ArrayList;
 import java.util.Collections;

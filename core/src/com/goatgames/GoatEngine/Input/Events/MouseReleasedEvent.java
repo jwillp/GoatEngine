@@ -1,9 +1,9 @@
-package com.goatgames.goatengine.input.Events;
+package com.goatgames.goatengine.input.events;
 
 import com.goatgames.goatengine.eventmanager.GameEvent;
 
 /**
- * Created by Home on 2015-11-22.
+ * Triggered when a mouse button is released
  */
 public class MouseReleasedEvent extends GameEvent {
     public final int screenX;
