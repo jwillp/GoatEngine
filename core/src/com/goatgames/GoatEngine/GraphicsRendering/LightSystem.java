@@ -86,10 +86,8 @@ public class LightSystem extends EntitySystem {
         // start rendering the lights to our spriteBatch
         spriteBatch.begin();
 
-        int lowDisplayW = Gdx.graphics.getWidth();
-        int lowDisplayH = Gdx.graphics.getHeight();
-        int displayW = lowDisplayW;
-        int displayH = lowDisplayH;
+        int displayW = Gdx.graphics.getWidth();
+        int displayH = Gdx.graphics.getHeight();
 
 
         // and render the sprite
@@ -153,6 +151,9 @@ public class LightSystem extends EntitySystem {
 
         lightBufferRegion.flip(false, true);
 
+        // Update projection Matrix
+        if(overlayMatrix != null)
+            initMatrix();
     }
 
 
