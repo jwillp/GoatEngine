@@ -12,6 +12,7 @@ import com.goatgames.goatengine.input.events.KeyPressedEvent;
 import com.goatgames.goatengine.input.events.MouseClickEvent;
 import com.goatgames.goatengine.input.events.MouseDragEvent;
 import com.goatgames.goatengine.input.events.MouseScrolledEvent;
+import com.goatgames.goatengine.leveleditor.view.EntityInspector;
 import com.goatgames.goatengine.leveleditor.view.GameScreenConfigView;
 import com.goatgames.goatengine.leveleditor.view.LevelEditorView;
 import com.goatgames.goatengine.utils.Logger;
@@ -287,7 +288,9 @@ public class LevelEditor extends ChangeListener implements GameEventListener {
         if(this.selectedEntity != null) {
             GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager().freeEntity(this.selectedEntity);
         }
+        //this.getView().setInspector(new EntityInspector(VisUI.getSkin()));
         this.selectedEntity = selectedEntity;
+
     }
 
     public void clean(){

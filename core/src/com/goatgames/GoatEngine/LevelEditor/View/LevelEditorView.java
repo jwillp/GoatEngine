@@ -480,4 +480,8 @@ public class LevelEditorView extends UIEngine {
     public Table getCenter() {
         return center;
     }
+
+    public void setInspector(EntityInspector inspector) {
+        this.inspector = inspector;
+    }
 }
