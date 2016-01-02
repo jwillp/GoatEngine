@@ -9,7 +9,7 @@ import com.goatgames.goatengine.GEConfig;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.graphicsrendering.RenderingSystem;
 import com.goatgames.goatengine.physics.PhysicsSystem;
-import com.goatgames.goatengine.scriptingengine.ScriptSystem;
+import com.goatgames.goatengine.scriptingengine.groovy.ScriptSystem;
 import com.goatgames.goatengine.ui.UIEngine;
 import com.goatgames.goatengine.utils.Logger;
 

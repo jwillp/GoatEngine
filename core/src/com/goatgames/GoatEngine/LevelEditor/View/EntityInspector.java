@@ -7,7 +7,7 @@ import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.leveleditor.components.EditorLabelComponent;
 import com.goatgames.goatengine.physics.Collider;
-import com.goatgames.goatengine.scriptingengine.ScriptComponent;
+import com.goatgames.goatengine.scriptingengine.groovy.ScriptComponent;
 
 import java.util.HashMap;
 

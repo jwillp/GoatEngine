@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.scriptingengine;
+package com.goatgames.goatengine.scriptingengine.groovy;
 
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntitySystem;

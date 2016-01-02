@@ -10,7 +10,7 @@ import com.goatgames.goatengine.input.InputManager;
 import com.goatgames.goatengine.leveleditor.consolecommands.ShowLevelEditor;
 import com.goatgames.goatengine.leveleditor.LevelEditor;
 import com.goatgames.goatengine.screenmanager.GameScreenManager;
-import com.goatgames.goatengine.scriptingengine.ScriptingEngine;
+import com.goatgames.goatengine.scriptingengine.groovy.ScriptingEngine;
 import com.goatgames.goatengine.utils.EngineProfiler;
 import com.goatgames.goatengine.utils.Logger;
 import com.goatgames.goatengine.utils.Timer;
@@ -86,7 +86,7 @@ public class GoatEngine {
         // Event Manager
         eventManager = new EventManager();
         Logger.info(" > Event Manager initialised "+ performanceTimer.getDeltaTime() + "ms");
-        eventManager.registerListener(profiler);
+        //eventManager.registerListener(profiler);
         performanceTimer.reset();
 
         // Input manager
@@ -115,6 +115,7 @@ public class GoatEngine {
             console.addCommand(new ResumeEngineCommand());
             console.addCommand(new ReloadScreenCommand());
             console.addCommand(new ChangeScreenCommand());
+            console.addCommand(new LuaCommand());
         }
         performanceTimer.reset();
 
