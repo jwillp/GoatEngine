@@ -288,7 +288,6 @@ public class LevelEditor extends ChangeListener implements GameEventListener {
         if(this.selectedEntity != null) {
             GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager().freeEntity(this.selectedEntity);
         }
-        //this.getView().setInspector(new EntityInspector(VisUI.getSkin()));
         this.selectedEntity = selectedEntity;
 
     }

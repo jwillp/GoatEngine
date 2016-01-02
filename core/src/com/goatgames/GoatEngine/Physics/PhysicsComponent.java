@@ -88,6 +88,7 @@ public class PhysicsComponent extends EntityComponent {
      */
     @Override
     protected void makeFromMap(Map<String, String> map) {
+        setDirty(true);
         // Create Body
         World world = GoatEngine.gameScreenManager.getCurrentScreen().getPhysicsSystem().getWorld();
         BodyDef bodyDef = new BodyDef();
@@ -226,4 +227,12 @@ public class PhysicsComponent extends EntityComponent {
     public String getId() {
         return ID;
     }
+
+
+
+    public void setDirty(boolean dirty){
+        this.dirtyHeight = dirty;
+        this.dirtyWidth = dirty;
+    }
+
 }

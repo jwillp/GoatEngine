@@ -127,7 +127,6 @@ public abstract class Collider{
         circleCollider.getFixture().setUserData(circleCollider);
 
         circleCollider.setUserData(circleDef.userdata);
-
     }
 
     /**
@@ -145,7 +144,8 @@ public abstract class Collider{
         else if(colliderDef instanceof CapsuleColliderDef){
             addCapsuleCollider(entity, (CapsuleColliderDef) colliderDef);
         }
-
+        PhysicsComponent phys = (PhysicsComponent) entity.getComponent(PhysicsComponent.ID);
+        phys.setDirty(true);
     }
 
     /**
@@ -186,6 +186,7 @@ public abstract class Collider{
         //FEET FIXTURE
         /*PolygonShape footSensor = new PolygonShape();
         footSensor.setAsBox(0.1f,0.1f, new Vector2(0, -height), 0);*/
+
     }
 
 
@@ -203,6 +204,7 @@ public abstract class Collider{
                 iterator.remove();
             }
         }
+        phys.setDirty(true);
     }
 
     /**
@@ -219,6 +221,7 @@ public abstract class Collider{
                 iterator.remove();
             }
         }
+        phys.setDirty(true);
     }
 
 
