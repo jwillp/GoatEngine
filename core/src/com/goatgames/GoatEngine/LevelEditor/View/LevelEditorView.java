@@ -320,7 +320,6 @@ public class LevelEditorView extends UIEngine {
      * around the selected entity
      */
     private void renderSelection(){
-
         Entity selected = editor.getSelectedEntity();
         if(selected != null){
             EntityManager manager = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager();
@@ -328,25 +327,19 @@ public class LevelEditorView extends UIEngine {
                 return;
             }
             PhysicsComponent phys = (PhysicsComponent)selected.getComponent(PhysicsComponent.ID);
-            // Position of the rectangle
-            Vector3 highlightPos = new Vector3(phys.getPosition().x, phys.getPosition().y, 0);
 
 
             CameraComponent cam = (CameraComponent) manager.getComponents(CameraComponent.ID).get(0);
 
-            // Translate the rectangle's world coordinates to camera coordinates
-            cam.getCamera().project(highlightPos);
-
             // Size of the rectangle
-            float magnifierFactor = 55 / cam.getCamera().zoom;
-            float sizeX = phys.getWidth() * magnifierFactor;
-            float sizeY = phys.getHeight() * magnifierFactor;
+            float magnifierFactor = 1.5f; //55 / cam.getCamera().zoom;
+            float sizeX = phys.getWidth() * 2 *  magnifierFactor;
+            float sizeY = phys.getHeight() * 2 * magnifierFactor;
 
-
-            shapeRenderer.setProjectionMatrix(stage.getBatch().getProjectionMatrix());
+            shapeRenderer.setProjectionMatrix(cam.getCamera().combined  /*stage.getBatch().getProjectionMatrix()*/);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line); // Or Filled
             shapeRenderer.setColor(Color.GREEN);
-            shapeRenderer.rect(highlightPos.x-sizeX*0.5f, highlightPos.y-sizeY*0.5f, sizeX, sizeY);
+            shapeRenderer.rect(phys.getPosition().x-sizeX*0.5f, phys.getPosition().y-sizeY*0.5f, sizeX, sizeY);
             shapeRenderer.end();
         }
 

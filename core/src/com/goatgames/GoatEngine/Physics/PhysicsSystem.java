@@ -19,6 +19,7 @@ public class PhysicsSystem extends EntitySystem implements ContactListener {
     // Recommended Settings
     private final static int VELOCITY_ITERATIONS = 6;
     private final static int POSITION_ITERATIONS = 2;
+    private final static float FPS = 1/60f;
 
     private ArrayList<CollisionEvent> collisions = new ArrayList<CollisionEvent>();
 
@@ -37,7 +38,7 @@ public class PhysicsSystem extends EntitySystem implements ContactListener {
     public void update(float dt) {
 
         //Update the box2D world
-        world.step(1 / 60f, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
+        world.step(FPS, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
 
         // UPDATE CALLBACKS
         for(CollisionEvent event : collisions) {
