@@ -2,7 +2,9 @@ package com.goatgames.goatengine.physics;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
+import com.goatgames.goatengine.utils.GameConfig;
 
 import java.util.ArrayList;
 
@@ -22,7 +24,9 @@ public class PhysicsSystem extends EntitySystem implements ContactListener {
 
     public PhysicsSystem() {
         Box2D.init();
-        world = new World(new Vector2(0, -40f), true);  // TODO get gravity from Screen Config File
+        float configX = GoatEngine.gameScreenManager.getCurrentScreen().getConfig().GRAVITY_X;
+        float configY = GoatEngine.gameScreenManager.getCurrentScreen().getConfig().GRAVITY_Y;
+        world = new World(new Vector2(configX, configY), true);
         world.setContactListener(this);
     }
 
@@ -31,6 +35,7 @@ public class PhysicsSystem extends EntitySystem implements ContactListener {
 
     @Override
     public void update(float dt) {
+
         //Update the box2D world
         world.step(1 / 60f, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
 

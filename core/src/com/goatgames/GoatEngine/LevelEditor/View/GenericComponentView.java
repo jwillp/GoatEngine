@@ -28,12 +28,13 @@ public class GenericComponentView extends ComponentView {
                 addBooleanField(key, Boolean.parseBoolean(value));
             }else{
                 TextField field = addStringField(key, value);
+                // Auto Update
                 /*field.addListener(new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
                         onApply();
                     }
-                });*/ // Auto Update
+                });*/
             }
         }
     }
