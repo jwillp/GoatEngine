@@ -63,6 +63,9 @@ public final class LuaScriptingEngine {
      * @param entityId the id of the entity to assciate the instance
      */
     public LuaScript addScript(String scriptFile, String entityId){
+
+        scriptFile = GEConfig.ScriptingEngine.SCRIPTS_DIR + scriptFile;
+
         // If the script is not in memory, we'll "register" it. (List as a potential script)
         if(!isScriptRegistered(scriptFile)){
             registerScript(scriptFile);
@@ -71,7 +74,7 @@ public final class LuaScriptingEngine {
         // Does the current entity has an instance of that script?
         LuaScript script = this.entityScripts.get(scriptFile).getInstance(entityId);
         if(script == null){
-            script = new LuaScript(GEConfig.ScriptingEngine.SCRIPTS_DIR + scriptFile);
+            script = new LuaScript(scriptFile);
             script.load();
             this.entityScripts.get(scriptFile).addInstance(script, entityId);
         }
@@ -86,6 +89,7 @@ public final class LuaScriptingEngine {
      * @param entityId the Id of the entity
      */
     public LuaScript getScript(String scriptFile, String entityId){
+        scriptFile = GEConfig.ScriptingEngine.SCRIPTS_DIR + scriptFile;
         LuaEntityScriptInfo info = this.entityScripts.get(scriptFile);
         if(info == null) return null;
 
@@ -95,30 +99,21 @@ public final class LuaScriptingEngine {
             long lastModifiedOnDisk = Gdx.files.internal(scriptFile).lastModified();
             long lastModifiedInMemory = info.getLastModified();
             if(lastModifiedOnDisk != lastModifiedInMemory){
-                reloadScript(scriptFile);
+                reloadScript(scriptFile, info);
             }
         }
         return info.getInstance(entityId);
     }
 
-
-    /**
-     * Reloads all instances of a script in memory
-     * @param scriptFile path to the script file
-     */
-    public void reloadScript(String scriptFile){
-        reloadScript(this.entityScripts.get(scriptFile));
-    }
-
-
     /**
      * Reloads all instances of a script in memory
      * @param info script info object
      */
-    private void reloadScript(LuaEntityScriptInfo info){
+    private void reloadScript(String scriptFile, LuaEntityScriptInfo info){
         for(LuaScript instance : info.getInstances().values()){
             instance.reload();
         }
+        info.setLastModified(Gdx.files.internal(scriptFile).lastModified());
     }
 
 

@@ -33,7 +33,7 @@ public class LuaEntityScriptSystem extends EntitySystem {
 
                 if(script == null){
                     script = GoatEngine.scriptEngine.addScript(scriptFile,entity.getID());
-                    script.executeFunction("onInit");
+                    script.executeFunction("init");
                 }
 
                 script.executeFunction("update");

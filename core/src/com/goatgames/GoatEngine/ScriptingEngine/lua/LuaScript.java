@@ -102,6 +102,7 @@ public class LuaScript {
             // Call function with converted parameters
             Logger.error("Lua Error in " + this.scriptFile + ": " + e.getMessage());
             Logger.logStackTrace(e);
+            hasError = true;
             return false;
         }
         return true;
