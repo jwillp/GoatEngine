@@ -1,7 +1,7 @@
 package com.goatgames.goatengine.leveleditor.view;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.goatgames.goatengine.scriptingengine.groovy.ScriptComponent;
+import com.goatgames.goatengine.scriptingengine.ScriptComponent;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.scriptingengine.groovy;
+package com.goatgames.goatengine.scriptingengine;
 
 import com.goatgames.goatengine.eventmanager.GameEvent;
 

@@ -20,7 +20,7 @@ import java.util.Map;
 /**
  * Script engine used to communicate between the GameEngine and scripts
  */
-public class ScriptingEngine{
+public class GroovyScriptingEngine {
 
     private GroovyScriptEngine engine;
     private Binding globalScope;
@@ -37,7 +37,7 @@ public class ScriptingEngine{
     /**
      * Default ctor
      */
-    public ScriptingEngine(){}
+    public GroovyScriptingEngine(){}
 
 
     /**

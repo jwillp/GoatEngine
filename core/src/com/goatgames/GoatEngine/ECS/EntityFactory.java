@@ -10,7 +10,7 @@ import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.leveleditor.components.EditorLabelComponent;
 import com.goatgames.goatengine.physics.*;
-import com.goatgames.goatengine.scriptingengine.groovy.ScriptComponent;
+import com.goatgames.goatengine.scriptingengine.ScriptComponent;
 
 import java.util.Map;
 

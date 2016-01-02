@@ -10,7 +10,8 @@ import com.goatgames.goatengine.input.InputManager;
 import com.goatgames.goatengine.leveleditor.consolecommands.ShowLevelEditor;
 import com.goatgames.goatengine.leveleditor.LevelEditor;
 import com.goatgames.goatengine.screenmanager.GameScreenManager;
-import com.goatgames.goatengine.scriptingengine.groovy.ScriptingEngine;
+import com.goatgames.goatengine.scriptingengine.groovy.GroovyScriptingEngine;
+import com.goatgames.goatengine.scriptingengine.lua.LuaScriptingEngine;
 import com.goatgames.goatengine.utils.EngineProfiler;
 import com.goatgames.goatengine.utils.Logger;
 import com.goatgames.goatengine.utils.Timer;
@@ -27,7 +28,7 @@ import com.goatgames.goatengine.utils.Timer;
 public class GoatEngine {
 
     //Scripting Engine
-    public static ScriptingEngine scriptEngine;
+    public static LuaScriptingEngine scriptEngine;
 
     //ScreenManager
     public static GameScreenManager gameScreenManager;
@@ -121,7 +122,7 @@ public class GoatEngine {
 
 
         // Script Engine Init
-        scriptEngine = new ScriptingEngine();
+        scriptEngine = new LuaScriptingEngine();
         scriptEngine.init();
         Logger.info(" > Scripting Engine initialised " + performanceTimer.getDeltaTime() + "ms");
         performanceTimer.reset();

@@ -18,6 +18,8 @@ public class LuaScript {
     LuaValue chunk;                                          // Read data from t lua script
     private Globals globals = JsePlatform.standardGlobals(); // The standard Lua Lib
 
+    private boolean hasError = true; // indicates if the script has encountered an error
+
     /**
      * Constructs and initializes a script file
      * @param scriptFile represents the path to the script file
@@ -33,6 +35,7 @@ public class LuaScript {
     public boolean load(){
         if(!Gdx.files.internal(scriptFile).exists()){
             Logger.error("Lua Script not found: " + scriptFile);
+            hasError = true;
             return false;
         }
 
@@ -42,12 +45,14 @@ public class LuaScript {
             // If reading the file fails, then log the error to the console
             Logger.error("Lua Error in file" + scriptFile + ": " + e.getMessage());
             Logger.logStackTrace(e);
+            hasError = true;
             return false;
         }
 
         // An important step. Calls to script method do not work if the chunk is not called here
         chunk.call();
 
+        hasError = false;
         return true;
     }
 
@@ -77,10 +82,12 @@ public class LuaScript {
      */
     public boolean executeFunction(String functionName, Object[] objects){
 
+        if(hasError) return false;
+
         LuaValue function = globals.get(functionName); // Get the function
 
         if(!function.isfunction()){
-            Logger.error("Lua Error: function " + functionName + " does not exist.");
+            Logger.error("Lua Error: function " + functionName + " does not exist in " + scriptFile);
             return false;
         }
 
@@ -108,6 +115,29 @@ public class LuaScript {
     public void exposeJavaFunction(TwoArgFunction javaFunction){
         globals.load(javaFunction);
     }
+
+
+    /**
+     * Returns the time the script was last modified
+     * @return when the script was last modified
+     */
+    public long getLastModified(){
+        return Gdx.files.internal(scriptFile).lastModified();
+    }
+
+
+
+                     // Exceptions //
+
+    public class LuaScriptException extends RuntimeException{
+        public LuaScriptException(String message){
+            super(message);
+        }
+    }
+
+
+
+
 
 
 
