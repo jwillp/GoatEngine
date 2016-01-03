@@ -1,6 +1,7 @@
 package com.goatgames.goatengine.ecs;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Array;
 import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityManager;
@@ -24,7 +25,7 @@ public class ECSIniSerializer {
     private String iniPath;
     private EntityManager entityManager;
     private Ini ini;
-    private HashSet<String> entityIds = new HashSet<String>();
+    private Array<String> entityIds = new Array<String>();
 
     // All properties (components) in file, used to iterate faster.
     private HashSet<String> componentsSection = new HashSet<String>();
@@ -162,7 +163,11 @@ public class ECSIniSerializer {
      */
     private void loadEntityIndex(){
         Ini.Section index = ini.get("entity_index");
-        entityIds.addAll(index.values());       // Get all entity Ids conatined the the file
+        index.values();
+        // Get all entity Ids contained in the file
+        for(Object o: index.values()){
+            entityIds.add((String) o);
+        }
         componentsSection.addAll(ini.keySet());
     }
 

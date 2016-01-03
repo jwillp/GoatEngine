@@ -2,6 +2,7 @@ package com.goatgames.goatengine.graphicsrendering;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
@@ -50,7 +51,7 @@ public class CameraSystem extends EntitySystem {
      */
     public OrthographicCamera getMainCamera() {
         try{
-            ArrayList<EntityComponent> comps = getEntityManager().getComponents(CameraComponent.ID);
+            Array<EntityComponent> comps = getEntityManager().getComponents(CameraComponent.ID);
             CameraComponent camComp = (CameraComponent) comps.get(0);
             return camComp.getCamera();
         }catch (IndexOutOfBoundsException e){
