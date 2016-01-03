@@ -42,7 +42,7 @@ public class LuaEntityScriptSystem extends EntitySystem implements GameEventList
                     onEntityInit(entity, script);
                 }
 
-                script.executeFunction("update");
+                script.executeFunction("update", dt);
             }
             getEntityManager().freeEntity(entity);
         }

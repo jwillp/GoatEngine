@@ -1,7 +1,9 @@
 package com.goatgames.goatengine.scriptingengine.lua;
 
 import com.badlogic.gdx.Gdx;
+import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.utils.Logger;
+import com.strongjoshua.console.Console;
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaValue;
@@ -45,6 +47,7 @@ public class LuaScript {
             // If reading the file fails, then log the error to the console
             Logger.error("Lua Error in file" + scriptFile + ": " + e.getMessage());
             Logger.logStackTrace(e);
+            GoatEngine.console.log(e.getMessage(), Console.LogLevel.ERROR);
             hasError = true;
             return false;
         }
@@ -70,9 +73,19 @@ public class LuaScript {
      * @param functionName the name of the function to call
      * @return true if the call was successful
      */
-    public boolean executeFunction(String functionName){
+    /*public boolean executeFunction(String functionName){
         return executeFunction(functionName, new Object[0]);
+    }*/
+
+    /**
+     * Call a function in the Lua script with the parameters
+     * @param functionName the name of the function to call
+     * @return true if the call was successful
+     */
+    public boolean executeFunction(String functionName, Object ... objects){
+        return executeFunctionWithParamAsArray(functionName, objects);
     }
+
 
     /**
      * Call a function in the Lua script with the given parameters passed
@@ -80,7 +93,7 @@ public class LuaScript {
      * @param objects the objects to pass a parameters
      * @return true if the call was successful
      */
-    public boolean executeFunction(String functionName, Object[] objects){
+    public boolean executeFunctionWithParamAsArray(String functionName, Object[] objects){
 
         if(hasError) return false;
 
@@ -102,6 +115,7 @@ public class LuaScript {
             // Call function with converted parameters
             Logger.error("Lua Error in " + this.scriptFile + ": " + e.getMessage());
             Logger.logStackTrace(e);
+            GoatEngine.console.log(e.getMessage(), Console.LogLevel.ERROR);
             hasError = true;
             return false;
         }
@@ -138,6 +152,8 @@ public class LuaScript {
             super(message);
         }
     }
+
+
 
 
 
