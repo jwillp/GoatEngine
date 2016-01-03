@@ -3,6 +3,7 @@ package com.goatgames.goatengine.scriptingengine.lua;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.goatgames.goatengine.GEConfig;
+import com.goatgames.goatengine.GoatEngine;
 
 import java.util.ArrayList;
 
@@ -75,6 +76,7 @@ public final class LuaScriptingEngine {
         LuaScript script = this.entityScripts.get(scriptFile).getInstance(entityId);
         if(script == null){
             script = new LuaScript(scriptFile);
+            script.exposeJavaFunction(new GoatEngineAPI());
             script.load();
             this.entityScripts.get(scriptFile).addInstance(script, entityId);
         }

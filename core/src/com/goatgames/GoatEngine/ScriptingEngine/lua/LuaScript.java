@@ -117,6 +117,9 @@ public class LuaScript {
         globals.load(javaFunction);
     }
 
+    public void exposeJavaObject(Object o){
+        globals.load(CoerceJavaToLua.coerce(o));
+    }
 
     /**
      * Returns the time the script was last modified

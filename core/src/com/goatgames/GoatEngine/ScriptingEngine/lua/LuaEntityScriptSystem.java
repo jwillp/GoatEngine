@@ -4,6 +4,10 @@ import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.scriptingengine.ScriptComponent;
+import com.goatgames.goatengine.utils.Logger;
+import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.lib.TwoArgFunction;
+import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 
 /**
  * Entity System managing entity scripts as lua scripts
@@ -33,7 +37,7 @@ public class LuaEntityScriptSystem extends EntitySystem {
 
                 if(script == null){
                     script = GoatEngine.scriptEngine.addScript(scriptFile,entity.getID());
-                    script.executeFunction("init");
+                    onEntityInit(entity, script);
                 }
 
                 script.executeFunction("update");
@@ -46,7 +50,22 @@ public class LuaEntityScriptSystem extends EntitySystem {
 
 
 
+    public void onEntityInit(Entity entity, LuaScript script){
+        // Expose entity
+        final LuaValue luaEntity = CoerceJavaToLua.coerce(getEntityManager().getEntityObject(entity.getID()));
+        script.exposeJavaFunction(new TwoArgFunction() {
+            @Override
+            public LuaValue call(LuaValue modname, LuaValue env) {
+                LuaValue library = tableOf();
+                library.set("entity", luaEntity);
+                env.set("ctx", library);
+                env.get("package").get("loaded").set("ctx", library);
+                return library;
+            }
+        });
 
+        script.executeFunction("init");
+    }
 
 
 
