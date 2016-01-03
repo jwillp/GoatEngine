@@ -3,6 +3,8 @@ package com.goatgames.goatengine.scriptingengine.lua;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
+import com.goatgames.goatengine.eventmanager.GameEvent;
+import com.goatgames.goatengine.eventmanager.GameEventListener;
 import com.goatgames.goatengine.scriptingengine.ScriptComponent;
 import com.goatgames.goatengine.utils.Logger;
 import org.luaj.vm2.LuaValue;
@@ -12,7 +14,7 @@ import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 /**
  * Entity System managing entity scripts as lua scripts
  */
-public class LuaEntityScriptSystem extends EntitySystem {
+public class LuaEntityScriptSystem extends EntitySystem implements GameEventListener {
 
 
     /**
@@ -20,7 +22,7 @@ public class LuaEntityScriptSystem extends EntitySystem {
      */
     @Override
     public void init() {
-
+        GoatEngine.eventManager.registerListener(this);
     }
 
     /**
@@ -47,11 +49,13 @@ public class LuaEntityScriptSystem extends EntitySystem {
     }
 
 
-
-
-
+    /**
+     * Initialises an entity Script
+     * @param entity
+     * @param script
+     */
     public void onEntityInit(Entity entity, LuaScript script){
-        // Expose entity
+        // Expose entity to script
         final LuaValue luaEntity = CoerceJavaToLua.coerce(getEntityManager().getEntityObject(entity.getID()));
         script.exposeJavaFunction(new TwoArgFunction() {
             @Override
@@ -63,13 +67,22 @@ public class LuaEntityScriptSystem extends EntitySystem {
                 return library;
             }
         });
-
         script.executeFunction("init");
     }
 
 
+    @Override
+    public void onEvent(GameEvent e) {
+        for(Entity entity: getEntityManager().getEntitiesWithComponent(ScriptComponent.ID)){
+            ScriptComponent scriptComp = (ScriptComponent) entity.getComponent(ScriptComponent.ID);
+            for(String scriptFile: scriptComp.getScripts()){
+                LuaScript script = GoatEngine.scriptEngine.getScript(scriptFile, entity.getID());
 
-
-
-
+                if (script != null) {
+                    script.executeFunction("onGameEvent", new Object[]{e});
+                }
+            }
+            getEntityManager().freeEntity(entity);
+        }
+    }
 }
