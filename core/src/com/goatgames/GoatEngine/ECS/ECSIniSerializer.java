@@ -3,6 +3,7 @@ package com.goatgames.goatengine.ecs;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.ObjectSet;
 import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityManager;
@@ -26,7 +27,7 @@ public class ECSIniSerializer {
     private String iniPath;
     private EntityManager entityManager;
     private Ini ini;
-    private Array<String> entityIds = new Array<String>();
+    private ObjectSet<String> entityIds = new ObjectSet<String>();
 
     // All properties (components) in file, used to iterate faster.
     private HashSet<String> componentsSection = new HashSet<String>();
@@ -49,7 +50,7 @@ public class ECSIniSerializer {
      */
     public void save(){
         entityIds.clear();
-        entityIds.addAll(entityManager.getEntityIds());
+        entityIds = entityManager.getEntityIds();
         writeEntityIndex();
         for(String id: entityIds){
             ini.putComment("#", "Entity BEGIN");
@@ -99,12 +100,10 @@ public class ECSIniSerializer {
      * each entity in an easy way
      */
     private void writeEntityIndex(){
-
-        Object[] array = entityIds.toArray();
-
-        for(int i=0; i<array.length; i++){
-            String id = (String) array[i];
+        int i = 0;
+        for(String id: entityIds){
             ini.put("entity_index",String.valueOf(i),id);
+            i++;
         }
     }
 

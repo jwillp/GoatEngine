@@ -268,8 +268,8 @@ public class EntityManager {
      * Returns all entities Id
       * @return
      */
-    public Array<String> getEntityIds(){
-        Array<String> ids = new Array<String>();
+    public ObjectSet<String> getEntityIds(){
+        ObjectSet<String> ids = new ObjectSet<String>();
         for(String compId : this.components.keys()){
             ids.addAll(components.get(compId).keys().toArray());
         }
@@ -308,7 +308,7 @@ public class EntityManager {
      * @return true if an entity exists
      */
     public boolean entityExists(String entityId){
-       return getEntityIds().contains(entityId, false);
+       return getEntityIds().contains(entityId);
     }
 
     /**
