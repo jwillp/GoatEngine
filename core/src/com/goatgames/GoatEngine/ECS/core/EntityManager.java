@@ -13,11 +13,12 @@ import java.util.*;
  */
 public class EntityManager {
 
-    //HashMap<COMPONENT_ID, HashMap<ENTITY_ID, COMPONENT_INSTANCE>>
+    //ObjectMap<COMPONENT_ID, ObjectMap<ENTITY_ID, COMPONENT_INSTANCE>>
     private ObjectMap<String, ObjectMap<String, EntityComponent>> components = new ObjectMap<String, ObjectMap<String, EntityComponent>>();
 
 
     private final EntityPool entityPool = new EntityPool();
+
 
 
     public EntityManager(){}
@@ -140,10 +141,10 @@ public class EntityManager {
     /**
      * Returns all the components of a certain entity
      * @param entityId : the id of the entity
-     * @return "HashMap<ComponentID,ComponentInstance>"
+     * @return "ObjectMap<ComponentID,ComponentInstance>"
      */
-    public HashMap<String, EntityComponent> getComponentsForEntity(String entityId){
-        HashMap<String, EntityComponent> components = new HashMap<String, EntityComponent>();
+    public ObjectMap<String, EntityComponent> getComponentsForEntity(String entityId){
+        ObjectMap<String, EntityComponent> components = new ObjectMap<String, EntityComponent>();
         for(String compId: this.components.keys()){
             if(this.components.get(compId).containsKey(entityId)){
                 components.put(compId, this.components.get(compId).get(entityId));
@@ -215,9 +216,9 @@ public class EntityManager {
 
     /**
      * Returns all the components instance of a certain type along with the Id of the entity
-     * in the form of a HashMap
+     * in the form of a ObjectMap
      * @param compId: the Id of the component
-     * @return HashMap<String, Component>
+     * @return ObjectMap<String, Component>
      */
     public ObjectMap<String, EntityComponent> getComponentsWithEntity(String compId){
         return this.components.get(compId);

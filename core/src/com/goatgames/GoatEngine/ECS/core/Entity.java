@@ -1,5 +1,6 @@
 package com.goatgames.goatengine.ecs.core;
 
+import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.Pool;
 
 import java.util.HashMap;
@@ -127,7 +128,7 @@ public class Entity implements Pool.Poolable {
         return manager;
     }
 
-    public HashMap<String, EntityComponent> getComponents() {
+    public ObjectMap<String, EntityComponent> getComponents() {
         return manager.getComponentsForEntity(this.getID());
     }
 

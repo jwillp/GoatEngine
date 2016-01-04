@@ -73,9 +73,9 @@ public class LuaScript {
      * @param functionName the name of the function to call
      * @return true if the call was successful
      */
-    /*public boolean executeFunction(String functionName){
-        return executeFunction(functionName, new Object[0]);
-    }*/
+    public boolean executeFunction(String functionName){
+        return executeFunction(functionName, null);
+    }
 
     /**
      * Call a function in the Lua script with the parameters
@@ -104,8 +104,9 @@ public class LuaScript {
             return false;
         }
 
-        LuaValue[] parameters = new LuaValue[objects.length];
-        for(int i = 0; i<objects.length; i++){
+        LuaValue[] parameters = (objects == null) ? new LuaValue[0] : new LuaValue[objects.length];
+
+        for(int i = 0; i<parameters.length; i++){
             parameters[i] = CoerceJavaToLua.coerce(objects[i]); // Convert Java Object To LuaValue
         }
 

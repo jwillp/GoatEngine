@@ -2,6 +2,7 @@ package com.goatgames.goatengine.ecs;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityManager;
@@ -52,7 +53,7 @@ public class ECSIniSerializer {
         writeEntityIndex();
         for(String id: entityIds){
             ini.putComment("#", "Entity BEGIN");
-            HashMap<String, EntityComponent> components = entityManager.getComponentsForEntity(id);
+            ObjectMap<String, EntityComponent> components = entityManager.getComponentsForEntity(id);
             for(EntityComponent component: components.values()){
                 writeComponent(id, component);
             }
