@@ -17,7 +17,7 @@ import org.luaj.vm2.lib.jse.JsePlatform;
 public class LuaScript {
 
     private final String scriptFile;                         // Path to the script file
-    LuaValue chunk;                                          // Read data from t lua script
+    private LuaValue chunk;                                          // Read data from t lua script
     private Globals globals = JsePlatform.standardGlobals(); // The standard Lua Lib
 
     private boolean hasError = true; // indicates if the script has encountered an error
@@ -144,9 +144,16 @@ public class LuaScript {
         return Gdx.files.internal(scriptFile).lastModified();
     }
 
+    public LuaValue getChunk() {
+        return chunk;
+    }
+
+    public Globals getGlobals() {
+        return globals;
+    }
 
 
-                     // Exceptions //
+    // Exceptions //
 
     public class LuaScriptException extends RuntimeException{
         public LuaScriptException(String message){

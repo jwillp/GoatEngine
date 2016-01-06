@@ -91,7 +91,12 @@ public class ECSIniSerializer {
     }
 
 
-
+    public void dispose(){
+        this.ini.clear();
+        this.ini = null;
+        this.entityIds.clear();
+        this.entityIds = null;
+    }
     /**
      * Writes the entity index to file.
      * The index is used to make a list of all

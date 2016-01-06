@@ -3,7 +3,8 @@ package com.goatgames.goatengine.scriptingengine.lua;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.goatgames.goatengine.GEConfig;
-import com.goatgames.goatengine.GoatEngine;
+import org.luaj.vm2.Globals;
+import org.luaj.vm2.LuaValue;
 
 import java.util.ArrayList;
 
@@ -76,8 +77,11 @@ public final class LuaScriptingEngine {
         LuaScript script = this.entityScripts.get(scriptFile).getInstance(entityId);
         if(script == null){
             script = new LuaScript(scriptFile);
+            // Expose API and import libraries
             script.exposeJavaFunction(new GoatEngineAPI());
             script.load();
+            //preloadLuaModule("flux.lua", script.getGlobals());
+
             this.entityScripts.get(scriptFile).addInstance(script, entityId);
         }
 
@@ -112,11 +116,25 @@ public final class LuaScriptingEngine {
      * @param info script info object
      */
     private void reloadScript(String scriptFile, LuaEntityScriptInfo info){
-        for(LuaScript instance : info.getInstances().values()){
+        for (ObjectMap.Values<LuaScript> iterator = info.getInstances().values().iterator(); iterator.hasNext(); ) {
+            LuaScript instance = iterator.next();
             instance.reload();
+            iterator.remove();
         }
         info.setLastModified(Gdx.files.internal(scriptFile).lastModified());
     }
 
+
+    /**
+     * Preloads a module in a script's globals
+     * @param moduleFile
+     * @param globals
+     */
+    private LuaValue preloadLuaModule(String moduleFile, Globals globals){
+        LuaValue chunk = globals.load("require '" + moduleFile + "';");
+        chunk.call();
+        chunk = globals.loadfile(moduleFile);
+        return chunk.call();
+    }
 
 }

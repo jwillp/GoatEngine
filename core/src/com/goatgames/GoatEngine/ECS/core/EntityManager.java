@@ -44,18 +44,6 @@ public class EntityManager {
     }
 
     /**
-     * Returns an instance of entity with ID
-     * @param id
-     * @return instance of entity with ID
-     */
-    public Entity getEntity(String id){
-        Entity e = entityPool.obtain();
-        e.setID(id);
-        return e;
-    }
-
-
-    /**
      * Frees an entity
      * @param entity
      */
@@ -95,7 +83,7 @@ public class EntityManager {
         this.components.put(componentId, componentContainer);
 
         //Call on attach
-        Entity e = getEntity(entityId);
+        Entity e = getEntityObject(entityId);
         component.onAttach(e);
         freeEntity(e);
         return this;
@@ -113,7 +101,7 @@ public class EntityManager {
         //Test if the entity has the component
         if(this.hasComponent(componentId, entityId)) {
             //Call onDetach
-            Entity e = getEntity(entityId);
+            Entity e = getEntityObject(entityId);
             componentEntry.get(entityId).onDetach(e);
             componentEntry.remove(entityId);
             freeEntity(e);
