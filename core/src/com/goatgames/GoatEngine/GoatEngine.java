@@ -10,7 +10,8 @@ import com.goatgames.goatengine.input.InputManager;
 import com.goatgames.goatengine.leveleditor.consolecommands.ShowLevelEditor;
 import com.goatgames.goatengine.leveleditor.LevelEditor;
 import com.goatgames.goatengine.screenmanager.GameScreenManager;
-import com.goatgames.goatengine.scriptingengine.ScriptingEngine;
+import com.goatgames.goatengine.scriptingengine.groovy.GroovyScriptingEngine;
+import com.goatgames.goatengine.scriptingengine.lua.LuaScriptingEngine;
 import com.goatgames.goatengine.utils.EngineProfiler;
 import com.goatgames.goatengine.utils.Logger;
 import com.goatgames.goatengine.utils.Timer;
@@ -27,7 +28,7 @@ import com.goatgames.goatengine.utils.Timer;
 public class GoatEngine {
 
     //Scripting Engine
-    public static ScriptingEngine scriptEngine;
+    public static LuaScriptingEngine scriptEngine;
 
     //ScreenManager
     public static GameScreenManager gameScreenManager;
@@ -86,7 +87,7 @@ public class GoatEngine {
         // Event Manager
         eventManager = new EventManager();
         Logger.info(" > Event Manager initialised "+ performanceTimer.getDeltaTime() + "ms");
-        eventManager.registerListener(profiler);
+        //eventManager.registerListener(profiler);
         performanceTimer.reset();
 
         // Input manager
@@ -115,12 +116,13 @@ public class GoatEngine {
             console.addCommand(new ResumeEngineCommand());
             console.addCommand(new ReloadScreenCommand());
             console.addCommand(new ChangeScreenCommand());
+            console.addCommand(new LuaCommand());
         }
         performanceTimer.reset();
 
 
         // Script Engine Init
-        scriptEngine = new ScriptingEngine();
+        scriptEngine = new LuaScriptingEngine();
         scriptEngine.init();
         Logger.info(" > Scripting Engine initialised " + performanceTimer.getDeltaTime() + "ms");
         performanceTimer.reset();
@@ -159,22 +161,22 @@ public class GoatEngine {
             if(!initialised){
                 throw new EngineUninitializedException();
             }
-            eventManager.fireEvent(new EngineEvents.GameTickBeginEvent(), false);
+            //eventManager.fireEvent(new EngineEvents.GameTickBeginEvent(), false);
 
             float deltaTime = Gdx.graphics.getDeltaTime();
 
 
             if(gameScreenManager.isRunning()){
                 //Game Screen Manager
-                eventManager.fireEvent(new EngineEvents.LogicTickBeginEvent(), false);
+                //eventManager.fireEvent(new EngineEvents.LogicTickBeginEvent(), false);
                 gameScreenManager.handleEvents();
                 gameScreenManager.update(deltaTime);
-                eventManager.fireEvent(new EngineEvents.LogicTickEndEvent(), false);
+                //eventManager.fireEvent(new EngineEvents.LogicTickEndEvent(), false);
 
             }
-            eventManager.fireEvent(new EngineEvents.RenderTickBeginEvent(), false);
+            //eventManager.fireEvent(new EngineEvents.RenderTickBeginEvent(), false);
             gameScreenManager.draw(deltaTime);
-            eventManager.fireEvent(new EngineEvents.RenderTickEndEvent(), false);
+            //eventManager.fireEvent(new EngineEvents.RenderTickEndEvent(), false);
 
 
             levelEditor.update(deltaTime);
@@ -183,7 +185,7 @@ public class GoatEngine {
             console.refresh();
             console.draw();
 
-            eventManager.fireEvent(new EngineEvents.GameTickEndEvent());
+            //eventManager.fireEvent(new EngineEvents.GameTickEndEvent());
         }else{
             Gdx.app.exit();
         }

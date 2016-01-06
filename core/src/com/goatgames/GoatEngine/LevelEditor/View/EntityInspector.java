@@ -2,6 +2,7 @@ package com.goatgames.goatengine.leveleditor.view;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
@@ -88,8 +89,8 @@ public class EntityInspector extends Window {
             // Components
             componentList.clearChildren();
 
-            HashMap<String, EntityComponent> comps = e.getComponents();
-            for(String cId :  comps.keySet()){
+            ObjectMap<String, EntityComponent> comps = e.getComponents();
+            for(String cId :  comps.keys()){
                 addComponentToList(e, comps.get(cId));
             }
 

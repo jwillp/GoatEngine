@@ -2,7 +2,9 @@ package com.goatgames.goatengine.ecs;
 
 import com.goatgames.goatengine.ai.components.AIComponent;
 import com.goatgames.goatengine.ecs.common.CameraTargetComponent;
+import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.graphicsrendering.*;
+import com.goatgames.goatengine.input.TouchableComponent;
 import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.ecs.common.TagsComponent;
 import com.goatgames.goatengine.ecs.core.Entity;
@@ -48,17 +50,35 @@ public class EntityFactory{
             processAIComponent(componentId, entity, map);
             processZIndexComponent(componentId, entity, map);
             processFakeLightComponent(componentId, entity, map);
+            processTouchableComponent(componentId, entity, map);
         }
         return entity;
     }
 
+    /**
+     * Processes a TouchableComponent
+     * @param componentId the id of the component as found in the component list
+     * @param entity the entity to update
+     * @param componentData the map containing data bout the component
+     */
+    private static void processTouchableComponent(String componentId, Entity entity, EntityComponentMap componentData) {
+        if(!isComponent(componentId, TouchableComponent.ID)){return;}
+        entity.addComponent(new TouchableComponent(componentData), TouchableComponent.ID);
+    }
+
+    /**
+     * Processes a FakeLightComponent
+     * @param componentId the id of the component as found in the component list
+     * @param entity the entity to update
+     * @param componentData the map containing data bout the component
+     */
     private static void processFakeLightComponent(String componentId, Entity entity, EntityComponentMap componentData) {
         if(!isComponent(componentId, LightComponent.ID)){return;}
         entity.addComponent(new LightComponent(componentData), LightComponent.ID);
     }
 
     /**
-     * Processes a script ScriptComponent
+     * Processes a ScriptComponent
      * @param componentId the id of the component as found in the component list
      * @param entity the entity to update
      * @param componentData the map containing data bout the component
@@ -70,7 +90,7 @@ public class EntityFactory{
     }
 
     /**
-     * Processes a script PhysicsComponent
+     * Processes a PhysicsComponent
      * @param componentId the id of the component as found in the component list
      * @param entity the entity to update
      * @param componentData the map containing data bout the component
@@ -134,7 +154,7 @@ public class EntityFactory{
 
 
     /**
-     * Processes a script TagsComponent
+     * Processes a TagsComponent
      * @param componentId the id of the component as found in the component list
      * @param entity the entity to update
      * @param componentData the map containing data bout the component
@@ -145,7 +165,7 @@ public class EntityFactory{
     }
 
     /**
-     * Processes a script SpriteComponent
+     * Processes a SpriteComponent
      * @param componentId the id of the component as found in the component list
      * @param entity the entity to update
      * @param componentData the map containing data bout the component
@@ -156,7 +176,7 @@ public class EntityFactory{
     }
 
     /**
-     * Processes a script SpriterAnimationComponent
+     * Processes a SpriterAnimationComponent
      * @param componentId the id of the component as found in the component list
      * @param entity the entity to update
      * @param componentData the map containing data bout the component
@@ -167,7 +187,7 @@ public class EntityFactory{
     }
 
     /**
-     * Processes a script EditorLabelComponent
+     * Processes a EditorLabelComponent
      * @param componentId the id of the component as found in the component list
      * @param entity the entity to update
      * @param componentData the map containing data bout the component
@@ -178,7 +198,7 @@ public class EntityFactory{
     }
 
     /**
-     * Processes a script CameraComponent
+     * Processes a CameraComponent
      * @param componentId the id of the component as found in the component list
      * @param entity the entity to update
      * @param componentData the map containing data bout the component
@@ -189,7 +209,7 @@ public class EntityFactory{
     }
 
     /**
-     * Processes a script CameraTargetComponent
+     * Processes a CameraTargetComponent
      * @param componentId the id of the component as found in the component list
      * @param entity the entity to update
      * @param componentData the map containing data bout the component
@@ -200,7 +220,7 @@ public class EntityFactory{
     }
 
     /**
-     * Processes a script AIComponent
+     * Processes a AIComponent
      * @param componentId the id of the component as found in the component list
      * @param entity the entity to update
      * @param componentData the map containing data bout the component
@@ -211,6 +231,12 @@ public class EntityFactory{
     }
 
 
+    /**
+     * Processes a ZComponent
+     * @param componentId the id of the component as found in the component list
+     * @param entity the entity to update
+     * @param componentData the map containing data bout the component
+     */
     private static void processZIndexComponent(String componentId, Entity entity, EntityComponentMap componentMap){
         if(!isComponent(componentId, ZIndexComponent.ID)) return;
         entity.addComponent(new ZIndexComponent(componentMap), ZIndexComponent.ID);

@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Sort;
 import com.bitfire.postprocessing.PostProcessor;
 import com.bitfire.postprocessing.effects.*;
 import com.bitfire.postprocessing.filters.Combine;
@@ -29,7 +31,8 @@ import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.utils.Logger;
 
-import java.util.ArrayList;
+
+import java.util.Arrays;
 import java.util.Collections;
 
 /**
@@ -53,7 +56,7 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
     private CameraDebugRenderer cameraDebugRenderer;
 
 
-    private ArrayList<Entity> entitiesByZIndex = new ArrayList<Entity>(); // Entities ordered by Zindex
+    private Array<Entity> entitiesByZIndex = new Array<Entity>(); // Entities ordered by Zindex
 
     CrtMonitor crt;
 
@@ -137,7 +140,7 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
         }
         //Order entities by ZIndex // TODO When TransformComponent will exist use it's Z position instead
         entitiesByZIndex = getEntityManager().getEntitiesWithComponent(ZIndexComponent.ID);
-        Collections.sort(entitiesByZIndex, new ZIndexComponent.ZIndexComparator());
+        Sort.instance().sort(entitiesByZIndex, new ZIndexComponent.ZIndexComparator());
 
         //crt.setTime( dt * 1000 );
     }

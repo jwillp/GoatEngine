@@ -13,4 +13,9 @@ public abstract class GameEvent{
         return this.getClass() == type;
     }
 
+    public boolean isOfType(final String typeName){
+        return this.getClass().getSimpleName().equals(typeName);
+    }
+
+
 }

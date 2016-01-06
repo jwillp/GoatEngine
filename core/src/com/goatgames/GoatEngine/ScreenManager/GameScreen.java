@@ -8,8 +8,10 @@ import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.GEConfig;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.graphicsrendering.RenderingSystem;
+import com.goatgames.goatengine.input.InputSystem;
 import com.goatgames.goatengine.physics.PhysicsSystem;
-import com.goatgames.goatengine.scriptingengine.ScriptSystem;
+import com.goatgames.goatengine.scriptingengine.groovy.GroovyScriptSystem;
+import com.goatgames.goatengine.scriptingengine.lua.LuaEntityScriptSystem;
 import com.goatgames.goatengine.ui.UIEngine;
 import com.goatgames.goatengine.utils.Logger;
 
@@ -39,7 +41,9 @@ public final class GameScreen{
         Logger.info("> Game Screen: " + this.name + " initialisation ... ");
 
         GoatEngine.eventManager.registerListener(this.ecsManager.getSystemManager());
-        ecsManager.getSystemManager().addSystem(ScriptSystem.class, new ScriptSystem());
+        //ecsManager.getSystemManager().addSystem(GroovyScriptSystem.class, new GroovyScriptSystem());
+        ecsManager.getSystemManager().addSystem(LuaEntityScriptSystem.class, new LuaEntityScriptSystem());
+
 
         physicsSystem = new PhysicsSystem();
         ecsManager.getSystemManager().addSystem(PhysicsSystem.class, physicsSystem);
@@ -48,7 +52,7 @@ public final class GameScreen{
         ecsManager.getSystemManager().addSystem(AISystem.class, new AISystem());
 
 
-
+        ecsManager.getSystemManager().addSystem(InputSystem.class, new InputSystem());
 
 
         ecsManager.getSystemManager().initSystems();
@@ -83,7 +87,7 @@ public final class GameScreen{
     public void handleInput(GameScreenManager screenManager){}
 
     public void update(GameScreenManager screenManager, float deltaTime){
-        //ecsManager.getSystemManager().getSystem(ScriptSystem.class).update(0);
+        //ecsManager.getSystemManager().getSystem(GroovyScriptSystem.class).update(0);
         ecsManager.getSystemManager().update();
     }
 

@@ -1,5 +1,6 @@
 package com.goatgames.goatengine.leveleditor.commands;
 
+import com.badlogic.gdx.utils.ObjectMap;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityManager;
@@ -15,7 +16,7 @@ import java.util.Map;
 public class DeleteEntityCommand extends UndoCommand {
 
     Entity deletedEntity;
-    HashMap<String, EntityComponent> components;
+    ObjectMap<String, EntityComponent> components;
     LevelEditor editor;
 
     public DeleteEntityCommand(Entity e, LevelEditor editor){
@@ -29,9 +30,9 @@ public class DeleteEntityCommand extends UndoCommand {
      */
     @Override
     public void undo() {
-        for (Map.Entry<String, EntityComponent> entry : components.entrySet()) {
-            String compName = entry.getKey();
-            EntityComponent component = entry.getValue();
+        for (ObjectMap.Entry<String, EntityComponent> entry : components.entries()) {
+            String compName = entry.key;
+            EntityComponent component = entry.value;
             deletedEntity.addComponent(component, compName);
         }
         EntityManager manager = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager();

@@ -1,5 +1,8 @@
 package com.goatgames.goatengine.ecs.core;
 
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.ObjectSet;
 import com.goatgames.goatengine.ecs.ECSIniSerializer;
 import com.goatgames.goatengine.ecs.common.TagsComponent;
 
@@ -10,11 +13,12 @@ import java.util.*;
  */
 public class EntityManager {
 
-    //HashMap<COMPONENT_ID, HashMap<ENTITY_ID, COMPONENT_INSTANCE>>
-    private HashMap<String, HashMap<String, EntityComponent>> components = new HashMap<String, HashMap<String, EntityComponent>>();
+    //ObjectMap<COMPONENT_ID, ObjectMap<ENTITY_ID, COMPONENT_INSTANCE>>
+    private ObjectMap<String, ObjectMap<String, EntityComponent>> components = new ObjectMap<String, ObjectMap<String, EntityComponent>>();
 
 
     private final EntityPool entityPool = new EntityPool();
+
 
 
     public EntityManager(){}
@@ -38,18 +42,6 @@ public class EntityManager {
         entity.addComponent(new TagsComponent(true), TagsComponent.ID);
         return entity;
     }
-
-    /**
-     * Returns an instance of entity with ID
-     * @param id
-     * @return instance of entity with ID
-     */
-    public Entity getEntity(String id){
-        Entity e = entityPool.obtain();
-        e.setID(id);
-        return e;
-    }
-
 
     /**
      * Frees an entity
@@ -83,15 +75,15 @@ public class EntityManager {
     @SuppressWarnings("unchecked")
     public EntityManager addComponent(String componentId, EntityComponent component, String entityId){
 
-        HashMap componentContainer = this.components.get(componentId);
+        ObjectMap componentContainer = this.components.get(componentId);
         if(componentContainer == null){
-            componentContainer = new HashMap<String, EntityComponent>();
+            componentContainer = new ObjectMap<String, EntityComponent>();
         }
         componentContainer.put(entityId, component);
         this.components.put(componentId, componentContainer);
 
         //Call on attach
-        Entity e = getEntity(entityId);
+        Entity e = getEntityObject(entityId);
         component.onAttach(e);
         freeEntity(e);
         return this;
@@ -104,12 +96,12 @@ public class EntityManager {
      * @return this for chaining
      */
     public EntityManager removeComponent(String componentId, String entityId){
-        HashMap<String, EntityComponent> componentEntry = this.components.get(componentId);
+        ObjectMap<String, EntityComponent> componentEntry = this.components.get(componentId);
 
         //Test if the entity has the component
         if(this.hasComponent(componentId, entityId)) {
             //Call onDetach
-            Entity e = getEntity(entityId);
+            Entity e = getEntityObject(entityId);
             componentEntry.get(entityId).onDetach(e);
             componentEntry.remove(entityId);
             freeEntity(e);
@@ -128,7 +120,7 @@ public class EntityManager {
     public EntityComponent getComponent(String componentId, String entityId){
         EntityComponent component;
 
-        HashMap<String, EntityComponent> componentEntry = this.components.get(componentId);
+        ObjectMap<String, EntityComponent> componentEntry = this.components.get(componentId);
 
         component = componentEntry.get(entityId);
         return component;
@@ -137,11 +129,11 @@ public class EntityManager {
     /**
      * Returns all the components of a certain entity
      * @param entityId : the id of the entity
-     * @return "HashMap<ComponentID,ComponentInstance>"
+     * @return "ObjectMap<ComponentID,ComponentInstance>"
      */
-    public HashMap<String, EntityComponent> getComponentsForEntity(String entityId){
-        HashMap<String, EntityComponent> components = new HashMap<String, EntityComponent>();
-        for(String compId: this.components.keySet()){
+    public ObjectMap<String, EntityComponent> getComponentsForEntity(String entityId){
+        ObjectMap<String, EntityComponent> components = new ObjectMap<String, EntityComponent>();
+        for(String compId: this.components.keys()){
             if(this.components.get(compId).containsKey(entityId)){
                 components.put(compId, this.components.get(compId).get(entityId));
             }
@@ -167,10 +159,10 @@ public class EntityManager {
      * @return as ArrayList of Entities object
      */
 
-    public ArrayList<Entity> getEntitiesWithComponent(String componentId){
-        ArrayList<Entity> entities = new ArrayList<Entity>();
+    public Array<Entity> getEntitiesWithComponent(String componentId){
+        Array<Entity> entities = new Array<Entity>();
         if(this.components.containsKey(componentId)){
-            for(String enId : this.components.get(componentId).keySet()){
+            for(String enId : this.components.get(componentId).keys()){
                 entities.add(getEntityObject(enId));
             }
         }
@@ -182,10 +174,10 @@ public class EntityManager {
      * @param componentId
      * @return
      */
-    public ArrayList<Entity> getEntitiesWithComponentEnabled(String componentId){
-        ArrayList<Entity> entities = new ArrayList<Entity>();
+    public Array<Entity> getEntitiesWithComponentEnabled(String componentId){
+        Array<Entity> entities = new Array<Entity>();
         if(this.components.containsKey(componentId)){
-            for(String enId : this.components.get(componentId).keySet()){
+            for(String enId : this.components.get(componentId).keys()){
                 if(this.components.get(componentId).get(enId).isEnabled()){
                     entities.add(getEntityObject(enId));
                 }
@@ -200,8 +192,8 @@ public class EntityManager {
      * @param tag
      * @return
      */
-    public ArrayList<Entity> getEntitiesWithTag(String tag){
-        ArrayList<Entity> entitiesWithTag = new ArrayList<Entity>();
+    public Array<Entity> getEntitiesWithTag(String tag){
+        Array<Entity> entitiesWithTag = new Array<Entity>();
         for(Entity e: getEntitiesWithComponent(TagsComponent.ID)){
             if(((TagsComponent)e.getComponent(TagsComponent.ID)).hasTag(tag)){
                 entitiesWithTag.add(e);
@@ -212,11 +204,11 @@ public class EntityManager {
 
     /**
      * Returns all the components instance of a certain type along with the Id of the entity
-     * in the form of a HashMap
+     * in the form of a ObjectMap
      * @param compId: the Id of the component
-     * @return HashMap<String, Component>
+     * @return ObjectMap<String, Component>
      */
-    public HashMap<String, EntityComponent> getComponentsWithEntity(String compId){
+    public ObjectMap<String, EntityComponent> getComponentsWithEntity(String compId){
         return this.components.get(compId);
     }
 
@@ -226,7 +218,7 @@ public class EntityManager {
      * @param entityId
      */
     public void deleteEntity(String entityId){
-        for(String compId: this.components.keySet()){
+        for(String compId: this.components.keys()){
             this.removeComponent(compId, entityId);
             this.components.get(compId).remove(entityId);
         }
@@ -249,14 +241,14 @@ public class EntityManager {
      * Returns all entityPool as Entity Objec
      * @return
      */
-    public ArrayList<Entity> getEntities(){
-        HashMap<String, Entity> entities = new HashMap<String, Entity>();
-        for(String compId: this.components.keySet()){
+    public Array<Entity> getEntities(){
+        ObjectMap<String, Entity> entities = new ObjectMap<String, Entity>();
+        for(String compId: this.components.keys()){
             for(Entity entity: this.getEntitiesWithComponent(compId)){
                 entities.put(entity.getID(), entity);
             }
         }
-        return new ArrayList<Entity>(entities.values());
+        return new Array<Entity>(entities.values().toArray());
     }
 
 
@@ -264,10 +256,10 @@ public class EntityManager {
      * Returns all entities Id
       * @return
      */
-    public Set<String> getEntityIds(){
-        HashSet<String> ids = new HashSet<String>();
-        for(String compId : this.components.keySet()){
-            ids.addAll(components.get(compId).keySet());
+    public ObjectSet<String> getEntityIds(){
+        ObjectSet<String> ids = new ObjectSet<String>();
+        for(String compId : this.components.keys()){
+            ids.addAll(components.get(compId).keys().toArray());
         }
         return ids;
     }
@@ -279,12 +271,12 @@ public class EntityManager {
      * @param compId: the Id of the component
      * @return ArrayList of Components or an empty array list if no instance of component type exist.
      */
-    public ArrayList<EntityComponent> getComponents(String compId){
+    public Array<EntityComponent> getComponents(String compId){
 
         if(this.components.containsKey(compId)){
-            return new ArrayList<EntityComponent>(this.components.get(compId).values());
+            return new Array<EntityComponent>(this.components.get(compId).values().toArray());
         }else{
-            return new ArrayList<EntityComponent>(); //Empty ArrayList
+            return new Array<EntityComponent>(); //Empty ArrayList
         }
 
     }
@@ -295,7 +287,7 @@ public class EntityManager {
      * @return
      */
     public int getEntityCount(){
-        return this.getEntityIds().size();
+        return this.getEntityIds().size;
     }
 
     /**

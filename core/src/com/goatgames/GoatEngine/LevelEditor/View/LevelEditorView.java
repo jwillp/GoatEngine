@@ -294,18 +294,61 @@ public class LevelEditorView extends UIEngine {
         // drawGrid();
     }
 
+
+    // Optimize stats
+    private static float byteToMega = 1.0f/1024/1024;
+    private static int lastNativeHeap = (int) (Gdx.app.getNativeHeap() * byteToMega);
+    private static int lastJavaHeap = (int) (Gdx.app.getNativeHeap() * byteToMega);
+
+    private static Vector3 lastCamPos;
+
+    private static int lastFps;
+
+    private static int lastEntityCount = 0;
+
     public void renderStats(){
+
+        if(!statsBar.isVisible()) return;
+
         // Update stats
+
+
         int entityCount = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager().getEntityCount();
-        labelEntityCount.setText(Integer.toString(entityCount));
-        labelFPS.setText(Integer.toString(Gdx.graphics.getFramesPerSecond()));
+        if(lastEntityCount != entityCount){
+            labelEntityCount.setText(Integer.toString(entityCount));
+            lastEntityCount = entityCount;
+        }
+        int currentFps = Gdx.graphics.getFramesPerSecond();
+        if(lastFps != currentFps){
+            labelFPS.setText(Integer.toString(currentFps));
+        }
 
-        labelNativeHeap.setText(Long.toString(Gdx.app.getNativeHeap()/1024/1024) + "MB");
-        labelJavaHeap.setText(Long.toString(Gdx.app.getJavaHeap()/1024/1024) + "MB");
 
+        // Heaps
+        int currentNativeHeap = (int) (Gdx.app.getNativeHeap()*byteToMega);
+        if(lastNativeHeap != currentNativeHeap) {
+            labelNativeHeap.setText(Integer.toString(currentNativeHeap) + "MB");
+            lastNativeHeap = currentNativeHeap;
+        }
+
+        int currentJavaHeap = (int) (Gdx.app.getNativeHeap()*byteToMega);
+        if(lastJavaHeap != currentJavaHeap) {
+            labelJavaHeap.setText(Integer.toString(currentJavaHeap) + "MB");
+            lastJavaHeap = currentJavaHeap;
+        }
+
+
+        // Camera position
         EntityManager manager = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager();
         CameraComponent cam = (CameraComponent) manager.getComponents(CameraComponent.ID).get(0);
-        labelCameraPosition.setText(cam.getCamera().position.toString());
+        if(!cam.getCamera().position.equals(lastCamPos)){
+            labelCameraPosition.setText(cam.getCamera().position.toString());
+            lastCamPos = cam.getCamera().position;
+        }
+
+
+
+
     }
 
 
