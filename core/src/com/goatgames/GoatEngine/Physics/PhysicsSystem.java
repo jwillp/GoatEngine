@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
+import com.goatgames.goatengine.utils.GAssert;
 import com.goatgames.goatengine.utils.GameConfig;
 
 import java.util.ArrayList;
@@ -82,29 +83,17 @@ public class PhysicsSystem extends EntitySystem implements ContactListener {
         String entityA = (String) fixtureA.getBody().getUserData();
         String entityB = (String) fixtureB.getBody().getUserData();
 
+        // Assertion
+        GAssert.notNull(entityA, "Physics System Collision: Body 'A' does not have any user data");
+        GAssert.notNull(entityB, "Physics System Collision: Body 'B' does not have any user data");
 
-        if(fixtureA.getUserData() != null && fixtureA.getBody().getUserData() != null) {
-            this.collisions.add(new CollisionEvent(
-                            entityA,
-                            fixtureA,
-                            entityB,
-                            fixtureB,
-                            describer)
-            );
-        }
-        if(fixtureB.getUserData() != null && fixtureB.getBody().getUserData() != null) {
-            this.collisions.add(new CollisionEvent(
-                            entityB,
-                            fixtureB,
-                            entityA,
-                            fixtureA,
-                            describer)
-            );
-        }
+        GAssert.notNull(fixtureA, "Physics System Collision: Fixture A does not have any user data");
+        GAssert.notNull(fixtureB, "Physics System Collision: Fixture B does not have any user data");
+
+        // Add Events
+        this.collisions.add(new CollisionEvent(entityA, fixtureA, entityB, fixtureB, describer));
+        this.collisions.add(new CollisionEvent(entityB, fixtureB, entityA, fixtureA, describer));
     }
-
-
-
 
 
 
