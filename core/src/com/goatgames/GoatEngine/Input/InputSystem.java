@@ -13,6 +13,7 @@ import com.goatgames.goatengine.eventmanager.GameEventListener;
 import com.goatgames.goatengine.graphicsrendering.CameraComponent;
 import com.goatgames.goatengine.input.events.MousePressEvent;
 import com.goatgames.goatengine.input.events.MouseReleasedEvent;
+import com.goatgames.goatengine.utils.GAssert;
 import com.goatgames.goatengine.utils.Logger;
 
 /**
