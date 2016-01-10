@@ -1,22 +1,33 @@
 package com.goatgames.goatengine.desktop;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.ezware.dialog.task.TaskDialogs;
 import com.goatgames.goatengine.GEConfig;
 import com.goatgames.goatengine.GenericGame;
-import com.goatgames.goatengine.utils.DesktopExceptionDialog;
+import com.goatgames.goatengine.utils.DesktopExceptionHandler;
 
 import javax.swing.*;
+import java.awt.*;
 
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 
 
+        // SETUP SOME DESKTOP SPECIFIC
 
-   		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
+        // Catch exceptions to be displayed in a dialog
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
 
-		// Load configuration
+        LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
+
+        // Load configuration
 		GEConfig.loadConfig();
 
 		cfg.title = GEConfig.DevGeneral.GAME_NAME;
@@ -32,7 +43,6 @@ public class DesktopLauncher {
         cfg.forceExit = true;
         cfg.vSyncEnabled = false;
 
-
 		new LwjglApplication(new GenericGame(), cfg);
-	}
+    }
 }

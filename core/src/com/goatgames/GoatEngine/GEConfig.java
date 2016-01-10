@@ -1,7 +1,6 @@
 package com.goatgames.goatengine;
 
 import com.goatgames.goatengine.files.FileSystem;
-import com.goatgames.goatengine.utils.DesktopExceptionDialog;
 import com.goatgames.goatengine.utils.EngineConfig;
 import com.goatgames.goatengine.utils.OrderedProperties;
 

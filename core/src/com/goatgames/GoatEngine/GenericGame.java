@@ -1,11 +1,13 @@
 package com.goatgames.goatengine;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.goatgames.goatengine.eventmanager.GameEvent;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
 import com.goatgames.goatengine.eventmanager.engineevents.EngineEvents;
 import com.goatgames.goatengine.input.events.ControllerConnectedEvent;
-import com.goatgames.goatengine.utils.DesktopExceptionDialog;
+import com.goatgames.goatengine.utils.DesktopExceptionHandler;
 import com.goatgames.goatengine.utils.Logger;
 
 /**
@@ -17,6 +19,11 @@ public class GenericGame extends Game implements GameEventListener{
      */
     @Override
     public void create() {
+        // Set ExceptionHandler
+        if(Gdx.app.getType() == Application.ApplicationType.Desktop){
+            Thread.setDefaultUncaughtExceptionHandler(new DesktopExceptionHandler());
+        }
+
         GoatEngine.init();
         GoatEngine.eventManager.registerListener(this);
     }
@@ -31,14 +38,7 @@ public class GenericGame extends Game implements GameEventListener{
 
     @Override
     public void render() {
-        try{
-            GoatEngine.update();
-        }catch (RuntimeException e){
-            Logger.fatal("AN ERROR OCCURRED");
-            Logger.fatal(e.getMessage());
-            Logger.logStackTrace(e);
-            throw e;
-        }
+        GoatEngine.update();
     }
 
     @Override
