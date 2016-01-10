@@ -5,6 +5,7 @@ import com.goatgames.goatengine.eventmanager.GameEvent;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
 import com.goatgames.goatengine.eventmanager.engineevents.EngineEvents;
 import com.goatgames.goatengine.input.events.ControllerConnectedEvent;
+import com.goatgames.goatengine.utils.DesktopExceptionDialog;
 import com.goatgames.goatengine.utils.Logger;
 
 /**

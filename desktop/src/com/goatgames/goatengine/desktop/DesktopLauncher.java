@@ -4,10 +4,15 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.goatgames.goatengine.GEConfig;
 import com.goatgames.goatengine.GenericGame;
+import com.goatgames.goatengine.utils.DesktopExceptionDialog;
+
+import javax.swing.*;
 
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
+
+
 
    		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 
