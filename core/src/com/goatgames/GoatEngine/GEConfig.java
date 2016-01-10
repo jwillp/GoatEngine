@@ -128,6 +128,7 @@ public class GEConfig extends EngineConfig {
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            throw new FileSystem.FileNotFoundException("ge.ini not found");
         } catch (IOException e) {
             e.printStackTrace();
         }
