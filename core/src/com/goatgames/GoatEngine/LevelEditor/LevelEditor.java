@@ -8,10 +8,7 @@ import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.eventmanager.GameEvent;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
 import com.goatgames.goatengine.GoatEngine;
-import com.goatgames.goatengine.input.events.KeyPressedEvent;
-import com.goatgames.goatengine.input.events.MouseClickEvent;
-import com.goatgames.goatengine.input.events.MouseDragEvent;
-import com.goatgames.goatengine.input.events.MouseScrolledEvent;
+import com.goatgames.goatengine.input.events.*;
 import com.goatgames.goatengine.leveleditor.view.EntityInspector;
 import com.goatgames.goatengine.leveleditor.view.GameScreenConfigView;
 import com.goatgames.goatengine.leveleditor.view.LevelEditorView;
@@ -213,8 +210,8 @@ public class LevelEditor extends ChangeListener implements GameEventListener {
         }
 
 
-        if(e.isOfType(MouseClickEvent.class)){
-            onMouseClick((MouseClickEvent) e);
+        if(e.isOfType(MousePressEvent.class)){
+            onMousePress((MousePressEvent) e);
             return;
         }
 
@@ -236,6 +233,11 @@ public class LevelEditor extends ChangeListener implements GameEventListener {
         }
 
 
+    }
+
+    private void onMousePress(MousePressEvent event) {
+        if(!enabled) return;
+        executeCommand(new SelectEntityAtPositionCommand(event.screenX,event.screenY, this));
     }
 
     private void onMouseDrag(MouseDragEvent e) {
@@ -273,11 +275,6 @@ public class LevelEditor extends ChangeListener implements GameEventListener {
         }
     }
 
-
-    private void onMouseClick(MouseClickEvent event){
-        if(!enabled) return;
-        executeCommand(new SelectEntityAtPositionCommand(event.screenX,event.screenY, this));
-    }
 
     public Entity getSelectedEntity() {
         return selectedEntity;

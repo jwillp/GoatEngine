@@ -82,7 +82,7 @@ public class EntityManager {
 
         ObjectMap componentContainer = this.components.get(componentId);
         if(componentContainer == null){
-            componentContainer = new ObjectMap<String, EntityComponent>();
+            componentContainer = new ObjectMap<>();
         }
         componentContainer.put(entityId, component);
         this.components.put(componentId, componentContainer);
