@@ -75,6 +75,11 @@ public class EntityManager {
     @SuppressWarnings("unchecked")
     public EntityManager addComponent(String componentId, EntityComponent component, String entityId){
 
+        // Special Case
+        if(component instanceof GameComponent){
+            ((GameComponent)component).setId(componentId);
+        }
+
         ObjectMap componentContainer = this.components.get(componentId);
         if(componentContainer == null){
             componentContainer = new ObjectMap<String, EntityComponent>();

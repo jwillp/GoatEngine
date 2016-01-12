@@ -2,7 +2,7 @@ package com.goatgames.goatengine.ecs;
 
 import com.goatgames.goatengine.ai.components.AIComponent;
 import com.goatgames.goatengine.ecs.common.CameraTargetComponent;
-import com.goatgames.goatengine.ecs.core.EntityComponent;
+import com.goatgames.goatengine.ecs.core.GameComponent;
 import com.goatgames.goatengine.graphicsrendering.*;
 import com.goatgames.goatengine.input.TouchableComponent;
 import com.goatgames.goatengine.physics.PhysicsComponent;
@@ -39,18 +39,19 @@ public class EntityFactory{
             EntityComponentMap map = components.get(componentId);
 
             // Depending on the type create the component
-            processScriptComponent(componentId, entity, map);
-            processPhysicsComponent(componentId, entity, map, components);
-            processTagsComponent(componentId, entity, map);
-            processSpriteComponent(componentId, entity, map);
-            processSpriterAnimationComponent(componentId, entity, map);
-            processEditorLabelComponent(componentId, entity, map);
-            processCameraComponent(componentId, entity, map);
-            processCameraTargetComponent(componentId, entity, map);
-            processAIComponent(componentId, entity, map);
-            processZIndexComponent(componentId, entity, map);
-            processFakeLightComponent(componentId, entity, map);
-            processTouchableComponent(componentId, entity, map);
+            if(processScriptComponent(componentId, entity, map)) continue;
+            if(processPhysicsComponent(componentId, entity, map, components)) continue;
+            if(processTagsComponent(componentId, entity, map)) continue;
+            if(processSpriteComponent(componentId, entity, map)) continue;
+            if(processSpriterAnimationComponent(componentId, entity, map)) continue;
+            if(processEditorLabelComponent(componentId, entity, map)) continue;
+            if(processCameraComponent(componentId, entity, map)) continue;
+            if(processCameraTargetComponent(componentId, entity, map)) continue;
+            if(processAIComponent(componentId, entity, map)) continue;
+            if(processZIndexComponent(componentId, entity, map)) continue;
+            if(processFakeLightComponent(componentId, entity, map)) continue;
+            if(processTouchableComponent(componentId, entity, map)) continue;
+            if(processGameComponent(componentId, entity, map)) continue;
         }
         return entity;
     }
@@ -61,9 +62,10 @@ public class EntityFactory{
      * @param entity the entity to update
      * @param componentData the map containing data bout the component
      */
-    private static void processTouchableComponent(String componentId, Entity entity, EntityComponentMap componentData) {
-        if(!isComponent(componentId, TouchableComponent.ID)){return;}
+    private static boolean processTouchableComponent(String componentId, Entity entity, EntityComponentMap componentData) {
+        if(!isComponent(componentId, TouchableComponent.ID)){return false;}
         entity.addComponent(new TouchableComponent(componentData), TouchableComponent.ID);
+        return true;
     }
 
     /**
@@ -72,9 +74,10 @@ public class EntityFactory{
      * @param entity the entity to update
      * @param componentData the map containing data bout the component
      */
-    private static void processFakeLightComponent(String componentId, Entity entity, EntityComponentMap componentData) {
-        if(!isComponent(componentId, LightComponent.ID)){return;}
+    private static boolean processFakeLightComponent(String componentId, Entity entity, EntityComponentMap componentData) {
+        if(!isComponent(componentId, LightComponent.ID)){return false;}
         entity.addComponent(new LightComponent(componentData), LightComponent.ID);
+        return true;
     }
 
     /**
@@ -83,10 +86,13 @@ public class EntityFactory{
      * @param entity the entity to update
      * @param componentData the map containing data bout the component
      */
-    private static void processScriptComponent(String componentId, Entity entity, EntityComponentMap componentData){
-        if(!isComponent(componentId, ScriptComponent.ID)){ return; }
-            ScriptComponent scriptComp = new ScriptComponent(componentData);
-            entity.addComponent(scriptComp, ScriptComponent.ID);
+    private static boolean processScriptComponent(String componentId, Entity entity, EntityComponentMap componentData){
+        if(!isComponent(componentId, ScriptComponent.ID)){
+            return false;
+        }
+        ScriptComponent scriptComp = new ScriptComponent(componentData);
+        entity.addComponent(scriptComp, ScriptComponent.ID);
+        return true;
     }
 
     /**
@@ -95,11 +101,11 @@ public class EntityFactory{
      * @param entity the entity to update
      * @param componentData the map containing data bout the component
      */
-    private static void processPhysicsComponent(String componentId, Entity entity,
-                                                EntityComponentMap componentData,
-                                                Map<String, EntityComponentMap> components)
+    private static boolean processPhysicsComponent(String componentId, Entity entity,
+                                                   EntityComponentMap componentData,
+                                                   Map<String, EntityComponentMap> components)
     {
-        if(!isComponent(componentId, PhysicsComponent.ID)){ return; }
+        if(!isComponent(componentId, PhysicsComponent.ID)){ return false; }
         entity.addComponent(new PhysicsComponent(componentData), PhysicsComponent.ID);
 
         // Read Colliders
@@ -108,6 +114,7 @@ public class EntityFactory{
             EntityComponentMap colliderData = components.get(colliderKey);
             Collider.addCollider(entity,colliderDefFromMap(colliderData));
         }
+        return true;
     }
 
 
@@ -159,9 +166,10 @@ public class EntityFactory{
      * @param entity the entity to update
      * @param componentData the map containing data bout the component
      */
-    private static void processTagsComponent(String componentId, Entity entity, EntityComponentMap componentData){
-        if(!isComponent(componentId, TagsComponent.ID)){ return; }
+    private static boolean processTagsComponent(String componentId, Entity entity, EntityComponentMap componentData){
+        if(!isComponent(componentId, TagsComponent.ID)){ return false; }
         entity.addComponent(new TagsComponent(componentData), TagsComponent.ID);
+        return true;
     }
 
     /**
@@ -170,9 +178,10 @@ public class EntityFactory{
      * @param entity the entity to update
      * @param componentData the map containing data bout the component
      */
-    private static void processSpriteComponent(String componentId, Entity entity, EntityComponentMap componentData){
-        if(!isComponent(componentId, SpriteComponent.ID)){ return; }
+    private static boolean processSpriteComponent(String componentId, Entity entity, EntityComponentMap componentData){
+        if(!isComponent(componentId, SpriteComponent.ID)){ return false; }
         entity.addComponent(new SpriteComponent(componentData), SpriteComponent.ID);
+        return true;
     }
 
     /**
@@ -181,9 +190,10 @@ public class EntityFactory{
      * @param entity the entity to update
      * @param componentData the map containing data bout the component
      */
-    private static void processSpriterAnimationComponent(String componentId, Entity entity, EntityComponentMap componentData){
-        if(!isComponent(componentId, SpriterAnimationComponent.ID)){ return; }
+    private static boolean processSpriterAnimationComponent(String componentId, Entity entity, EntityComponentMap componentData){
+        if(!isComponent(componentId, SpriterAnimationComponent.ID)){ return false; }
         entity.addComponent(new SpriterAnimationComponent(componentData), SpriterAnimationComponent.ID);
+        return true;
     }
 
     /**
@@ -192,9 +202,10 @@ public class EntityFactory{
      * @param entity the entity to update
      * @param componentData the map containing data bout the component
      */
-    private static void processEditorLabelComponent(String componentId, Entity entity, EntityComponentMap componentData){
-        if(!isComponent(componentId, EditorLabelComponent.ID)){ return; }
+    private static boolean processEditorLabelComponent(String componentId, Entity entity, EntityComponentMap componentData){
+        if(!isComponent(componentId, EditorLabelComponent.ID)){ return false; }
         entity.addComponent(new EditorLabelComponent(componentData), EditorLabelComponent.ID);
+        return true;
     }
 
     /**
@@ -203,9 +214,10 @@ public class EntityFactory{
      * @param entity the entity to update
      * @param componentData the map containing data bout the component
      */
-    private static void processCameraComponent(String componentId, Entity entity, EntityComponentMap componentData){
-        if(!isComponent(componentId, CameraComponent.ID)){ return; }
+    private static boolean processCameraComponent(String componentId, Entity entity, EntityComponentMap componentData){
+        if(!isComponent(componentId, CameraComponent.ID)){ return false; }
         entity.addComponent(new CameraComponent(componentData), CameraComponent.ID);
+        return true;
     }
 
     /**
@@ -214,9 +226,10 @@ public class EntityFactory{
      * @param entity the entity to update
      * @param componentData the map containing data bout the component
      */
-    private static void processCameraTargetComponent(String componentId, Entity entity, EntityComponentMap componentData){
-        if(!isComponent(componentId, CameraTargetComponent.ID)){ return; }
+    private static boolean processCameraTargetComponent(String componentId, Entity entity, EntityComponentMap componentData){
+        if(!isComponent(componentId, CameraTargetComponent.ID)){ return false; }
         entity.addComponent(new CameraTargetComponent(componentData), CameraTargetComponent.ID);
+        return true;
     }
 
     /**
@@ -225,9 +238,10 @@ public class EntityFactory{
      * @param entity the entity to update
      * @param componentData the map containing data bout the component
      */
-    private static void processAIComponent(String componentId, Entity entity, EntityComponentMap componentData){
-        if(!isComponent(componentId, AIComponent.ID)){ return; }
+    private static boolean processAIComponent(String componentId, Entity entity, EntityComponentMap componentData){
+        if(!isComponent(componentId, AIComponent.ID)){ return false; }
         entity.addComponent(new AIComponent(componentData), AIComponent.ID);
+        return true;
     }
 
 
@@ -237,9 +251,22 @@ public class EntityFactory{
      * @param entity the entity to update
      * @param componentData the map containing data bout the component
      */
-    private static void processZIndexComponent(String componentId, Entity entity, EntityComponentMap componentMap){
-        if(!isComponent(componentId, ZIndexComponent.ID)) return;
-        entity.addComponent(new ZIndexComponent(componentMap), ZIndexComponent.ID);
+    private static boolean processZIndexComponent(String componentId, Entity entity, EntityComponentMap componentData){
+        if(!isComponent(componentId, ZIndexComponent.ID)) return false;
+        entity.addComponent(new ZIndexComponent(componentData), ZIndexComponent.ID);
+        return true;
+    }
+
+
+    /**
+     * Processes a generic game component
+     * @param componentId
+     * @param entity the entity to update
+     * @param componentMap the map containing data bout the component
+     */
+    private static boolean processGameComponent(String componentId, Entity entity, EntityComponentMap componentMap){
+        entity.addComponent(new GameComponent(componentMap), componentId);
+        return true;
     }
 
     /**

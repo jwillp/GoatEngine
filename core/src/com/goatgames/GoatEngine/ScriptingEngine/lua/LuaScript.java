@@ -53,7 +53,11 @@ public class LuaScript {
         }
 
         // An important step. Calls to script method do not work if the chunk is not called here
-        chunk.call();
+        try{
+            chunk.call();
+        }catch (LuaError e){
+            throw new LuaScriptException(e, this.scriptFile);
+        }
 
         hasError = false;
         return true;
@@ -114,9 +118,12 @@ public class LuaScript {
             function.invoke(parameters);
         } catch (LuaError e){
             // Call function with converted parameters
-            Logger.error("Lua Error in " + this.scriptFile + ": " + e.getMessage());
+            LuaScriptException ex = new LuaScriptException(e, this.scriptFile);
+            Logger.error("Lua Error in " + this.scriptFile + ": " + LuaScriptException.getReason(ex.getMessage()));
             Logger.logStackTrace(e);
-            GoatEngine.console.log(e.getMessage(), Console.LogLevel.ERROR);
+            String msg = e.getMessage();
+            msg.substring(msg.lastIndexOf("\n"));
+            GoatEngine.console.log(msg, Console.LogLevel.ERROR);
             hasError = true;
             return false;
         }
@@ -155,11 +162,27 @@ public class LuaScript {
 
     // Exceptions //
 
-    public class LuaScriptException extends RuntimeException{
-        public LuaScriptException(String message){
-            super(message);
+    public static class LuaScriptException extends RuntimeException{
+        public LuaScriptException(LuaError e, String fileName){
+            super("Lua Error: " + getReason(e.getMessage()) +
+                    "\nin " + fileName + " at line: " + getLineNumber(e.getMessage())
+            );
         }
+
+
+        public static String getReason(String msg) {
+            msg = msg.substring(msg.lastIndexOf("\n"));
+            return msg.replace(String.valueOf(getLineNumber(msg)), "").replace(":", "");
+        }
+
+        public static int getLineNumber(String msg){
+            msg = msg.substring(msg.lastIndexOf("\n"));
+            String intValue = msg.replaceAll("[^0-9]", "");
+            return (!intValue.isEmpty()) ? Integer.parseInt(intValue) : -1;
+        }
+
     }
+
 
 
 

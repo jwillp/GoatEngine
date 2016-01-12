@@ -9,6 +9,8 @@ public abstract class EntityComponent {
 
     private boolean enabled = true; //By default a component is enabled
 
+
+
     // Syntactic sugar
     public static class EntityComponentMap extends HashMap<String, String>{}
 
