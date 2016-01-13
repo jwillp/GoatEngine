@@ -53,7 +53,7 @@ public class LuaEntityScriptSystem extends EntitySystem implements GameEventList
      * @param entity
      * @param script
      */
-    public void onEntityInit(Entity entity, LuaScript script){
+    public void onEntityInit(Entity entity, final LuaScript script){
         // Expose entity to script
         final LuaValue luaEntity = CoerceJavaToLua.coerce(getEntityManager().getEntityObject(entity.getID()));
         script.exposeJavaFunction(new TwoArgFunction() {
@@ -61,6 +61,7 @@ public class LuaEntityScriptSystem extends EntitySystem implements GameEventList
             public LuaValue call(LuaValue modname, LuaValue env) {
                 LuaValue library = tableOf();
                 library.set("entity", luaEntity);
+                library.set("scriptName", script.getName());
                 env.set("ctx", library);
                 env.get("package").get("loaded").set("ctx", library);
                 return library;

@@ -3,6 +3,7 @@ package com.goatgames.goatengine.scriptingengine.lua;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.GameComponent;
 import com.goatgames.goatengine.eventmanager.GameEvent;
+import com.goatgames.goatengine.utils.GAssert;
 import com.goatgames.goatengine.utils.Logger;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
@@ -26,6 +27,10 @@ public class GoatEngineAPI extends TwoArgFunction {
 
 
         library.set("eventManager", CoerceJavaToLua.coerce(GoatEngine.eventManager));
+
+
+        library.set("GAssert", CoerceJavaToLua.coerce(new GAssert())); // We only access static methods
+
 
 
         //library.set("GameComponent", CoerceJavaToLua.coerce(new GameComponent(true)));

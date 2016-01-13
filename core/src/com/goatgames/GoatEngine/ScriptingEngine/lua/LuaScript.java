@@ -159,6 +159,14 @@ public class LuaScript {
         return globals;
     }
 
+    /**
+     * Returns the name of the file
+     * @return the name of the file as a String
+     */
+    public String getName() {
+        return scriptFile;
+    }
+
 
     // Exceptions //
 
