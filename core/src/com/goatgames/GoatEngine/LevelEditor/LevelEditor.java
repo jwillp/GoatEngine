@@ -14,6 +14,7 @@ import com.goatgames.goatengine.leveleditor.view.LevelEditorView;
 import com.goatgames.goatengine.utils.Logger;
 import com.goatgames.goatengine.leveleditor.commands.*;
 import com.kotcrab.vis.ui.VisUI;
+import javafx.scene.input.MouseButton;
 
 import java.util.Stack;
 
@@ -236,7 +237,8 @@ public class LevelEditor extends ChangeListener implements GameEventListener {
 
     private void onMousePress(MousePressEvent event) {
         if(!enabled) return;
-        executeCommand(new SelectEntityAtPositionCommand(event.screenX,event.screenY, this));
+        if(event.button == Input.Buttons.LEFT)
+            executeCommand(new SelectEntityAtPositionCommand(event.screenX, event.screenY, this));
     }
 
     private void onMouseDrag(MouseDragEvent e) {

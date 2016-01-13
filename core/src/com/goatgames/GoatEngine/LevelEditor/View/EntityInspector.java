@@ -77,10 +77,10 @@ public class EntityInspector extends Window {
 
 
     public void inspectEntity(Entity e){
-        // Trim the id at nth char and replace with dots
-
+        // if selected entity is not the same as the last inspected, update
         if(!e.getID().equals(entityId)){
             entityId = e.getID();
+            // Trim the id at nth char and replace with dots
             String Id = e.getID().substring(0, Math.min(e.getID().length(), 8)).concat(" ...");
             this.lblEntityID.setText(Id);
             String labelText = ((EditorLabelComponent)e.getComponent(EditorLabelComponent.ID)).getLabel();
@@ -93,7 +93,6 @@ public class EntityInspector extends Window {
             for(String cId :  comps.keys()){
                 addComponentToList(e, comps.get(cId));
             }
-
         }
         // TODO Update componentViews
         this.setVisible(true);

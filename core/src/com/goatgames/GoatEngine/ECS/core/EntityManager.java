@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.goatgames.goatengine.ecs.ECSIniSerializer;
 import com.goatgames.goatengine.ecs.common.TagsComponent;
+import com.goatgames.goatengine.utils.GAssert;
 
 import java.util.*;
 
@@ -74,12 +75,8 @@ public class EntityManager {
      */
     @SuppressWarnings("unchecked")
     public EntityManager addComponent(String componentId, EntityComponent component, String entityId){
-
-        // Special Case
-        if(component instanceof GameComponent){
-            ((GameComponent)component).setId(componentId);
-        }
-
+        GAssert.notNull(entityId, "Tried to add a component to an entity without an ENTITY_ID");
+        GAssert.notNull(componentId, "Tried to add a component to an entity without a COMPONENT_ID");
         ObjectMap componentContainer = this.components.get(componentId);
         if(componentContainer == null){
             componentContainer = new ObjectMap<>();

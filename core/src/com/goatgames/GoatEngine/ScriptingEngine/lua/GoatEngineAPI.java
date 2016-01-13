@@ -41,11 +41,11 @@ public class GoatEngineAPI extends TwoArgFunction {
     /**
      * Used so scripts can generate GameComponents
      */
-    public class GameComponentAPI extends ZeroArgFunction{
+    public class GameComponentAPI extends OneArgFunction{
 
         @Override
-        public LuaValue call() {
-            return CoerceJavaToLua.coerce(new GameComponent(true));
+        public LuaValue call(LuaValue table) {
+            return CoerceJavaToLua.coerce(new GameComponent(table.checktable()));
         }
     }
 

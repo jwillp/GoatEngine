@@ -20,7 +20,7 @@ public class GenericComponentView extends ComponentView {
     protected void initContent() {
         Map<String, String> map = component.toMap();
         for(String key: map.keySet()){
-            if(key.equals("component_id") || key.equals("enabled")){
+            if(key.contains("component_id") || key.equals("enabled")){
                 continue;
             }
             String value = map.get(key);

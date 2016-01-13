@@ -265,6 +265,7 @@ public class EntityFactory{
      * @param componentMap the map containing data bout the component
      */
     private static boolean processGameComponent(String componentId, Entity entity, EntityComponentMap componentMap){
+        if(!componentMap.containsKey("component_id_internal")) return false;
         entity.addComponent(new GameComponent(componentMap), componentId);
         return true;
     }

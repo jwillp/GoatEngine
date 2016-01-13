@@ -1,5 +1,10 @@
 package com.goatgames.goatengine.ecs.core;
 
+import com.goatgames.goatengine.utils.GAssert;
+import org.luaj.vm2.LuaString;
+import org.luaj.vm2.LuaTable;
+import org.luaj.vm2.LuaValue;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,152 +13,72 @@ import java.util.Map;
 */
 public class GameComponent extends EntityComponent {
 
-    HashMap<String, String> map;
-    private String id;
+    public LuaTable data;
 
     public GameComponent(Map<String, String> map) {
         super(map);
     }
 
-    public GameComponent(boolean b) {
-        super(b);
-        map = new HashMap<>();
+    /**
+     * Ctor taking Lua Table as argument for it internal fields
+     * @param data
+     */
+    public GameComponent(LuaTable data){
+        // Enabled by default unless specified otherwise
+        super(data.get("isEnabled") == LuaValue.NIL || data.get("isEnabled").toboolean());
+        GAssert.notNull(data, "GameComponent Data was null in constructor");
+        this.data = data;
+        // This private ID makes sure that it is a GAME_COMPONENT
+        this.data.set("component_id_internal", "GAME_COMPONENT");
     }
 
     @Override
     protected Map<String, String> makeMap() {
-        return map;
+        return luaTableToMap(data);
     }
 
     @Override
     protected void makeFromMap(Map<String, String> map) {
-        this.map = (HashMap<String, String>) map;
+        data = mapToLuaTable(map);
     }
 
     @Override
     public String getId() {
-        return map.get("ID");
-    }
-
-    /**
-     * Sets the id of the component
-     * @param id
-     */
-    public void setId(final String id) {
-        this.map.put("ID", id);
-    }
-
-
-    // FIELD MANAGEMENT //
-
-    /**
-     * Adds a new field
-     * @param fieldName name of the field
-     * @param value the initial value to set
-     */
-    public void addField(String fieldName, String value){
-        map.put(fieldName, value);
-    }
-
-    /**
-     * Adds a new field
-     * @param fieldName name of the field
-     * @param value the initial value to set
-     */
-    public void addField(String fieldName, int value){
-        addField(fieldName, String.valueOf(value));
-    }
-
-    /**
-     * Adds a new field
-     * @param fieldName name of the field
-     * @param value the initial value to set
-     */
-    public void addField(String fieldName, float value){
-        addField(fieldName, String.valueOf(value));
-    }
-
-    /**
-     * Adds a new field
-     * @param fieldName name of the field
-     * @param value the initial value to set
-     */
-    public void addField(String fieldName, boolean value){
-        addField(fieldName, String.valueOf(value));
-    }
-
-    /**
-     * sets the value of a field
-     * @param fieldName name of the field
-     * @param value the new value to set
-     */
-    public void setField(String fieldName, String value){
-        addField(fieldName, value);
-    }
-
-    /**
-     * sets the value of a field
-     * @param fieldName name of the field
-     * @param value the new value to set
-     */
-    public void setField(String fieldName, int value){
-        addField(fieldName, String.valueOf(value));
-    }
-
-    /**
-     * sets the value of a field
-     * @param fieldName name of the field
-     * @param value the new value to set
-     */
-    public void setField(String fieldName, float value){
-        addField(fieldName, String.valueOf(value));
-    }
-
-    /**
-     * sets the value of a field
-     * @param fieldName name of the field
-     * @param value the new value to set
-     */
-    public void setField(String fieldName, boolean value){
-        addField(fieldName, String.valueOf(value));
+        GAssert.notNull(data, "GameComponent Data was null");
+        return data.get("component_id").toString();
     }
 
 
     /**
-     * Returns the String value of a field
-     * @param fieldName name of the field
-     * @return the field as a String
+     * Converts a map to a lua table
+     * @return
      */
-    public String getString(String fieldName){
-        return map.get(fieldName);
+    private LuaTable mapToLuaTable(Map<String, String> map){
+        LuaTable table = (data == null) ? new LuaTable() : data;
+        for(String key : map.keySet()){
+            table.set(key, map.get(key)); // TODO try to detect type of value in map
+        }
+        return table;
     }
 
     /**
-     * Returns the int value of a field
-     * @param fieldName name of the field
-     * @return the field as an int
+     * Converts a lua table to a map
+     * @param table
+     * @return
      */
-    public int getInt(String fieldName){
-        return Integer.parseInt(map.get(fieldName));
+    private Map<String, String> luaTableToMap(LuaTable table){
+        Map<String, String> map = new HashMap<>();
+        // Convert LuaTable to HashMap
+        int keysCount = table.keys().length;
+        LuaValue[] keys = table.keys();
+        for(int i=0; i<keysCount; i++){
+            String key = keys[i].toString();
+            map.put(key, table.get(key).toString());
+        }
+        return map;
     }
 
-    /**
-     * Returns the float value of a field
-     * @param fieldName name of the field
-     * @return the field as a float
-     */
-    public float getFloat(String fieldName){
-        return Float.parseFloat(map.get(fieldName));
-    }
 
-    /**
-     * Returns the boolean value of a field
-     * @param fieldName name of the field
-     * @return the field as a boolean
-     */
-    public boolean getBoolean(String fieldName){
-        return Boolean.parseBoolean(map.get(fieldName));
-    }
 
 
 }

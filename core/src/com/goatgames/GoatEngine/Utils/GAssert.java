@@ -44,7 +44,7 @@ public class GAssert{
      * @param message
      */
      private static void logAssertionError(String message){
-         Logger.error("ASSERTION FAIL " + "" + " at: " + new Exception().getStackTrace()[1].toString());
+         Logger.error("ASSERTION FAIL " + message + " at: " + new Exception().getStackTrace()[2].toString());
      }
 
 
