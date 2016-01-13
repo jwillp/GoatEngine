@@ -2,7 +2,7 @@ package com.goatgames.goatengine.ecs.core;
 
 import com.badlogic.gdx.Gdx;
 import com.goatgames.goatengine.eventmanager.EntityEvent;
-import com.goatgames.goatengine.eventmanager.GameEvent;
+import com.goatgames.goatengine.eventmanager.Event;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
 import com.goatgames.goatengine.GoatEngine;
 
@@ -92,12 +92,12 @@ public class EntitySystemManager implements GameEventListener {
      * Fires an event to all Systems
      * @param event
      */
-    public void fireEvent(GameEvent event) {
+    public void fireEvent(Event event) {
         GoatEngine.eventManager.fireEvent(event);
     }
 
     @Override
-    public void onEvent(GameEvent e) {
+    public void onEvent(Event e) {
         for(EntitySystem system: this.systems.values()){
             if(e instanceof EntityEvent)  // TODO this is a Quickfix
                 system.onEntityEvent((EntityEvent) e);

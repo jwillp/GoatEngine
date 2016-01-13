@@ -1,11 +1,11 @@
 package com.goatgames.goatengine.leveleditor.events;
 
-import com.goatgames.goatengine.eventmanager.GameEvent;
+import com.goatgames.goatengine.eventmanager.Event;
 
 /**
  * Triggered when the user wnats to remove a component from an entity
  */
-public class RemoveComponentEvent extends GameEvent {
+public class RemoveComponentEvent extends Event {
 
     String componentId;
     String entityId;

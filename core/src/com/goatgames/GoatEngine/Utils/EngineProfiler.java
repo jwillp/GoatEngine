@@ -1,7 +1,6 @@
 package com.goatgames.goatengine.utils;
 
-import com.goatgames.goatengine.GoatEngine;
-import com.goatgames.goatengine.eventmanager.GameEvent;
+import com.goatgames.goatengine.eventmanager.Event;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
 import com.goatgames.goatengine.eventmanager.engineevents.EngineEvents;
 
@@ -23,7 +22,7 @@ public class EngineProfiler implements GameEventListener {
 
 
     @Override
-    public void onEvent(GameEvent e) {
+    public void onEvent(Event e) {
         if(e instanceof EngineEvents.GameTickBeginEvent){
             performanceTimer.reset();
             lastLogicTime = 0;

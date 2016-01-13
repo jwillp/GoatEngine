@@ -8,12 +8,11 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
-import com.goatgames.goatengine.eventmanager.GameEvent;
+import com.goatgames.goatengine.eventmanager.Event;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
 import com.goatgames.goatengine.graphicsrendering.CameraComponent;
 import com.goatgames.goatengine.input.events.MousePressEvent;
 import com.goatgames.goatengine.input.events.MouseReleasedEvent;
-import com.goatgames.goatengine.utils.GAssert;
 import com.goatgames.goatengine.utils.Logger;
 
 /**
@@ -47,7 +46,7 @@ public class InputSystem extends EntitySystem implements GameEventListener{
     }
 
     @Override
-    public void onEvent(GameEvent e) {
+    public void onEvent(Event e) {
         if(e instanceof MousePressEvent){
             onMousePress((MousePressEvent) e); return;
         }

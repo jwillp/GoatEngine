@@ -3,7 +3,7 @@ package com.goatgames.goatengine;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.goatgames.goatengine.eventmanager.GameEvent;
+import com.goatgames.goatengine.eventmanager.Event;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
 import com.goatgames.goatengine.eventmanager.engineevents.EngineEvents;
 import com.goatgames.goatengine.input.events.ControllerConnectedEvent;
@@ -29,7 +29,7 @@ public class GenericGame extends Game implements GameEventListener{
     }
 
     @Override
-    public void onEvent(GameEvent e) {
+    public void onEvent(Event e) {
         if(e.isOfType(ControllerConnectedEvent.class)){
             Logger.debug("Controller Connected");
         }

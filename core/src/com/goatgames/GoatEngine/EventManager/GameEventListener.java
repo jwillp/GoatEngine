@@ -6,7 +6,7 @@ package com.goatgames.goatengine.eventmanager;
  */
 public interface GameEventListener{
 
-    public void onEvent(GameEvent e);
+    public void onEvent(Event e);
 
 
 }

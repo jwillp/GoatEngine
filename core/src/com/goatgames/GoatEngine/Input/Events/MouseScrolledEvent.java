@@ -1,11 +1,11 @@
 package com.goatgames.goatengine.input.events;
 
-import com.goatgames.goatengine.eventmanager.GameEvent;
+import com.goatgames.goatengine.eventmanager.Event;
 
 /**
  * Triggfered when mouse is scrolled
  */
-public class MouseScrolledEvent extends GameEvent {
+public class MouseScrolledEvent extends Event {
 
     public final int amount;
 

@@ -1,11 +1,11 @@
 package com.goatgames.goatengine.input.events;
 
-import com.goatgames.goatengine.eventmanager.GameEvent;
+import com.goatgames.goatengine.eventmanager.Event;
 
 /**
  * Fire when a Mouse is clicked
  */
-public class MouseClickEvent extends GameEvent {
+public class MouseClickEvent extends Event {
     public final int screenX;
     public final int screenY;
     public final int button;

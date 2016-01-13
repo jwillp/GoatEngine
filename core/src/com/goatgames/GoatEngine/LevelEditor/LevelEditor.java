@@ -5,11 +5,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.goatgames.goatengine.ecs.core.Entity;
-import com.goatgames.goatengine.eventmanager.GameEvent;
+import com.goatgames.goatengine.eventmanager.Event;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.input.events.*;
-import com.goatgames.goatengine.leveleditor.view.EntityInspector;
 import com.goatgames.goatengine.leveleditor.view.GameScreenConfigView;
 import com.goatgames.goatengine.leveleditor.view.LevelEditorView;
 import com.goatgames.goatengine.utils.Logger;
@@ -202,7 +201,7 @@ public class LevelEditor extends ChangeListener implements GameEventListener {
     }
 
     @Override
-    public void onEvent(GameEvent e) {
+    public void onEvent(Event e) {
 
         // is the current screen ready to capture events?
         if(!GoatEngine.gameScreenManager.getCurrentScreen().isInitialized()){

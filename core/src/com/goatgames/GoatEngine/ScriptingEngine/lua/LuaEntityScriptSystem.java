@@ -3,10 +3,9 @@ package com.goatgames.goatengine.scriptingengine.lua;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
-import com.goatgames.goatengine.eventmanager.GameEvent;
+import com.goatgames.goatengine.eventmanager.Event;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
 import com.goatgames.goatengine.scriptingengine.ScriptComponent;
-import com.goatgames.goatengine.utils.Logger;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.TwoArgFunction;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
@@ -72,7 +71,7 @@ public class LuaEntityScriptSystem extends EntitySystem implements GameEventList
 
 
     @Override
-    public void onEvent(GameEvent e) {
+    public void onEvent(Event e) {
         for(Entity entity: getEntityManager().getEntitiesWithComponent(ScriptComponent.ID)){
             ScriptComponent scriptComp = (ScriptComponent) entity.getComponent(ScriptComponent.ID);
             for(String scriptFile: scriptComp.getScripts()){

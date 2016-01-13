@@ -22,7 +22,7 @@ import com.brashmonkey.spriter.gdxIntegration.LibGdxSpriterLoader;
 import com.goatgames.goatengine.GEConfig;
 import com.goatgames.goatengine.ai.AISystem;
 import com.goatgames.goatengine.ai.pathfinding.PathNode;
-import com.goatgames.goatengine.eventmanager.GameEvent;
+import com.goatgames.goatengine.eventmanager.Event;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
 import com.goatgames.goatengine.eventmanager.engineevents.EngineEvents;
 import com.goatgames.goatengine.physics.PhysicsComponent;
@@ -30,10 +30,6 @@ import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.utils.Logger;
-
-
-import java.util.Arrays;
-import java.util.Collections;
 
 /**
  * Responsible for displaying all visual elements on screen
@@ -334,7 +330,7 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
 
 
     @Override
-    public void onEvent(GameEvent e) {
+    public void onEvent(Event e) {
         if(e instanceof EngineEvents.ScreenResizedEvent){
             onScreenResize((EngineEvents.ScreenResizedEvent) e);
         }

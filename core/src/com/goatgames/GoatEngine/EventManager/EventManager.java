@@ -8,7 +8,7 @@ import java.util.LinkedHashMap;
  */
 public class EventManager{
 
-    LinkedHashMap<Long, GameEvent> events = new LinkedHashMap<Long, GameEvent>();
+    LinkedHashMap<Long, Event> events = new LinkedHashMap<Long, Event>();
     ArrayList<GameEventListener> listeners = new ArrayList<GameEventListener>();
 
     public EventManager() {
@@ -50,7 +50,7 @@ public class EventManager{
      * Fires an event to all the listeners logging it
      * @param e
      */
-    public void fireEvent(GameEvent e){
+    public void fireEvent(Event e){
         fireEvent(e, true);
     }
 
@@ -60,7 +60,7 @@ public class EventManager{
      * @param e event
      * @param mustLogEvent whether or not to log
      */
-    public void fireEvent(GameEvent e, boolean mustLogEvent) {
+    public void fireEvent(Event e, boolean mustLogEvent) {
         if(mustLogEvent)
             this.events.put(getCurrentTime(), e);
         for(GameEventListener listener: this.listeners){

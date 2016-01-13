@@ -1,11 +1,11 @@
 package com.goatgames.goatengine.input.events;
 
-import com.goatgames.goatengine.eventmanager.GameEvent;
+import com.goatgames.goatengine.eventmanager.Event;
 
 /**
  * Triggered when a Key is pressed
  */
-public class KeyPressedEvent extends GameEvent {
+public class KeyPressedEvent extends Event {
 
     private int key;
 

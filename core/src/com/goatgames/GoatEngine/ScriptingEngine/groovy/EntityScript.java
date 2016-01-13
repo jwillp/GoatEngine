@@ -3,7 +3,7 @@ package com.goatgames.goatengine.scriptingengine.groovy;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.eventmanager.EntityEvent;
-import com.goatgames.goatengine.eventmanager.GameEvent;
+import com.goatgames.goatengine.eventmanager.Event;
 import com.goatgames.goatengine.input.VirtualButton;
 import com.goatgames.goatengine.physics.CollisionEvent;
 import groovy.lang.Script;
@@ -59,7 +59,7 @@ public abstract class EntityScript extends Script{
      * @param event
      * @param <T>
      */
-    public <T extends GameEvent> void onGlobalEvent(T event){}
+    public <T extends Event> void onGlobalEvent(T event){}
 
 
     /**
