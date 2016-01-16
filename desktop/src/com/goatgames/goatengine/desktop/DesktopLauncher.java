@@ -1,19 +1,17 @@
 package com.goatgames.goatengine.desktop;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.ezware.dialog.task.TaskDialogs;
 import com.goatgames.goatengine.GEConfig;
 import com.goatgames.goatengine.GenericGame;
-import com.goatgames.goatengine.utils.DesktopExceptionHandler;
 
 import javax.swing.*;
-import java.awt.*;
 
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
+
+
 
 
         // SETUP SOME DESKTOP SPECIFIC

@@ -7,6 +7,7 @@ import com.goatgames.goatengine.utils.OrderedProperties;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -21,11 +22,15 @@ public class GEConfig extends EngineConfig {
 
     public static final Date LAUNCH_DATE = Calendar.getInstance().getTime(); //The date at which the engine was launched
 
+    public static final String BUILD_VERSION = new SimpleDateFormat("YYMMDD").format(GEConfig.LAUNCH_DATE);
+
+
     /**
      * [DEV GENERAL]
      */
     public static class DevGeneral extends EngineConfig {
         public static String GAME_NAME = "Goat Engine Game";
+        public static String GAME_VERSION = "1.0";
         public static boolean DEV_CTX = false;                  // Whether or not we are in dev context with stack traces
         public static int VIEWPORT_WIDTH = 840;
         public static int VIEWPORT_HEIGHT = 640;
@@ -34,6 +39,7 @@ public class GEConfig extends EngineConfig {
         private static void loadConfig(OrderedProperties prop){
             DevGeneral.DEV_CTX = getBooleanProperty(DevGeneral.DEV_CTX, prop.getProperty("dev_ctx"));
             DevGeneral.GAME_NAME = applyProperty(DevGeneral.GAME_NAME, prop.getProperty("game_name"));
+            DevGeneral.GAME_VERSION = applyProperty(DevGeneral.GAME_VERSION, prop.getProperty("game_version"));
             DevGeneral.VIEWPORT_WIDTH = getIntProperty(DevGeneral.VIEWPORT_WIDTH, prop.getProperty("viewport_width"));
             DevGeneral.VIEWPORT_HEIGHT = getIntProperty(DevGeneral.VIEWPORT_HEIGHT, prop.getProperty("viewport_height"));
             DevGeneral.FULLSCREEN = getBooleanProperty(DevGeneral.FULLSCREEN, prop.getProperty("fullscreen"));
@@ -91,7 +97,7 @@ public class GEConfig extends EngineConfig {
         // [LOGGER]
         public static String LOG_DIRECTORY = "data/LOG/";                 // The directory where we store the logs
         // the format we use to name log file the %date% keyword will be replaced by the date of engine launch
-        public static String FILE_NAME_FORMAT = "%date%_gelog.log";
+        public static String FILE_NAME_FORMAT = "%date%.gelog";
         public static String EXCLUDE_LEVEL = "NONE";                      //To exclude log levels in log file (Ref. Logger.LogLevels)
 
         private static void loadConfig(OrderedProperties prop){

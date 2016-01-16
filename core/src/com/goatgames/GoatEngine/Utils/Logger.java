@@ -23,6 +23,7 @@ public class Logger {
     private final static String LEVEL_FATAL = "FATAL";
 
 
+    private static String logFile;
 
     /**
      * Writes the message with the time of display in a log file
@@ -30,19 +31,83 @@ public class Logger {
      * @param message
      */
     private static void log(String level, Object message){
-        if(!GEConfig.Logger.EXCLUDE_LEVEL.equals(level)){
-            String logTime = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
-            String time = "["+logTime+"] ";
+        if (GEConfig.Logger.EXCLUDE_LEVEL.equals(level)) return;
 
+        String logTime = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
+        String time = "["+logTime+"] ";
+
+        if(logFile == null){
             String longDate = new SimpleDateFormat("YYYYMMDDHHmmss").format(GEConfig.LAUNCH_DATE);
             String outputFile = GEConfig.Logger.LOG_DIRECTORY + GEConfig.Logger.FILE_NAME_FORMAT.replace("%date%", longDate);
 
-            Gdx.files.local(outputFile).writeString(
-                    time + createHeader(level) + message + "\n", true, StandardCharsets.UTF_8.toString()
-            );
-            print(message);
+
+
+
+            String osInfo = String.format("OS: %s  Version: %s Architecture: %s",
+                    System.getProperty("os.name"),
+                    System.getProperty("os.version"),
+                    System.getProperty("os.arch"));
+
+            String envXml = envToXml(outputFile, GEConfig.LAUNCH_DATE.toString(), osInfo);
+            Gdx.files.local(outputFile).writeString(envXml + "\n", true, StandardCharsets.UTF_8.toString());
+            logFile = outputFile;
         }
+
+        // File Line
+        String stack = new Exception().getStackTrace()[2].toString();
+        int firstBracket = stack.indexOf('(');
+        String fileAndLine = stack.substring(firstBracket + 1, stack.indexOf(')', firstBracket));
+
+
+        String xml = logToXml(level, message, fileAndLine, time);
+
+        Gdx.files.local(logFile).writeString(xml + "\n", true, StandardCharsets.UTF_8.toString());
+        print(message);
     }
+
+
+    /**
+     * Returns the environnement information in an XML format
+     * @return
+     */
+    private static String envToXml(String logName, String logDate, String systemOs){
+
+        String buildCtx = GEConfig.DevGeneral.DEV_CTX ? "DEV" : "PROD";
+
+
+        return "<title>"+ logName +"</title>" +
+        "<environement>" +
+        "<date>" + logDate + "</date>" +
+        "<systemos>" + systemOs + "</systemos>" +
+        "<enginebuild>" + GEConfig.BUILD_VERSION + "" + buildCtx + "</enginebuild>" +
+        "<game>" + GEConfig.DevGeneral.GAME_NAME + "</game>" +
+        "<gamebuild>" + GEConfig.DevGeneral.GAME_VERSION + "</gamebuild>" +
+        "</environement>";
+    }
+
+    /**
+     * Returns a log entry in xml format
+     * @param level
+     * @param message
+     * @param fileLine
+     * @param timeStamp
+     * @return
+     */
+    private static String logToXml(String level, Object message, String fileLine, String timeStamp){
+
+
+        timeStamp = "<timestamp>" + timeStamp + "</timestamp>" + "\n";
+        level = "<level>" + level + "</level>" + "\n";
+        fileLine = "<file>"+ fileLine +"</file>" + "\n";
+        message = "<message>" + message + "</message>" + "\n";
+
+
+        return "<entry>" + "\n" +  timeStamp + level + message + fileLine  + "</entry>" + "\n";
+
+    }
+
+
+
 
     /**
      * Prints in the program's console
@@ -67,7 +132,7 @@ public class Logger {
      * @param message
      */
     public static void debug(Object message){
-        print(message);
+        print(LEVEL_DEBUG + ": " + message);
     }
 
 
@@ -97,7 +162,6 @@ public class Logger {
      */
     public static void fatal(Object message){
         log(LEVEL_FATAL, message);
-        //TODO display message box
     }
 
 
