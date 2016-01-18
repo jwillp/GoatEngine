@@ -13,18 +13,18 @@ import org.luaj.vm2.lib.TwoArgFunction;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 
 /**
- * Ctx API
+ * CtxAPI API
  */
-public class Ctx extends TwoArgFunction {
+public class CtxAPI extends TwoArgFunction {
 
     private final LuaValue luaEntity;
     private final String scriptName;
 
-    public Ctx(Entity entity, String scriptName) {
+    public CtxAPI(Entity entity, String scriptName) {
         this.luaEntity = CoerceJavaToLua.coerce(entity);
         this.scriptName = scriptName;
 
-        GAssert.notNull(luaEntity, "Entity was null cannot be added to Ctx");
+        GAssert.notNull(luaEntity, "Entity was null cannot be added to CtxAPI");
     }
 
     @Override

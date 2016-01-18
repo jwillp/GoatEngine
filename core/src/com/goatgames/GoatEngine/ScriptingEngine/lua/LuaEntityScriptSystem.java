@@ -6,9 +6,6 @@ import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.eventmanager.Event;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
 import com.goatgames.goatengine.scriptingengine.ScriptComponent;
-import org.luaj.vm2.LuaValue;
-import org.luaj.vm2.lib.TwoArgFunction;
-import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 
 /**
  * Entity System managing entity scripts as lua scripts
@@ -55,7 +52,7 @@ public class LuaEntityScriptSystem extends EntitySystem implements GameEventList
      */
     public void onEntityInit(Entity entity, final LuaScript script){
         // Expose entity to script
-        script.exposeJavaFunction(new Ctx(getEntityManager().getEntityObject(entity.getID()), script.getName()));
+        script.exposeJavaFunction(new CtxAPI(getEntityManager().getEntityObject(entity.getID()), script.getName()));
         script.executeFunction("init");
     }
 

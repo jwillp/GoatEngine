@@ -5,6 +5,7 @@ import com.goatgames.goatengine.ecs.core.GameComponent;
 import com.goatgames.goatengine.eventmanager.GameEvent;
 import com.goatgames.goatengine.utils.GAssert;
 import com.goatgames.goatengine.utils.Logger;
+import com.goatgames.goatengine.utils.Timer;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.TwoArgFunction;
@@ -65,6 +66,16 @@ public class GoatEngineAPI extends TwoArgFunction {
         }
     }
 
+    /**
+     * Used to create timers
+     */
+    public class TimerAPI extends OneArgFunction{
+
+        @Override
+        public LuaValue call(LuaValue delay) {
+            return CoerceJavaToLua.coerce(new Timer(delay.toint()));
+        }
+    }
 
 
 
