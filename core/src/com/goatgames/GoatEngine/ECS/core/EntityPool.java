@@ -11,7 +11,7 @@ public class EntityPool extends Pool<Entity> {
 
     @Override
     protected Entity newObject() {
-        Logger.info("ENTITY ALLOC: " + ++alloc);
+        //Logger.info("ENTITY ALLOC: " + ++alloc);
         return new Entity();
     }
 
