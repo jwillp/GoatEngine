@@ -1,5 +1,6 @@
 package com.goatgames.goatengine.screenmanager;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.goatgames.goatengine.ai.AISystem;
 import com.goatgames.goatengine.ecs.ECSIniSerializer;
@@ -13,6 +14,7 @@ import com.goatgames.goatengine.physics.PhysicsSystem;
 import com.goatgames.goatengine.scriptingengine.groovy.GroovyScriptSystem;
 import com.goatgames.goatengine.scriptingengine.lua.LuaEntityScriptSystem;
 import com.goatgames.goatengine.ui.UIEngine;
+import com.goatgames.goatengine.utils.GAssert;
 import com.goatgames.goatengine.utils.Logger;
 
 import java.io.FileNotFoundException;
@@ -125,6 +127,8 @@ public final class GameScreen{
      */
     private void applyLevelConfig(){
         // Load Level Config File
+        GAssert.that(Gdx.files.internal(this.config.LEVEL_CONFIG).exists(),
+                "The Level could not be loaded the file \"" + this.config.LEVEL_CONFIG + "\" does not exist.");
         ECSIniSerializer serializer = new ECSIniSerializer(this.config.LEVEL_CONFIG, this.getEntityManager());
         serializer.load();
         // TODO : Read from serializer (maybe faster)

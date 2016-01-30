@@ -1,5 +1,6 @@
 package com.goatgames.goatengine.screenmanager;
 
+import com.goatgames.goatengine.GEConfig;
 import com.goatgames.goatengine.utils.EngineConfig;
 import com.goatgames.goatengine.utils.GameConfig;
 import com.goatgames.goatengine.utils.OrderedProperties;
@@ -40,7 +41,7 @@ public class GameScreenConfig extends EngineConfig {
         OrderedProperties prop = new OrderedProperties();
         prop.load(inputStream);
 
-        this.LEVEL_CONFIG = prop.getProperty("map_config_file"); // Required
+        this.LEVEL_CONFIG = GEConfig.DATA_DIR + prop.getProperty("map_config_file"); // Required
 
         // [PHYSICS]
         GRAVITY_X = GameConfig.getFloatProperty(GRAVITY_X, prop.getProperty("gravity_x"));

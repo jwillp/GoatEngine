@@ -18,7 +18,8 @@ import java.util.Date;
  */
 public class GEConfig extends EngineConfig {
 
-    public static final String CONFIG_FILE = "data/ge.ini";     // The file to read the configuration from
+    public static final String DATA_DIR = "data/";  // The directory containing all the data
+    public static final String CONFIG_FILE = DATA_DIR + "ge.ini";     // The file to read the configuration from
 
     public static final Date LAUNCH_DATE = Calendar.getInstance().getTime(); //The date at which the engine was launched
 
@@ -63,11 +64,11 @@ public class GEConfig extends EngineConfig {
         public static String ON_EMPTY_STACK = FATAL;                   // Action to take when scrn mngr's stack is empty
 
         public static final String GAME_SCREEN_EXT = ".ges";           // Extension of Game Screen Config FILE
-        public static String SCREEN_DIR = "data/screens/";             // The directory containing screens
+        public static String SCREEN_DIR = DATA_DIR + "screens/";             // The directory containing screens
 
         public static String MAIN_SCREEN = "main" + GAME_SCREEN_EXT;   // The main entry Screen (main.ges by default)
 
-        public static String LEVEL_DIR = "data/levels/";               // The Directory containing level config
+        public static String LEVEL_DIR = DATA_DIR + "levels/";               // The Directory containing level config
 
 
         private static void loadConfig(OrderedProperties prop){
@@ -82,7 +83,7 @@ public class GEConfig extends EngineConfig {
      */
     public static class ScriptingEngine extends EngineConfig {
         public static boolean AUTO_RELOAD = true;              // If we need to reload scripts when their code change
-        public static String  SCRIPTS_DIR= "data/scripts/";    // The directory where we store all scripts
+        public static String  SCRIPTS_DIR= DATA_DIR + "scripts/";    // The directory where we store all scripts
 
         private static void loadConfig(OrderedProperties prop){
             ScriptingEngine.AUTO_RELOAD = getBooleanProperty(ScriptingEngine.AUTO_RELOAD, prop.getProperty("auto_reload"));
@@ -95,7 +96,7 @@ public class GEConfig extends EngineConfig {
 
     public static class Logger extends EngineConfig {
         // [LOGGER]
-        public static String LOG_DIRECTORY = "data/LOG/";                 // The directory where we store the logs
+        public static String LOG_DIRECTORY = DATA_DIR + "LOG/";                 // The directory where we store the logs
         // the format we use to name log file the %date% keyword will be replaced by the date of engine launch
         public static String FILE_NAME_FORMAT = "%date%.gelog";
         public static String EXCLUDE_LEVEL = "NONE";                      //To exclude log levels in log file (Ref. Logger.LogLevels)

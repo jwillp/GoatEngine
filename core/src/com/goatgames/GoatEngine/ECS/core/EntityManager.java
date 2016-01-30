@@ -79,7 +79,7 @@ public class EntityManager {
         GAssert.notNull(componentId, "Tried to add a component to an entity without a COMPONENT_ID");
         ObjectMap componentContainer = this.components.get(componentId);
         if(componentContainer == null){
-            componentContainer = new ObjectMap<>();
+            componentContainer = new ObjectMap<String, EntityComponent>();
         }
         componentContainer.put(entityId, component);
         this.components.put(componentId, componentContainer);

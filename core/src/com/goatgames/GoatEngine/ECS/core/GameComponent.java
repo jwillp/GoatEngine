@@ -67,7 +67,7 @@ public class GameComponent extends EntityComponent {
      * @return
      */
     private Map<String, String> luaTableToMap(LuaTable table){
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> map = new HashMap<String, String>();
         // Convert LuaTable to HashMap
         int keysCount = table.keys().length;
         LuaValue[] keys = table.keys();

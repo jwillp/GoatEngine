@@ -4,17 +4,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.eventmanager.Event;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
-import com.goatgames.goatengine.GoatEngine;
-import com.goatgames.goatengine.input.events.*;
+import com.goatgames.goatengine.input.events.KeyPressedEvent;
+import com.goatgames.goatengine.input.events.MouseDragEvent;
+import com.goatgames.goatengine.input.events.MousePressEvent;
+import com.goatgames.goatengine.input.events.MouseScrolledEvent;
+import com.goatgames.goatengine.leveleditor.commands.*;
 import com.goatgames.goatengine.leveleditor.view.GameScreenConfigView;
 import com.goatgames.goatengine.leveleditor.view.LevelEditorView;
 import com.goatgames.goatengine.utils.Logger;
-import com.goatgames.goatengine.leveleditor.commands.*;
 import com.kotcrab.vis.ui.VisUI;
-import javafx.scene.input.MouseButton;
 
 import java.util.Stack;
 
