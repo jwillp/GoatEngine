@@ -44,32 +44,31 @@ public class GameScreenConfig extends EngineConfig {
         this.LEVEL_CONFIG = GEConfig.DATA_DIR + prop.getProperty("map_config_file"); // Required
 
         // [PHYSICS]
-        GRAVITY_X = GameConfig.getFloatProperty(GRAVITY_X, prop.getProperty("gravity_x"));
-        GRAVITY_Y = GameConfig.getFloatProperty(GRAVITY_Y, prop.getProperty("gravity_y"));
+        GRAVITY_X = Float.parseFloat(prop.getProperty("gravity_x", String.valueOf(GRAVITY_X)));
+        GRAVITY_Y = Float.parseFloat(prop.getProperty("gravity_y", String.valueOf(GRAVITY_Y)));
 
 
 
         // [RENDERING]
-        this.PHYSICS_DEBUG_RENDERING = GameConfig.getBooleanProperty(
-                this.PHYSICS_DEBUG_RENDERING,
-                prop.getProperty("physics_debug_rendering")
-        );
+        this.PHYSICS_DEBUG_RENDERING = Boolean.parseBoolean(
+                prop.getProperty("physics_debug_rendering", String.valueOf(this.PHYSICS_DEBUG_RENDERING)));
 
-        this.CAMERA_DEBUG_RENDERING = GameConfig.getBooleanProperty(
-                this.CAMERA_DEBUG_RENDERING,
-                prop.getProperty("camera_debug_rendering")
-        );
+        this.CAMERA_DEBUG_RENDERING = Boolean.parseBoolean(
+                prop.getProperty("camera_debug_rendering", String.valueOf(this.CAMERA_DEBUG_RENDERING)));
 
-        this.TEXTURE_RENDERING = GameConfig.getBooleanProperty(this.TEXTURE_RENDERING, prop.getProperty("texture_rendering"));
+        this.TEXTURE_RENDERING = Boolean.parseBoolean(
+                prop.getProperty("texture_rendering", String.valueOf(this.TEXTURE_RENDERING)));
 
-        this.FOG_RENDERING = GameConfig.getBooleanProperty(this.FOG_RENDERING, prop.getProperty("fog_rendering"));
+        this.FOG_RENDERING = Boolean.parseBoolean(
+                prop.getProperty("fog_rendering", String.valueOf(this.FOG_RENDERING)));
 
-        this.LIGHTING_RENDERING = GameConfig.getBooleanProperty(this.LIGHTING_RENDERING, prop.getProperty("lighting_rendering"));
+        this.LIGHTING_RENDERING = Boolean.parseBoolean(
+                prop.getProperty("lighting_rendering", String.valueOf(this.LIGHTING_RENDERING)));
 
-        this.AMBIENT_LIGHT = GameConfig.applyProperty(this.AMBIENT_LIGHT, prop.getProperty("ambient_light"));
+        this.AMBIENT_LIGHT = prop.getProperty("ambient_light", this.AMBIENT_LIGHT);
 
 
-        this.PATHFINDER_DEBUG_RENDERING = GameConfig.getBooleanProperty(
-                this.PATHFINDER_DEBUG_RENDERING, prop.getProperty("pathfinder_debug_rendering"));
+        this.PATHFINDER_DEBUG_RENDERING = Boolean.parseBoolean(
+                prop.getProperty("pathfinder_debug_rendering", String.valueOf(this.PATHFINDER_DEBUG_RENDERING)));
     }
 }

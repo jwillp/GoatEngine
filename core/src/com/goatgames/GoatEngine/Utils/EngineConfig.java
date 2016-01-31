@@ -6,58 +6,6 @@ package com.goatgames.goatengine.utils;
 public abstract class EngineConfig {
 
 
-    /**
-     * Try to applied a property, if the property string is Empty
-     * keep the default value of the parameter
-     * @param defaultProperty the default value of Config Property
-     * @param readProperty the read from file property
-     */
-    public static String applyProperty(String defaultProperty, final String readProperty){
-        if(readProperty != null && !readProperty.isEmpty()){
-            return readProperty;
-        }
-        return defaultProperty;
-    }
-    /**
-     * Try to apply a property, if the property string is Empty
-     * keep the default value of the parameter
-     * @param defaultProperty the default value of Config Property
-     * @param readProperty the read from file property
-     */
-    public static boolean getBooleanProperty(boolean defaultProperty, final String readProperty){
-        if(readProperty != null && !readProperty.isEmpty()){
-            return Boolean.parseBoolean(readProperty);
-        }
-        return defaultProperty;
-    }
-
-    /**
-     * Try to apply a property, if the property string is Empty
-     * keep the default value of the parameter
-     * @param defaultProperty the default value of Config Property
-     * @param readProperty the read from file property
-     */
-    public static float getFloatProperty(float defaultProperty, final String readProperty){
-        if(readProperty != null && !readProperty.isEmpty()){
-            return Float.parseFloat(readProperty);
-        }
-        return defaultProperty;
-    }
-
-
-
-    /**
-     * Try to apply a property, if the property string is Empty
-     * keep the default value of the parameter
-     * @param defaultProperty the default value of Config Property
-     * @param readProperty the read from file property
-     */
-    public static int getIntProperty(int defaultProperty, final String readProperty){
-        if(readProperty != null && !readProperty.isEmpty()){
-            return Integer.parseInt(readProperty);
-        }
-        return defaultProperty;
-    }
 
 
 

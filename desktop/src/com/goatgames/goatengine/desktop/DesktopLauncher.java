@@ -25,14 +25,6 @@ public class DesktopLauncher {
 
         LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 
-        // Load configuration
-		GEConfig.loadConfig();
-
-		cfg.title = GEConfig.DevGeneral.GAME_NAME;
-		cfg.width = GEConfig.DevGeneral.VIEWPORT_WIDTH;
-		cfg.height = GEConfig.DevGeneral.VIEWPORT_HEIGHT;
-		cfg.fullscreen = GEConfig.DevGeneral.FULLSCREEN;
-
         cfg.vSyncEnabled = false;
        // cfg.foregroundFPS = 0; // Setting to 0 disables foreground fps throttling
         cfg.backgroundFPS = 60; // Setting to 0 disables background fps throttling

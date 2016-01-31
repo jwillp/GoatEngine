@@ -16,7 +16,7 @@ import com.goatgames.goatengine.utils.Logger;
 /**
  * Generic Game class used to test the engine
  */
-public class GenericGame extends Game implements GameEventListener{
+public class GenericGame extends Game{
     /**
      * Called when the {@link com.badlogic.gdx.Application} is first created.
      */
@@ -27,17 +27,17 @@ public class GenericGame extends Game implements GameEventListener{
             Thread.setDefaultUncaughtExceptionHandler(new DesktopExceptionHandler());
         }
 
+        // Load configuration
+        GEConfig.loadConfig();
+
+        Gdx.graphics.setTitle(GEConfig.DevGeneral.GAME_NAME);
+        Gdx.graphics.setDisplayMode(
+                GEConfig.DevGeneral.VIEWPORT_WIDTH,
+                GEConfig.DevGeneral.VIEWPORT_HEIGHT,
+                GEConfig.DevGeneral.FULLSCREEN);
+
         GoatEngine.init();
-        GoatEngine.eventManager.registerListener(this);
     }
-
-    @Override
-    public void onEvent(Event e) {
-        if(e.isOfType(ControllerConnectedEvent.class)){
-            Logger.debug("Controller Connected");
-        }
-    }
-
 
     @Override
     public void render() {

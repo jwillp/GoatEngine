@@ -57,13 +57,6 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
     CrtMonitor crt;
 
 
-
-    // LightBuffer
-    FrameBuffer lightBuffer;
-    TextureRegion lightBufferRegion;
-    private Object camera;
-
-
     /**
      * Used to initialise the system
      */
@@ -91,7 +84,7 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
 
 
         // Post processor //
-        ShaderLoader.BasePath = "data/shaders/";
+        ShaderLoader.BasePath = "priv_data/shaders/";
 
 
 

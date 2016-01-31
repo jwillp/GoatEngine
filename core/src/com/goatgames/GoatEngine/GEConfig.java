@@ -19,7 +19,7 @@ import java.util.Date;
 public class GEConfig extends EngineConfig {
 
     public static final String DATA_DIR = "data/";  // The directory containing all the data
-    public static final String CONFIG_FILE = DATA_DIR + "ge.ini";     // The file to read the configuration from
+    public static final String CONFIG_FILE = "ge.ini";     // The file to read the configuration from
 
     public static final Date LAUNCH_DATE = Calendar.getInstance().getTime(); //The date at which the engine was launched
 
@@ -38,12 +38,12 @@ public class GEConfig extends EngineConfig {
         public static boolean FULLSCREEN = false;
 
         private static void loadConfig(OrderedProperties prop){
-            DevGeneral.DEV_CTX = getBooleanProperty(DevGeneral.DEV_CTX, prop.getProperty("dev_ctx"));
-            DevGeneral.GAME_NAME = applyProperty(DevGeneral.GAME_NAME, prop.getProperty("game_name"));
-            DevGeneral.GAME_VERSION = applyProperty(DevGeneral.GAME_VERSION, prop.getProperty("game_version"));
-            DevGeneral.VIEWPORT_WIDTH = getIntProperty(DevGeneral.VIEWPORT_WIDTH, prop.getProperty("viewport_width"));
-            DevGeneral.VIEWPORT_HEIGHT = getIntProperty(DevGeneral.VIEWPORT_HEIGHT, prop.getProperty("viewport_height"));
-            DevGeneral.FULLSCREEN = getBooleanProperty(DevGeneral.FULLSCREEN, prop.getProperty("fullscreen"));
+            DevGeneral.DEV_CTX = Boolean.parseBoolean(prop.getProperty("dev_ctx", String.valueOf(DevGeneral.DEV_CTX)));
+            DevGeneral.GAME_NAME = prop.getProperty("game_name", DevGeneral.GAME_NAME);
+            DevGeneral.GAME_VERSION = prop.getProperty("game_version", DevGeneral.GAME_VERSION);
+            DevGeneral.VIEWPORT_WIDTH = Integer.parseInt(prop.getProperty("viewport_width", String.valueOf(DevGeneral.VIEWPORT_WIDTH)));
+            DevGeneral.VIEWPORT_HEIGHT = Integer.parseInt(prop.getProperty("viewport_height", String.valueOf(DevGeneral.VIEWPORT_HEIGHT)));
+            DevGeneral.FULLSCREEN = Boolean.parseBoolean(prop.getProperty("fullscreen", String.valueOf(DevGeneral.FULLSCREEN)));
         }
 
 
@@ -72,9 +72,11 @@ public class GEConfig extends EngineConfig {
 
 
         private static void loadConfig(OrderedProperties prop){
-            applyProperty(GEConfig.ScreenManager.ON_EMPTY_STACK, prop.getProperty("on_empty_stack"));
-            GEConfig.ScreenManager.MAIN_SCREEN = applyProperty(GEConfig.ScreenManager.MAIN_SCREEN, prop.getProperty("main_screen"));
-            applyProperty(GEConfig.ScreenManager.SCREEN_DIR, FileSystem.sanitiseDir(prop.getProperty("screens_dir")));
+            GEConfig.ScreenManager.ON_EMPTY_STACK = prop.getProperty("on_empty_stack", GEConfig.ScreenManager.ON_EMPTY_STACK);
+            GEConfig.ScreenManager.MAIN_SCREEN = prop.getProperty("main_screen", GEConfig.ScreenManager.MAIN_SCREEN);
+            GEConfig.ScreenManager.SCREEN_DIR = FileSystem.sanitiseDir(
+                    prop.getProperty("screens_dir",
+                    GEConfig.ScreenManager.SCREEN_DIR));
         }
     }
 
@@ -86,10 +88,10 @@ public class GEConfig extends EngineConfig {
         public static String  SCRIPTS_DIR= DATA_DIR + "scripts/";    // The directory where we store all scripts
 
         private static void loadConfig(OrderedProperties prop){
-            ScriptingEngine.AUTO_RELOAD = getBooleanProperty(ScriptingEngine.AUTO_RELOAD, prop.getProperty("auto_reload"));
-            applyProperty(ScriptingEngine.SCRIPTS_DIR, FileSystem.sanitiseDir(prop.getProperty("scripts_directory")));
-            applyProperty(Logger.EXCLUDE_LEVEL, prop.getProperty("exclude_lvl"));
-
+            ScriptingEngine.AUTO_RELOAD = Boolean.parseBoolean(prop.getProperty("auto_reload", String.valueOf(ScriptingEngine.AUTO_RELOAD)));
+            ScriptingEngine.SCRIPTS_DIR = FileSystem.sanitiseDir(
+                    prop.getProperty("scripts_directory",
+                    ScriptingEngine.SCRIPTS_DIR));
         }
     }
 
@@ -102,9 +104,9 @@ public class GEConfig extends EngineConfig {
         public static String EXCLUDE_LEVEL = "NONE";                      //To exclude log levels in log file (Ref. Logger.LogLevels)
 
         private static void loadConfig(OrderedProperties prop){
-            applyProperty(Logger.FILE_NAME_FORMAT, prop.getProperty("log_file_name"));
-            applyProperty(Logger.LOG_DIRECTORY, FileSystem.sanitiseDir(prop.getProperty("log_directory")));
-            applyProperty(Logger.EXCLUDE_LEVEL, prop.getProperty("exclude_lvl"));
+            Logger.FILE_NAME_FORMAT = prop.getProperty("log_file_name", Logger.FILE_NAME_FORMAT);
+            Logger.LOG_DIRECTORY = FileSystem.sanitiseDir(prop.getProperty("log_directory", Logger.LOG_DIRECTORY));
+            Logger.EXCLUDE_LEVEL = prop.getProperty("exclude_lvl", Logger.EXCLUDE_LEVEL);
         }
     }
 
@@ -115,7 +117,7 @@ public class GEConfig extends EngineConfig {
 
 
         private static void loadConfig(OrderedProperties prop){
-            Console.CONS_ENABLED = getBooleanProperty(Console.CONS_ENABLED, prop.getProperty("cons_enabled"));
+            Console.CONS_ENABLED = Boolean.parseBoolean(prop.getProperty("cons_enabled", String.valueOf(Console.CONS_ENABLED)));
         }
     }
 
