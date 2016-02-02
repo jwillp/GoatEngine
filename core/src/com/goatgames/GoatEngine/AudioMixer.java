@@ -12,7 +12,7 @@ import java.util.HashMap;
 public class AudioMixer {
 
     //The base directory for all the audio files
-    private static final String AUDIO_DIRECTORY = "audio";
+    private static final String AUDIO_DIRECTORY = GEConfig.DATA_DIR + "audio";
 
     // All the loaded Audio files <NameOfFile, File>
     private static HashMap<String, Sound> sounds = new HashMap<String, Sound>();

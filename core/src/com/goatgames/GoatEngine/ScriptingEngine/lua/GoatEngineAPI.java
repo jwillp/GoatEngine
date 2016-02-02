@@ -1,5 +1,6 @@
 package com.goatgames.goatengine.scriptingengine.lua;
 
+import com.goatgames.goatengine.AudioMixer;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.GameComponent;
 import com.goatgames.goatengine.eventmanager.GameEvent;
@@ -33,10 +34,14 @@ public class GoatEngineAPI extends TwoArgFunction {
         library.set("GAssert", CoerceJavaToLua.coerce(new GAssert())); // We only access static methods
 
 
-
         //library.set("GameComponent", CoerceJavaToLua.coerce(new GameComponent(true)));
         library.set("GameComponent",CoerceJavaToLua.coerce(new GameComponentAPI()));
         library.set("GameEvent",CoerceJavaToLua.coerce(new GameEventAPI()));
+
+
+
+        library.set("playMusic", new PlayMusicAPI());
+        library.set("playAudio", new PlayAudioAPI());
 
         env.set("GE", library);
         env.get("package").get("loaded").set("GE", library);
@@ -82,11 +87,24 @@ public class GoatEngineAPI extends TwoArgFunction {
 
 
 
+    public class PlayMusicAPI extends TwoArgFunction{
+        @Override
+        public LuaValue call(LuaValue arg1, LuaValue arg2) {
+            return CoerceJavaToLua.coerce(AudioMixer.playMusic(arg1.toString(), arg2.toboolean()));
+        }
+
+    }
 
 
 
+    public class PlayAudioAPI extends OneArgFunction{
 
+        @Override
+        public LuaValue call(LuaValue arg1) {
+            return CoerceJavaToLua.coerce(AudioMixer.playSound(arg1.toString()));
+        }
 
+    }
 
 
 }
