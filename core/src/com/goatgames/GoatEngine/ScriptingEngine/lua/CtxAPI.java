@@ -50,6 +50,7 @@ public class CtxAPI extends TwoArgFunction {
 
 
         library.set("create", new CreateEntityFromPrefabAPI());
+        library.set("destroy", new DestroyEntityAPI());
 
         env.set("ctx", library);
         env.get("package").get("loaded").set("ctx", library);
@@ -89,6 +90,17 @@ public class CtxAPI extends TwoArgFunction {
         public LuaValue call() {
             GameScreen currentGameScreen = GoatEngine.gameScreenManager.getCurrentScreen();
             return CoerceJavaToLua.coerce(currentGameScreen.getEntityManager().createEntity());
+        }
+    }
+
+
+    private class DestroyEntityAPI extends OneArgFunction{
+
+        @Override
+        public LuaValue call(LuaValue arg) {
+            GameScreen currentGameScreen = GoatEngine.gameScreenManager.getCurrentScreen();
+            currentGameScreen.getEntityManager().deleteEntity(arg.toString());
+            return null;
         }
     }
 
