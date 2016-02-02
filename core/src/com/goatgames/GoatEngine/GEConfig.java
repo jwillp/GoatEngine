@@ -23,7 +23,8 @@ public class GEConfig extends EngineConfig {
 
     public static final Date LAUNCH_DATE = Calendar.getInstance().getTime(); //The date at which the engine was launched
 
-    public static final String BUILD_VERSION = new SimpleDateFormat("YYMMDD").format(GEConfig.LAUNCH_DATE);
+    public static final String BUILD_VERSION = "160131";
+    //public static final String BUILD_VERSION = new SimpleDateFormat("YYMMDD").format(GEConfig.LAUNCH_DATE);
 
 
     /**
@@ -38,12 +39,12 @@ public class GEConfig extends EngineConfig {
         public static boolean FULLSCREEN = false;
 
         private static void loadConfig(OrderedProperties prop){
-            DevGeneral.DEV_CTX = Boolean.parseBoolean(prop.getProperty("dev_ctx", String.valueOf(DevGeneral.DEV_CTX)));
+            DevGeneral.DEV_CTX = prop.getProperty("dev_ctx", DevGeneral.DEV_CTX);
             DevGeneral.GAME_NAME = prop.getProperty("game_name", DevGeneral.GAME_NAME);
             DevGeneral.GAME_VERSION = prop.getProperty("game_version", DevGeneral.GAME_VERSION);
-            DevGeneral.VIEWPORT_WIDTH = Integer.parseInt(prop.getProperty("viewport_width", String.valueOf(DevGeneral.VIEWPORT_WIDTH)));
-            DevGeneral.VIEWPORT_HEIGHT = Integer.parseInt(prop.getProperty("viewport_height", String.valueOf(DevGeneral.VIEWPORT_HEIGHT)));
-            DevGeneral.FULLSCREEN = Boolean.parseBoolean(prop.getProperty("fullscreen", String.valueOf(DevGeneral.FULLSCREEN)));
+            DevGeneral.VIEWPORT_WIDTH = prop.getProperty("viewport_width", DevGeneral.VIEWPORT_WIDTH);
+            DevGeneral.VIEWPORT_HEIGHT = prop.getProperty("viewport_height", DevGeneral.VIEWPORT_HEIGHT);
+            DevGeneral.FULLSCREEN = prop.getProperty("fullscreen", DevGeneral.FULLSCREEN);
         }
 
 
@@ -76,7 +77,7 @@ public class GEConfig extends EngineConfig {
             GEConfig.ScreenManager.MAIN_SCREEN = prop.getProperty("main_screen", GEConfig.ScreenManager.MAIN_SCREEN);
             GEConfig.ScreenManager.SCREEN_DIR = FileSystem.sanitiseDir(
                     prop.getProperty("screens_dir",
-                    GEConfig.ScreenManager.SCREEN_DIR));
+                            GEConfig.ScreenManager.SCREEN_DIR));
         }
     }
 
@@ -88,10 +89,10 @@ public class GEConfig extends EngineConfig {
         public static String  SCRIPTS_DIR= DATA_DIR + "scripts/";    // The directory where we store all scripts
 
         private static void loadConfig(OrderedProperties prop){
-            ScriptingEngine.AUTO_RELOAD = Boolean.parseBoolean(prop.getProperty("auto_reload", String.valueOf(ScriptingEngine.AUTO_RELOAD)));
+            ScriptingEngine.AUTO_RELOAD = prop.getProperty("auto_reload", ScriptingEngine.AUTO_RELOAD);
             ScriptingEngine.SCRIPTS_DIR = FileSystem.sanitiseDir(
                     prop.getProperty("scripts_directory",
-                    ScriptingEngine.SCRIPTS_DIR));
+                            ScriptingEngine.SCRIPTS_DIR));
         }
     }
 
@@ -117,7 +118,7 @@ public class GEConfig extends EngineConfig {
 
 
         private static void loadConfig(OrderedProperties prop){
-            Console.CONS_ENABLED = Boolean.parseBoolean(prop.getProperty("cons_enabled", String.valueOf(Console.CONS_ENABLED)));
+            Console.CONS_ENABLED = prop.getProperty("cons_enabled", Console.CONS_ENABLED);
         }
     }
 

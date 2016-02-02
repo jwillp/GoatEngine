@@ -67,6 +67,36 @@ public final class OrderedProperties implements Serializable {
         return (value == null) ? defaultValue : value;
     }
 
+
+
+
+    public int getProperty(String key, int defaultValue){
+        return Integer.parseInt(getProperty(key, String.valueOf(defaultValue)));
+    }
+
+    public boolean getProperty(String key, boolean defaultValue){
+        return Boolean.parseBoolean(getProperty(key, String.valueOf(defaultValue)));
+    }
+
+    public float getProperty(String key, float defaultValue){
+        return Float.parseFloat(getProperty(key, String.valueOf(defaultValue)));
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * See {@link Properties#setProperty(String, String)}.
      */
