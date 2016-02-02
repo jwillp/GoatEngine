@@ -1,7 +1,9 @@
 package com.goatgames.goatengine.scriptingengine.lua;
 
 import com.badlogic.gdx.utils.Array;
+import com.goatgames.goatengine.GEConfig;
 import com.goatgames.goatengine.GoatEngine;
+import com.goatgames.goatengine.ecs.PrefabFactory;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.graphicsrendering.CameraComponent;
@@ -10,6 +12,7 @@ import com.goatgames.goatengine.utils.GAssert;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.TwoArgFunction;
+import org.luaj.vm2.lib.ZeroArgFunction;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 
 /**
@@ -46,7 +49,7 @@ public class CtxAPI extends TwoArgFunction {
         library.set("camera", new CameraAPI());
 
 
-
+        library.set("create", new CreateEntityFromPrefabAPI());
 
         env.set("ctx", library);
         env.get("package").get("loaded").set("ctx", library);
@@ -63,4 +66,30 @@ public class CtxAPI extends TwoArgFunction {
             return CoerceJavaToLua.coerce(camComp.getCamera());
         }
     }
+
+
+    /**
+     * Create an entity from a prefab
+     */
+    private class CreateEntityFromPrefabAPI extends OneArgFunction{
+
+        @Override
+        public LuaValue call(LuaValue arg) {
+            String prefab = arg.toString();
+            if(!prefab.startsWith(GEConfig.DATA_DIR + "prefabs")){
+                prefab = GEConfig.DATA_DIR + "prefabs/" + prefab;
+            }
+            return CoerceJavaToLua.coerce(new PrefabFactory().createEntity(prefab));
+        }
+    }
+
+    private class CreateEntityAPI extends ZeroArgFunction{
+
+        @Override
+        public LuaValue call() {
+            GameScreen currentGameScreen = GoatEngine.gameScreenManager.getCurrentScreen();
+            return CoerceJavaToLua.coerce(currentGameScreen.getEntityManager().createEntity());
+        }
+    }
+
 }

@@ -2,6 +2,7 @@ package com.goatgames.goatengine.leveleditor.commands;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.goatgames.goatengine.GEConfig;
 import com.goatgames.goatengine.ecs.PrefabFactory;
 import com.goatgames.goatengine.leveleditor.LevelEditor;
 import com.goatgames.goatengine.leveleditor.view.WarningDialog;
@@ -29,7 +30,7 @@ public class CreateEntityFromPrefabCommand extends EditorCommand {
         // Display a Choose Prefab window
         //chooser creation
         FileChooser fileChooser = new FileChooser(FileChooser.Mode.OPEN);
-        fileChooser.setDirectory(Gdx.files.internal("data/prefabs"));
+        fileChooser.setDirectory(Gdx.files.internal(GEConfig.DATA_DIR + "prefabs"));
         fileChooser.setSelectionMode(FileChooser.SelectionMode.FILES);
         fileChooser.setListener(new FileChooserAdapter() {
             @Override
