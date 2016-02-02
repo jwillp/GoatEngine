@@ -5,6 +5,6 @@ import com.goatgames.goatengine.eventmanager.Event;
 /**
  * Triggered when a controller was connected
  */
-public class ControllerConnectedEvent extends Event {
+public class GamePadConnectedEvent extends Event {
     // TODO code ...
 }

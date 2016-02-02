@@ -10,27 +10,27 @@ import com.badlogic.gdx.controllers.Controllers;
  */
 public class InputManager{
 
-    private final GameControllerManager gameControllerManager;
+    private final GamePadManager gamePadManager;
     private final KeyboardInputManager keyboardInputManager;
     private final InputMultiplexer multiplexer;
 
 
     public InputManager(){
         multiplexer = new InputMultiplexer();
-        gameControllerManager = new GameControllerManager(this);
+        gamePadManager = new GamePadManager(this);
         keyboardInputManager = new KeyboardInputManager(this);
     }
 
 
     public void init(){
-        Controllers.addListener(gameControllerManager);
+        Controllers.addListener(gamePadManager);
         multiplexer.addProcessor(keyboardInputManager);
         setInputProcessor(multiplexer);
     }
 
 
-    public GameControllerManager getGameControllerManager() {
-        return gameControllerManager;
+    public GamePadManager getGamePadManager() {
+        return gamePadManager;
     }
 
     public KeyboardInputManager getKeyboardInputManager() {

@@ -5,6 +5,6 @@ import com.goatgames.goatengine.eventmanager.Event;
 /**
  * Triggered when a controller was disconnected
  */
-public class ControllerDisconnectedEvent extends Event {
+public class GamePadDisconnectedEvent extends Event {
     // TODO code ...
 }

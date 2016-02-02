@@ -7,19 +7,19 @@ import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.goatgames.goatengine.GoatEngine;
-import com.goatgames.goatengine.input.events.ControllerConnectedEvent;
-import com.goatgames.goatengine.input.events.ControllerDisconnectedEvent;
+import com.goatgames.goatengine.input.events.GamePadConnectedEvent;
+import com.goatgames.goatengine.input.events.GamePadDisconnectedEvent;
 
 /**
  * Manages Game Controllers (GamePads)
  */
-public class GameControllerManager implements ControllerListener{
+public class GamePadManager implements ControllerListener{
 
     private final InputManager inputManager;
 
     private Array<Controller> availableControllers; // List of controllers that arent being used
 
-    public GameControllerManager(InputManager inputManager){
+    public GamePadManager(InputManager inputManager){
         this.inputManager = inputManager;
         availableControllers = Controllers.getControllers();
 
@@ -59,7 +59,7 @@ public class GameControllerManager implements ControllerListener{
         if(!this.availableControllers.contains(controller, true)){
             this.availableControllers.add(controller);
         }
-        GoatEngine.eventManager.fireEvent(new ControllerConnectedEvent());
+        GoatEngine.eventManager.fireEvent(new GamePadConnectedEvent());
     }
 
     /**
@@ -72,7 +72,7 @@ public class GameControllerManager implements ControllerListener{
         if(this.availableControllers.contains(controller, true)){
             this.availableControllers.removeValue(controller, true);
         }
-        GoatEngine.eventManager.fireEvent(new ControllerDisconnectedEvent());
+        GoatEngine.eventManager.fireEvent(new GamePadDisconnectedEvent());
     }
 
 

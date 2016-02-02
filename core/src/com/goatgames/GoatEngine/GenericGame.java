@@ -3,14 +3,8 @@ package com.goatgames.goatengine;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.goatgames.goatengine.eventmanager.Event;
-import com.goatgames.goatengine.eventmanager.GameEventListener;
 import com.goatgames.goatengine.eventmanager.engineevents.EngineEvents;
-import com.goatgames.goatengine.input.events.ControllerConnectedEvent;
 import com.goatgames.goatengine.utils.DesktopExceptionHandler;
-import com.goatgames.goatengine.utils.Logger;
-
-
 
 
 /**
