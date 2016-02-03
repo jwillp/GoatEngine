@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.input;
+package com.goatgames.goatengine.input.events;
 
 import com.goatgames.goatengine.eventmanager.EntityEvent;
 
@@ -7,7 +7,7 @@ import com.goatgames.goatengine.eventmanager.EntityEvent;
  */
 public class EntityTouchedEvent extends EntityEvent {
 
-    protected EntityTouchedEvent(String entityId) {
+    public EntityTouchedEvent(String entityId) {
         super(entityId);
     }
 }

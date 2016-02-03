@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.input;
+package com.goatgames.goatengine.input.events;
 
 import com.goatgames.goatengine.eventmanager.EntityEvent;
 

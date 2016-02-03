@@ -78,7 +78,7 @@ public class LuaScript {
      * @return true if the call was successful
      */
     public boolean executeFunction(String functionName){
-        return executeFunction(functionName, null);
+        return executeFunction(functionName, (Object)null);
     }
 
     /**

@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.Array;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.input.events.GamePadConnectedEvent;
 import com.goatgames.goatengine.input.events.GamePadDisconnectedEvent;
+import com.goatgames.goatengine.utils.Logger;
 
 /**
  * Manages Game Controllers (GamePads)
@@ -17,13 +18,16 @@ public class GamePadManager implements ControllerListener{
 
     private final InputManager inputManager;
 
-    private Array<Controller> availableControllers; // List of controllers that arent being used
+    private Array<Controller> availableControllers; // List of controllers that are not being used
+
+    Xbox360Map xbox360Map = new Xbox360Map();
+
 
     public GamePadManager(InputManager inputManager){
         this.inputManager = inputManager;
         availableControllers = Controllers.getControllers();
+        // Detect Available User Game Pad Maps
 
-        // TODO a getControllerMap() method
     }
 
 
@@ -59,7 +63,9 @@ public class GamePadManager implements ControllerListener{
         if(!this.availableControllers.contains(controller, true)){
             this.availableControllers.add(controller);
         }
-        GoatEngine.eventManager.fireEvent(new GamePadConnectedEvent());
+        int gamePadId = getControllerId(controller);
+        GoatEngine.eventManager.fireEvent(new GamePadConnectedEvent(gamePadId));
+        Logger.debug("CONROLLER CONNECTED! " + controller.getName());
     }
 
     /**
@@ -72,7 +78,8 @@ public class GamePadManager implements ControllerListener{
         if(this.availableControllers.contains(controller, true)){
             this.availableControllers.removeValue(controller, true);
         }
-        GoatEngine.eventManager.fireEvent(new GamePadDisconnectedEvent());
+        int gamePadId = getControllerId(controller);
+        GoatEngine.eventManager.fireEvent(new GamePadDisconnectedEvent(gamePadId));
     }
 
 
@@ -87,7 +94,9 @@ public class GamePadManager implements ControllerListener{
      */
     @Override
     public boolean buttonDown(Controller controller, int buttonCode) {
-        return false;
+        int gamePadId = getControllerId(controller);
+        Logger.debug("Button pressed: " + translateButtonRawCode(gamePadId,buttonCode).toString());
+        return true;
     }
 
     /**
@@ -176,6 +185,43 @@ public class GamePadManager implements ControllerListener{
 
 
     /**
+     * Translate a Raw button code to a standard virtual one
+     * for a certain controller
+     * @param controllerId the controller for which we need to do the translation
+     * @param rawCode the raw button code
+     * @return the standard Button
+     */
+    private GamePadMap.Button translateButtonRawCode(int controllerId, int rawCode){
+
+        // Depending on the controller
+        Controller ctrl = this.availableControllers.get(controllerId);
+        if(ctrl.getName().contains("360")){
+            return this.xbox360Map.getButton(rawCode);
+        }
+        return null;
+    }
+
+
+
+
+
+    /**
+     * Returns the controller id of a certain controller
+     * @param controller the controller for which we want to get the id
+     * @return the id of the controller
+     */
+    private int getControllerId(Controller controller){
+        return availableControllers.indexOf(controller, true);
+    }
+
+
+
+
+
+
+
+
+    /**
      * Thrown when there are no Controllers available
      */
     public class NoControllersAvailableException extends RuntimeException{
@@ -184,6 +230,7 @@ public class GamePadManager implements ControllerListener{
             super("No controllers where found");
         }
     }
+
 
 
 

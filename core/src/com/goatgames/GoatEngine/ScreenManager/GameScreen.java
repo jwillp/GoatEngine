@@ -11,7 +11,6 @@ import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.graphicsrendering.RenderingSystem;
 import com.goatgames.goatengine.input.InputSystem;
 import com.goatgames.goatengine.physics.PhysicsSystem;
-import com.goatgames.goatengine.scriptingengine.groovy.GroovyScriptSystem;
 import com.goatgames.goatengine.scriptingengine.lua.LuaEntityScriptSystem;
 import com.goatgames.goatengine.ui.UIEngine;
 import com.goatgames.goatengine.utils.GAssert;

@@ -2,15 +2,13 @@ package com.goatgames.goatengine;
 
 import com.badlogic.gdx.Gdx;
 import com.goatgames.goatengine.eventmanager.EventManager;
-import com.goatgames.goatengine.eventmanager.engineevents.*;
-import com.goatgames.goatengine.gconsole.commands.*;
 import com.goatgames.goatengine.gconsole.GConsole;
+import com.goatgames.goatengine.gconsole.commands.*;
 import com.goatgames.goatengine.graphicsrendering.GraphicsEngine;
 import com.goatgames.goatengine.input.InputManager;
-import com.goatgames.goatengine.leveleditor.consolecommands.ShowLevelEditor;
 import com.goatgames.goatengine.leveleditor.LevelEditor;
+import com.goatgames.goatengine.leveleditor.consolecommands.ShowLevelEditor;
 import com.goatgames.goatengine.screenmanager.GameScreenManager;
-import com.goatgames.goatengine.scriptingengine.groovy.GroovyScriptingEngine;
 import com.goatgames.goatengine.scriptingengine.lua.LuaScriptingEngine;
 import com.goatgames.goatengine.utils.EngineProfiler;
 import com.goatgames.goatengine.utils.Logger;

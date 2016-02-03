@@ -24,8 +24,8 @@ public class VirtualGamePad extends EntityComponent {
 
     public enum InputSource{ USER_INPUT, AI_INPUT }
 
-    private ArrayList<VirtualButton> justReleasedButtons; //A list of the buttons that where just released
-    private ArrayList<VirtualButton> pressedButtons; //A list of the pressed buttons of the gamepad
+    private ArrayList<GamePadMap.Button> justReleasedButtons; //A list of the buttons that where just released
+    private ArrayList<GamePadMap.Button> pressedButtons; //A list of the pressed buttons of the gamepad
     public InputSource inputSource; // Who makes the input (AI or User?)
 
 
@@ -33,8 +33,8 @@ public class VirtualGamePad extends EntityComponent {
     public VirtualGamePad(InputSource inputSource){
         super(true);
         this.setInputSource(inputSource);
-        this.pressedButtons = new ArrayList<VirtualButton>();
-        this.justReleasedButtons = new ArrayList<VirtualButton>();
+        this.pressedButtons = new ArrayList<GamePadMap.Button>();
+        this.justReleasedButtons = new ArrayList<GamePadMap.Button>();
     }
 
 
@@ -42,14 +42,14 @@ public class VirtualGamePad extends EntityComponent {
      * Method simulating a button press
      * @param btn
      */
-    public void pressButton(VirtualButton btn){
+    public void pressButton(GamePadMap.Button btn){
         this.pressedButtons.add(btn);
     }
 
     /**
      * Method simulating a button release
      */
-    public void releaseButton(VirtualButton btn){
+    public void releaseButton(GamePadMap.Button btn){
         this.pressedButtons.remove(btn);
         this.justReleasedButtons.add(btn);
     }
@@ -58,7 +58,7 @@ public class VirtualGamePad extends EntityComponent {
      * Releases a collection of buttons
      * @param buttons
      */
-    public void releaseButtons(Collection<VirtualButton> buttons){
+    public void releaseButtons(Collection<GamePadMap.Button> buttons){
         this.pressedButtons.removeAll(buttons);
     }
 
@@ -76,7 +76,7 @@ public class VirtualGamePad extends EntityComponent {
      * @param btn
      * @return
      */
-    public boolean isButtonPressed(VirtualButton btn){
+    public boolean isButtonPressed(GamePadMap.Button btn){
         return this.pressedButtons.contains(btn);
     }
 
@@ -96,7 +96,7 @@ public class VirtualGamePad extends EntityComponent {
      * @param btn
      * @return
      */
-    public boolean isButtonJustReleased(VirtualButton btn){
+    public boolean isButtonJustReleased(GamePadMap.Button btn){
         return this.justReleasedButtons.contains(btn);
     }
 
@@ -119,7 +119,7 @@ public class VirtualGamePad extends EntityComponent {
         this.inputSource = inputSource;
     }
 
-    public ArrayList<VirtualButton> getPressedButtons() {
+    public ArrayList<GamePadMap.Button> getPressedButtons() {
         return pressedButtons;
     }
 
