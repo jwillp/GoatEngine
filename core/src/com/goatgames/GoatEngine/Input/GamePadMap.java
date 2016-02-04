@@ -5,17 +5,62 @@ import com.badlogic.gdx.utils.IntMap;
 /**
  * Game Pad Button Map
  */
-public class GamePadMap{
+public abstract class GamePadMap{
 
     protected IntMap<Button> buttonMap;
     protected int dpadCode;
-    protected IntMap<AnalogStick> analogStickMap;
-    protected IntMap<Trigger> triggerMap;
+    protected IntMap<Axis> axisMap;
 
+    /**
+     * Converts a raw code and returns it's standard button name
+     * @param rawCode
+     * @return
+     */
     public Button getButton(int rawCode) {
-        return buttonMap.get(rawCode);
+        Button button = buttonMap.get(rawCode);
+        return (button == null) ? Button.UNMAPPED : button;
     }
 
+    /**
+     * Converts an axis and returns it's standard axis name
+     * @param rawCode
+     * @return
+     */
+    public Axis getAxis(int rawCode) {
+        Axis axis = axisMap.get(rawCode);
+        return  (axis == null) ? Axis.UNMAPPED : axis;
+    }
+
+    public GamePadMap(){
+        this.buttonMap = new IntMap<>();
+        this.axisMap = new IntMap<>(2);
+    }
+
+    /**
+     * Maps a standard button to a rawCode
+     * @param button
+     * @param rawCode
+     */
+    protected void mapButton(Button button, int rawCode){
+        buttonMap.put(rawCode, button);
+    }
+
+    /**
+     * Maps a standard button to a rawCode
+     * @param axis
+     * @param rawCode
+     */
+    protected void mapAxis(Axis axis, int rawCode){
+        axisMap.put(rawCode, axis);
+    }
+
+    /**
+     * Maps a standard button to a rawCode
+     * @param rawCode
+     */
+    protected void mapPOV(int rawCode){
+        dpadCode = rawCode;
+    }
 
     /**
      * Standard Buttons
@@ -42,21 +87,25 @@ public class GamePadMap{
 
         // Analog Sticks
         // The pressing of an analog stick is considered as a button
-        ANALOG_STICK_LEFT_BUTTON,
-        ANALOG_STICK_RIGHT_BUTTON,
+        BUTTON_LS,
+        BUTTON_RS,
+
+        /* Used when a button should not be recognized or when
+        the button simply can't be recognized by a map */
+        UNMAPPED,
     }
+
 
     /**
-     * Triggers
+     * An axis means wither a joy stick or a trigger
      */
-    public enum Trigger{
-        LEFT,
-        RIGHT,
-    }
-
-    public enum AnalogStick{
-        LEFT,
-        RIGHT,
+    public enum Axis{
+        AXIS_LX,  /* Left Joystick X axis */
+        AXIS_LY,  /* Left Joystick Y axis */
+        AXIS_RX,  /* Right Joystick X axis */
+        AXIS_RY,  /* Right Joystick Y axis **/
+        TRIGGER,  /* Triggers */
+        UNMAPPED, /* UNMAPPED */
     }
 
 }

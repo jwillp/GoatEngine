@@ -1,7 +1,5 @@
 package com.goatgames.goatengine.input;
 
-import com.badlogic.gdx.utils.IntMap;
-
 /**
  * Xbox 360 Game Pad Map
  */
@@ -9,41 +7,40 @@ public class Xbox360Map extends GamePadMap {
 
     public Xbox360Map(){
 
-        this.buttonMap = new IntMap<>();
-        this.analogStickMap = new IntMap<>(2);
-        this.triggerMap = new IntMap<>(2);
 
         /* BUTTONS */
-        buttonMap.put(0, Button.BUTTON_A);
-        buttonMap.put(1, Button.BUTTON_B);
-        buttonMap.put(2, Button.BUTTON_X);
-        buttonMap.put(3, Button.BUTTON_Y);
+        mapButton(Button.BUTTON_A, 0);
+        mapButton(Button.BUTTON_B, 1);
+        mapButton(Button.BUTTON_X, 2);
+        mapButton(Button.BUTTON_Y, 3);
 
-        buttonMap.put(5, Button.BUTTON_RB);
-        buttonMap.put(4, Button.BUTTON_LB);
+        mapButton(Button.BUTTON_RB, 5);
+        mapButton(Button.BUTTON_LB, 4);
 
-        buttonMap.put(6, Button.BUTTON_BACK);
-        buttonMap.put(7, Button.BUTTON_START);
+        mapButton(Button.BUTTON_BACK, 6);
+        mapButton(Button.BUTTON_START, 7);
 
-        buttonMap.put(8, Button.ANALOG_STICK_LEFT_BUTTON);
-        buttonMap.put(9, Button.ANALOG_STICK_RIGHT_BUTTON);
+        mapButton(Button.BUTTON_LS, 8);
+        mapButton(Button.BUTTON_RS, 9);
 
 
         /* DPAD */
-        this.dpadCode = 0;
-
-        /* TRIGGERS */
-        // TODO
-        //triggerMap.put()
+        mapPOV(0);
 
 
+        /* AXIS */
         /* ANALOG STICKS */
-        analogStickMap.put(1, AnalogStick.LEFT);
-        analogStickMap.put(0, AnalogStick.RIGHT);
+
+        // Left stick
+        mapAxis(Axis.AXIS_LX, 1);  //-1 is up | +1 is down
+        mapAxis(Axis.AXIS_LY, 0);  //-1 is left | +1 is right
+
+        // Right stick
+        mapAxis(Axis.AXIS_RX, 3);  //-1 is up | +1 is down
+        mapAxis(Axis.AXIS_RY, 2);  //-1 is left | +1 is right
 
 
-
-
+        mapAxis(Axis.TRIGGER, 4); /* LT and RT are on the same Axis! LT > 0 | RT < 0 */
 
     }
 }

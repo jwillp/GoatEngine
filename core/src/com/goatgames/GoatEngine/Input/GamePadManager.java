@@ -7,6 +7,7 @@ import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.goatgames.goatengine.GoatEngine;
+import com.goatgames.goatengine.input.events.AxisMovedEvent;
 import com.goatgames.goatengine.input.events.GamePadConnectedEvent;
 import com.goatgames.goatengine.input.events.GamePadDisconnectedEvent;
 import com.goatgames.goatengine.utils.Logger;
@@ -19,7 +20,7 @@ public class GamePadManager implements ControllerListener{
     private final InputManager inputManager;
 
     private Array<Controller> availableControllers; // List of controllers that are not being used
-
+    private Array<Controller> capturedControllers; // List of controllers captured for use by the engine
     Xbox360Map xbox360Map = new Xbox360Map();
 
 
@@ -27,9 +28,15 @@ public class GamePadManager implements ControllerListener{
         this.inputManager = inputManager;
         availableControllers = Controllers.getControllers();
         // Detect Available User Game Pad Maps
-
     }
 
+
+
+    public void update(){
+
+
+
+    }
 
     /**
      * Makes a Controller available again
@@ -123,7 +130,14 @@ public class GamePadManager implements ControllerListener{
      */
     @Override
     public boolean axisMoved(Controller controller, int axisCode, float value) {
-        return false;
+        int gamePadId = getControllerId(controller);
+        GamePadMap.Axis axis =  translateAnalogStickRawCode(gamePadId,axisCode);
+        if(axis == GamePadMap.Axis.UNMAPPED) return false; // As if nothing had happened
+        GoatEngine.eventManager.fireEvent(new AxisMovedEvent(gamePadId, axis, value));
+
+        Logger.debug("Axis moved: " + axis.toString());
+
+        return true;
     }
 
     /**
@@ -137,7 +151,17 @@ public class GamePadManager implements ControllerListener{
      */
     @Override
     public boolean povMoved(Controller controller, int povCode, PovDirection value) {
-        return false;
+        int gamePadId = getControllerId(controller);
+        int rawCode = povCode;
+        GamePadMap.Button button = translateButtonRawCode(gamePadId,povCode);
+        if(button == GamePadMap.Button.UNMAPPED) return false; // As if nothing happened
+        GoatEngine.eventManager.fireEvent(new DPADMovedEvent(gamePadId, rawCode, value));
+
+
+        Logger.debug("POV moved: " + value.toString());
+
+
+        return true;
     }
 
     /**
@@ -198,10 +222,23 @@ public class GamePadManager implements ControllerListener{
         if(ctrl.getName().contains("360")){
             return this.xbox360Map.getButton(rawCode);
         }
-        return null;
+        return GamePadMap.Button.UNMAPPED;
     }
 
-
+    /**
+     * Translate a raw analog stick code to a standard virtual one
+     * for a certain controller
+     * @param controllerId the controller for which we need to do the translation
+     * @param rawCode the raw button code
+     * @return the standard analog stick name
+     */
+    private GamePadMap.Axis translateAnalogStickRawCode(int controllerId, int rawCode){
+        Controller ctrl = this.availableControllers.get(controllerId);
+        if(ctrl.getName().contains("360")){
+            return this.xbox360Map.getAxis(rawCode);
+        }
+        return GamePadMap.Axis.UNMAPPED;
+    }
 
 
 
