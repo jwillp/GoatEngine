@@ -71,7 +71,6 @@ public class GoatEngine {
         Logger.info("Engine Initialisation ...");
         performanceTimer.start();
 
-
         // Load configuration
         GEConfig.loadConfig();
         Logger.info(" > Engine config read and applied " + performanceTimer.getDeltaTime() + "ms");

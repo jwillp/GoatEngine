@@ -22,9 +22,6 @@ public class GenericGame extends Game{
             Thread.setDefaultUncaughtExceptionHandler(new DesktopExceptionHandler());
         }
 
-        // Load configuration
-        GEConfig.loadConfig();
-
         GoatEngine.init();
     }
 
