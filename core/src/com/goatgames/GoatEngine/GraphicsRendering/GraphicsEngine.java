@@ -1,7 +1,9 @@
 package com.goatgames.goatengine.graphicsrendering;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.GL20;
+import com.goatgames.goatengine.GEConfig;
 
 /**
  * Graphics Engine abstracting Gdx Calls
@@ -10,7 +12,20 @@ import com.badlogic.gdx.graphics.GL20;
 public class GraphicsEngine{
 
 
+    public void init(){
 
+        // get the current display mode of the monitor the window is on
+
+        // set the window to fullscreen mode ?
+        if(GEConfig.DevGeneral.FULLSCREEN){
+            Graphics.DisplayMode mode = Gdx.graphics.getDisplayMode();
+            Gdx.graphics.setFullscreenMode(mode);
+        }else{
+            Gdx.graphics.setWindowedMode(GEConfig.DevGeneral.VIEWPORT_WIDTH, GEConfig.DevGeneral.VIEWPORT_HEIGHT);
+        }
+        Gdx.graphics.setTitle(GEConfig.DevGeneral.GAME_NAME);
+
+    }
 
     /**
      * Delta time between frames

@@ -79,6 +79,7 @@ public class GoatEngine {
 
         // Graphics Engine
         graphicsEngine = new GraphicsEngine();
+        graphicsEngine.init();
         Logger.info(" > Graphics Engine initialised "+ performanceTimer.getDeltaTime() + "ms");
         performanceTimer.reset();
 

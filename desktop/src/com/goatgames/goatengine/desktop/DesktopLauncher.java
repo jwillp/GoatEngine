@@ -28,7 +28,6 @@ public class DesktopLauncher {
         cfg.width = 0;
         cfg.height = 0;
 
-        cfg.vSyncEnabled = false;
        // cfg.foregroundFPS = 0; // Setting to 0 disables foreground fps throttling
         cfg.backgroundFPS = 60; // Setting to 0 disables background fps throttling
 

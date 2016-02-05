@@ -25,10 +25,6 @@ public class GenericGame extends Game{
         // Load configuration
         GEConfig.loadConfig();
 
-        Gdx.graphics.setTitle(GEConfig.DevGeneral.GAME_NAME);
-        Gdx.graphics.setWindowedMode(GEConfig.DevGeneral.VIEWPORT_WIDTH, GEConfig.DevGeneral.VIEWPORT_HEIGHT);
-        //Gdx.graphics.setFullscreenMode(new Graphics.DisplayMode(GEConfig.DevGeneral.VIEWPORT_WIDTH, GEConfig.DevGeneral.VIEWPORT_HEIGHT,0,0))
-
         GoatEngine.init();
     }
 
