@@ -3,6 +3,7 @@ package com.goatgames.goatengine;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.goatgames.goatengine.eventmanager.engineevents.EngineEvents;
 import com.goatgames.goatengine.utils.DesktopExceptionHandler;
 
@@ -25,10 +26,8 @@ public class GenericGame extends Game{
         GEConfig.loadConfig();
 
         Gdx.graphics.setTitle(GEConfig.DevGeneral.GAME_NAME);
-        Gdx.graphics.setDisplayMode(
-                GEConfig.DevGeneral.VIEWPORT_WIDTH,
-                GEConfig.DevGeneral.VIEWPORT_HEIGHT,
-                GEConfig.DevGeneral.FULLSCREEN);
+        Gdx.graphics.setWindowedMode(GEConfig.DevGeneral.VIEWPORT_WIDTH, GEConfig.DevGeneral.VIEWPORT_HEIGHT);
+        //Gdx.graphics.setFullscreenMode(new Graphics.DisplayMode(GEConfig.DevGeneral.VIEWPORT_WIDTH, GEConfig.DevGeneral.VIEWPORT_HEIGHT,0,0))
 
         GoatEngine.init();
     }
