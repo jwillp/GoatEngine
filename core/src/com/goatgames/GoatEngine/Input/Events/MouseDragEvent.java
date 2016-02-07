@@ -1,12 +1,10 @@
 package com.goatgames.goatengine.input.events;
 
-import com.goatgames.goatengine.eventmanager.Event;
-
 /**
  * Triggered every time the mouse is Dragged from one
  * position to another
  */
-public class MouseDragEvent extends Event {
+public class MouseDragEvent extends InputEvent {
 
     public final int screenX;
     public final int screenY;

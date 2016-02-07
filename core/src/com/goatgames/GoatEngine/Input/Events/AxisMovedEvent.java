@@ -1,12 +1,11 @@
 package com.goatgames.goatengine.input.events;
 
-import com.goatgames.goatengine.eventmanager.Event;
 import com.goatgames.goatengine.input.GamePadMap;
 
 /**
  * When an axis is moved
  */
-public class AxisMovedEvent extends Event {
+public class AxisMovedEvent extends InputEvent {
     private final int gamePadId;
     private final GamePadMap.Axis axis;
     private final float value;

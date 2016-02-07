@@ -7,9 +7,7 @@ import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.goatgames.goatengine.GoatEngine;
-import com.goatgames.goatengine.input.events.AxisMovedEvent;
-import com.goatgames.goatengine.input.events.GamePadConnectedEvent;
-import com.goatgames.goatengine.input.events.GamePadDisconnectedEvent;
+import com.goatgames.goatengine.input.events.*;
 import com.goatgames.goatengine.utils.Logger;
 
 /**
@@ -72,7 +70,7 @@ public class GamePadManager implements ControllerListener{
         }
         int gamePadId = getControllerId(controller);
         GoatEngine.eventManager.fireEvent(new GamePadConnectedEvent(gamePadId));
-        Logger.debug("CONROLLER CONNECTED! " + controller.getName());
+        Logger.debug("CONTROLLER CONNECTED! " + controller.getName());
     }
 
     /**
@@ -102,7 +100,8 @@ public class GamePadManager implements ControllerListener{
     @Override
     public boolean buttonDown(Controller controller, int buttonCode) {
         int gamePadId = getControllerId(controller);
-        Logger.debug("Button pressed: " + translateButtonRawCode(gamePadId,buttonCode).toString());
+        GamePadMap.Button button = translateButtonRawCode(gamePadId,buttonCode);
+        GoatEngine.eventManager.fireEvent(new GamePadButtonPressedEvent(gamePadId, button,buttonCode));
         return true;
     }
 
@@ -116,7 +115,10 @@ public class GamePadManager implements ControllerListener{
      */
     @Override
     public boolean buttonUp(Controller controller, int buttonCode) {
-        return false;
+        int gamePadId = getControllerId(controller);
+        GamePadMap.Button button = translateButtonRawCode(gamePadId,buttonCode);
+        GoatEngine.eventManager.fireEvent(new GamePadButtonReleasedEvent(gamePadId, button,buttonCode));
+        return true;
     }
 
     /**

@@ -4,6 +4,7 @@ import com.goatgames.goatengine.AudioMixer;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.GameComponent;
 import com.goatgames.goatengine.eventmanager.GameEvent;
+import com.goatgames.goatengine.input.GamePadMap;
 import com.goatgames.goatengine.utils.GAssert;
 import com.goatgames.goatengine.utils.Logger;
 import com.goatgames.goatengine.utils.Timer;
@@ -38,10 +39,12 @@ public class GoatEngineAPI extends TwoArgFunction {
         library.set("GameComponent",CoerceJavaToLua.coerce(new GameComponentAPI()));
         library.set("GameEvent",CoerceJavaToLua.coerce(new GameEventAPI()));
 
-
-
         library.set("playMusic", new PlayMusicAPI());
         library.set("playAudio", new PlayAudioAPI());
+
+        //env.set("input.Buttons", CoerceJavaToLua.coerce(new GamePadMap()));
+
+
 
         env.set("GE", library);
         env.get("package").get("loaded").set("GE", library);
