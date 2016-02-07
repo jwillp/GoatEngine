@@ -7,9 +7,9 @@ import com.goatgames.goatengine.input.GamePadMap;
  */
 public class GamePadAxisMoved extends InputEvent {
 
-    private final String controllerId;
-    private final GamePadMap.Button axisCode;
-    private final float value;
+    public final String controllerId;
+    public final GamePadMap.Button axisCode;
+    public final float value;
 
     public GamePadAxisMoved(String controllerId, GamePadMap.Button axisCode, float value){
         this.controllerId = controllerId;

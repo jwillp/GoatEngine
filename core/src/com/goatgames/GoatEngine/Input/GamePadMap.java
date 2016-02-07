@@ -31,6 +31,16 @@ public abstract class GamePadMap{
         return  (axis == null) ? Axis.UNMAPPED : axis;
     }
 
+    /**
+     * Returns the raw code of an axis
+     * @param axis
+     * @return -1 if not found
+     */
+    public int getAxisRawCode(Axis axis){
+        return axisMap.findKey(axis,true, -1);
+    }
+
+
     public GamePadMap(){
         this.buttonMap = new IntMap<>();
         this.axisMap = new IntMap<>(2);

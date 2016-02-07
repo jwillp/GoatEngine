@@ -97,6 +97,7 @@ public final class LuaScriptingEngine {
     public LuaScript getScript(String scriptFile, String entityId){
         scriptFile = GEConfig.ScriptingEngine.SCRIPTS_DIR + scriptFile;
         LuaEntityScriptInfo info = this.entityScripts.get(scriptFile);
+        // Means the script has not been loaded yet (it will be done eventually)
         if(info == null) return null;
 
         // Check for reload

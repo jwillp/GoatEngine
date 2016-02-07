@@ -5,7 +5,7 @@ package com.goatgames.goatengine.input.events;
  */
 public class KeyReleasedEvent extends InputEvent {
 
-    private int key;
+    public int key;
 
     public KeyReleasedEvent(int key){
         this. key = key;

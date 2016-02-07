@@ -5,7 +5,7 @@ package com.goatgames.goatengine.input.events;
  */
 public class KeyPressedEvent extends InputEvent {
 
-    private int key;
+    public int key;
 
     public KeyPressedEvent(int key){
         this.key = key;

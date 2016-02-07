@@ -1,5 +1,6 @@
 package com.goatgames.goatengine.input;
 
+import com.badlogic.gdx.controllers.Controller;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 
@@ -9,30 +10,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A virtual gamepad to be used by the AI
- * This makes an entity controllable (it can use the buttons to shoot, to attack to move etc..)
- * This is a Component it must therfore be attached to an entity
+ * A virtual gamepad abstracting the a physical game pad
+ * enables polling
  */
-public class VirtualGamePad extends EntityComponent {
+public class VirtualGamePad{
 
-    public final static String ID = "VIRTUAL_GAME_PAD";
 
-    @Override
-    public String getId() {
-        return ID;
-    }
-
-    public enum InputSource{ USER_INPUT, AI_INPUT }
-
+    private final Controller controller; // Gdx Controller object
+    private final GamePadMap gamePadMap; // The game pad map to use
     private ArrayList<GamePadMap.Button> justReleasedButtons; //A list of the buttons that where just released
     private ArrayList<GamePadMap.Button> pressedButtons; //A list of the pressed buttons of the gamepad
-    public InputSource inputSource; // Who makes the input (AI or User?)
 
 
-
-    public VirtualGamePad(InputSource inputSource){
-        super(true);
-        this.setInputSource(inputSource);
+    public VirtualGamePad(Controller controller, GamePadMap gamePadMap){
+        this.controller = controller;
+        this.gamePadMap = gamePadMap;
         this.pressedButtons = new ArrayList<GamePadMap.Button>();
         this.justReleasedButtons = new ArrayList<GamePadMap.Button>();
     }
@@ -70,7 +62,6 @@ public class VirtualGamePad extends EntityComponent {
         this.justReleasedButtons.clear();
     }
 
-
     /**
      * Returns whether or not a button is pressed
      * @param btn
@@ -89,8 +80,6 @@ public class VirtualGamePad extends EntityComponent {
         return !this.pressedButtons.isEmpty();
     }
 
-
-
     /**
      * Returns whether or not a button was just released
      * @param btn
@@ -102,50 +91,31 @@ public class VirtualGamePad extends EntityComponent {
 
 
 
-
-
-
-
     // GETTERS && SETTERS //
-    /**
-     * Returns the Input Source
-     * @return
-     */
-    public InputSource getInputSource() {
-        return inputSource;
-    }
-
-    private void setInputSource(InputSource inputSource) {
-        this.inputSource = inputSource;
-    }
 
     public ArrayList<GamePadMap.Button> getPressedButtons() {
         return pressedButtons;
     }
 
-
-    @Override
-    public void onDetach(Entity entity) {
-
+    /**
+     * Returns value of axis
+     * @param axis
+     */
+    public float getAxis(GamePadMap.Axis axis){
+        int rawCode = gamePadMap.getAxisRawCode(axis);
+        if(rawCode != -1)
+            return controller.getAxis(rawCode);
+        return -10000;
     }
 
     /**
-     * Constructs a PODType, to be implemented by subclasses
-     *
-     * @return
+     * Returns value of axis
+     * @param axis
      */
-    @Override
-    protected Map<String, String> makeMap() {
-        return new HashMap<String, String>();
+    public float getAxisStr(String axis){
+        return getAxis(GamePadMap.Axis.valueOf(axis));
     }
 
-    /**
-     * Builds the current object from a pod representation
-     *
-     * @param pod the pod representation to use
-     */
-    @Override
-    protected void makeFromMap(Map<String, String> pod) {
 
-    }
+
 }

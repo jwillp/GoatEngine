@@ -21,11 +21,18 @@ public class GamePadManager implements ControllerListener{
     private Array<Controller> capturedControllers; // List of controllers captured for use by the engine
     Xbox360Map xbox360Map = new Xbox360Map();
 
+    private Array<VirtualGamePad> virtualGamePads;
 
     public GamePadManager(InputManager inputManager){
         this.inputManager = inputManager;
         availableControllers = Controllers.getControllers();
         // Detect Available User Game Pad Maps
+
+        virtualGamePads = new Array<>(availableControllers.size);
+        for(int i=0; i<availableControllers.size; i++){
+            Controller ctrl = availableControllers.get(i);
+            virtualGamePads.add(new VirtualGamePad(ctrl,new Xbox360Map()));
+        }
     }
 
 
@@ -101,6 +108,7 @@ public class GamePadManager implements ControllerListener{
     public boolean buttonDown(Controller controller, int buttonCode) {
         int gamePadId = getControllerId(controller);
         GamePadMap.Button button = translateButtonRawCode(gamePadId,buttonCode);
+        virtualGamePads.get(gamePadId).pressButton(button);
         GoatEngine.eventManager.fireEvent(new GamePadButtonPressedEvent(gamePadId, button,buttonCode));
         return true;
     }
@@ -117,6 +125,7 @@ public class GamePadManager implements ControllerListener{
     public boolean buttonUp(Controller controller, int buttonCode) {
         int gamePadId = getControllerId(controller);
         GamePadMap.Button button = translateButtonRawCode(gamePadId,buttonCode);
+        virtualGamePads.get(gamePadId).releaseButton(button);
         GoatEngine.eventManager.fireEvent(new GamePadButtonReleasedEvent(gamePadId, button,buttonCode));
         return true;
     }
@@ -136,9 +145,6 @@ public class GamePadManager implements ControllerListener{
         GamePadMap.Axis axis =  translateAnalogStickRawCode(gamePadId,axisCode);
         if(axis == GamePadMap.Axis.UNMAPPED) return false; // As if nothing had happened
         GoatEngine.eventManager.fireEvent(new AxisMovedEvent(gamePadId, axis, value));
-
-        Logger.debug("Axis moved: " + axis.toString());
-
         return true;
     }
 
@@ -158,11 +164,6 @@ public class GamePadManager implements ControllerListener{
         GamePadMap.Button button = translateButtonRawCode(gamePadId,povCode);
         if(button == GamePadMap.Button.UNMAPPED) return false; // As if nothing happened
         GoatEngine.eventManager.fireEvent(new DPADMovedEvent(gamePadId, rawCode, value));
-
-
-        Logger.debug("POV moved: " + value.toString());
-
-
         return true;
     }
 
@@ -255,7 +256,9 @@ public class GamePadManager implements ControllerListener{
 
 
 
-
+    public VirtualGamePad getGamePad(int id){
+        return virtualGamePads.get(id);
+    }
 
 
 

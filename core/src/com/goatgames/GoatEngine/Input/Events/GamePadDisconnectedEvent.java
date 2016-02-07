@@ -5,7 +5,7 @@ package com.goatgames.goatengine.input.events;
  */
 public class GamePadDisconnectedEvent extends InputEvent {
 
-    private final int gamePadId;
+    public final int gamePadId;
 
     public GamePadDisconnectedEvent(int gamePadId) {
         this.gamePadId = gamePadId;

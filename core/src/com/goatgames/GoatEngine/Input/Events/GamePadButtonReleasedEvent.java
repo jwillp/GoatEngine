@@ -7,9 +7,9 @@ import com.goatgames.goatengine.input.GamePadMap;
  */
 public class GamePadButtonReleasedEvent extends InputEvent {
 
-    private final int gamePadId;
-    private final GamePadMap.Button button;
-    private final int buttonCode;
+    public final int gamePadId;
+    public final GamePadMap.Button button;
+    public final int buttonCode;
 
     public GamePadButtonReleasedEvent(int gamePadId, GamePadMap.Button button, int buttonCode) {
         this.gamePadId = gamePadId;

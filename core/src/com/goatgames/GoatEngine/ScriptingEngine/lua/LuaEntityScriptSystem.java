@@ -69,7 +69,6 @@ public class LuaEntityScriptSystem extends EntitySystem implements GameEventList
             for(String scriptFile: scriptComp.getScripts()){
                 LuaScript script = GoatEngine.scriptEngine.getScript(scriptFile, entity.getID());
 
-                GAssert.notNull(script, "Script instance was null when trying to execute " + scriptFile);
                 if (script != null) {
                     if(e instanceof CollisionEvent){
                         script.executeFunction("onCollision", e);
