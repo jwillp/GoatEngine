@@ -12,6 +12,6 @@ public class KeyReleasedEvent extends InputEvent {
 
     public KeyReleasedEvent(int key){
         this. key = key;
-        keyName = Input.Keys.toString(key);
+        keyName = Input.Keys.toString(key).toUpperCase();
     }
 }

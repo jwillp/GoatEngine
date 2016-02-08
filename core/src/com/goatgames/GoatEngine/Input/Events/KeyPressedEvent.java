@@ -12,6 +12,6 @@ public class KeyPressedEvent extends InputEvent {
 
     public KeyPressedEvent(int key){
         this.key = key;
-        keyName = Input.Keys.toString(key);
+        keyName = Input.Keys.toString(key).toUpperCase();
     }
 }
