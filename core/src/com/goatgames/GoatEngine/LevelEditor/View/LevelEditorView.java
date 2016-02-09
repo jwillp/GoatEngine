@@ -289,7 +289,7 @@ public class LevelEditorView extends UIEngine {
         renderStats();
 
         // Grid
-        drawGrid();
+        //drawGrid();
 
         // Selection rendering
         renderSelection();
@@ -394,8 +394,8 @@ public class LevelEditorView extends UIEngine {
         CameraComponent cam = (CameraComponent) manager.getComponents(CameraComponent.ID).get(0);
         OrthographicCamera camera = cam.getCamera();
 
-        int tileWidth = 2;
-        int tileHeight = 2;
+        int tileWidth = 4; // 2 units
+        int tileHeight = 4;
         int mapWidth = 300;
         int mapHeight = 300;
         int startX = -mapWidth;

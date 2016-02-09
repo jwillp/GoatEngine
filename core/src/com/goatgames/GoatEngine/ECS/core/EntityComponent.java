@@ -12,7 +12,12 @@ public abstract class EntityComponent {
 
 
     // Syntactic sugar
-    public static class EntityComponentMap extends HashMap<String, String>{}
+    public static class EntityComponentMap extends HashMap<String, String>{
+        public EntityComponentMap(){}
+        public EntityComponentMap(Map<String, String> map){
+            this.putAll(map);
+        }
+    }
 
 
     public EntityComponent(boolean enabled){

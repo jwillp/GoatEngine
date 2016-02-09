@@ -34,7 +34,7 @@ public class PrefabFactory {
                 ini = new Ini(Gdx.files.internal(prefab).file());
                 prefabs.put(prefab,ini);
             }
-            EntityFactory.createFromMap(getComponents(ini));
+            entity = EntityFactory.createFromMap(getComponents(ini));
 
         } catch (IOException e) {
             Logger.error(e.getMessage());

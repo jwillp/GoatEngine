@@ -281,6 +281,11 @@ public class LevelEditor extends ChangeListener implements GameEventListener {
         if(e.key == Input.Keys.FORWARD_DEL && selectedEntity != null){
             executeCommand(new DeleteEntityCommand(selectedEntity, this));
         }
+
+        if(e.key == Input.Keys.D && Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
+            if(this.selectedEntity != null)
+                executeCommand(new DuplicateEntityCommand(selectedEntity, this));
+        }
     }
 
 

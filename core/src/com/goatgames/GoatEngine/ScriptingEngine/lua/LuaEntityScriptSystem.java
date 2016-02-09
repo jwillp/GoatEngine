@@ -77,10 +77,10 @@ public class LuaEntityScriptSystem extends EntitySystem implements GameEventList
                     }else if(e instanceof GameEvent){
                         script.executeFunction("onGameEvent", e);
                     } else{
-                        Logger.warn("Event of type " + e.toString() + " could not be processed");
-                        GAssert.that(true, "Event of type " + e.toString() + " could not be processed");
+                        String msg = "Scripting System: Event of type " + e.toString() + " will not be processed";
+                        Logger.warn(msg);
+                        GAssert.that(true, msg);
                     }
-
                 }
             }
             getEntityManager().freeEntity(entity);

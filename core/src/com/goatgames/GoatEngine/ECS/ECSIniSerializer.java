@@ -197,7 +197,7 @@ public class ECSIniSerializer {
                     }
                     comps.put(componentName,map);
                 }
-                // ELSE should never happen, warning? ignore?
+                // ELSE the only case in which this happens is for entity index values?
                 iterator.remove(); // remove the list of available componentSections
                 // the more we search, the faster it'll get.
             }
