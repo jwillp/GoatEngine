@@ -288,10 +288,11 @@ public class LevelEditorView extends UIEngine {
         // Update stats
         renderStats();
 
+        // Grid
+        drawGrid();
+
         // Selection rendering
         renderSelection();
-        // Grid
-        // drawGrid();
     }
 
 
@@ -389,60 +390,28 @@ public class LevelEditorView extends UIEngine {
     }
 
     private void drawGrid(){
-
-       // Gdx.gl.glLineWidth(1);
         EntityManager manager = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager();
         CameraComponent cam = (CameraComponent) manager.getComponents(CameraComponent.ID).get(0);
         OrthographicCamera camera = cam.getCamera();
 
-        camera.update();
+        int tileWidth = 2;
+        int tileHeight = 2;
+        int mapWidth = 300;
+        int mapHeight = 300;
+        int startX = -mapWidth;
+        int startY = -mapHeight;
 
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.DARK_GRAY);
-
-        drawVerticalLines();
-        drawHorizontalLines();
-
+        for(int x = startX; x < mapWidth; x += tileWidth)
+            shapeRenderer.line(x, startX, x, mapHeight);
+        for(int y = startY; y < mapHeight; y += tileHeight)
+            shapeRenderer.line(startY, y, mapWidth, y);
         shapeRenderer.end();
-
     }
 
 
-
-    private void drawVerticalLines () {
-        EntityManager manager = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager();
-        CameraComponent cam = (CameraComponent) manager.getComponents(CameraComponent.ID).get(0);
-        OrthographicCamera camera = cam.getCamera();
-        float xStart = camera.position.x - camera.viewportWidth / 2;
-        float xEnd = xStart + camera.viewportWidth;
-
-        float leftDownY = (camera.position.y - camera.viewportHeight / 2);
-        float linesToDraw = (camera.viewportHeight / gridSize) + 10;
-
-        float drawingPointStart = leftDownY / gridSize;
-        float drawingPointEnd = drawingPointStart + linesToDraw;
-
-        for (int i = MathUtils.round(drawingPointStart); i < MathUtils.round(drawingPointEnd); i++)
-            shapeRenderer.line(xStart, i * gridSize, xEnd, i * gridSize);
-    }
-
-    private void drawHorizontalLines () {
-        EntityManager manager = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager();
-        CameraComponent cam = (CameraComponent) manager.getComponents(CameraComponent.ID).get(0);
-        OrthographicCamera camera = cam.getCamera();
-        float yStart = camera.position.y - camera.viewportHeight / 2;
-        float yEnd = yStart + camera.viewportHeight;
-
-        float leftDownX = (camera.position.y - camera.viewportWidth / 2);
-        float linesToDraw = (camera.viewportWidth / gridSize) + 10;
-
-        float drawingPointStart = leftDownX / gridSize;
-        float drawingPointEnd = drawingPointStart + linesToDraw;
-
-        for (int i = MathUtils.round(drawingPointStart); i < MathUtils.round(drawingPointEnd); i++)
-            shapeRenderer.line(i * gridSize, yStart, i * gridSize, yEnd);
-    }
 
 
 
