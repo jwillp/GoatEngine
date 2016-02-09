@@ -2,6 +2,7 @@ package com.goatgames.goatengine.leveleditor.view;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.EntityFactory;
 import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.ecs.core.Entity;
@@ -98,6 +99,7 @@ public class ColliderView extends ComponentView {
         }
 
         // Update Inspector
+        GoatEngine.eventManager.fireEvent(new UpdateInspectorEvent());
 
 
     }

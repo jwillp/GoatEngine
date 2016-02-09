@@ -17,6 +17,8 @@ import java.util.HashMap;
  */
 public class EntityInspector extends Window {
 
+    private boolean dirty = false;
+
     Table root;
     Label lblEntityID;
     TextButton btnAddComponent;
@@ -78,7 +80,7 @@ public class EntityInspector extends Window {
 
     public void inspectEntity(Entity e){
         // if selected entity is not the same as the last inspected, update
-        if(!e.getID().equals(entityId)){
+        if(!e.getID().equals(entityId) || this.dirty){
             entityId = e.getID();
             // Trim the id at nth char and replace with dots
             String Id = e.getID().substring(0, Math.min(e.getID().length(), 8)).concat(" ...");
@@ -93,12 +95,15 @@ public class EntityInspector extends Window {
             for(String cId :  comps.keys()){
                 addComponentToList(e, comps.get(cId));
             }
+            this.dirty = false;
         }
         // TODO Update componentViews
         this.setVisible(true);
     }
 
-
+    public void setDirty(boolean isDirty){
+        this.dirty = isDirty;
+    }
 
 
     public void addComponentToList(Entity e, EntityComponent c){

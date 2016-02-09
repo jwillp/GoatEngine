@@ -14,6 +14,7 @@ import com.goatgames.goatengine.input.events.MousePressEvent;
 import com.goatgames.goatengine.input.events.MouseScrolledEvent;
 import com.goatgames.goatengine.leveleditor.commands.*;
 import com.goatgames.goatengine.leveleditor.view.GameScreenConfigView;
+import com.goatgames.goatengine.leveleditor.view.UpdateInspectorEvent;
 import com.goatgames.goatengine.leveleditor.view.LevelEditorView;
 import com.goatgames.goatengine.utils.Logger;
 import com.kotcrab.vis.ui.VisUI;
@@ -56,8 +57,9 @@ public class LevelEditor extends ChangeListener implements GameEventListener {
     public void update(float delta){
         if(enabled) {
             this.view.render(delta);
-            if(selectedEntity != null)
+            if(selectedEntity != null) {
                 this.view.getInspector().inspectEntity(selectedEntity);
+            }
             else
                 this.view.getInspector().clear();
         }else{
@@ -234,6 +236,9 @@ public class LevelEditor extends ChangeListener implements GameEventListener {
             return;
         }
 
+        if(e instanceof UpdateInspectorEvent){
+           this.getView().getInspector().setDirty(true);
+        }
 
     }
 
@@ -285,7 +290,7 @@ public class LevelEditor extends ChangeListener implements GameEventListener {
 
     public void setSelectedEntity(Entity selectedEntity) {
         // Free old entity
-        if(this.selectedEntity != null) {
+        if(this.selectedEntity != null && selectedEntity != this.selectedEntity) {
             GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager().freeEntity(this.selectedEntity);
         }
         this.selectedEntity = selectedEntity;
