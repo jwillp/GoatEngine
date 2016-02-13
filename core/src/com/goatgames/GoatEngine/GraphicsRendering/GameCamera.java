@@ -36,7 +36,7 @@ public class GameCamera extends OrthographicCamera {
 
     private boolean shaking = false;
 
-    private final Vector2 offset = new Vector2(); //Curent offset from real position
+    private final Vector2 offset = new Vector2(); //Current offset from real position
     private boolean shakeDirection = false; // false = bottom_left,  true = top_right
 
 

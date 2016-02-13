@@ -2,7 +2,6 @@ package com.goatgames.goatengine.screenmanager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
-import com.goatgames.goatengine.GEConfig;
 import com.goatgames.goatengine.ai.AISystem;
 import com.goatgames.goatengine.ecs.ECSIniSerializer;
 import com.goatgames.goatengine.ecs.core.ECSManager;
@@ -17,7 +16,6 @@ import com.goatgames.goatengine.utils.GAssert;
 import com.goatgames.goatengine.utils.Logger;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 
 public final class GameScreen{
 
@@ -41,10 +39,15 @@ public final class GameScreen{
     public void init(GameScreenManager screenManager) {
         Logger.info(String.format("> Game Screen: %s initialisation ... ", this.name));
 
+        //READ data from Config file
+        loadConfigFile();
+
+
+
+        // Initialise Systems
         GoatEngine.eventManager.registerListener(this.ecsManager.getSystemManager());
         //ecsManager.getSystemManager().addSystem(GroovyScriptSystem.class, new GroovyScriptSystem());
         ecsManager.getSystemManager().addSystem(LuaEntityScriptSystem.class, new LuaEntityScriptSystem());
-
 
         physicsSystem = new PhysicsSystem();
 
@@ -56,12 +59,9 @@ public final class GameScreen{
         ecsManager.getSystemManager().initSystems();
 
 
-        //READ data from Config file
-        loadConfigFile();
-
-
         // Apply Level Configuration
-        applyLevelConfig();
+        loadLevel();
+
 
         initialized = true;
         Logger.info(String.format("> Game Screen: %s initialised", this.name));
@@ -102,13 +102,6 @@ public final class GameScreen{
 
         try {
             config.load();
-            //Gravity
-            final float GRAVITY_X = config.getFloat("physics.gravity.x");
-            final float GRAVITY_Y = config.getFloat("physics.gravity.y");
-
-            Vector2 gravity = new Vector2(GRAVITY_X, GRAVITY_Y);
-            this.ecsManager.getSystemManager().getSystem(PhysicsSystem.class).setGravity(gravity);
-
         } catch (FileNotFoundException e) {
             GameScreenNotFoundException exception = new GameScreenNotFoundException(this.name);
             Logger.fatal(exception.getMessage());
@@ -121,7 +114,7 @@ public final class GameScreen{
      * Applies the info (add entities/objects) read from
      * the Level Config file
      */
-    private void applyLevelConfig(){
+    private void loadLevel(){
         // Load Level Config File
         final String LEVEL_CONFIG = config.getString("level");
         GAssert.that(Gdx.files.internal(LEVEL_CONFIG).exists(),
