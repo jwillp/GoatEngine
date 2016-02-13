@@ -33,13 +33,13 @@ public final class GameScreen{
 
     public GameScreen(final String name){
         this.name = name;
-        config = new GameScreenConfig();
+        config = new GameScreenConfig(GoatEngine.config.getString("screens.directory") + this.name);
         uiEngine = new UIEngine();
     }
 
 
     public void init(GameScreenManager screenManager) {
-        Logger.info("> Game Screen: " + this.name + " initialisation ... ");
+        Logger.info(String.format("> Game Screen: %s initialisation ... ", this.name));
 
         GoatEngine.eventManager.registerListener(this.ecsManager.getSystemManager());
         //ecsManager.getSystemManager().addSystem(GroovyScriptSystem.class, new GroovyScriptSystem());
@@ -64,21 +64,21 @@ public final class GameScreen{
         applyLevelConfig();
 
         initialized = true;
-        Logger.info("> Game Screen: " + this.name + " initialised");
+        Logger.info(String.format("> Game Screen: %s initialised", this.name));
 
 
     }
 
     public void cleanUp() {
-        Logger.info("Game Screen: " + this.name + "cleaned up");
+        Logger.info(String.format("Game Screen: %s cleaned up", this.name));
     }
 
     public void pause() {
-        Logger.info("Game Screen: " + this.name + "paused");
+        Logger.info(String.format("Game Screen: %s paused", this.name));
     }
 
     public void resume() {
-        Logger.info("Game Screen: " + this.name + "resumed");
+        Logger.info(String.format("Game Screen: %s resumed", this.name));
     }
 
 
@@ -101,18 +101,18 @@ public final class GameScreen{
     private void loadConfigFile(){
 
         try {
-            config.loadConfig(GEConfig.getString("screens.directory") + this.name);
+            config.load();
             //Gravity
-            Vector2 gravity = new Vector2(config.GRAVITY_X, config.GRAVITY_Y);
+            final float GRAVITY_X = config.getFloat("physics.gravity.x");
+            final float GRAVITY_Y = config.getFloat("physics.gravity.y");
+
+            Vector2 gravity = new Vector2(GRAVITY_X, GRAVITY_Y);
             this.ecsManager.getSystemManager().getSystem(PhysicsSystem.class).setGravity(gravity);
 
         } catch (FileNotFoundException e) {
             GameScreenNotFoundException exception = new GameScreenNotFoundException(this.name);
             Logger.fatal(exception.getMessage());
             throw exception;
-        } catch (IOException e) {
-            Logger.fatal(e.getMessage());
-            Logger.logStackTrace(e);
         }
     }
 
@@ -123,12 +123,12 @@ public final class GameScreen{
      */
     private void applyLevelConfig(){
         // Load Level Config File
-        GAssert.that(Gdx.files.internal(this.config.LEVEL_CONFIG).exists(),
-                "The Level could not be loaded the file \"" + this.config.LEVEL_CONFIG + "\" does not exist.");
-        ECSIniSerializer serializer = new ECSIniSerializer(this.config.LEVEL_CONFIG, this.getEntityManager());
+        final String LEVEL_CONFIG = config.getString("level");
+        GAssert.that(Gdx.files.internal(LEVEL_CONFIG).exists(),
+                String.format("The Level could not be loaded the file \"%s\" does not exist.", LEVEL_CONFIG));
+        ECSIniSerializer serializer = new ECSIniSerializer(LEVEL_CONFIG, this.getEntityManager());
         serializer.load();
-        // TODO : Read from serializer (maybe faster)
-        Logger.info("> Number of entity added: " + getEntityManager().getEntityCount());
+        Logger.info(String.format("> Number of entity added: %d", getEntityManager().getEntityCount()));
     }
 
 
@@ -164,7 +164,8 @@ public final class GameScreen{
 
     public class GameScreenNotFoundException extends RuntimeException {
         public GameScreenNotFoundException(String name) {
-            super("Could not find game screen : " + name + " File not found : " + GEConfig.getString("screens.directory") + name);
+            super(String.format("Could not find game screen : %s File not found : %s%s",
+                    name, GoatEngine.config.getString("screens.directory"), name));
         }
     }
 }

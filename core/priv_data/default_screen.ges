@@ -1,0 +1,48 @@
+-- All game screen parameters and their default values
+function conf(s,geconf)
+
+s.level = ".gel"
+
+-- PHYSICS BEGIN
+s.physics = {}
+s.physics.gravity = {}
+s.physics.gravity.x = 0
+s.physics.gravity.y = 0
+-- PHYSICS END
+
+
+-- RENDERING BEGIN
+s.rendering = {}
+s.rendering.texture = true
+s.rendering.lighting = {}
+s.rendering.lighting.ambient_light = "FFFFFFFF" --"4c6066ff"
+s.rendering.lighting.enabled = true
+-- debug
+s.rendering.physics_debug = false
+s.rendering.camera_debug = false
+s.rendering.pathfinding_debug = false
+-- RENDERING END
+end
+
+
+function postconf(s,geconf)
+    
+    -- dev_ctx compliance
+    if not geconf.dev_ctx then
+        s.rendering.physics_debug = false
+        s.rendering.camera_debug = false
+        s.rendering.pathfinding_debug=false
+    end
+
+    s.level = ensureDataDirectory(s.level,geconf)
+    
+end
+
+-- Makes sure the path is preceded with the data dir
+function ensureDataDirectory(directory,t)
+    local out
+    if not directory.find(directory, t.data_directory) then
+        out = t.data_directory .. directory
+    end
+    return  out
+end

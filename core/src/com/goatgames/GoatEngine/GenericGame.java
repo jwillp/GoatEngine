@@ -20,11 +20,6 @@ public class GenericGame extends Game{
         if(Gdx.app.getType() == Application.ApplicationType.Desktop){
             Thread.setDefaultUncaughtExceptionHandler(new DesktopExceptionHandler());
         }
-
-
-        GEConfig.load();
-
-
         GoatEngine.init();
     }
 

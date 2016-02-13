@@ -149,7 +149,7 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
 
         // Render entities based on ZIndex
         for(Entity e: entitiesByZIndex){
-            if(GoatEngine.gameScreenManager.getCurrentScreen().getConfig().TEXTURE_RENDERING){
+            if(GoatEngine.gameScreenManager.getCurrentScreen().getConfig().getBoolean("rendering.texture")){
                 renderSpriterAnimations(e,0);
                 renderSprites(e,0);
             }
@@ -157,13 +157,13 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
         spriteBatch.end();
 
         // Render lights
-        if(GoatEngine.gameScreenManager.getCurrentScreen().getConfig().LIGHTING_RENDERING){
+        if(GoatEngine.gameScreenManager.getCurrentScreen().getConfig().getBoolean("rendering.lighting.enabled")){
             this.lightSystem.draw();
         }
 
        // postProcessor.render();
 
-        if(GoatEngine.gameScreenManager.getCurrentScreen().getConfig().PHYSICS_DEBUG_RENDERING){
+        if(GoatEngine.gameScreenManager.getCurrentScreen().getConfig().getBoolean("rendering.physics_debug")){
             renderPhysicsDebug();
         }
 
@@ -172,7 +172,7 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
 
 
         // CAMERA DEBUG //
-        if(GoatEngine.gameScreenManager.getCurrentScreen().getConfig().CAMERA_DEBUG_RENDERING){
+        if(GoatEngine.gameScreenManager.getCurrentScreen().getConfig().getBoolean("rendering.camera_debug")){
             if(cameraDebugRenderer == null){
                 cameraDebugRenderer = new CameraDebugRenderer(cameraSystem.getMainCamera(), shapeRenderer);
             }
@@ -272,7 +272,7 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
      * Debug method to render the path and nodes of AI
      */
     private void renderPathfinding() {
-        if(!GoatEngine.gameScreenManager.getCurrentScreen().getConfig().PATHFINDER_DEBUG_RENDERING) return;
+        if(!GoatEngine.gameScreenManager.getCurrentScreen().getConfig().getBoolean("rendering.pathfinding_debug")) return;
         float NODE_SIZE = 0.4f;
         for(PathNode node: AISystem.pathfinder.nodes) {
             shapeRenderer.setProjectionMatrix(this.cameraSystem.getMainCamera().combined);
@@ -329,8 +329,8 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
 
     private void onScreenResize(EngineEvents.ScreenResizedEvent e) {
         this.lightSystem.onResize(e.newWidth, e.newHeight);
-        if(GEConfig.getBoolean("dev_ctx")){
-            Gdx.graphics.setTitle(GEConfig.getBoolean("dev_ctx") + "[" + e.newWidth + "x" +  e.newHeight + "]");
+        if(GoatEngine.config.getBoolean("dev_ctx")){
+            Gdx.graphics.setTitle(GoatEngine.config.getString("game.name") + "[" + e.newWidth + "x" +  e.newHeight + "]");
         }
     }
 

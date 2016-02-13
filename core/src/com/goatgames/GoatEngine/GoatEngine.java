@@ -59,9 +59,7 @@ public class GoatEngine {
     // Performance profiling
     private static Timer performanceTimer = new Timer();
     private static EngineProfiler profiler = new EngineProfiler();
-
-
-
+    public final static GEConfig config = new GEConfig();
 
 
     /**
@@ -69,16 +67,14 @@ public class GoatEngine {
      */
     public static void init(){
 
-        // Load config first
-        GEConfig.load();
-
-        Logger.info("Engine Initialisation ...");
         performanceTimer.start();
 
         // Load configuration
-        GEConfig.load();
+        config.load();
         Logger.info(" > Engine config read and applied " + performanceTimer.getDeltaTime() + "ms");
         performanceTimer.reset();
+
+        Logger.info("Engine Initialisation ...");
 
         // Graphics Engine
         graphicsEngine = new GraphicsEngine();
@@ -104,7 +100,7 @@ public class GoatEngine {
         performanceTimer.reset();
 
         // Init the console
-        final boolean CONSOLE_ENABLED = GEConfig.getBoolean("console.enabled");
+        final boolean CONSOLE_ENABLED = config.getBoolean("console.enabled");
         Logger.info(" > Dev Console initialised " + performanceTimer.getDeltaTime() + "ms");
         if(CONSOLE_ENABLED) {
             console = new GConsole();
@@ -180,11 +176,11 @@ public class GoatEngine {
             gameScreenManager.draw(deltaTime);
             //eventManager.fireEvent(new EngineEvents.RenderTickEndEvent(), false);
 
-            if(GEConfig.getBoolean("level_editor.enabled"))
+            if(config.getBoolean("level_editor.enabled"))
                 levelEditor.update(deltaTime);
 
             //Draw Console
-            if(GEConfig.getBoolean("console.enabled")){
+            if(config.getBoolean("console.enabled")){
                 console.refresh();
                 console.draw();
             }

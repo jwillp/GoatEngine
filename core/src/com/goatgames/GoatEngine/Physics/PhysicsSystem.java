@@ -26,9 +26,7 @@ public class PhysicsSystem extends EntitySystem implements ContactListener {
 
     public PhysicsSystem() {
         Box2D.init();
-        float configX = GoatEngine.gameScreenManager.getCurrentScreen().getConfig().GRAVITY_X;
-        float configY = GoatEngine.gameScreenManager.getCurrentScreen().getConfig().GRAVITY_Y;
-        world = new World(new Vector2(configX, configY), true);
+        world = new World(new Vector2(0,0), true);  // This will be overridden later with the values from config file
         world.setContactListener(this);
     }
 

@@ -78,7 +78,8 @@ public class LightSystem extends EntitySystem {
         // set the ambient color values, this is the "global" light of your scene
         // imagine it being the sun.  Usually the alpha value is just 1, and you change the darkness/brightness
         // with the Red, Green and Blue values for best effect
-        Color c = Color.valueOf(GoatEngine.gameScreenManager.getCurrentScreen().getConfig().AMBIENT_LIGHT);
+        String colorStr = GoatEngine.gameScreenManager.getCurrentScreen().getConfig().getString("rendering.lighting.ambient_light");
+        Color c = Color.valueOf(colorStr);
         Gdx.gl.glClearColor(c.r,c.g,c.b,c.a);
         //Gdx.gl.glClearColor(0.3f,0,0f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

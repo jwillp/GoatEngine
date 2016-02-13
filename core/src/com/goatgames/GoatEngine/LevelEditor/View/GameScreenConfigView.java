@@ -72,12 +72,7 @@ public class GameScreenConfigView extends Window{
                 if(field.getGenericType() == float.class)
                     field.set(config, Float.parseFloat(value));
 
-
-
-
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
+            } catch (NoSuchFieldException | IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
@@ -87,20 +82,18 @@ public class GameScreenConfigView extends Window{
             try {
                 config.getClass().getField(key).setAccessible(true);
                 config.getClass().getField(key).set(config, this.booleanFields.get(key).isChecked());
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
+            } catch (NoSuchFieldException | IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
 
 
         // Update Gravity
-        float configX = GoatEngine.gameScreenManager.getCurrentScreen().getConfig().GRAVITY_X;
+        /*float configX = GoatEngine.gameScreenManager.getCurrentScreen().getConfig().GRAVITY_X;
         float configY = GoatEngine.gameScreenManager.getCurrentScreen().getConfig().GRAVITY_Y;
         GoatEngine.gameScreenManager.getCurrentScreen().getPhysicsSystem().getWorld().setGravity(
                 new Vector2(configX, configY)
-        );
+        );*/
         this.remove();
     }
 

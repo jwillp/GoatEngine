@@ -222,7 +222,7 @@ public class LevelEditorView extends UIEngine {
         Skin skin = getRootTable().getSkin();
         labelScreenName = new Label(
                 GoatEngine.gameScreenManager.getCurrentScreen().getName().replace(
-                        GEConfig.getString("screens.screen_ext"),""), skin);
+                        GoatEngine.config.getString("screens.screen_ext"),""), skin);
         labelFPS = new Label("", skin);
         labelEntityCount = new Label("", skin);
 

@@ -77,7 +77,7 @@ public class CtxAPI extends TwoArgFunction {
         @Override
         public LuaValue call(LuaValue arg) {
             String prefab = arg.toString();
-            final String DATA_DIR = GEConfig.getString("data_directory");
+            final String DATA_DIR = GoatEngine.config.getString("data_directory");
             if(!prefab.startsWith(DATA_DIR + "prefabs")){
                 prefab = DATA_DIR + "prefabs/" + prefab;
             }

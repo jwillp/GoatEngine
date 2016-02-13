@@ -3,6 +3,7 @@ package com.goatgames.goatengine.scriptingengine.lua;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.goatgames.goatengine.GEConfig;
+import com.goatgames.goatengine.GoatEngine;
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaValue;
 
@@ -66,7 +67,7 @@ public final class LuaScriptingEngine {
      */
     public LuaScript addScript(String scriptFile, String entityId){
 
-        scriptFile = GEConfig.getString("scripting.directory") + scriptFile;
+        scriptFile = GoatEngine.config.getString("scripting.directory") + scriptFile;
 
         // If the script is not in memory, we'll "register" it. (List as a potential script)
         if(!isScriptRegistered(scriptFile)){
@@ -95,13 +96,13 @@ public final class LuaScriptingEngine {
      * @param entityId the Id of the entity
      */
     public LuaScript getScript(String scriptFile, String entityId){
-        scriptFile =  GEConfig.getString("scripting.directory")  + scriptFile;
+        scriptFile =  GoatEngine.config.getString("scripting.directory")  + scriptFile;
         LuaEntityScriptInfo info = this.entityScripts.get(scriptFile);
         // Means the script has not been loaded yet (it will be done eventually)
         if(info == null) return null;
 
         // Check for reload
-        if(GEConfig.getBoolean("scripting.auto_reload")){
+        if(GoatEngine.config.getBoolean("scripting.auto_reload")){
             // Is source newer?
             long lastModifiedOnDisk = Gdx.files.internal(scriptFile).lastModified();
             long lastModifiedInMemory = info.getLastModified();

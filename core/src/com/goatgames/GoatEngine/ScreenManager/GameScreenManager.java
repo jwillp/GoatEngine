@@ -2,6 +2,7 @@ package com.goatgames.goatengine.screenmanager;
 
 
 import com.goatgames.goatengine.GEConfig;
+import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.utils.Logger;
 
 import java.util.Stack;
@@ -26,8 +27,8 @@ public class GameScreenManager {
      */
     public void init() {
         this.isRunning = true;
-        String mainScreenName = GEConfig.getString("screens.main_screen");
-        String mainScreenPath = GEConfig.getString("screens.directory") + mainScreenName;
+        String mainScreenName = GoatEngine.config.getString("screens.main_screen");
+        String mainScreenPath = GoatEngine.config.getString("screens.directory") + mainScreenName;
         GameScreen mainScreen = new GameScreen(mainScreenName);
         this.addScreen(mainScreen);
     }

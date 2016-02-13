@@ -2,6 +2,7 @@ package com.goatgames.goatengine.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.goatgames.goatengine.GEConfig;
+import com.goatgames.goatengine.GoatEngine;
 
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
@@ -31,16 +32,17 @@ public class Logger {
      * @param message
      */
     private static void log(String level, Object message){
-        if (!GEConfig.getArray("logger.levels").contains(level, false))return;
+        if (!GoatEngine.config.getArray("logger.levels").contains(level, false))return;
 
-        printToScreen = GEConfig.getBoolean("logger.print_screen");
+        printToScreen = GoatEngine.config.getBoolean("logger.print_screen");
         String logTime = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
         String time = "["+logTime+"] ";
 
         if(logFile == null){
             String longDate = new SimpleDateFormat("YYYYMMDDHHmmss").format(GEConfig.LAUNCH_DATE);
-            String outputFile = GEConfig.getString("logger.directory") +
-                                GEConfig.getString("logger.file_name_format").replace("%date%", longDate);
+            final String LOGGER_DIRECTORY = GoatEngine.config.getString("logger.directory");
+            final String LOG_FILE_FORMAT = GoatEngine.config.getString("logger.file_name_format");
+            String outputFile =  LOGGER_DIRECTORY + LOG_FILE_FORMAT.replace("%date%", longDate);
 
 
 
@@ -74,7 +76,7 @@ public class Logger {
      */
     private static String envToXml(String logName, String logDate, String systemOs){
 
-        String buildCtx = GEConfig.getBoolean("dev_ctx") ? "DEV" : "PROD";
+        String buildCtx = GoatEngine.config.getBoolean("dev_ctx") ? "DEV" : "PROD";
         String engineBuild = GEConfig.BUILD_VERSION + "" + buildCtx;
 
         return "<title>"+ logName +"</title>" +
@@ -82,8 +84,8 @@ public class Logger {
             "<date>" + logDate + "</date>" +
             "<systemos>" + systemOs + "</systemos>" +
             "<enginebuild>" + engineBuild + "</enginebuild>" +
-            "<game>" + GEConfig.getString("game.name") + "</game>" +
-            "<gamebuild>" + GEConfig.getString("game.version") + "</gamebuild>" +
+            "<game>" + GoatEngine.config.getString("game.name") + "</game>" +
+            "<gamebuild>" + GoatEngine.config.getString("game.version") + "</gamebuild>" +
         "</environement>";
     }
 

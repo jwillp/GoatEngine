@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.GL20;
 import com.goatgames.goatengine.GEConfig;
+import com.goatgames.goatengine.GoatEngine;
 
 /**
  * Graphics Engine abstracting Gdx Calls
@@ -17,13 +18,13 @@ public class GraphicsEngine{
         // get the current display mode of the monitor the window is on
 
         // set the window to fullscreen mode ?
-        if(GEConfig.getBoolean("game.fullscreen")){
+        if(GoatEngine.config.getBoolean("game.fullscreen")){
             Graphics.DisplayMode mode = Gdx.graphics.getDisplayMode();
             Gdx.graphics.setFullscreenMode(mode);
         }else{
             Gdx.graphics.setWindowedMode(10, 10);
         }
-        Gdx.graphics.setTitle(GEConfig.getString("game.name"));
+        Gdx.graphics.setTitle(GoatEngine.config.getString("game.name"));
 
     }
 
