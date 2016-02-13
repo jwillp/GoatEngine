@@ -47,14 +47,11 @@ public final class GameScreen{
 
 
         physicsSystem = new PhysicsSystem();
+
         ecsManager.getSystemManager().addSystem(PhysicsSystem.class, physicsSystem);
-
-        ecsManager.getSystemManager().addSystem(RenderingSystem.class, new RenderingSystem());
         ecsManager.getSystemManager().addSystem(AISystem.class, new AISystem());
-
-
         ecsManager.getSystemManager().addSystem(InputSystem.class, new InputSystem());
-
+        ecsManager.getSystemManager().addSystem(RenderingSystem.class, new RenderingSystem());
 
         ecsManager.getSystemManager().initSystems();
 

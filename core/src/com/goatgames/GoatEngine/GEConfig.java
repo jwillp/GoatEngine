@@ -16,7 +16,7 @@ public class GEConfig {
 
     // Constants
     private static final String CONFIG_FILE_PATH = "priv_data/ge.conf";
-    public static final String BUILD_VERSION = "160131";                     // The current build version of the engine
+    public static final String BUILD_VERSION = "16.02.12";                   // The current build version of the engine
     public static final Date LAUNCH_DATE = Calendar.getInstance().getTime(); // The date at which the engine was launched
 
     // The read Data from config files
@@ -27,25 +27,26 @@ public class GEConfig {
      * Loads the settings from the private data file
      */
     public static void load(){
-        LuaScript defaultConfig = new LuaScript(CONFIG_FILE_PATH);
-        if(!defaultConfig.load()){
-            // TODO throw exception
-        }
-        data = new LuaTable();
-        defaultConfig.executeFunction("geconf", data);
-
-        // Game Specific override (if any)
-        String configFile = getString("config_file");
-        if(Gdx.files.internal(configFile).exists()){
-            LuaScript gsScript = new LuaScript(configFile); // directly under root
-            if(!gsScript.load()){
-                // TODO Throw exception
+        try{
+            LuaScript defaultConfig = new LuaScript(CONFIG_FILE_PATH);
+            if(!defaultConfig.load()){
+                // TODO throw exception
             }
-            gsScript.executeFunction("geconf", data);
-        }
-        // Post Data (sanitize data)
-        defaultConfig.executeFunction("postconf", data);
+            data = new LuaTable();
+            defaultConfig.executeFunction("geconf", data);
 
+            // Game Specific override (if any)
+            String configFile = getString("config_file");
+            if(Gdx.files.internal(configFile).exists()){
+                LuaScript gsScript = new LuaScript(configFile); // directly under root
+                gsScript.load();
+                gsScript.executeFunction("geconf", data);
+            }
+            // Post Data (sanitize data)
+            defaultConfig.executeFunction("postconf", data);
+        }catch (LuaScript.LuaScriptException ex){
+            throw new InvalidConfigFileException(ex.getMessage());
+        }
     }
 
     /**
@@ -119,5 +120,11 @@ public class GEConfig {
         return returnValue;
     }
 
+
+    public static class InvalidConfigFileException extends RuntimeException{
+        public InvalidConfigFileException(String msg){
+            super(msg);
+        }
+    }
 
 }
