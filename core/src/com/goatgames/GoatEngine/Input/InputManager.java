@@ -41,7 +41,7 @@ public class InputManager{
     public void addInputProcessor(InputProcessor processor){
         multiplexer.addProcessor(processor);
 
-        //Make sure keyboardInputManager is always last // TODO more efficiant way
+        //Make sure keyboardInputManager is always last // TODO more efficient way
         multiplexer.removeProcessor(keyboardInputManager);
         multiplexer.addProcessor(multiplexer.size(), keyboardInputManager);
 

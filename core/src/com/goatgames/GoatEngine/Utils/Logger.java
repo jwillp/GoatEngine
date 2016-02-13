@@ -33,6 +33,7 @@ public class Logger {
     private static void log(String level, Object message){
         if (!GEConfig.getArray("logger.levels").contains(level, false))return;
 
+        printToScreen = GEConfig.getBoolean("logger.print_screen");
         String logTime = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
         String time = "["+logTime+"] ";
 
@@ -63,7 +64,7 @@ public class Logger {
         String xml = logToXml(level, message, fileAndLine, time);
 
         Gdx.files.local(logFile).writeString(xml + "\n", true, StandardCharsets.UTF_8.toString());
-        print(message);
+        print(level, message);
     }
 
 
@@ -113,9 +114,9 @@ public class Logger {
     /**
      * Prints in the program's console
      */
-    private static void print(Object message){
+    private static void print(String level, Object message){
         if(printToScreen){
-            System.out.println(message);
+            System.out.println(String.format("[%s] %s",level,message));
         }
     }
 
@@ -133,7 +134,7 @@ public class Logger {
      * @param message
      */
     public static void debug(Object message){
-        print(LEVEL_DEBUG + ": " + message);
+        print(LEVEL_DEBUG, message);
     }
 
 

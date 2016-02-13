@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.ecs.common;
+package com.goatgames.goatengine.graphicsrendering;
 
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 

@@ -68,6 +68,10 @@ public class GoatEngine {
      * This initializes the Game Engine
      */
     public static void init(){
+
+        // Load config first
+        GEConfig.load();
+
         Logger.info("Engine Initialisation ...");
         performanceTimer.start();
 
@@ -100,11 +104,11 @@ public class GoatEngine {
         performanceTimer.reset();
 
         // Init the console
-        console = new GConsole();
         final boolean CONSOLE_ENABLED = GEConfig.getBoolean("console.enabled");
-        console.setDisabled(!CONSOLE_ENABLED);
         Logger.info(" > Dev Console initialised " + performanceTimer.getDeltaTime() + "ms");
         if(CONSOLE_ENABLED) {
+            console = new GConsole();
+            console.setDisabled(false);
             // Default commands
             console.addCommand(new ExitCommand());
             console.addCommand(new HelpCommand());
@@ -176,12 +180,14 @@ public class GoatEngine {
             gameScreenManager.draw(deltaTime);
             //eventManager.fireEvent(new EngineEvents.RenderTickEndEvent(), false);
 
-
-            levelEditor.update(deltaTime);
+            if(GEConfig.getBoolean("level_editor.enabled"))
+                levelEditor.update(deltaTime);
 
             //Draw Console
-            console.refresh();
-            console.draw();
+            if(GEConfig.getBoolean("console.enabled")){
+                console.refresh();
+                console.draw();
+            }
 
             //eventManager.fireEvent(new EngineEvents.GameTickEndEvent());
         }else{
@@ -205,7 +211,9 @@ public class GoatEngine {
         scriptEngine.dispose();
 
         //Dispose Console
-        console.dispose();
+        if(console != null) {
+            console.dispose();
+        }
     }
 
 

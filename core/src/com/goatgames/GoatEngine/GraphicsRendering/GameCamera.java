@@ -5,7 +5,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.goatgames.goatengine.utils.Timer;
 
 /**
- * A Camera with speed of movement and of zoom
+ * An orthographic Camera with additional features:
+ *  - movement speed
+ *  - zoom speed
+ *  - X Axis locking
+ *  - Y Axis locking
  */
 public class GameCamera extends OrthographicCamera {
 

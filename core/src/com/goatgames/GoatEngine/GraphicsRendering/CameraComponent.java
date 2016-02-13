@@ -8,7 +8,8 @@ import java.util.Map;
 
 /**
  * A component enabling an entity to act as a camera.
- *
+ * The reason cameras are components is to enable multiple cameras
+ * and easily edit them like any other entity.
  */
 public class CameraComponent extends EntityComponent{
 

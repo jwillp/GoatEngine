@@ -1,7 +1,7 @@
 package com.goatgames.goatengine.ecs;
 
 import com.goatgames.goatengine.ai.components.AIComponent;
-import com.goatgames.goatengine.ecs.common.CameraTargetComponent;
+import com.goatgames.goatengine.graphicsrendering.CameraTargetComponent;
 import com.goatgames.goatengine.ecs.core.GameComponent;
 import com.goatgames.goatengine.graphicsrendering.*;
 import com.goatgames.goatengine.input.TouchableComponent;

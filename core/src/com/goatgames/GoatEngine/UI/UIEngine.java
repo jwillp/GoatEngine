@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.goatgames.goatengine.GoatEngine;
 
 /**
- * Responsible for handling UI
+ * Responsible for handling UI for a Game Screen
  */
 public class UIEngine {
 
