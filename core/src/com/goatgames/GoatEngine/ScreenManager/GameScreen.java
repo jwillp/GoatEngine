@@ -2,11 +2,11 @@ package com.goatgames.goatengine.screenmanager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+import com.goatgames.goatengine.GEConfig;
 import com.goatgames.goatengine.ai.AISystem;
 import com.goatgames.goatengine.ecs.ECSIniSerializer;
 import com.goatgames.goatengine.ecs.core.ECSManager;
 import com.goatgames.goatengine.ecs.core.EntityManager;
-import com.goatgames.goatengine.GEConfig;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.graphicsrendering.RenderingSystem;
 import com.goatgames.goatengine.input.InputSystem;
@@ -104,7 +104,7 @@ public final class GameScreen{
     private void loadConfigFile(){
 
         try {
-            config.loadConfig(GEConfig.ScreenManager.SCREEN_DIR + this.name);
+            config.loadConfig(GEConfig.getString("screens.directory") + this.name);
             //Gravity
             Vector2 gravity = new Vector2(config.GRAVITY_X, config.GRAVITY_Y);
             this.ecsManager.getSystemManager().getSystem(PhysicsSystem.class).setGravity(gravity);
@@ -167,7 +167,7 @@ public final class GameScreen{
 
     public class GameScreenNotFoundException extends RuntimeException {
         public GameScreenNotFoundException(String name) {
-            super("Could not find game screen : " + name + " File not found : " + GEConfig.ScreenManager.SCREEN_DIR + name);
+            super("Could not find game screen : " + name + " File not found : " + GEConfig.getString("screens.directory") + name);
         }
     }
 }

@@ -72,7 +72,7 @@ public class GoatEngine {
         performanceTimer.start();
 
         // Load configuration
-        GEConfig.loadConfig();
+        GEConfig.load();
         Logger.info(" > Engine config read and applied " + performanceTimer.getDeltaTime() + "ms");
         performanceTimer.reset();
 
@@ -101,10 +101,10 @@ public class GoatEngine {
 
         // Init the console
         console = new GConsole();
-        console.setDisabled(!GEConfig.Console.CONS_ENABLED);
-        if(GEConfig.Console.CONS_ENABLED) {
-            Logger.info(" > Dev Console initialised " + performanceTimer.getDeltaTime() + "ms");
-
+        final boolean CONSOLE_ENABLED = GEConfig.getBoolean("console.enabled");
+        console.setDisabled(!CONSOLE_ENABLED);
+        Logger.info(" > Dev Console initialised " + performanceTimer.getDeltaTime() + "ms");
+        if(CONSOLE_ENABLED) {
             // Default commands
             console.addCommand(new ExitCommand());
             console.addCommand(new HelpCommand());

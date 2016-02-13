@@ -4,8 +4,6 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Array;
@@ -331,8 +329,8 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
 
     private void onScreenResize(EngineEvents.ScreenResizedEvent e) {
         this.lightSystem.onResize(e.newWidth, e.newHeight);
-        if(GEConfig.DevGeneral.DEV_CTX){
-            Gdx.graphics.setTitle(GEConfig.DevGeneral.GAME_NAME + "[" + e.newWidth + "x" +  e.newHeight + "]");
+        if(GEConfig.getBoolean("dev_ctx")){
+            Gdx.graphics.setTitle(GEConfig.getBoolean("dev_ctx") + "[" + e.newWidth + "x" +  e.newHeight + "]");
         }
     }
 

@@ -3,7 +3,6 @@ package com.goatgames.goatengine;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
 import com.goatgames.goatengine.eventmanager.engineevents.EngineEvents;
 import com.goatgames.goatengine.utils.DesktopExceptionHandler;
 
@@ -21,6 +20,10 @@ public class GenericGame extends Game{
         if(Gdx.app.getType() == Application.ApplicationType.Desktop){
             Thread.setDefaultUncaughtExceptionHandler(new DesktopExceptionHandler());
         }
+
+
+        GEConfig.load();
+
 
         GoatEngine.init();
     }

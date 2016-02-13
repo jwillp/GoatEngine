@@ -1,9 +1,6 @@
 package com.goatgames.goatengine.scriptingengine.lua;
 
 import com.badlogic.gdx.Gdx;
-import com.goatgames.goatengine.GoatEngine;
-import com.goatgames.goatengine.utils.Logger;
-import com.strongjoshua.console.Console;
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaValue;
@@ -36,29 +33,18 @@ public class LuaScript {
      */
     public boolean load(){
         if(!Gdx.files.internal(scriptFile).exists()){
-            Logger.error("Lua Script not found: " + scriptFile);
+            //Logger.error("Lua Script not found: " + scriptFile);
             hasError = true;
             return false;
         }
 
         try{
             chunk = globals.load(Gdx.files.internal(scriptFile).readString());
-        } catch (LuaError e) {
-            // If reading the file fails, then log the error to the console
-            Logger.error("Lua Error in file" + scriptFile + ": " + e.getMessage());
-            Logger.logStackTrace(e);
-            GoatEngine.console.log(e.getMessage(), Console.LogLevel.ERROR);
-            hasError = true;
-            return false;
-        }
-
-        // An important step. Calls to script method do not work if the chunk is not called here
-        try{
             chunk.call();
-        }catch (LuaError e){
-            throw new LuaScriptException(e, this.scriptFile);
+        } catch (LuaError e) {
+            hasError = true;
+            throw new LuaScriptException(e,this.scriptFile);
         }
-
         hasError = false;
         return true;
     }
@@ -104,8 +90,8 @@ public class LuaScript {
         LuaValue function = globals.get(functionName); // Get the function
 
         if(!function.isfunction()){
-            Logger.error("Lua Error: function " + functionName + " does not exist in " + scriptFile);
-            return false;
+            //Logger.error("Lua Error: function " + functionName + " does not exist in " + scriptFile);
+            throw new LuaScriptException("Lua Error: function " + functionName + " does not exist", scriptFile);
         }
 
         LuaValue[] parameters = (objects == null) ? new LuaValue[0] : new LuaValue[objects.length];
@@ -117,15 +103,8 @@ public class LuaScript {
         try{
             function.invoke(parameters);
         } catch (LuaError e){
-            // Call function with converted parameters
-            LuaScriptException ex = new LuaScriptException(e, this.scriptFile);
-            Logger.error("Lua Error in " + this.scriptFile + ": " + LuaScriptException.getReason(ex.getMessage()));
-            Logger.logStackTrace(e);
-            String msg = e.getMessage();
-            msg.substring(msg.lastIndexOf("\n"));
-            GoatEngine.console.log(msg, Console.LogLevel.ERROR);
             hasError = true;
-            return false;
+            throw new LuaScriptException(e,this.scriptFile);
         }
         return true;
     }
@@ -171,12 +150,16 @@ public class LuaScript {
     // Exceptions //
 
     public static class LuaScriptException extends RuntimeException{
+
         public LuaScriptException(LuaError e, String fileName){
             super("Lua Error: " + getReason(e.getMessage()) +
                     "\nin " + fileName + " at line: " + getLineNumber(e.getMessage())
             );
         }
 
+        public LuaScriptException(String errorMsg, String fileName){
+            super("Lua Error: " + errorMsg + "in script " + fileName);
+        }
 
         public static String getReason(String msg) {
             msg = msg.substring(msg.lastIndexOf("\n"));

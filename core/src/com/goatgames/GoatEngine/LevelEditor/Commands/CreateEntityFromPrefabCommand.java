@@ -29,8 +29,9 @@ public class CreateEntityFromPrefabCommand extends EditorCommand {
     public void exec() {
         // Display a Choose Prefab window
         //chooser creation
+        final String DATA_DIR = GEConfig.getString("data_directory");
         FileChooser fileChooser = new FileChooser(FileChooser.Mode.OPEN);
-        fileChooser.setDirectory(Gdx.files.internal(GEConfig.DATA_DIR + "prefabs"));
+        fileChooser.setDirectory(Gdx.files.internal(DATA_DIR + "prefabs"));
         fileChooser.setSelectionMode(FileChooser.SelectionMode.FILES);
         fileChooser.setListener(new FileChooserAdapter() {
             @Override

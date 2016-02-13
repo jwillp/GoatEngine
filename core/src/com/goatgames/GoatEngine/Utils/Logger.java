@@ -31,14 +31,15 @@ public class Logger {
      * @param message
      */
     private static void log(String level, Object message){
-        if (GEConfig.Logger.EXCLUDE_LEVEL.equals(level)) return;
+        if (!GEConfig.getArray("logger.levels").contains(level, false))return;
 
         String logTime = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
         String time = "["+logTime+"] ";
 
         if(logFile == null){
             String longDate = new SimpleDateFormat("YYYYMMDDHHmmss").format(GEConfig.LAUNCH_DATE);
-            String outputFile = GEConfig.Logger.LOG_DIRECTORY + GEConfig.Logger.FILE_NAME_FORMAT.replace("%date%", longDate);
+            String outputFile = GEConfig.getString("logger.directory") +
+                                GEConfig.getString("logger.file_name_format").replace("%date%", longDate);
 
 
 
@@ -72,16 +73,16 @@ public class Logger {
      */
     private static String envToXml(String logName, String logDate, String systemOs){
 
-        String buildCtx = GEConfig.DevGeneral.DEV_CTX ? "DEV" : "PROD";
-
+        String buildCtx = GEConfig.getBoolean("dev_ctx") ? "DEV" : "PROD";
+        String engineBuild = GEConfig.BUILD_VERSION + "" + buildCtx;
 
         return "<title>"+ logName +"</title>" +
         "<environement>" +
-        "<date>" + logDate + "</date>" +
-        "<systemos>" + systemOs + "</systemos>" +
-        "<enginebuild>" + GEConfig.BUILD_VERSION + "" + buildCtx + "</enginebuild>" +
-        "<game>" + GEConfig.DevGeneral.GAME_NAME + "</game>" +
-        "<gamebuild>" + GEConfig.DevGeneral.GAME_VERSION + "</gamebuild>" +
+            "<date>" + logDate + "</date>" +
+            "<systemos>" + systemOs + "</systemos>" +
+            "<enginebuild>" + engineBuild + "</enginebuild>" +
+            "<game>" + GEConfig.getString("game.name") + "</game>" +
+            "<gamebuild>" + GEConfig.getString("game.version") + "</gamebuild>" +
         "</environement>";
     }
 

@@ -12,7 +12,6 @@ import java.util.HashMap;
 public class AudioMixer {
 
     //The base directory for all the audio files
-    private static final String AUDIO_DIRECTORY = GEConfig.DATA_DIR + "audio";
 
     // All the loaded Audio files <NameOfFile, File>
     private static HashMap<String, Sound> sounds = new HashMap<String, Sound>();
@@ -56,7 +55,7 @@ public class AudioMixer {
      * @return
      */
     public static Sound loadSound(String soundFilePath){
-        Sound s =  Gdx.audio.newSound(Gdx.files.internal(AUDIO_DIRECTORY+"/"+soundFilePath));
+        Sound s =  Gdx.audio.newSound(Gdx.files.internal(soundFilePath));
         sounds.put(soundFilePath, s);
         return s;
     }
@@ -68,7 +67,7 @@ public class AudioMixer {
      * @return
      */
     public static Music loadMusic(String musicFilePath){
-        Music m =  Gdx.audio.newMusic(Gdx.files.internal(AUDIO_DIRECTORY+"/"+musicFilePath));
+        Music m =  Gdx.audio.newMusic(Gdx.files.internal(musicFilePath));
         musics.put(musicFilePath, m);
         return m;
     }

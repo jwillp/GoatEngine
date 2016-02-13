@@ -26,8 +26,9 @@ public class GameScreenManager {
      */
     public void init() {
         this.isRunning = true;
-        String mainScreenPath = GEConfig.ScreenManager.SCREEN_DIR + GEConfig.ScreenManager.MAIN_SCREEN;
-        GameScreen mainScreen = new GameScreen(GEConfig.ScreenManager.MAIN_SCREEN);
+        String mainScreenName = GEConfig.getString("screens.main_screen");
+        String mainScreenPath = GEConfig.getString("screens.directory") + mainScreenName;
+        GameScreen mainScreen = new GameScreen(mainScreenName);
         this.addScreen(mainScreen);
     }
 
@@ -162,13 +163,13 @@ public class GameScreenManager {
 
 
     private void handleEmptyStack(){
-        if(GEConfig.ScreenManager.ON_EMPTY_STACK.equals(GEConfig.ScreenManager.FATAL)){
+        /*if(GEConfig.ScreenManager.ON_EMPTY_STACK.equals(GEConfig.ScreenManager.FATAL)){*/
             EmptyScreenManagerException ex = new EmptyScreenManagerException();
             Logger.fatal(ex.getMessage());
             throw ex;
-        }else if(GEConfig.ScreenManager.ON_EMPTY_STACK.equals(GEConfig.ScreenManager.EXIT)){
+        /*}else if(GEConfig.ScreenManager.ON_EMPTY_STACK.equals(GEConfig.ScreenManager.EXIT)){
             // TODO notify GoatEngine that we want to quit
-        }
+        }*/
     }
 
 

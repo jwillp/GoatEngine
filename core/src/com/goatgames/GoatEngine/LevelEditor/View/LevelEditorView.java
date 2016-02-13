@@ -4,17 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.goatgames.goatengine.GEConfig;
 import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityManager;
-import com.goatgames.goatengine.GEConfig;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.graphicsrendering.CameraComponent;
 import com.goatgames.goatengine.leveleditor.LevelEditor;
@@ -223,7 +222,7 @@ public class LevelEditorView extends UIEngine {
         Skin skin = getRootTable().getSkin();
         labelScreenName = new Label(
                 GoatEngine.gameScreenManager.getCurrentScreen().getName().replace(
-                        GEConfig.ScreenManager.GAME_SCREEN_EXT,""), skin);
+                        GEConfig.getString("screens.screen_ext"),""), skin);
         labelFPS = new Label("", skin);
         labelEntityCount = new Label("", skin);
 

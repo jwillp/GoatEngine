@@ -17,13 +17,13 @@ public class GraphicsEngine{
         // get the current display mode of the monitor the window is on
 
         // set the window to fullscreen mode ?
-        if(GEConfig.DevGeneral.FULLSCREEN){
+        if(GEConfig.getBoolean("game.fullscreen")){
             Graphics.DisplayMode mode = Gdx.graphics.getDisplayMode();
             Gdx.graphics.setFullscreenMode(mode);
         }else{
-            Gdx.graphics.setWindowedMode(GEConfig.DevGeneral.VIEWPORT_WIDTH, GEConfig.DevGeneral.VIEWPORT_HEIGHT);
+            Gdx.graphics.setWindowedMode(10, 10);
         }
-        Gdx.graphics.setTitle(GEConfig.DevGeneral.GAME_NAME);
+        Gdx.graphics.setTitle(GEConfig.getString("game.name"));
 
     }
 

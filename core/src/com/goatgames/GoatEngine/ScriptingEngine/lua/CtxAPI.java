@@ -77,8 +77,9 @@ public class CtxAPI extends TwoArgFunction {
         @Override
         public LuaValue call(LuaValue arg) {
             String prefab = arg.toString();
-            if(!prefab.startsWith(GEConfig.DATA_DIR + "prefabs")){
-                prefab = GEConfig.DATA_DIR + "prefabs/" + prefab;
+            final String DATA_DIR = GEConfig.getString("data_directory");
+            if(!prefab.startsWith(DATA_DIR + "prefabs")){
+                prefab = DATA_DIR + "prefabs/" + prefab;
             }
             return CoerceJavaToLua.coerce(new PrefabFactory().createEntity(prefab));
         }
