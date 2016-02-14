@@ -279,7 +279,10 @@ public class LevelEditorView extends UIEngine {
 
 
     public void render(float delta){
-        super.render(delta);
+        // Grid
+        //drawGrid();
+
+
         // Update button
         // Must be updated every frame because the value can change from external source
         btnPlayPause.setText(GoatEngine.gameScreenManager.isRunning() ? "Pause" : "Play");
@@ -287,11 +290,10 @@ public class LevelEditorView extends UIEngine {
         // Update stats
         renderStats();
 
-        // Grid
-        //drawGrid();
-
         // Selection rendering
         renderSelection();
+
+        super.render(delta);
     }
 
 
@@ -399,14 +401,27 @@ public class LevelEditorView extends UIEngine {
         int mapHeight = 300;
         int startX = -mapWidth;
         int startY = -mapHeight;
+        int gridStep = 4;
 
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.DARK_GRAY);
-        for(int x = startX; x < mapWidth; x += tileWidth)
+        for(int x = startX; x < mapWidth; x += tileWidth) {
+            if((x / tileWidth ) % gridStep == 0) {
+                shapeRenderer.setColor(Color.GRAY);
+            } else {
+                shapeRenderer.setColor(Color.DARK_GRAY);
+            }
             shapeRenderer.line(x, startX, x, mapHeight);
-        for(int y = startY; y < mapHeight; y += tileHeight)
+        }
+        for(int y = startY; y < mapHeight; y += tileHeight) {
+            if((y / tileHeight ) % gridStep == 0) {
+                shapeRenderer.setColor(Color.GRAY);
+            } else {
+                shapeRenderer.setColor(Color.DARK_GRAY);
+            }
             shapeRenderer.line(startY, y, mapWidth, y);
+        }
         shapeRenderer.end();
     }
 
