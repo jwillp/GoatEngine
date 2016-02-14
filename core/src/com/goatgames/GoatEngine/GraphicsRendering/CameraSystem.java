@@ -5,9 +5,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.eventmanager.EntityEvent;
+import com.goatgames.goatengine.screenmanager.GameScreenConfig;
 import com.goatgames.goatengine.utils.Logger;
 
 import java.util.ArrayList;
@@ -33,11 +35,49 @@ public class CameraSystem extends EntitySystem {
 
     @Override
     public void update(float dt){
-        if(viewport == null)
-            this.viewport = new FitViewport(1, 1, getMainCamera());
-        if(getMainCamera() == null) return;
-        viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        GameScreenConfig config = GoatEngine.gameScreenManager.getCurrentScreen().getConfig();
+
+        float w = Gdx.graphics.getWidth();
+        float h = Gdx.graphics.getHeight();
+
+        for(EntityComponent comp: getEntityManager().getComponents(CameraComponent.ID)){
+            CameraComponent camComp = (CameraComponent)comp;
+            OrthographicCamera cam = camComp.getCamera();
+            if(camComp.isDirty){
+
+
+                float viewportWidth = config.getFloat("rendering.camera.viewportWidth");
+                float viewportHeight = config.getFloat("rendering.camera.viewportHeight");
+                float zoom = config.getFloat("rendering.camera.zoom");
+                cam = new OrthographicCamera(30, 30 * (h / w));
+
+                camComp.isDirty = false;
+            }
+
+
+            float viewportWidth = config.getFloat("rendering.camera.viewportWidth");
+            float viewportHeight = config.getFloat("rendering.camera.viewportHeight");
+
+
+            cam.viewportWidth = viewportWidth;                 // Viewport of 30 units!
+            cam.viewportHeight = viewportHeight * h/w;          // Lets keep things in proportion.
+
+            // The following resize strategy will show less/more of the world depending on the resolution
+            /*cam.viewportWidth = w/viewportWidth;  //We will see width/32f units!
+            cam.viewportHeight = cam.viewportWidth * h/w;*/
+
+
+            cam.update();
+        }
+
+
+
+
     }
+
+
+
+
 
 
     @Override

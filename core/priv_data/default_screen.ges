@@ -13,6 +13,13 @@ s.physics.gravity.y = 0
 
 -- RENDERING BEGIN
 s.rendering = {}
+
+s.rendering.camera = {}
+s.rendering.camera.viewportWidth = 30
+s.rendering.camera.viewportHeight = 30
+s.rendering.camera.zoom = 1
+
+
 s.rendering.texture = true
 s.rendering.lighting = {}
 s.rendering.lighting.ambient_light = "FFFFFFFF" --"4c6066ff"

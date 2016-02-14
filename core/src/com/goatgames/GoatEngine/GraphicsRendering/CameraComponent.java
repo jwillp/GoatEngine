@@ -17,6 +17,8 @@ public class CameraComponent extends EntityComponent{
 
     private OrthographicCamera camera = null;
 
+    public boolean isDirty = true; // Means no Width and Height have been set to this camera
+
     public CameraComponent(){
         super(true);
         camera = new OrthographicCamera();
