@@ -15,7 +15,7 @@ public class ShowLevelEditor extends ConsoleCommand {
 
     @Override
     protected void execute(String... args) {
-        GoatEngine.showLevelEditor();
-        this.console.toggle();
+        if(this.console != null)
+            this.console.toggle();
     }
 }

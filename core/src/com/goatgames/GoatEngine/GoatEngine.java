@@ -47,10 +47,6 @@ public class GoatEngine {
     public static GraphicsEngine graphicsEngine;
 
 
-    // LevelEditor
-    private static LevelEditor levelEditor;
-
-
     // TODO NetworkManager ?
 
     private static boolean initialised = false;
@@ -132,10 +128,6 @@ public class GoatEngine {
         Logger.info(" > Game screen Manager initialised " + performanceTimer.getDeltaTime() + "ms");
         performanceTimer.reset();
 
-        // Level Editor
-        levelEditor = new LevelEditor();
-
-
 
         /*try{
             scriptEngine.("scripts/main.groovy");
@@ -176,8 +168,6 @@ public class GoatEngine {
             gameScreenManager.draw(deltaTime);
             //eventManager.fireEvent(new EngineEvents.RenderTickEndEvent(), false);
 
-            if(config.getBoolean("level_editor.enabled"))
-                levelEditor.update(deltaTime);
 
             //Draw Console
             if(config.getBoolean("console.enabled")){
@@ -210,11 +200,6 @@ public class GoatEngine {
         if(console != null) {
             console.dispose();
         }
-    }
-
-
-    public static void showLevelEditor(){
-        levelEditor.setEnabled(true);
     }
 
     static class EngineUninitializedException extends RuntimeException{
