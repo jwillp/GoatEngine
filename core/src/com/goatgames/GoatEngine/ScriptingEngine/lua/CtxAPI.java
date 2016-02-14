@@ -1,13 +1,14 @@
 package com.goatgames.goatengine.scriptingengine.lua;
 
 import com.badlogic.gdx.utils.Array;
-import com.goatgames.goatengine.GEConfig;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.PrefabFactory;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.graphicsrendering.CameraComponent;
 import com.goatgames.goatengine.screenmanager.GameScreen;
+import com.goatgames.goatengine.ui.UIEngine;
+import com.goatgames.goatengine.ui.UIFactory;
 import com.goatgames.goatengine.utils.GAssert;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
@@ -51,6 +52,11 @@ public class CtxAPI extends TwoArgFunction {
 
         library.set("create", new CreateEntityFromPrefabAPI());
         library.set("destroy", new DestroyEntityAPI());
+
+
+        // UI TEST
+        library.set("newButton", new ButtonAPI());
+
 
         env.set("ctx", library);
         env.get("package").get("loaded").set("ctx", library);
@@ -101,6 +107,27 @@ public class CtxAPI extends TwoArgFunction {
         public LuaValue call(LuaValue arg) {
             GameScreen currentGameScreen = GoatEngine.gameScreenManager.getCurrentScreen();
             currentGameScreen.getEntityManager().deleteEntity(arg.toString());
+            return null;
+        }
+    }
+
+
+
+
+
+    // UI TEST //
+    private class ButtonAPI extends OneArgFunction{
+
+        /**
+         * Button definition as a lua Table
+         * @param arg
+         * @return
+         */
+        @Override
+        public LuaValue call(LuaValue arg){
+            GameScreen currentGameScreen = GoatEngine.gameScreenManager.getCurrentScreen();
+            UIEngine ui = currentGameScreen.getUiEngine();
+            ui.getRootTable().add(UIFactory.createButton(arg.checktable(), ui.getRootTable()));
             return null;
         }
     }

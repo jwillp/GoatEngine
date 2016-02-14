@@ -90,8 +90,8 @@ public final class GameScreen{
     }
 
     public void draw(GameScreenManager screenManager, float deltaTime){
-        uiEngine.render(deltaTime);
         ecsManager.getSystemManager().draw();
+        uiEngine.render(deltaTime);
     }
 
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.goatgames.goatengine.GoatEngine;
+import com.kotcrab.vis.ui.VisUI;
 
 /**
  * Responsible for handling UI for a Game Screen
@@ -17,14 +18,15 @@ public class UIEngine {
     public UIEngine(){
         stage = new Stage();
         GoatEngine.inputManager.addInputProcessor(stage);
-
-        rootTable = new Table();
+        VisUI.load();
+        rootTable = new Table(VisUI.getSkin());
         rootTable.setFillParent(true);
         stage.addActor(rootTable);
 
         // TODO move value in GEConfig
-        rootTable.setDebug(true); // This is optional, but enables debug lines for tables.
-
+        // This is optional, but enables debug lines for tables.
+        rootTable.setDebug(GoatEngine.config.getBoolean("ui.debug"));
+        rootTable.top();
         // Add widgets to the rootTable here.
     }
 
