@@ -30,11 +30,7 @@ public class HelpCommand extends ConsoleCommand{
                     console.log(getUsage());
                 }
             }
-
-
-
         }
-
     }
 
     @Override

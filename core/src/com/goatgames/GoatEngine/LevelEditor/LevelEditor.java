@@ -13,6 +13,7 @@ import com.goatgames.goatengine.input.events.MouseDragEvent;
 import com.goatgames.goatengine.input.events.MousePressEvent;
 import com.goatgames.goatengine.input.events.MouseScrolledEvent;
 import com.goatgames.goatengine.leveleditor.commands.*;
+import com.goatgames.goatengine.leveleditor.consolecommands.ZCommand;
 import com.goatgames.goatengine.leveleditor.view.GameScreenConfigView;
 import com.goatgames.goatengine.leveleditor.view.UpdateInspectorEvent;
 import com.goatgames.goatengine.leveleditor.view.LevelEditorView;
@@ -37,6 +38,7 @@ public class LevelEditor extends ChangeListener implements GameEventListener {
     private Stack<UndoCommand> undoStack;
     private Stack<UndoCommand> redoStack;
     private Entity selectedEntity;
+    private int minZ;   // The minimum Z Index an entity must have tio be considered by the editor
 
 
     public LevelEditor(){
@@ -48,6 +50,12 @@ public class LevelEditor extends ChangeListener implements GameEventListener {
         view = new LevelEditorView(this);
 
         GoatEngine.eventManager.registerListener(this);
+
+        minZ = Integer.MIN_VALUE;
+
+
+        GoatEngine.console.addCommand(new ZCommand.SetZ(this));
+        GoatEngine.console.addCommand(new ZCommand.GetZ(this));
 
         Logger.info("Level Editor initialised");
     }
@@ -306,4 +314,12 @@ public class LevelEditor extends ChangeListener implements GameEventListener {
         VisUI.dispose();
     }
 
+
+    public void setMinZ(int minZ) {
+        this.minZ = minZ;
+    }
+
+    public int getMinZ() {
+        return minZ;
+    }
 }
