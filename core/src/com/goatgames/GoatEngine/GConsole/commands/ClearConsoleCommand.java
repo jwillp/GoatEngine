@@ -9,14 +9,25 @@ import com.goatgames.goatengine.GoatEngine;
 public class ClearConsoleCommand extends ConsoleCommand {
 
 
-    public ClearConsoleCommand() {
-        super("clear");
-        this.desc = "Clears the console screen buffer";
-        this.usage = "Usage: clear";
-    }
+    public ClearConsoleCommand() {}
 
     @Override
     protected void execute(String... args) {
         GoatEngine.console.clear();
+    }
+
+    @Override
+    public String getName() {
+        return "clear";
+    }
+
+    @Override
+    public String getDesc() {
+        return "Clears the console screen buffer";
+    }
+
+    @Override
+    public String getUsage() {
+        return "Usage: clear";
     }
 }

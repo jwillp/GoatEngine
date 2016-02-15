@@ -10,11 +10,7 @@ import com.strongjoshua.console.Console;
  */
 public class ChangeScreenCommand extends ConsoleCommand {
 
-    public ChangeScreenCommand() {
-        super("change_screen");
-        this.desc = "Changes the current game screen manager's screen for a given screen";
-        this.usage = "Usage: change_screen screen_name";
-    }
+    public ChangeScreenCommand(){}
 
     @Override
     protected void execute(String... args) {
@@ -25,5 +21,20 @@ public class ChangeScreenCommand extends ConsoleCommand {
             console.log(e.getMessage(), Console.LogLevel.WARNING);
             new ChangeScreenCommand().exec(currentScreen);
         }
+    }
+
+    @Override
+    public String getName() {
+        return "change_screen";
+    }
+
+    @Override
+    public String getDesc() {
+        return "Changes the current game screen manager's screen for a given screen";
+    }
+
+    @Override
+    public String getUsage() {
+        return "Usage: change_screen screen_name";
     }
 }

@@ -10,14 +10,27 @@ public class ResumeEngineCommand extends ConsoleCommand {
 
 
     public ResumeEngineCommand() {
-        super("resume");
-        this.desc = "Resumes the game engine";
-        this.usage = "Usage: resume";
+
     }
 
 
     @Override
     protected void execute(String... args) {
         GoatEngine.gameScreenManager.resume();
+    }
+
+    @Override
+    public String getName() {
+        return "resume";
+    }
+
+    @Override
+    public String getDesc() {
+        return "Resumes the game engine";
+    }
+
+    @Override
+    public String getUsage() {
+        return "Usage: resume";
     }
 }

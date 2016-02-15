@@ -7,15 +7,27 @@ import com.goatgames.goatengine.GoatEngine;
  * Show the Level Editor
  */
 public class ShowLevelEditor extends ConsoleCommand {
-    public ShowLevelEditor() {
-        super("level_editor");
-        this.desc = "Displays the level editor";
-        this.usage = "Usage: level_editor";
-    }
+
+    public ShowLevelEditor() {}
 
     @Override
     protected void execute(String... args) {
         GoatEngine.showLevelEditor();
         this.console.toggle();
+    }
+
+    @Override
+    public String getName() {
+        return "level_editor";
+    }
+
+    @Override
+    public String getDesc() {
+        return "Displays the level editor";
+    }
+
+    @Override
+    public String getUsage() {
+        return "Usage: level_editor";
     }
 }

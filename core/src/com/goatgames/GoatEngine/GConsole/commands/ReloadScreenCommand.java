@@ -9,15 +9,27 @@ import com.goatgames.goatengine.gconsole.ConsoleCommand;
 public class ReloadScreenCommand extends ConsoleCommand {
 
     public ReloadScreenCommand() {
-        super("reload");
-        this.desc = "Reloads the current game screen";
-        this.usage = "Usage: reload";
     }
 
     @Override
     protected void execute(String... args) {
         String currentScreen = GoatEngine.gameScreenManager.getCurrentScreen().getName();
         GoatEngine.gameScreenManager.changeScreen(currentScreen);
+    }
+
+    @Override
+    public String getName() {
+        return "reload";
+    }
+
+    @Override
+    public String getDesc() {
+        return "Reloads the current game screen";
+    }
+
+    @Override
+    public String getUsage() {
+        return "Usage: reload";
     }
 
 }
