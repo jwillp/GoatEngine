@@ -115,6 +115,10 @@ public class GoatEngine {
             console.addCommand(new ReloadScreenCommand());
             console.addCommand(new ChangeScreenCommand());
             console.addCommand(new LuaCommand());
+
+
+
+            console.addCommand(new SetPhysicsRendering());
         }
         performanceTimer.reset();
 

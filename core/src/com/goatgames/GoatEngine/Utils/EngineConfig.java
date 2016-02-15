@@ -4,6 +4,7 @@ import com.badlogic.gdx.utils.Array;
 import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.FileNotFoundException;
 
@@ -94,6 +95,94 @@ public abstract class EngineConfig {
         }
         return returnValue;
     }
+
+
+    private void setParam(String param, LuaValue value){
+        String[] parts = param.split("\\.");
+        LuaValue returnValue = data.get(parts[0]);
+        // test if settings contain key
+        for(int i = 1; i<parts.length ; i++){
+            try{
+                if(i == parts.length-1){ // last item
+                    returnValue.set(parts[i], value);
+                }else {
+                    returnValue = returnValue.get(parts[i]);
+                }
+            }catch(LuaError er){
+                throw new UnkownConfigParameterException(param);
+            }
+        }
+    }
+    /**
+     * Sets a new value to a certain parameter
+     * @param parameter the parameter to change
+     * @param value the new value
+     *
+     */
+    public void setInt(String parameter, int  value){
+        setParam(parameter, LuaValue.valueOf(value));
+    }
+
+    /**
+     * Sets a new value to a certain parameter
+     * @param parameter the parameter to change
+     * @param value the new value
+     *
+     */
+    public void setString(String parameter, String  value){
+        setParam(parameter, LuaValue.valueOf(value));
+    }
+
+    /**
+     * Sets a new value to a certain parameter
+     * @param parameter the parameter to change
+     * @param value the new value
+     *
+     */
+    public void setFloat(String parameter, float  value){
+        setParam(parameter, LuaValue.valueOf(value));
+    }
+
+    /**
+     * Sets a new value to a certain parameter
+     * @param parameter the parameter to change
+     * @param value the new value
+     *
+     */
+    public void setBoolean(String parameter, boolean  value){
+        setParam(parameter, LuaValue.valueOf(value));
+    }
+
+    /**
+     * Sets a new value to a certain parameter
+     * @param parameter the parameter to change
+     * @param value the new value
+     *
+     */
+    public void  setArray(String parameter, Array<String> value){
+        //setParam(parameter, LuaValue.valueOf(value));
+        // TODO Implement
+        throw new NotImplementedException();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public LuaTable getData() {
         return data;

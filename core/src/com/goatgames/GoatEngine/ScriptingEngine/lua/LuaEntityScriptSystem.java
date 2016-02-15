@@ -36,14 +36,19 @@ public class LuaEntityScriptSystem extends EntitySystem implements GameEventList
         for(Entity entity: getEntityManager().getEntitiesWithComponent(ScriptComponent.ID)){
             ScriptComponent scriptComp = (ScriptComponent) entity.getComponent(ScriptComponent.ID);
             for(String scriptFile: scriptComp.getScripts()){
-                LuaScript script = GoatEngine.scriptEngine.getScript(scriptFile, entity.getID());
+                try{
+                    LuaScript script = GoatEngine.scriptEngine.getScript(scriptFile, entity.getID());
 
-                if(script == null){
-                    script = GoatEngine.scriptEngine.addScript(scriptFile,entity.getID());
-                    onEntityInit(entity, script);
+                    if(script == null){
+                        script = GoatEngine.scriptEngine.addScript(scriptFile,entity.getID());
+                        onEntityInit(entity, script);
+                    }
+
+                    script.executeFunction("update", dt);
+                }catch (LuaScript.LuaScriptException ex){
+                    Logger.error(ex.getMessage());
+                    Logger.logStackTrace(ex);
                 }
-
-                script.executeFunction("update", dt);
             }
             getEntityManager().freeEntity(entity);
         }
@@ -68,7 +73,6 @@ public class LuaEntityScriptSystem extends EntitySystem implements GameEventList
             ScriptComponent scriptComp = (ScriptComponent) entity.getComponent(ScriptComponent.ID);
             for(String scriptFile: scriptComp.getScripts()){
                 LuaScript script = GoatEngine.scriptEngine.getScript(scriptFile, entity.getID());
-
                 if (script != null) {
                     if(e instanceof CollisionEvent){
                         script.executeFunction("onCollision", e);
