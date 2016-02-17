@@ -12,6 +12,8 @@ import com.goatgames.goatengine.scriptingengine.ScriptComponent;
 import com.goatgames.goatengine.utils.GAssert;
 import com.goatgames.goatengine.utils.Logger;
 
+import java.util.Objects;
+
 /**
  * Entity System managing entity scripts as lua scripts
  */
@@ -76,7 +78,11 @@ public class LuaEntityScriptSystem extends EntitySystem implements GameEventList
                     LuaScript script = GoatEngine.scriptEngine.getScript(scriptFile, entity.getID());
                     if (script != null) {
                         if(e instanceof CollisionEvent){
-                            script.executeFunction("onCollision", e);
+                            // Only if collision is for current entity
+                            CollisionEvent ce = (CollisionEvent) e;
+                            if(Objects.equals(ce.getEntityA(), entity.getID())){
+                                script.executeFunction("onCollision", e);
+                            }
                         }else if(e instanceof InputEvent){
                             script.executeFunction("onInputEvent", e);
                         }else if(e instanceof GameEvent){

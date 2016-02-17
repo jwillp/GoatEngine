@@ -256,7 +256,7 @@ public class GamePadManager implements ControllerListener{
 
 
     /**
-     * Returns null if not found``
+     * Returns null if not found
      * @param id
      * @return
      */

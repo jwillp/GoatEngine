@@ -22,7 +22,7 @@ public class CollisionEvent extends EntityEvent {
 
 
     public enum Describer{
-        BEGIN, //When a contact has occured
+        BEGIN, //When a contact has occurred
         END,   //When a contact no longer occurs
     }
 
