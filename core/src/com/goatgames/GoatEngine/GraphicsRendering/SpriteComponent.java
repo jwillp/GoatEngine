@@ -102,6 +102,10 @@ public class SpriteComponent extends EntityComponent {
 
     }
 
+    public void setSprite(String image){
+        this.currentSprite = new TextureRegion(new Texture(Gdx.files.internal(image)));
+    }
+
     @Override
     public String getId() {
         return ID;

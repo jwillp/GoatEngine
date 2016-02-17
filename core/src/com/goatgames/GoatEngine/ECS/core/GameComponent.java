@@ -48,6 +48,9 @@ public class GameComponent extends EntityComponent {
         return data.get("component_id").toString();
     }
 
+    public LuaTable getData(){
+        return data;
+    }
 
     /**
      * Converts a map to a lua table

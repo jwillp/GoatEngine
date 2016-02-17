@@ -71,21 +71,26 @@ public class LuaEntityScriptSystem extends EntitySystem implements GameEventList
     public void onEvent(Event e) {
         for(Entity entity: getEntityManager().getEntitiesWithComponent(ScriptComponent.ID)){
             ScriptComponent scriptComp = (ScriptComponent) entity.getComponent(ScriptComponent.ID);
-            for(String scriptFile: scriptComp.getScripts()){
-                LuaScript script = GoatEngine.scriptEngine.getScript(scriptFile, entity.getID());
-                if (script != null) {
-                    if(e instanceof CollisionEvent){
-                        script.executeFunction("onCollision", e);
-                    }else if(e instanceof InputEvent){
-                        script.executeFunction("onInputEvent", e);
-                    }else if(e instanceof GameEvent){
-                        script.executeFunction("onGameEvent", e);
-                    } else{
-                        String msg = "Scripting System: Event of type " + e.toString() + " will not be processed";
-                        Logger.warn(msg);
-                        GAssert.that(true, msg);
+            try{
+                for(String scriptFile: scriptComp.getScripts()){
+                    LuaScript script = GoatEngine.scriptEngine.getScript(scriptFile, entity.getID());
+                    if (script != null) {
+                        if(e instanceof CollisionEvent){
+                            script.executeFunction("onCollision", e);
+                        }else if(e instanceof InputEvent){
+                            script.executeFunction("onInputEvent", e);
+                        }else if(e instanceof GameEvent){
+                            script.executeFunction("onGameEvent", e);
+                        } else{
+                            String msg = "Scripting System: Event of type " + e.toString() + " will not be processed";
+                            Logger.warn(msg);
+                            GAssert.that(true, msg);
+                        }
                     }
                 }
+            }catch(LuaScript.LuaScriptException ex){
+                Logger.error(ex.getMessage());
+                Logger.logStackTrace(ex);
             }
             getEntityManager().freeEntity(entity);
         }

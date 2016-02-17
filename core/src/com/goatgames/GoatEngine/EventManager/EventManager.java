@@ -33,18 +33,12 @@ public class EventManager{
     }
 
 
-
-
-
-
     /**
      * Returns the current time
      */
     private long getCurrentTime(){
         return System.currentTimeMillis();
     }
-
-
 
     /**
      * Fires an event to all the listeners logging it

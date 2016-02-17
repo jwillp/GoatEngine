@@ -45,7 +45,7 @@ public class GoatEngineAPI extends TwoArgFunction {
 
         //env.set("input.Buttons", CoerceJavaToLua.coerce(new GamePadMap()));
 
-
+        library.set("Timer", CoerceJavaToLua.coerce(new TimerAPI()));
 
         env.set("GE", library);
         env.get("package").get("loaded").set("GE", library);
