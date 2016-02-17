@@ -255,9 +255,17 @@ public class GamePadManager implements ControllerListener{
     }
 
 
-
+    /**
+     * Returns null if not found``
+     * @param id
+     * @return
+     */
     public VirtualGamePad getGamePad(int id){
-        return virtualGamePads.get(id);
+        try{
+            return virtualGamePads.get(id);
+        }catch(IndexOutOfBoundsException e){
+            return null;
+        }
     }
 
 
