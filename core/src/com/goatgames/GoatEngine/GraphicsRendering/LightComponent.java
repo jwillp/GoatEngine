@@ -1,6 +1,9 @@
 package com.goatgames.goatengine.graphicsrendering;
 
 import com.badlogic.gdx.graphics.Color;
+import com.goatgames.goatengine.ecs.core.EntityComponent;
+import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
+import com.goatgames.goatengine.utils.GAssert;
 
 import java.util.Map;
 
@@ -53,4 +56,20 @@ public class LightComponent extends SpriteComponent {
     public String getId() {
         return ID;
     }
+
+
+
+    // FACTORY //
+    public static class Factory implements EntityComponentFactory {
+        @Override
+        public EntityComponent processMapData(String componentId, Map<String, String> map){
+            GAssert.that(componentId.equals(LightComponent.ID),
+                    "Component Factory Mismatch: LightComponent.ID != " + componentId);
+            LightComponent component = new LightComponent(map);
+            return component;
+        }
+    }
+
+
+
 }

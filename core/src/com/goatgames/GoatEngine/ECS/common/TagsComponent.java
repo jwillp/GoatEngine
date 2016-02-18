@@ -1,6 +1,8 @@
 package com.goatgames.goatengine.ecs.common;
 
 import com.goatgames.goatengine.ecs.core.EntityComponent;
+import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
+import com.goatgames.goatengine.utils.GAssert;
 
 import java.util.*;
 
@@ -95,4 +97,25 @@ public class TagsComponent extends EntityComponent {
     public String getId() {
         return ID;
     }
+
+
+    // FACTORY //
+    public static class Factory implements EntityComponentFactory {
+        @Override
+        public EntityComponent processMapData(String componentId, Map<String, String> map){
+            GAssert.that(componentId.equals(TagsComponent.ID),
+                    "Component Factory Mismatch: TagsComponent.ID != " + componentId);
+            TagsComponent component = new TagsComponent(map);
+            return component;
+        }
+    }
+
+
+
+
+
+
+
+
+
 }

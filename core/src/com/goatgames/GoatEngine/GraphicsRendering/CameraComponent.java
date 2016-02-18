@@ -2,6 +2,8 @@ package com.goatgames.goatengine.graphicsrendering;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
+import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
+import com.goatgames.goatengine.utils.GAssert;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -66,4 +68,18 @@ public class CameraComponent extends EntityComponent{
     public OrthographicCamera getCamera() {
         return camera;
     }
+
+
+    // FACTORY //
+    public static class Factory implements EntityComponentFactory {
+        @Override
+        public EntityComponent processMapData(String componentId, Map<String, String> map){
+            GAssert.that(componentId.equals(CameraComponent.ID),
+                    "Component Factory Mismatch: CameraComponent.ID != " + componentId);
+            CameraComponent component = new CameraComponent(map);
+            return component;
+        }
+    }
+
+
 }

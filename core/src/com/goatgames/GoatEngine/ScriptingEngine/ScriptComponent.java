@@ -1,6 +1,8 @@
 package com.goatgames.goatengine.scriptingengine;
 
 import com.goatgames.goatengine.ecs.core.EntityComponent;
+import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
+import com.goatgames.goatengine.utils.GAssert;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -87,5 +89,16 @@ public class ScriptComponent extends EntityComponent {
     @Override
     public String getId() {
         return ID;
+    }
+
+    // FACTORY //
+    public static class Factory implements EntityComponentFactory {
+        @Override
+        public EntityComponent processMapData(String componentId, Map<String, String> map){
+            GAssert.that(componentId.equals(ScriptComponent.ID),
+                    "Component Factory Mismatch: ScriptComponent.ID != " + componentId);
+            ScriptComponent component = new ScriptComponent(map);
+            return component;
+        }
     }
 }

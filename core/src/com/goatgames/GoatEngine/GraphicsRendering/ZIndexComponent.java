@@ -2,6 +2,8 @@ package com.goatgames.goatengine.graphicsrendering;
 
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
+import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
+import com.goatgames.goatengine.utils.GAssert;
 
 import java.util.Comparator;
 import java.util.Map;
@@ -65,6 +67,19 @@ public class ZIndexComponent extends EntityComponent{
             ZIndexComponent s2 = (ZIndexComponent) e2.getComponent(ZIndexComponent.ID);
 
             return (s2.index - s1.index) < 0 ? 1 : -1;
+        }
+    }
+
+
+
+    // FACTORY //
+    public static class Factory implements EntityComponentFactory {
+        @Override
+        public EntityComponent processMapData(String componentId, Map<String, String> map){
+            GAssert.that(componentId.equals(ZIndexComponent.ID),
+                    "Component Factory Mismatch: ZIndexComponent.ID != " + componentId);
+            ZIndexComponent component = new ZIndexComponent(map);
+            return component;
         }
     }
 }

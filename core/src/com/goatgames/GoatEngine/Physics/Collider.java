@@ -247,4 +247,46 @@ public abstract class Collider{
         removeCollider(entity, collider);
         addCollider(entity, newDef);
     }
+
+
+
+    /**
+     * Makes a collider def from a Map
+     * @param colliderData
+     * @return
+     */
+    public static ColliderDef defFromMap(Map<String,String> colliderData){
+        String colType = colliderData.get("type");
+        ColliderDef colDef;
+        // Circle Collider //
+        if(colType.equals("circle")){
+            colDef = new CircleColliderDef();
+            CircleColliderDef circDef = (CircleColliderDef)colDef;
+            circDef.radius = Float.parseFloat(colliderData.get("radius"));
+
+            // Box Collider //
+        }else if(colType.equals("box")){
+            colDef = new BoxColliderDef();
+            BoxColliderDef boxDef = (BoxColliderDef)colDef;
+            boxDef.width = Float.parseFloat(colliderData.get("width"));
+            boxDef.height = Float.parseFloat(colliderData.get("height"));
+
+        }else if(colType.equals("capsule")){
+            colDef = new CapsuleColliderDef();
+            CapsuleColliderDef capDef = (CapsuleColliderDef)colDef;
+            capDef.width = Float.parseFloat(colliderData.get("width"));
+            capDef.height = Float.parseFloat(colliderData.get("height"));
+        }else{
+            // Throw Unknown Collider Type Exception
+            throw new ColliderDef.UnknownColliderTypeException(colType);
+        }
+
+        // Shared attributes among collider types
+        colDef.tag = colliderData.get("tag");
+        colDef.isSensor = Boolean.parseBoolean(colliderData.get("is_sensor"));
+        colDef.x = Float.parseFloat(colliderData.get("position_x"));
+        colDef.y = Float.parseFloat(colliderData.get("position_y"));
+        return colDef;
+    }
+
 }

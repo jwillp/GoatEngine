@@ -1,6 +1,8 @@
 package com.goatgames.goatengine.input;
 
 import com.goatgames.goatengine.ecs.core.EntityComponent;
+import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
+import com.goatgames.goatengine.utils.GAssert;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,4 +48,18 @@ public class TouchableComponent extends EntityComponent {
     public void setTouched(boolean touched) {
         this.touched = touched;
     }
+
+
+    // FACTORY //
+    public static class Factory implements EntityComponentFactory {
+        @Override
+        public EntityComponent processMapData(String componentId, Map<String, String> map){
+            GAssert.that(componentId.equals(TouchableComponent.ID),
+                    "Component Factory Mismatch: TouchableComponent.ID != " + componentId);
+            TouchableComponent component = new TouchableComponent(map);
+            return component;
+        }
+    }
+
+
 }

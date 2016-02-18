@@ -6,7 +6,9 @@ import com.brashmonkey.spriter.Player;
 import com.brashmonkey.spriter.Spriter;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
+import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
 import com.goatgames.goatengine.files.FileSystem;
+import com.goatgames.goatengine.utils.GAssert;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -192,6 +194,20 @@ public class SpriterAnimationComponent extends EntityComponent {
     private class SpriterEntityNotFoundException extends RuntimeException {
         public SpriterEntityNotFoundException(String entityName) {
             super("Spriter Aniamtion Entity not found: " + entityName);
+        }
+    }
+
+
+
+
+    // FACTORY //
+    public static class Factory implements EntityComponentFactory {
+        @Override
+        public EntityComponent processMapData(String componentId, Map<String, String> map){
+            GAssert.that(componentId.equals(SpriterAnimationComponent.ID),
+                    "Component Factory Mismatch: SpriterAnimationComponent.ID != " + componentId);
+            SpriterAnimationComponent component = new SpriterAnimationComponent(map);
+            return component;
         }
     }
 }

@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
+import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
+import com.goatgames.goatengine.utils.GAssert;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -112,5 +114,17 @@ public class SpriteComponent extends EntityComponent {
     }
 
 
+
+
+    // FACTORY //
+    public static class Factory implements EntityComponentFactory {
+        @Override
+        public EntityComponent processMapData(String componentId, Map<String, String> map){
+            GAssert.that(componentId.equals(SpriteComponent.ID),
+                    "Component Factory Mismatch: SpriteComponent.ID != " + componentId);
+            SpriteComponent component = new SpriteComponent(map);
+            return component;
+        }
+    }
 
 }

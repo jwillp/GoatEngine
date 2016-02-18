@@ -4,10 +4,14 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
+import com.eclipsesource.json.Json;
+import com.eclipsesource.json.JsonArray;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.GoatEngine;
+import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
 import com.goatgames.goatengine.physics.Collider;
+import com.goatgames.goatengine.utils.GAssert;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,12 +82,12 @@ public class PhysicsComponent extends EntityComponent {
         physMap.put("position_x", String.valueOf(this.getPosition().x));
         physMap.put("position_y", String.valueOf(this.getPosition().y));
         physMap.put("fixed_rotation", String.valueOf(body.isFixedRotation()));
+
         return physMap;
     }
 
     /**
      * Builds the current object from a Map representation
-     *
      * @param map the Map representation to use
      */
     @Override
@@ -234,5 +238,18 @@ public class PhysicsComponent extends EntityComponent {
         this.dirtyHeight = dirty;
         this.dirtyWidth = dirty;
     }
+
+
+    // FACTORY //
+    public static class Factory implements EntityComponentFactory {
+        @Override
+        public EntityComponent processMapData(String componentId, Map<String, String> map){
+            GAssert.that(componentId.equals(PhysicsComponent.ID),
+                    "Component Factory Mismatch: PhysicsComponent.ID != " + componentId);
+            PhysicsComponent component = new PhysicsComponent(map);
+            return component;
+        }
+    }
+
 
 }

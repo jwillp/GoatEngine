@@ -16,8 +16,6 @@ import java.util.ArrayList;
 
 /**
  * A system handling all cameras and their movements
- * The camera will always try to display every entity
- * with a CameraTargetComponent
  */
 public class CameraSystem extends EntitySystem {
 

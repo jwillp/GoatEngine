@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
+import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
 import com.goatgames.goatengine.graphicsrendering.GParticleEmitter;
+import com.goatgames.goatengine.utils.GAssert;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -91,4 +93,25 @@ public class ParticleEmitterComponent extends EntityComponent{
     public String getId() {
         return ID;
     }
+
+
+
+
+
+
+
+
+    // FACTORY //
+    public static class Factory implements EntityComponentFactory {
+        @Override
+        public EntityComponent processMapData(String componentId, Map<String, String> map){
+            GAssert.that(componentId.equals(ParticleEmitterComponent.ID),
+                    "Component Factory Mismatch: ParticleEmitterComponent.ID != " + componentId);
+            ParticleEmitterComponent component = new ParticleEmitterComponent(map);
+            return component;
+        }
+    }
+
+
+
 }

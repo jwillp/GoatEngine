@@ -1,6 +1,8 @@
 package com.goatgames.goatengine.leveleditor.components;
 
 import com.goatgames.goatengine.ecs.core.EntityComponent;
+import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
+import com.goatgames.goatengine.utils.GAssert;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -62,4 +64,19 @@ public class EditorLabelComponent extends EntityComponent{
     public void setLabel(String label) {
         this.label = label;
     }
+
+
+    // FACTORY //
+    public static class Factory implements EntityComponentFactory {
+        @Override
+        public EntityComponent processMapData(String componentId, Map<String, String> map){
+            GAssert.that(componentId.equals(EditorLabelComponent.ID),
+                    "Component Factory Mismatch: EditorLabelComponent.ID != " + componentId);
+            EditorLabelComponent component = new EditorLabelComponent(map);
+            return component;
+        }
+    }
+
+
+
 }

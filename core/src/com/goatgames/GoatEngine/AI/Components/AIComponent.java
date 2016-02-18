@@ -3,6 +3,7 @@ package com.goatgames.goatengine.ai.components;
 
 import com.goatgames.goatengine.ai.pathfinding.PathNode;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
+import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
 import com.goatgames.goatengine.utils.Timer;
 
 import java.util.ArrayList;
@@ -73,4 +74,28 @@ public class AIComponent extends EntityComponent {
     public void setCurrentPath(ArrayList<PathNode> currentPath) {
         this.currentPath = currentPath;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

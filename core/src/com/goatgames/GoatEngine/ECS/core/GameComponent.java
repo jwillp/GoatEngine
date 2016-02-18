@@ -83,5 +83,17 @@ public class GameComponent extends EntityComponent {
 
 
 
+    // FACTORY //
+    public static class Factory implements EntityComponentFactory{
+        @Override
+        public EntityComponent processMapData(String componentId, Map<String, String> map){
+            GAssert.that(componentId.equals(GameComponent.ID),
+                    "Component Factory Mismatch: GameComponent.ID != " + componentId);
+            GameComponent component = new GameComponent(map);
+            return component;
+        }
+    }
+
+
 
 }
