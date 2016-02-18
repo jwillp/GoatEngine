@@ -70,11 +70,13 @@ local/
 # Custom Documentation
 doc/
 
+# Diffs
+diff.txt
+
+# GOAT ENGINE SPECIFIG
 # LOG
 *LOG/
 *.log
 
-core/data/
-
-# Diffs
-diff.txt
+core/data*
+ge.conf
