@@ -5,7 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
-import com.goatgames.goatengine.graphicsrendering.GParticleEmitter;
+import com.goatgames.goatengine.ecs.core.EntityComponentMap;
 import com.goatgames.goatengine.utils.GAssert;
 
 import java.util.ArrayList;
@@ -25,6 +25,10 @@ public class ParticleEmitterComponent extends EntityComponent{
 
     public ParticleEmitterComponent(){
         super(true);
+    }
+
+    public ParticleEmitterComponent(Map<String, String> map) {
+        super(map);
     }
 
 

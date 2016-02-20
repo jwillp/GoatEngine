@@ -54,6 +54,7 @@ public class BoxCollider extends Collider {
         Vector2 pos = getCentroid();
         def.put("position_x", String.valueOf(pos.x));
         def.put("position_y", String.valueOf(pos.y));
+        def.put("type", "box");
         return def;
     }
 

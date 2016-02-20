@@ -1,11 +1,10 @@
 package com.goatgames.goatengine.leveleditor.commands;
 
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.goatgames.goatengine.GoatEngine;
-import com.goatgames.goatengine.ecs.EntityFactory;
+import com.goatgames.goatengine.ecs.LegacyEntityFactory;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
+import com.goatgames.goatengine.ecs.core.EntityComponentMap;
 import com.goatgames.goatengine.leveleditor.LevelEditor;
 import com.goatgames.goatengine.physics.BoxCollider;
 import com.goatgames.goatengine.physics.CircleCollider;
@@ -15,7 +14,6 @@ import com.goatgames.goatengine.physics.PhysicsComponent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Command Duplicating an entity
@@ -33,10 +31,10 @@ public class DuplicateEntityCommand extends EditorCommand {
     public void exec() {
 
         ObjectMap<String, EntityComponent> comps = selectedEntity.getComponents();
-        Map<String, EntityComponent.EntityComponentMap> map = new HashMap<>(comps.size);
+        Map<String, EntityComponentMap> map = new HashMap<>(comps.size);
 
         for(String key : comps.keys()){
-            EntityComponent.EntityComponentMap eMap = new EntityComponent.EntityComponentMap(comps.get(key).toMap());
+            EntityComponentMap eMap = new EntityComponentMap(comps.get(key).toMap());
             map.put(key, eMap);
 
             // Physics Component Collider
@@ -55,13 +53,13 @@ public class DuplicateEntityCommand extends EditorCommand {
                     }
                     colMap.put("type", colliderType.toLowerCase().replace("_collider", ""));
                     key = "physics_collider_" + colliderType.toLowerCase() + i;
-                    map.put(key, new EntityComponent.EntityComponentMap(colMap));
+                    map.put(key, new EntityComponentMap(colMap));
                 }
             }
             
         }
 
-        Entity newEntity = EntityFactory.createFromMap(map);
+        Entity newEntity = LegacyEntityFactory.createFromMap(map);
 
     }
 }

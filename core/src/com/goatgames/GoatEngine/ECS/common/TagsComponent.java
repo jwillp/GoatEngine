@@ -4,7 +4,10 @@ import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
 import com.goatgames.goatengine.utils.GAssert;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
 
 /**
@@ -104,7 +107,7 @@ public class TagsComponent extends EntityComponent {
         @Override
         public EntityComponent processMapData(String componentId, Map<String, String> map){
             GAssert.that(componentId.equals(TagsComponent.ID),
-                    "Component Factory Mismatch: TagsComponent.ID != " + componentId);
+                    String.format("Component Factory Mismatch: TagsComponent.ID != %s", componentId));
             TagsComponent component = new TagsComponent(map);
             return component;
         }

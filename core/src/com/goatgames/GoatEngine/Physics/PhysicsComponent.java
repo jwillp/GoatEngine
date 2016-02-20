@@ -6,11 +6,13 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonArray;
+import com.eclipsesource.json.JsonObject;
+import com.eclipsesource.json.JsonValue;
+import com.goatgames.goatengine.GoatEngine;
+import com.goatgames.goatengine.ecs.JsonSerializer;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
-import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
-import com.goatgames.goatengine.physics.Collider;
 import com.goatgames.goatengine.utils.GAssert;
 
 import java.util.ArrayList;
@@ -83,6 +85,12 @@ public class PhysicsComponent extends EntityComponent {
         physMap.put("position_y", String.valueOf(this.getPosition().y));
         physMap.put("fixed_rotation", String.valueOf(body.isFixedRotation()));
 
+        // Convert colliders to a Json string and save it such in the map
+        JsonArray jsonArray = new JsonArray();
+        for(Collider c: this.getColliders()){
+            jsonArray.add(JsonSerializer.mapToJson(c.toMap()));
+        }
+        physMap.put("colliders", jsonArray.toString());
         return physMap;
     }
 
@@ -106,6 +114,24 @@ public class PhysicsComponent extends EntityComponent {
 
         if(map.containsKey("fixed_rotation")){
             body.setFixedRotation(Boolean.parseBoolean(map.get("fixed_rotation")));
+        }
+
+
+        // Load colliders
+        String collidersStr = map.get("colliders");
+        if(collidersStr != null && !collidersStr.isEmpty()){
+            JsonArray jsColliders = Json.parse(collidersStr).asArray();
+            for(JsonValue v: jsColliders.values()){
+                //String ok = v.asString();
+                JsonObject jsCollider = v.asObject();
+                Map<String, String> colMap = new HashMap<>();
+                //Create a map for that collider
+                for(JsonObject.Member member: jsCollider){
+                    colMap.put(member.getName(), member.getValue().asString());
+                }
+                ColliderDef def = Collider.defFromMap(colMap);
+                Collider.addCollider(this,def);
+            }
         }
     }
 

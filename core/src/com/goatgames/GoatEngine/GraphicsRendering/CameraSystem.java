@@ -3,7 +3,6 @@ package com.goatgames.goatengine.graphicsrendering;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
@@ -11,8 +10,6 @@ import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.eventmanager.EntityEvent;
 import com.goatgames.goatengine.screenmanager.GameScreenConfig;
 import com.goatgames.goatengine.utils.Logger;
-
-import java.util.ArrayList;
 
 /**
  * A system handling all cameras and their movements

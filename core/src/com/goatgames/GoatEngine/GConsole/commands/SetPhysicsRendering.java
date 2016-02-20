@@ -5,6 +5,8 @@ import com.goatgames.goatengine.gconsole.ConsoleCommand;
 import com.goatgames.goatengine.screenmanager.GameScreenConfig;
 import com.strongjoshua.console.Console;
 
+import java.util.Objects;
+
 /**
  * Sets the physics rendering
  */
@@ -21,7 +23,12 @@ public class SetPhysicsRendering extends ConsoleCommand {
             return;
         }
         GameScreenConfig config = GoatEngine.gameScreenManager.getCurrentScreen().getConfig();
-        config.setBoolean("rendering.physics_debug", Boolean.parseBoolean(args[0]));
+
+        boolean value = Boolean.parseBoolean(args[0]);
+        if(Objects.equals(args[0].toLowerCase(), "off")) value = false;
+        else if(args[0].toLowerCase().equals("on")) value = true;
+
+        config.setBoolean("rendering.physics_debug", value);
     }
 
     @Override

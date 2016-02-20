@@ -10,13 +10,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.goatgames.goatengine.GEConfig;
-import com.goatgames.goatengine.physics.PhysicsComponent;
+import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityManager;
-import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.graphicsrendering.CameraComponent;
 import com.goatgames.goatengine.leveleditor.LevelEditor;
+import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.ui.UIEngine;
 import com.kotcrab.vis.ui.VisUI;
 

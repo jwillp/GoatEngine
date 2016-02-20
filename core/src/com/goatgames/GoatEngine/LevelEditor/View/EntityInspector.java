@@ -3,14 +3,12 @@ package com.goatgames.goatengine.leveleditor.view;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.leveleditor.components.EditorLabelComponent;
 import com.goatgames.goatengine.physics.Collider;
+import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.scriptingengine.ScriptComponent;
-
-import java.util.HashMap;
 
 /**
  * Entity Inspector

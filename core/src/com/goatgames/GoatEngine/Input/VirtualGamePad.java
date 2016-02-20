@@ -1,13 +1,9 @@
 package com.goatgames.goatengine.input;
 
 import com.badlogic.gdx.controllers.Controller;
-import com.goatgames.goatengine.ecs.core.Entity;
-import com.goatgames.goatengine.ecs.core.EntityComponent;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A virtual gamepad abstracting the a physical game pad

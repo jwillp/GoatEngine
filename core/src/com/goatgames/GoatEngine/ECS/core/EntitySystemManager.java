@@ -1,10 +1,10 @@
 package com.goatgames.goatengine.ecs.core;
 
 import com.badlogic.gdx.Gdx;
+import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.eventmanager.EntityEvent;
 import com.goatgames.goatengine.eventmanager.Event;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
-import com.goatgames.goatengine.GoatEngine;
 
 import java.util.LinkedHashMap;
 

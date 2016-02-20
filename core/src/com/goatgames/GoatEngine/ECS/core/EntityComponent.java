@@ -1,23 +1,12 @@
 package com.goatgames.goatengine.ecs.core;
 
 
-import java.util.HashMap;
 import java.util.Map;
 
 public abstract class EntityComponent {
 
 
     private boolean enabled = true; //By default a component is enabled
-
-
-
-    // Syntactic sugar
-    public static class EntityComponentMap extends HashMap<String, String>{
-        public EntityComponentMap(){}
-        public EntityComponentMap(Map<String, String> map){
-            this.putAll(map);
-        }
-    }
 
 
     public EntityComponent(boolean enabled){

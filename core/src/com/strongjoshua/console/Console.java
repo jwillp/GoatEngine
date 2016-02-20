@@ -15,7 +15,6 @@ package com.strongjoshua.console;
 
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.files.FileHandle;
@@ -29,8 +28,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
-import com.goatgames.goatengine.gconsole.ConsoleCommand;
 import com.goatgames.goatengine.GoatEngine;
+import com.goatgames.goatengine.gconsole.ConsoleCommand;
 import com.kotcrab.vis.ui.VisUI;
 
 import java.util.ArrayList;

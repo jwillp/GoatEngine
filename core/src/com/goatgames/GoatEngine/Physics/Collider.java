@@ -3,6 +3,7 @@ package com.goatgames.goatengine.physics;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.goatgames.goatengine.ecs.core.Entity;
+import com.goatgames.goatengine.utils.GAssert;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -49,10 +50,7 @@ public abstract class Collider{
     }
 
 
-
-
-
-                             // STATIC METHODS //
+                             // STATIC METHODS // TODO Move in a factory?
     /**
     * Creates a body according to some specifications
     * @param world the Box2D world in which to create the body
@@ -73,9 +71,15 @@ public abstract class Collider{
      * @param entity
      */
     public static void addBoxCollider(Entity entity, BoxColliderDef boxDef){
+        addBoxCollider((PhysicsComponent)entity.getComponent(PhysicsComponent.ID), boxDef);
+    }
 
+    /**
+     * Adds a Box collider to a physics component
+     * @param phys
+     */
+    public static void addBoxCollider(PhysicsComponent phys, BoxColliderDef boxDef){
         BoxCollider box = new BoxCollider();
-        PhysicsComponent phys = (PhysicsComponent) entity.getComponent(PhysicsComponent.ID);
 
         // Set the tag
         box.setTag(boxDef.tag);
@@ -101,9 +105,18 @@ public abstract class Collider{
      * @param circleDef
      */
     public static void addCircleCollider(Entity entity, CircleColliderDef circleDef){
+        addCircleCollider((PhysicsComponent) entity.getComponent(PhysicsComponent.ID),circleDef);
+    }
+
+    /**
+     * Adds a Circle collider to a physics component
+     * @param phys
+     * @param circleDef
+     */
+    public static void addCircleCollider(PhysicsComponent phys, CircleColliderDef circleDef){
 
         CircleCollider circleCollider = new CircleCollider();
-        PhysicsComponent phys = (PhysicsComponent) entity.getComponent(PhysicsComponent.ID);
+
 
         // Set the tag
         circleCollider.setTag(circleDef.tag);
@@ -129,31 +142,53 @@ public abstract class Collider{
         circleCollider.setUserData(circleDef.userdata);
     }
 
+
     /**
      * Adds a collider to an entity
      * @param entity
      * @param colliderDef
      */
     public static void addCollider(Entity entity, ColliderDef colliderDef){
+        addCollider((PhysicsComponent) entity.getComponent(PhysicsComponent.ID), colliderDef);
+    }
+
+
+
+    /**
+     * Adds a collider to a physics component
+     * @param phys
+     * @param colliderDef
+     */
+    public static void addCollider(PhysicsComponent phys, ColliderDef colliderDef){
         if(colliderDef instanceof BoxColliderDef){
-            addBoxCollider(entity, (BoxColliderDef) colliderDef);
+            addBoxCollider(phys, (BoxColliderDef) colliderDef);
         }
         else if(colliderDef instanceof CircleColliderDef){
-            addCircleCollider(entity, (CircleColliderDef) colliderDef);
+            addCircleCollider(phys, (CircleColliderDef) colliderDef);
         }
         else if(colliderDef instanceof CapsuleColliderDef){
-            addCapsuleCollider(entity, (CapsuleColliderDef) colliderDef);
+            addCapsuleCollider(phys, (CapsuleColliderDef) colliderDef);
         }
-        PhysicsComponent phys = (PhysicsComponent) entity.getComponent(PhysicsComponent.ID);
         phys.setDirty(true);
     }
+
 
     /**
      * Adds a cpasule collider to an entity
      * @param entity
      * @param def
      */
-    public static void addCapsuleCollider(Entity entity, CapsuleColliderDef def){
+    public static void addCapsuleCollider(Entity entity, CapsuleColliderDef def) {
+        addCapsuleCollider((PhysicsComponent)entity.getComponent(PhysicsComponent.ID),def);
+    }
+
+
+        /**
+         * Adds a cpasule collider to a physics component
+         * @param phys
+         * @param def
+         */
+    public static void addCapsuleCollider(PhysicsComponent phys, CapsuleColliderDef def){
 
         ///MIDDLE
         BoxColliderDef middleDef = def.middleColliderDef;
@@ -162,7 +197,7 @@ public abstract class Collider{
         middleDef.x = def.x;
         middleDef.y = def.y;
         middleDef.isSensor = def.isSensor;
-        addBoxCollider(entity, middleDef);
+        addBoxCollider(phys, middleDef);
 
 
         // Circle TOP (HEAD)
@@ -171,7 +206,7 @@ public abstract class Collider{
         topDef.x = def.x;
         topDef.y = def.y + def.height*0.5f;
         topDef.isSensor = def.isSensor;
-        addCircleCollider(entity, topDef);
+        addCircleCollider(phys, topDef);
 
 
         // Circle BOTTOM (LEGS)
@@ -180,24 +215,27 @@ public abstract class Collider{
         bottomDef.x = def.x;
         bottomDef.y = def.y  - def.height*0.5f;
         bottomDef.isSensor = def.isSensor;
-        addCircleCollider(entity, bottomDef);
-
-
-        //FEET FIXTURE
-        /*PolygonShape footSensor = new PolygonShape();
-        footSensor.setAsBox(0.1f,0.1f, new Vector2(0, -height), 0);*/
+        addCircleCollider(phys, bottomDef);
 
     }
 
 
 
     /**
-     * Removes a specific collider object from the body
+     * Removes a specific collider object from the body of an entity
      * @param entity then entity to remove the collider from
      * @param collider the collider object
      */
     public static void removeCollider(Entity entity, Collider collider){
-        PhysicsComponent phys = (PhysicsComponent) entity.getComponent(PhysicsComponent.ID);
+       removeCollider((PhysicsComponent) entity.getComponent(PhysicsComponent.ID), collider);
+    }
+
+    /**
+     * Removes a specific collider object from the body of a Physics component
+     * @param phys the physics component to update
+     * @param collider the collider object
+     */
+    public static void removeCollider(PhysicsComponent phys, Collider collider){
         for(Iterator<Fixture> iterator = phys.getBody().getFixtureList().iterator(); iterator.hasNext(); ) {
             Fixture fix = iterator.next();
             if(fix.getUserData() == collider){
@@ -244,10 +282,21 @@ public abstract class Collider{
      * @param newDef
      */
     public static void updateCollider(Entity entity, Collider collider, ColliderDef newDef) {
-        removeCollider(entity, collider);
-        addCollider(entity, newDef);
+       // removeCollider(entity, collider);
+        //addCollider(entity, newDef);
+        updateCollider((PhysicsComponent) entity.getComponent(PhysicsComponent.ID), collider, newDef);
     }
 
+    /**
+     * Updates a collider according to a new Definition, must be of same type
+     * @param physComp
+     * @param collider
+     * @param newDef
+     */
+    public static void updateCollider(PhysicsComponent physComp, Collider collider, ColliderDef newDef){
+        removeCollider(physComp, collider);
+        addCollider(physComp, newDef);
+    }
 
 
     /**
@@ -256,6 +305,7 @@ public abstract class Collider{
      * @return
      */
     public static ColliderDef defFromMap(Map<String,String> colliderData){
+        GAssert.that(colliderData.containsKey("type"), "Invalid Collider Def : No Type found");
         String colType = colliderData.get("type");
         ColliderDef colDef;
         // Circle Collider //

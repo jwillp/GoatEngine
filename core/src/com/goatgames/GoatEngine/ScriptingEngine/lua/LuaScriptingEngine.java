@@ -2,7 +2,6 @@ package com.goatgames.goatengine.scriptingengine.lua;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.goatgames.goatengine.GEConfig;
 import com.goatgames.goatengine.GoatEngine;
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaValue;

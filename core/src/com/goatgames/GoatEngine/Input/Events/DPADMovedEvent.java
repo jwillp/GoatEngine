@@ -1,7 +1,6 @@
 package com.goatgames.goatengine.input.events;
 
 import com.badlogic.gdx.controllers.PovDirection;
-import com.goatgames.goatengine.eventmanager.Event;
 
 /**
  * When dpad is moved

@@ -3,7 +3,6 @@ package com.goatgames.goatengine.graphicsrendering;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.GL20;
-import com.goatgames.goatengine.GEConfig;
 import com.goatgames.goatengine.GoatEngine;
 
 /**

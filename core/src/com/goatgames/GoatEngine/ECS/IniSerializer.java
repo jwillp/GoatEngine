@@ -1,28 +1,26 @@
 package com.goatgames.goatengine.ecs;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
-import com.goatgames.goatengine.physics.PhysicsComponent;
+import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
+import com.goatgames.goatengine.ecs.core.EntityComponentMap;
 import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.physics.BoxCollider;
-import com.goatgames.goatengine.physics.Collider;
-import com.goatgames.goatengine.utils.Logger;
-import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.physics.CircleCollider;
+import com.goatgames.goatengine.physics.Collider;
+import com.goatgames.goatengine.physics.PhysicsComponent;
+import com.goatgames.goatengine.utils.Logger;
 import org.ini4j.Ini;
 
 import java.io.IOException;
 import java.util.*;
 
-import static com.goatgames.goatengine.ecs.core.EntityComponent.EntityComponentMap;
-
 /**
  * Used to serialize entities in Ini format
  */
-public class ECSIniSerializer {
+public class IniSerializer {
 
     private String iniPath;
     private EntityManager entityManager;
@@ -32,7 +30,7 @@ public class ECSIniSerializer {
     // All properties (components) in file, used to iterate faster.
     private HashSet<String> componentsSection = new HashSet<String>();
 
-    public ECSIniSerializer(String iniPath, EntityManager entityManager){
+    public IniSerializer(String iniPath, EntityManager entityManager){
         this.iniPath = iniPath;
         this.entityManager = entityManager;
 
@@ -80,7 +78,7 @@ public class ECSIniSerializer {
             ini.load();
             loadEntityIndex();
             for(String id: entityIds){
-                Entity e = EntityFactory.createFromMap(getComponentsForEntity(id));
+                Entity e = LegacyEntityFactory.createFromMap(getComponentsForEntity(id));
                 entityManager.freeEntity(e);
             }
         } catch (IOException e) {

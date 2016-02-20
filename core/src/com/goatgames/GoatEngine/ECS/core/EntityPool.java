@@ -1,7 +1,6 @@
 package com.goatgames.goatengine.ecs.core;
 
 import com.badlogic.gdx.utils.Pool;
-import com.goatgames.goatengine.utils.Logger;
 
 /**
  * Entity Pooling

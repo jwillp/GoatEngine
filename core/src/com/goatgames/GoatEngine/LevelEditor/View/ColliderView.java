@@ -3,12 +3,11 @@ package com.goatgames.goatengine.leveleditor.view;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.goatgames.goatengine.GoatEngine;
-import com.goatgames.goatengine.ecs.EntityFactory;
-import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.physics.BoxCollider;
 import com.goatgames.goatengine.physics.CircleCollider;
 import com.goatgames.goatengine.physics.Collider;
+import com.goatgames.goatengine.physics.PhysicsComponent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -92,15 +91,12 @@ public class ColliderView extends ComponentView {
         map.put("type", colType);
         try{
             // Update Collider
-            Collider.updateCollider(entity, collider, EntityFactory.colliderDefFromMap(map));
+            Collider.updateCollider(entity, collider, Collider.defFromMap(map));
         }catch (RuntimeException e){
             new WarningDialog(e.getCause() + "\n" + e.getMessage(), getSkin()).show(this.getStage());
             e.printStackTrace();
         }
-
         // Update Inspector
         GoatEngine.eventManager.fireEvent(new UpdateInspectorEvent());
-
-
     }
 }

@@ -7,14 +7,13 @@ import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Sort;
-import com.goatgames.goatengine.ecs.core.Entity;
-import com.goatgames.goatengine.ecs.core.EntityComponent;
-import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.GoatEngine;
+import com.goatgames.goatengine.ecs.core.Entity;
+import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.graphicsrendering.CameraComponent;
 import com.goatgames.goatengine.graphicsrendering.ZIndexComponent;
-import com.goatgames.goatengine.leveleditor.components.EditorLabelComponent;
 import com.goatgames.goatengine.leveleditor.LevelEditor;
+import com.goatgames.goatengine.leveleditor.components.EditorLabelComponent;
 import com.goatgames.goatengine.utils.Logger;
 
 /**

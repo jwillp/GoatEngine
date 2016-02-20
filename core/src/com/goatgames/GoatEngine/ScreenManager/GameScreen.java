@@ -1,12 +1,13 @@
 package com.goatgames.goatengine.screenmanager;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
+import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ai.AISystem;
-import com.goatgames.goatengine.ecs.ECSIniSerializer;
+import com.goatgames.goatengine.ecs.IniSerializer;
+import com.goatgames.goatengine.ecs.JsonSerializer;
+import com.goatgames.goatengine.ecs.Serializer;
 import com.goatgames.goatengine.ecs.core.ECSManager;
 import com.goatgames.goatengine.ecs.core.EntityManager;
-import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.graphicsrendering.RenderingSystem;
 import com.goatgames.goatengine.input.InputSystem;
 import com.goatgames.goatengine.physics.PhysicsSystem;
@@ -14,6 +15,7 @@ import com.goatgames.goatengine.scriptingengine.lua.LuaEntityScriptSystem;
 import com.goatgames.goatengine.ui.UIEngine;
 import com.goatgames.goatengine.utils.GAssert;
 import com.goatgames.goatengine.utils.Logger;
+import com.goatgames.goatengine.utils.Timer;
 
 import java.io.FileNotFoundException;
 
@@ -119,9 +121,30 @@ public final class GameScreen{
         final String LEVEL_CONFIG = config.getString("level");
         GAssert.that(Gdx.files.internal(LEVEL_CONFIG).exists(),
                 String.format("The Level could not be loaded the file \"%s\" does not exist.", LEVEL_CONFIG));
-        ECSIniSerializer serializer = new ECSIniSerializer(LEVEL_CONFIG, this.getEntityManager());
+
+        this.getEntityManager().loadLevel(LEVEL_CONFIG);
+
+
+       /* Timer t = new Timer(Timer.INFINITE);
+        t.start();
+
+        IniSerializer serializer = new IniSerializer(LEVEL_CONFIG, this.getEntityManager());
+        Logger.info(String.format("Level read time: %d ms", t.getDeltaTime()));
+        t.reset();
+
         serializer.load();
+        Logger.info(String.format("Level load time: %d ms", t.getDeltaTime()));
         Logger.info(String.format("> Number of entity added: %d", getEntityManager().getEntityCount()));
+        t.reset();
+
+
+        // TEST TO JSON //
+        Serializer ser = new JsonSerializer();
+        String s = ser.serializeLevel(this.getEntityManager());
+        Logger.info(String.format("Level WRITE time: %d ms", t.getDeltaTime()));
+        Logger.info(s);*/
+
+
     }
 
 

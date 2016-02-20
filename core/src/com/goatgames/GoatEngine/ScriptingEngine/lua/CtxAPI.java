@@ -1,7 +1,6 @@
 package com.goatgames.goatengine.scriptingengine.lua;
 
 import com.badlogic.gdx.utils.Array;
-import com.goatgames.goatengine.GEConfig;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.PrefabFactory;
 import com.goatgames.goatengine.ecs.core.Entity;

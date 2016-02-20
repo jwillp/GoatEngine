@@ -2,7 +2,6 @@ package com.goatgames.goatengine.leveleditor.commands;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.goatgames.goatengine.GEConfig;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.PrefabFactory;
 import com.goatgames.goatengine.leveleditor.LevelEditor;

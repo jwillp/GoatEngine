@@ -28,11 +28,10 @@ public class CircleCollider extends Collider{
         def.put("is_sensor",String.valueOf(this.isSensor()));
         def.put("tag",String.valueOf(this.tag));
         // TODO get real position
-
         Vector2 pos = ((CircleShape)fixture.getShape()).getPosition();
-
         def.put("position_x",String.valueOf(pos.x));
         def.put("position_y",String.valueOf(pos.y));
+        def.put("type", "box");
         return def;
     }
 }

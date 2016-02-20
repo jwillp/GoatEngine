@@ -1,7 +1,7 @@
 package com.goatgames.goatengine.gconsole.commands;
 
-import com.goatgames.goatengine.gconsole.ConsoleCommand;
 import com.goatgames.goatengine.GoatEngine;
+import com.goatgames.goatengine.gconsole.ConsoleCommand;
 
 /**
  * Resumes the game engine

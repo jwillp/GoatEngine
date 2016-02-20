@@ -1,14 +1,11 @@
 package com.goatgames.goatengine.leveleditor.commands;
 
 import com.badlogic.gdx.utils.ObjectMap;
+import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityManager;
-import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.leveleditor.LevelEditor;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Command deleting an entity

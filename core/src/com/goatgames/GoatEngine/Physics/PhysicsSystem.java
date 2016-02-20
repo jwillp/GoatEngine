@@ -6,7 +6,6 @@ import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.screenmanager.GameScreenConfig;
 import com.goatgames.goatengine.utils.GAssert;
-import com.goatgames.goatengine.utils.GameConfig;
 
 import java.util.ArrayList;
 

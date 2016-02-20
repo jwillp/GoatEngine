@@ -1,6 +1,5 @@
 package com.goatgames.goatengine.gconsole;
 
-import com.goatgames.goatengine.GoatEngine;
 import com.strongjoshua.console.Console;
 
 /**

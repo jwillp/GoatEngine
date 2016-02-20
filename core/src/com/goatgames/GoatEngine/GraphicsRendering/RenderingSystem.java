@@ -2,14 +2,16 @@ package com.goatgames.goatengine.graphicsrendering;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Sort;
 import com.bitfire.postprocessing.PostProcessor;
-import com.bitfire.postprocessing.effects.*;
+import com.bitfire.postprocessing.effects.Bloom;
+import com.bitfire.postprocessing.effects.CrtMonitor;
 import com.bitfire.postprocessing.filters.Combine;
 import com.bitfire.postprocessing.filters.CrtScreen;
 import com.bitfire.utils.ShaderLoader;
@@ -17,16 +19,15 @@ import com.brashmonkey.spriter.Loader;
 import com.brashmonkey.spriter.Spriter;
 import com.brashmonkey.spriter.gdxIntegration.LibGdxSpriterDrawer;
 import com.brashmonkey.spriter.gdxIntegration.LibGdxSpriterLoader;
-import com.goatgames.goatengine.GEConfig;
+import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ai.AISystem;
 import com.goatgames.goatengine.ai.pathfinding.PathNode;
+import com.goatgames.goatengine.ecs.core.Entity;
+import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.eventmanager.Event;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
 import com.goatgames.goatengine.eventmanager.engineevents.EngineEvents;
 import com.goatgames.goatengine.physics.PhysicsComponent;
-import com.goatgames.goatengine.ecs.core.Entity;
-import com.goatgames.goatengine.ecs.core.EntitySystem;
-import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.utils.Logger;
 
 /**

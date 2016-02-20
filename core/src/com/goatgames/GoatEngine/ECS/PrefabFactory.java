@@ -1,9 +1,9 @@
 package com.goatgames.goatengine.ecs;
 
 import com.badlogic.gdx.Gdx;
-import com.goatgames.goatengine.ecs.core.EntityComponent;
-import com.goatgames.goatengine.utils.Logger;
 import com.goatgames.goatengine.ecs.core.Entity;
+import com.goatgames.goatengine.ecs.core.EntityComponentMap;
+import com.goatgames.goatengine.utils.Logger;
 import org.ini4j.Ini;
 
 import java.io.IOException;
@@ -34,7 +34,7 @@ public class PrefabFactory {
                 ini = new Ini(Gdx.files.internal(prefab).file());
                 prefabs.put(prefab,ini);
             }
-            entity = EntityFactory.createFromMap(getComponents(ini));
+            entity = LegacyEntityFactory.createFromMap(getComponents(ini));
 
         } catch (IOException e) {
             Logger.error(e.getMessage());
@@ -49,12 +49,12 @@ public class PrefabFactory {
      * @param ini
      * @return entity component maps
      */
-    private  HashMap<String, EntityComponent.EntityComponentMap> getComponents(Ini ini) {
-        HashMap<String, EntityComponent.EntityComponentMap> comps;
-        comps = new HashMap<String, EntityComponent.EntityComponentMap>();
+    private  HashMap<String, EntityComponentMap> getComponents(Ini ini) {
+        HashMap<String, EntityComponentMap> comps;
+        comps = new HashMap<String, EntityComponentMap>();
 
         for(String componentKey: ini.keySet()){
-            EntityComponent.EntityComponentMap map = new EntityComponent.EntityComponentMap();
+            EntityComponentMap map = new EntityComponentMap();
             // fetch values for string substitution
             for(String key: ini.get(componentKey).keySet()){
                 map.put(key, ini.fetch(componentKey,key));

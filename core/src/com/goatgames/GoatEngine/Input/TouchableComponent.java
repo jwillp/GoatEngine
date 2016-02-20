@@ -2,6 +2,7 @@ package com.goatgames.goatengine.input;
 
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
+import com.goatgames.goatengine.ecs.core.EntityComponentMap;
 import com.goatgames.goatengine.utils.GAssert;
 
 import java.util.HashMap;
@@ -18,6 +19,10 @@ public class TouchableComponent extends EntityComponent {
 
     public TouchableComponent(EntityComponentMap componentData) {
         super(componentData);
+    }
+
+    public TouchableComponent(Map<String, String> map) {
+        super(map);
     }
 
     /**

@@ -1,13 +1,18 @@
 package com.goatgames.goatengine.ecs.core;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
-import com.goatgames.goatengine.ecs.ECSIniSerializer;
+import com.goatgames.goatengine.EntityFactory;
+import com.goatgames.goatengine.ecs.IniSerializer;
+import com.goatgames.goatengine.ecs.JsonSerializer;
+import com.goatgames.goatengine.ecs.Serializer;
 import com.goatgames.goatengine.ecs.common.TagsComponent;
 import com.goatgames.goatengine.utils.GAssert;
 
-import java.util.*;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Allows the retrieval of entityPool and their components
@@ -240,7 +245,7 @@ public class EntityManager {
 
 
     /**
-     * Returns all entityPool as Entity Objec
+     * Returns all entityPool as Entity Object
      * @return
      */
     public Array<Entity> getEntities(){
@@ -312,11 +317,19 @@ public class EntityManager {
 
 
     public void saveIni(String outputPath) {
-        ECSIniSerializer serializer = new ECSIniSerializer(outputPath, this);
+        IniSerializer serializer = new IniSerializer(outputPath, this);
         serializer.save();
     }
 
-
-
-
+    /**
+     * Loads a level
+     * @param levelConfig
+     */
+    public void loadLevel(String levelConfig) {
+        Serializer serializer = null;
+        serializer = new JsonSerializer();
+        String levelData = Gdx.files.internal(levelConfig).readString();
+        EntityFactory factory = new EntityFactory();
+        factory.fromLevelData(serializer.deserializeLevel(levelData), this);
+    }
 }

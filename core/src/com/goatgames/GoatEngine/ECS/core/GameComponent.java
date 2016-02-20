@@ -1,17 +1,20 @@
 package com.goatgames.goatengine.ecs.core;
 
 import com.goatgames.goatengine.utils.GAssert;
-import org.luaj.vm2.LuaString;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
 * Mostly used by scripts to easily create new components
 */
 public class GameComponent extends EntityComponent {
+
+    private static final String ID = "GAME_COMPONENT";
+    private static final String INTERNAL_KEY = "component_id_internal";
 
     public LuaTable data;
 
@@ -29,7 +32,7 @@ public class GameComponent extends EntityComponent {
         GAssert.notNull(data, "GameComponent Data was null in constructor");
         this.data = data;
         // This private ID makes sure that it is a GAME_COMPONENT
-        this.data.set("component_id_internal", "GAME_COMPONENT");
+        this.data.set(INTERNAL_KEY, ID);
     }
 
     @Override
@@ -45,6 +48,7 @@ public class GameComponent extends EntityComponent {
     @Override
     public String getId() {
         GAssert.notNull(data, "GameComponent Data was null");
+        GAssert.that(data.get("component_id") != LuaValue.NIL, "Game component has no ID: Unkown component");
         return data.get("component_id").toString();
     }
 
@@ -87,10 +91,11 @@ public class GameComponent extends EntityComponent {
     public static class Factory implements EntityComponentFactory{
         @Override
         public EntityComponent processMapData(String componentId, Map<String, String> map){
-            GAssert.that(componentId.equals(GameComponent.ID),
-                    "Component Factory Mismatch: GameComponent.ID != " + componentId);
-            GameComponent component = new GameComponent(map);
-            return component;
+            GAssert.that(map.containsKey(INTERNAL_KEY), String.format("Game Component %s has no ID_INTERNAL", componentId));
+            String internalId = map.get(INTERNAL_KEY);
+            GAssert.that(Objects.equals(internalId, GameComponent.ID),
+                    String.format("Component Factory Mismatch: GameComponent internal id %s != %s", internalId, INTERNAL_KEY));
+            return new GameComponent(map);
         }
     }
 

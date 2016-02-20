@@ -1,8 +1,8 @@
 package com.goatgames.goatengine.leveleditor.commands;
 
 import com.badlogic.gdx.math.Vector3;
-import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.GoatEngine;
+import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.graphicsrendering.CameraComponent;
 
 

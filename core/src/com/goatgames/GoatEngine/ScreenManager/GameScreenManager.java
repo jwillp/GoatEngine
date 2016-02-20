@@ -1,7 +1,6 @@
 package com.goatgames.goatengine.screenmanager;
 
 
-import com.goatgames.goatengine.GEConfig;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.utils.Logger;
 

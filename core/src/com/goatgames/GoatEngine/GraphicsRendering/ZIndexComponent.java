@@ -3,6 +3,7 @@ package com.goatgames.goatengine.graphicsrendering;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
+import com.goatgames.goatengine.ecs.core.EntityComponentMap;
 import com.goatgames.goatengine.utils.GAssert;
 
 import java.util.Comparator;

@@ -15,8 +15,8 @@ import com.goatgames.goatengine.input.events.MouseScrolledEvent;
 import com.goatgames.goatengine.leveleditor.commands.*;
 import com.goatgames.goatengine.leveleditor.consolecommands.ZCommand;
 import com.goatgames.goatengine.leveleditor.view.GameScreenConfigView;
-import com.goatgames.goatengine.leveleditor.view.UpdateInspectorEvent;
 import com.goatgames.goatengine.leveleditor.view.LevelEditorView;
+import com.goatgames.goatengine.leveleditor.view.UpdateInspectorEvent;
 import com.goatgames.goatengine.utils.Logger;
 import com.kotcrab.vis.ui.VisUI;
 

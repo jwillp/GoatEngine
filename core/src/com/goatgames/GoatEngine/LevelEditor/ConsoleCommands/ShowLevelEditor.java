@@ -1,7 +1,7 @@
 package com.goatgames.goatengine.leveleditor.consolecommands;
 
-import com.goatgames.goatengine.gconsole.ConsoleCommand;
 import com.goatgames.goatengine.GoatEngine;
+import com.goatgames.goatengine.gconsole.ConsoleCommand;
 
 /**
  * Show the Level Editor
