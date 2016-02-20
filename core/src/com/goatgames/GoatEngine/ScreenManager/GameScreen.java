@@ -125,7 +125,7 @@ public final class GameScreen{
         this.getEntityManager().loadLevel(LEVEL_CONFIG);
 
 
-       /* Timer t = new Timer(Timer.INFINITE);
+        /*Timer t = new Timer(Timer.INFINITE);
         t.start();
 
         IniSerializer serializer = new IniSerializer(LEVEL_CONFIG, this.getEntityManager());

@@ -31,7 +31,7 @@ public class CircleCollider extends Collider{
         Vector2 pos = ((CircleShape)fixture.getShape()).getPosition();
         def.put("position_x",String.valueOf(pos.x));
         def.put("position_y",String.valueOf(pos.y));
-        def.put("type", "box");
+        def.put("type", "circle");
         return def;
     }
 }
