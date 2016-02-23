@@ -18,6 +18,7 @@ import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.graphicsrendering.CameraComponent;
 import com.goatgames.goatengine.leveleditor.LevelEditor;
 import com.goatgames.goatengine.ui.UIEngine;
+import com.goatgames.goatengine.utils.Timer;
 import com.kotcrab.vis.ui.VisUI;
 
 /**
@@ -72,6 +73,7 @@ public class LevelEditorView extends UIEngine {
 
     // Center
     private Table center;
+    private Timer statsTimer; // Timer to limit the number of render of statistics every frame
 
     public LevelEditorView(LevelEditor editor){
         super();
@@ -266,6 +268,11 @@ public class LevelEditorView extends UIEngine {
 
         // Do not display inspector right off
         this.inspector.clear();
+
+
+        statsTimer = new Timer(Timer.ONE_SECOND);
+        statsTimer.start();
+
     }
 
 
@@ -313,13 +320,18 @@ public class LevelEditorView extends UIEngine {
         if(!statsBar.isVisible()) return;
 
         // Update stats
-
+        if(!statsTimer.isDone()){
+            return;
+        }
+        statsTimer.reset();
 
         int entityCount = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager().getEntityCount();
         if(lastEntityCount != entityCount){
             labelEntityCount.setText(Integer.toString(entityCount));
             lastEntityCount = entityCount;
         }
+
+
         int currentFps = Gdx.graphics.getFramesPerSecond();
         if(lastFps != currentFps){
             labelFPS.setText(Integer.toString(currentFps));
