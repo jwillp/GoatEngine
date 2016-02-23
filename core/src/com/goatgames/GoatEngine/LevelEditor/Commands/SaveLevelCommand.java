@@ -30,7 +30,7 @@ public class SaveLevelCommand extends EditorCommand {
             @Override
             public void finished (String input) {
                 String level = input.replace(".gel", "");
-                level = "data/levels/" + level + ".gel";
+                level = String.format("data/levels/%s.gel", level);
 
                 // If File exist show confirmation of overwrite
                 if(Gdx.files.internal(level).exists()){
@@ -40,8 +40,8 @@ public class SaveLevelCommand extends EditorCommand {
                     final String finalLevel = level;
                     DialogUtils.showOptionDialog(editor.getView().getStage(),
                             "Warning Overwrite",
-                            "The level file " + level +" already exists and will be OVERWRITTEN \n " +
-                                    "Do you want to proceed ?",
+                            String.format("The level file %s already exists and will be OVERWRITTEN \n" +
+                                    " Do you want to proceed ?", level),
                             DialogUtils.OptionDialogType.YES_NO,
                             new OptionDialogListener() {
                                 @Override
@@ -68,10 +68,10 @@ public class SaveLevelCommand extends EditorCommand {
     }
     private void saveFile(String file){
         Gdx.files.local(file).writeString("", false);
-        GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager().saveIni(file);
+        GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager().saveLevel(file);
         DialogUtils.showOKDialog(
                 editor.getView().getStage(),
                 "Success",
-                "The level has been saved at  " + file);
+                String.format("The level has been saved at  %s", file));
     }
 }

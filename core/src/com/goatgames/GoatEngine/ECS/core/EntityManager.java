@@ -332,4 +332,11 @@ public class EntityManager {
         EntityFactory factory = new EntityFactory();
         factory.fromLevelData(serializer.deserializeLevel(levelData), this);
     }
+
+    public void saveLevel(String levelFile) {
+        Serializer serializer = null;
+        serializer = new JsonSerializer();
+        String levelData = serializer.serializeLevel(this);
+        Gdx.files.internal(levelFile).writeString(levelData,false);
+    }
 }
