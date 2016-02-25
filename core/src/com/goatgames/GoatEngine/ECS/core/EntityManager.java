@@ -337,6 +337,6 @@ public class EntityManager {
         Serializer serializer = null;
         serializer = new JsonSerializer();
         String levelData = serializer.serializeLevel(this);
-        Gdx.files.internal(levelFile).writeString(levelData,false);
+        Gdx.files.local(levelFile).writeString(levelData,false);
     }
 }
