@@ -20,7 +20,7 @@ public class SpriteComponent extends EntityComponent {
 
     private String resourceName;
     private TextureRegion currentSprite;
-    protected Color color;
+    protected Color color = Color.WHITE;
 
     public float offsetX;
     public float offsetY;
@@ -83,6 +83,7 @@ public class SpriteComponent extends EntityComponent {
         map.put("resource_name", resourceName);
         map.put("auto_adjust", String.valueOf(autoAdjust));
         map.put("scale", String.valueOf(scale));
+        map.put("color", Color.WHITE.toString());
         return map;
     }
 
@@ -99,6 +100,9 @@ public class SpriteComponent extends EntityComponent {
         this.autoAdjust = Boolean.parseBoolean(map.get("auto_adjust"));
         this.scale = Float.parseFloat(map.get("scale"));
         this.currentSprite = new TextureRegion(new Texture(Gdx.files.internal(resourceName)));
+        String colorHex = map.getOrDefault("color", Color.WHITE.toString()).replace("#","");
+        if(colorHex.length() == 6) colorHex += "FF";
+        this.color = new Color(Color.valueOf(colorHex));
 
     }
 

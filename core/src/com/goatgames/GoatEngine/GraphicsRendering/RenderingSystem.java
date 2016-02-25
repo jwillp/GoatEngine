@@ -200,6 +200,7 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
         if(entity.hasComponentEnabled(SpriteComponent.ID)){
             SpriteComponent sprite = (SpriteComponent) entity.getComponent(SpriteComponent.ID);
             PhysicsComponent phys = (PhysicsComponent) entity.getComponent(PhysicsComponent.ID);
+            spriteBatch.setColor(sprite.getColor());
             if(sprite.autoAdjust){
 
                 float ratio = sprite.getCurrentSprite().getRegionWidth()/sprite.getCurrentSprite().getRegionHeight();
@@ -222,6 +223,7 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
 
                 );
             }
+            spriteBatch.setColor(Color.WHITE);
         }
     }
 
