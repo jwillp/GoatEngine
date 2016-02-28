@@ -8,7 +8,6 @@ import com.goatgames.goatengine.ecs.core.EntityComponentMap;
 import com.goatgames.goatengine.ecs.core.GameComponent;
 import com.goatgames.goatengine.graphicsrendering.*;
 import com.goatgames.goatengine.input.TouchableComponent;
-import com.goatgames.goatengine.leveleditor.components.EditorLabelComponent;
 import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.scriptingengine.ScriptComponent;
 
@@ -32,7 +31,6 @@ public class ComponentMapper {
         linkFactory(SpriterAnimationComponent.ID, new SpriterAnimationComponent.Factory());
         linkFactory(ZIndexComponent.ID, new ZIndexComponent.Factory());
         linkFactory(TouchableComponent.ID, new TouchableComponent.Factory());
-        linkFactory(EditorLabelComponent.ID, new EditorLabelComponent.Factory());
         linkFactory(PhysicsComponent.ID, new PhysicsComponent.Factory());
         linkFactory(ScriptComponent.ID, new ScriptComponent.Factory());
     }

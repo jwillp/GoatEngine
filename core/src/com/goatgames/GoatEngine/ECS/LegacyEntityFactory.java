@@ -9,7 +9,6 @@ import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.ecs.core.GameComponent;
 import com.goatgames.goatengine.graphicsrendering.*;
 import com.goatgames.goatengine.input.TouchableComponent;
-import com.goatgames.goatengine.leveleditor.components.EditorLabelComponent;
 import com.goatgames.goatengine.physics.*;
 import com.goatgames.goatengine.scriptingengine.ScriptComponent;
 
@@ -41,7 +40,6 @@ public class LegacyEntityFactory {
             if(processTagsComponent(componentId, entity, map)) continue;
             if(processSpriteComponent(componentId, entity, map)) continue;
             if(processSpriterAnimationComponent(componentId, entity, map)) continue;
-            if(processEditorLabelComponent(componentId, entity, map)) continue;
             if(processCameraComponent(componentId, entity, map)) continue;
             if(processAIComponent(componentId, entity, map)) continue;
             if(processZIndexComponent(componentId, entity, map)) continue;
@@ -192,17 +190,6 @@ public class LegacyEntityFactory {
         return true;
     }
 
-    /**
-     * Processes a EditorLabelComponent
-     * @param componentId the id of the component as found in the component list
-     * @param entity the entity to update
-     * @param componentData the map containing data bout the component
-     */
-    private static boolean processEditorLabelComponent(String componentId, Entity entity, EntityComponentMap componentData){
-        if(!isComponent(componentId, EditorLabelComponent.ID)){ return false; }
-        entity.addComponent(new EditorLabelComponent(componentData), EditorLabelComponent.ID);
-        return true;
-    }
 
     /**
      * Processes a CameraComponent

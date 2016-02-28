@@ -22,7 +22,7 @@ public class GoatEngineAPI extends TwoArgFunction {
     @Override
     public LuaValue call(LuaValue modname, LuaValue env) {
         LuaValue library = tableOf();
-        library.set("console", CoerceJavaToLua.coerce(GoatEngine.console));
+
         library.set("logger", CoerceJavaToLua.coerce(new Logger()));      // We only access static methods
         library.set("engine", CoerceJavaToLua.coerce(new GoatEngine()));  // We only access static methods
 

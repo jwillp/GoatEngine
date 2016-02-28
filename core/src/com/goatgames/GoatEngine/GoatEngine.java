@@ -2,12 +2,8 @@ package com.goatgames.goatengine;
 
 import com.badlogic.gdx.Gdx;
 import com.goatgames.goatengine.eventmanager.EventManager;
-import com.goatgames.goatengine.gconsole.GConsole;
-import com.goatgames.goatengine.gconsole.commands.*;
 import com.goatgames.goatengine.graphicsrendering.GraphicsEngine;
 import com.goatgames.goatengine.input.InputManager;
-import com.goatgames.goatengine.leveleditor.LevelEditor;
-import com.goatgames.goatengine.leveleditor.consolecommands.ShowLevelEditor;
 import com.goatgames.goatengine.screenmanager.GameScreenManager;
 import com.goatgames.goatengine.scriptingengine.lua.LuaScriptingEngine;
 import com.goatgames.goatengine.utils.EngineProfiler;
@@ -40,15 +36,10 @@ public class GoatEngine {
     //InputManager
     public static InputManager inputManager;
 
-    //Console
-    public static GConsole console;
-
     //Graphics Engine
     public static GraphicsEngine graphicsEngine;
 
 
-    // LevelEditor
-    private static LevelEditor levelEditor;
 
 
     // TODO NetworkManager ?
@@ -99,27 +90,6 @@ public class GoatEngine {
         Logger.info(" > Audio Manager initialised "+ performanceTimer.getDeltaTime() + "ms");
         performanceTimer.reset();
 
-        // Init the console
-        final boolean CONSOLE_ENABLED = config.getBoolean("console.enabled");
-        Logger.info(" > Dev Console initialised " + performanceTimer.getDeltaTime() + "ms");
-        if(CONSOLE_ENABLED) {
-            console = new GConsole();
-            console.setDisabled(false);
-            // Default commands
-            console.addCommand(new ExitCommand());
-            console.addCommand(new HelpCommand());
-            console.addCommand(new ShowLevelEditor());
-            console.addCommand(new ClearConsoleCommand());
-            console.addCommand(new PauseEngineCommand());
-            console.addCommand(new ResumeEngineCommand());
-            console.addCommand(new ReloadScreenCommand());
-            console.addCommand(new ChangeScreenCommand());
-            console.addCommand(new LuaCommand());
-
-
-
-            console.addCommand(new SetPhysicsRendering());
-        }
         performanceTimer.reset();
 
 
@@ -135,11 +105,6 @@ public class GoatEngine {
         gameScreenManager.init();
         Logger.info(" > Game screen Manager initialised " + performanceTimer.getDeltaTime() + "ms");
         performanceTimer.reset();
-
-        // Level Editor
-        levelEditor = new LevelEditor();
-
-
 
         /*try{
             scriptEngine.("scripts/main.groovy");
@@ -180,15 +145,6 @@ public class GoatEngine {
             gameScreenManager.draw(deltaTime);
             //eventManager.fireEvent(new EngineEvents.RenderTickEndEvent(), false);
 
-            if(config.getBoolean("level_editor.enabled"))
-                levelEditor.update(deltaTime);
-
-            //Draw Console
-            if(config.getBoolean("console.enabled")){
-                console.refresh();
-                console.draw();
-            }
-
             //eventManager.fireEvent(new EngineEvents.GameTickEndEvent());
         }else{
             Gdx.app.exit();
@@ -209,16 +165,6 @@ public class GoatEngine {
 
         //Dispose Script
         scriptEngine.dispose();
-
-        //Dispose Console
-        if(console != null) {
-            console.dispose();
-        }
-    }
-
-
-    public static void showLevelEditor(){
-        levelEditor.setEnabled(true);
     }
 
     static class EngineUninitializedException extends RuntimeException{
