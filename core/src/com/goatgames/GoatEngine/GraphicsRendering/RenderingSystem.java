@@ -135,6 +135,7 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
 
     @Override
     public void draw() {
+
         if(GoatEngine.config.getBoolean("rendering.auto_clear")) {
             GoatEngine.graphicsEngine.clearScreen();
         }

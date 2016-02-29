@@ -2,6 +2,7 @@ package com.goatgames.goatengine;
 
 import com.badlogic.gdx.Gdx;
 import com.goatgames.goatengine.eventmanager.EventManager;
+import com.goatgames.goatengine.eventmanager.engineevents.EngineEvents;
 import com.goatgames.goatengine.graphicsrendering.GraphicsEngine;
 import com.goatgames.goatengine.input.InputManager;
 import com.goatgames.goatengine.screenmanager.GameScreenManager;
@@ -120,6 +121,7 @@ public class GoatEngine {
     }
 
 
+    private static EngineEvents.RenderTickBeginEvent renderTickBeginEvent = new EngineEvents.RenderTickBeginEvent();
     /**
      * Updates the engine for ONE frame
      */
@@ -141,7 +143,7 @@ public class GoatEngine {
                 //eventManager.fireEvent(new EngineEvents.LogicTickEndEvent(), false);
 
             }
-            //eventManager.fireEvent(new EngineEvents.RenderTickBeginEvent(), false);
+            eventManager.fireEvent(renderTickBeginEvent, false);
             gameScreenManager.draw(deltaTime);
             //eventManager.fireEvent(new EngineEvents.RenderTickEndEvent(), false);
 
