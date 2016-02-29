@@ -135,7 +135,9 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
 
     @Override
     public void draw() {
-        GoatEngine.graphicsEngine.clearScreen();
+        if(GoatEngine.config.getBoolean("rendering.auto_clear")) {
+            GoatEngine.graphicsEngine.clearScreen();
+        }
 
         cameraSystem.update(0); // TODO deltatime  + documenting why this is here instead of update?
         spriteBatch.setProjectionMatrix(cameraSystem.getMainCamera().combined);

@@ -5,12 +5,16 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Sort;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
+import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.eventmanager.Event;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
 import com.goatgames.goatengine.graphicsrendering.CameraComponent;
+import com.goatgames.goatengine.graphicsrendering.ZIndexComponent;
 import com.goatgames.goatengine.input.events.EntityReleasedEvent;
 import com.goatgames.goatengine.input.events.EntityTouchedEvent;
 import com.goatgames.goatengine.input.events.MousePressEvent;
@@ -65,7 +69,7 @@ public class InputSystem extends EntitySystem implements GameEventListener{
      * @param e the event
      */
     private void onMousePress(MousePressEvent e){
-        String entityId = findEntityUnderMousePos(e.screenX, e.screenY);
+        String entityId = findForeMostEntity(findEntitiesFromCamPOV(e.screenX, e.screenY));
         if(entityId != null) {
             Entity entity  = getEntityManager().getEntityObject(entityId);
             if(entity.hasComponentEnabled(TouchableComponent.ID)){
@@ -84,7 +88,7 @@ public class InputSystem extends EntitySystem implements GameEventListener{
      * @param e the event
      */
     private void onMouseRelease(MouseReleasedEvent e){
-        String entityId = findEntityUnderMousePos(e.screenX, e.screenY);
+        String entityId = findForeMostEntity(findEntitiesFromCamPOV(e.screenX, e.screenY));
         if(entityId != null) {
             Entity entity  = getEntityManager().getEntityObject(entityId);
             if(entity.hasComponentEnabled(TouchableComponent.ID)){
@@ -96,44 +100,84 @@ public class InputSystem extends EntitySystem implements GameEventListener{
         }
     }
 
-
     /**
-     * Finds the entity under mouse pos
-     * @param x of mouse
-     * @param y of mouse
+     * Finds entities at positon according to the camera's point of view using
+     * physics Bodies. Translates a camera's coordinate point to a world coordinate.
+     * @param screenX of mouse
+     * @param screenY of mouse
      */
-    private String findEntityUnderMousePos(float x, float y){
-        // Get the Camera
-        CameraComponent cam = (CameraComponent) getEntityManager().getComponents(CameraComponent.ID).get(0);
-
-        // Translate the mouse coordinates to world coordinates
+    private Array<String> findEntitiesFromCamPOV(float screenX, float screenY){
+        EntityManager manager = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager();
+        CameraComponent cam = (CameraComponent) manager.getComponents(CameraComponent.ID).get(0);
         final Vector3 pos = new Vector3();
-        cam.getCamera().unproject(pos.set(x, y, 0));
+        // Translate the mouse coordinates to world coordinates
+        cam.getCamera().unproject(pos.set(screenX, screenY, 0));
 
-        // Ask the world wichi body is within the mouse pointer's bouding box
+        // Ask the world which bodies are within the given
+        // Bounding box around the mouse pointer
         World world = GoatEngine.gameScreenManager.getCurrentScreen().getPhysicsSystem().getWorld();
-        final Body[] hitBody = {null};
+        final Array<Body> hitBodies = new Array<>();
         float mousePointerSize =  0.0001f;
         world.QueryAABB(new QueryCallback() {
             @Override
             public boolean reportFixture(Fixture fixture) {
                 if(fixture != null) {
-                    hitBody[0] = fixture.getBody();
+                    hitBodies.add(fixture.getBody());
                     return true;
                 }
                 return false;
             }
         }, pos.x - mousePointerSize, pos.y - mousePointerSize, pos.x + mousePointerSize, pos.y + mousePointerSize);
         // If we hit something
-        String entityId = null;
-        if (hitBody[0] != null) entityId = (String) hitBody[0].getUserData();
-
-        return entityId;
+        Array<String> entityIds = new Array<>(hitBodies.size);
+        for(Body b: hitBodies){
+            if(b.getUserData() != null){
+                entityIds.add((String) b.getUserData());
+            }
+        }
+        return entityIds;
     }
 
+    /**
+     * Returns the fore most entity
+     * @param entityIds
+     * @return
+     */
+    private String findForeMostEntity(Array<String> entityIds){
 
+        if(entityIds.size != 0) {
+            // Get an array of entities
+            Array<Entity> noZEntities = new Array<>();
+            Array<Entity> ZEntities = new Array<>();
+            // Separate Z Indexed entities and non Z indexed
+            for (String s : entityIds) {
+                // Make sure it is registered
+                Entity entity = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager().getEntityObject(s);
+                if (entity.hasComponent(ZIndexComponent.ID)) {
+                    /*ZIndexComponent zc = (ZIndexComponent) entity.getComponent(ZIndexComponent.ID);
+                    if(zc.index >= editor.getMinZ()) {
+                        ZEntities.add(entity);
+                    }*/
+                    ZEntities.add(entity);
+                } else {
+                    noZEntities.add(entity);
+                }
+            }
 
-
+            // First Sort entities By ZIndex.
+            Sort.instance().sort(ZEntities, new ZIndexComponent.ZIndexComparator());
+            ZEntities.reverse();
+            // If they do not have a Z index place them at the front of the list
+            if (noZEntities.size != 0) {
+                for (Entity e : noZEntities) {
+                    ZEntities.insert(0, e);
+                }
+            }
+            // The top One is the one we want
+            if (ZEntities.size != 0) return ZEntities.first().getID();
+        }
+        return null;
+    }
 
 
 }

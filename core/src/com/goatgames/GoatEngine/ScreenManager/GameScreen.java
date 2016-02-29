@@ -3,9 +3,6 @@ package com.goatgames.goatengine.screenmanager;
 import com.badlogic.gdx.Gdx;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ai.AISystem;
-import com.goatgames.goatengine.ecs.IniSerializer;
-import com.goatgames.goatengine.ecs.JsonSerializer;
-import com.goatgames.goatengine.ecs.Serializer;
 import com.goatgames.goatengine.ecs.core.ECSManager;
 import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.graphicsrendering.RenderingSystem;
@@ -15,7 +12,6 @@ import com.goatgames.goatengine.scriptingengine.lua.LuaEntityScriptSystem;
 import com.goatgames.goatengine.ui.UIEngine;
 import com.goatgames.goatengine.utils.GAssert;
 import com.goatgames.goatengine.utils.Logger;
-import com.goatgames.goatengine.utils.Timer;
 
 import java.io.FileNotFoundException;
 
