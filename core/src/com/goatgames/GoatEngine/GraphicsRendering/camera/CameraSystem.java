@@ -35,17 +35,10 @@ public class CameraSystem extends EntitySystem {
     public void update(float dt){
         GameScreenConfig config = GoatEngine.gameScreenManager.getCurrentScreen().getConfig();
 
-        float w = Gdx.graphics.getWidth();
-        float h = Gdx.graphics.getHeight();
-
         for(EntityComponent comp: getEntityManager().getComponents(CameraComponent.ID)){
             CameraComponent camComp = (CameraComponent)comp;
             OrthographicCamera cam = camComp.getCamera();
             if(camComp.isDirty){
-
-                float viewportWidth = config.getFloat("rendering.camera.viewportWidth");
-                float viewportHeight = config.getFloat("rendering.camera.viewportHeight");
-                float zoom = config.getFloat("rendering.camera.zoom");
                 strategy = CameraStrategyResolver.getStrategy(config.getString("rendering.camera.strategy"));
                 GAssert.notNull(strategy,"Camera strategy Null");
                 cam = new OrthographicCamera(strategy.getWidth(), strategy.getHeight());
