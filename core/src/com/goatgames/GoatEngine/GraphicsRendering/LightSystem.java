@@ -92,7 +92,6 @@ public class LightSystem extends EntitySystem {
 
 
         // and render the sprite
-        // TODO for every fake light components
         for(Entity e: getEntityManager().getEntitiesWithComponentEnabled(LightComponent.ID)){
            this.renderSprites(e);
             getEntityManager().freeEntity(e);

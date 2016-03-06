@@ -27,6 +27,8 @@ import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.eventmanager.Event;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
 import com.goatgames.goatengine.eventmanager.engineevents.EngineEvents;
+import com.goatgames.goatengine.graphicsrendering.camera.CameraDebugRenderer;
+import com.goatgames.goatengine.graphicsrendering.camera.CameraSystem;
 import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.utils.Logger;
 
