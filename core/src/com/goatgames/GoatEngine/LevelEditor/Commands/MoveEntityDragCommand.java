@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityManager;
-import com.goatgames.goatengine.graphicsrendering.CameraComponent;
+import com.goatgames.goatengine.graphicsrendering.camera.CameraComponent;
 import com.goatgames.goatengine.physics.PhysicsComponent;
 
 /**

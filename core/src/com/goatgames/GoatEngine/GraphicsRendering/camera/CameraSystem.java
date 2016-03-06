@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.graphicsrendering;
+package com.goatgames.goatengine.graphicsrendering.camera;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -9,6 +9,7 @@ import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.eventmanager.EntityEvent;
 import com.goatgames.goatengine.screenmanager.GameScreenConfig;
+import com.goatgames.goatengine.utils.GAssert;
 import com.goatgames.goatengine.utils.Logger;
 
 /**
@@ -16,9 +17,11 @@ import com.goatgames.goatengine.utils.Logger;
  */
 public class CameraSystem extends EntitySystem {
 
-    Viewport viewport;
+    CameraStrategy strategy;
+
 
     public CameraSystem(){}
+
 
     @Override
     public void init() {
@@ -40,34 +43,19 @@ public class CameraSystem extends EntitySystem {
             OrthographicCamera cam = camComp.getCamera();
             if(camComp.isDirty){
 
-
                 float viewportWidth = config.getFloat("rendering.camera.viewportWidth");
                 float viewportHeight = config.getFloat("rendering.camera.viewportHeight");
                 float zoom = config.getFloat("rendering.camera.zoom");
-                cam = new OrthographicCamera(30, 30 * (h / w));
-
+                strategy = CameraStrategyResolver.getStrategy(config.getString("rendering.camera.strategy"));
+                GAssert.notNull(strategy,"Camera strategy Null");
+                cam = new OrthographicCamera(strategy.getWidth(), strategy.getHeight());
                 camComp.isDirty = false;
             }
-
-
-            float viewportWidth = config.getFloat("rendering.camera.viewportWidth");
-            float viewportHeight = config.getFloat("rendering.camera.viewportHeight");
-
-
-            cam.viewportWidth = viewportWidth;                 // Viewport of 30 units!
-            cam.viewportHeight = viewportHeight * h/w;          // Lets keep things in proportion.
-
-            // The following resize strategy will show less/more of the world depending on the resolution
-            /*cam.viewportWidth = w/viewportWidth;  //We will see width/32f units!
-            cam.viewportHeight = cam.viewportWidth * h/w;*/
-
-
+            GAssert.notNull(strategy,"Camera strategy Null");
+            cam.viewportWidth = strategy.getWidth();
+            cam.viewportHeight = strategy.getHeight();
             cam.update();
         }
-
-
-
-
     }
 
 

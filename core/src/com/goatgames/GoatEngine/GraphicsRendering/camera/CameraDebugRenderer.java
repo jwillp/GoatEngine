@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.graphicsrendering;
+package com.goatgames.goatengine.graphicsrendering.camera;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;

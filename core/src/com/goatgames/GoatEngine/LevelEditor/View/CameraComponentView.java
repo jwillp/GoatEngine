@@ -3,7 +3,7 @@ package com.goatgames.goatengine.leveleditor.view;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
-import com.goatgames.goatengine.graphicsrendering.CameraComponent;
+import com.goatgames.goatengine.graphicsrendering.camera.CameraComponent;
 
 /**
  * Used to display camera component

@@ -5,7 +5,7 @@ import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.PrefabFactory;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
-import com.goatgames.goatengine.graphicsrendering.CameraComponent;
+import com.goatgames.goatengine.graphicsrendering.camera.CameraComponent;
 import com.goatgames.goatengine.screenmanager.GameScreen;
 import com.goatgames.goatengine.utils.GAssert;
 import org.luaj.vm2.LuaValue;

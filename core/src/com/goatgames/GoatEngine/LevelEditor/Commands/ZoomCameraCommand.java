@@ -2,7 +2,7 @@ package com.goatgames.goatengine.leveleditor.commands;
 
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.EntityManager;
-import com.goatgames.goatengine.graphicsrendering.CameraComponent;
+import com.goatgames.goatengine.graphicsrendering.camera.CameraComponent;
 
 /**
  * Command for Zooming In and Out
