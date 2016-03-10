@@ -77,7 +77,7 @@ public class JsonSerializer implements Serializer{
         JsonArray jEntities = entitiesToJson(entities);
         JsonObject jLevel = Json.object();
         for(Entity e : entities){
-            manager.freeEntity(e);
+            manager.freeEntityObject(e);
         }
         return jLevel.add("entities", jEntities);
     }

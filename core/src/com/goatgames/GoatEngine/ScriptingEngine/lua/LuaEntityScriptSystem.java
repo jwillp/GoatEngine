@@ -52,7 +52,7 @@ public class LuaEntityScriptSystem extends EntitySystem implements GameEventList
                     Logger.logStackTrace(ex);
                 }
             }
-            getEntityManager().freeEntity(entity);
+            getEntityManager().freeEntityObject(entity);
         }
     }
 
@@ -98,7 +98,7 @@ public class LuaEntityScriptSystem extends EntitySystem implements GameEventList
                 Logger.error(ex.getMessage());
                 Logger.logStackTrace(ex);
             }
-            getEntityManager().freeEntity(entity);
+            getEntityManager().freeEntityObject(entity);
         }
     }
 }

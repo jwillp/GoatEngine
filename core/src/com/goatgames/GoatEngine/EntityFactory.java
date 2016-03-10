@@ -17,7 +17,7 @@ public class EntityFactory {
 
         for(String entityId: levelData.keySet()){
             Entity e = fromComponentMap(entityId,levelData.get(entityId), manager);
-            manager.freeEntity(e);
+            manager.freeEntityObject(e);
         }
 
     }

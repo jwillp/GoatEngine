@@ -78,7 +78,7 @@ public class InputSystem extends EntitySystem implements GameEventListener{
                 fireEvent(new EntityTouchedEvent(entityId));
                 Logger.debug("Entity Selection yeah!");
             }
-            getEntityManager().freeEntity(entity);
+            getEntityManager().freeEntityObject(entity);
         }
     }
 
@@ -96,7 +96,7 @@ public class InputSystem extends EntitySystem implements GameEventListener{
                 touchableComponent.setTouched(false);
                 fireEvent(new EntityReleasedEvent(entityId));
             }
-            getEntityManager().freeEntity(entity);
+            getEntityManager().freeEntityObject(entity);
         }
     }
 

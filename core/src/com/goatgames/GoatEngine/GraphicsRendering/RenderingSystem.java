@@ -126,7 +126,7 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
     public void update(float dt){
 
         for(Entity e: entitiesByZIndex) {
-            getEntityManager().freeEntity(e);
+            getEntityManager().freeEntityObject(e);
         }
         //Order entities by ZIndex // TODO When TransformComponent will exist use it's Z position instead
         entitiesByZIndex = getEntityManager().getEntitiesWithComponent(ZIndexComponent.ID);

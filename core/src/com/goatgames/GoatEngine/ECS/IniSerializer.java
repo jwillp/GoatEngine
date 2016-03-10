@@ -79,7 +79,7 @@ public class IniSerializer {
             loadEntityIndex();
             for(String id: entityIds){
                 Entity e = LegacyEntityFactory.createFromMap(getComponentsForEntity(id));
-                entityManager.freeEntity(e);
+                entityManager.freeEntityObject(e);
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -94,7 +94,7 @@ public class LightSystem extends EntitySystem {
         // and render the sprite
         for(Entity e: getEntityManager().getEntitiesWithComponentEnabled(LightComponent.ID)){
            this.renderSprites(e);
-            getEntityManager().freeEntity(e);
+            getEntityManager().freeEntityObject(e);
         }
 
         spriteBatch.end();
