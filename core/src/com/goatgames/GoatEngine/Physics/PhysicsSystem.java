@@ -3,9 +3,13 @@ package com.goatgames.goatengine.physics;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.goatgames.goatengine.GoatEngine;
+import com.goatgames.goatengine.ecs.common.TransformComponent;
+import com.goatgames.goatengine.ecs.core.Entity;
+import com.goatgames.goatengine.ecs.core.EntityCollection;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.screenmanager.GameScreenConfig;
 import com.goatgames.goatengine.utils.GAssert;
+import com.goatgames.goatengine.utils.Logger;
 
 import java.util.ArrayList;
 
@@ -43,8 +47,9 @@ public class PhysicsSystem extends EntitySystem implements ContactListener {
     @Override
     public void update(float dt) {
 
-        //Update the box2D world
-        world.step(FPS, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
+        applyTransform();
+        updatePhysics();
+        applyPhysics();
 
         // UPDATE CALLBACKS
         for(CollisionEvent event : collisions) {
@@ -55,6 +60,60 @@ public class PhysicsSystem extends EntitySystem implements ContactListener {
 
     @Override
     public void draw(){}
+
+    /**
+     * Applies information from transform
+     * component to physics body
+     */
+    private void applyTransform(){
+        EntityCollection collection = getEntityManager().getEntitiesWithComponent(PhysicsComponent.ID);
+        for(Entity entity : collection){
+            // If entity does not have a Transform Component at this point add one
+            if(!entity.hasComponent(TransformComponent.ID)){
+                entity.addComponent(new TransformComponent(),TransformComponent.ID);
+                continue;
+            }
+            PhysicsComponent phys = (PhysicsComponent) entity.getComponent(PhysicsComponent.ID);
+            TransformComponent transform = (TransformComponent)entity.getComponent(TransformComponent.ID);
+
+            phys.setPosition(transform.getX(), transform.getY());
+            //phys.setAngle(); // TODO Angle
+        }
+    }
+
+
+    /**
+     * Apply the changes of the physics computation
+     * on the transform components using body information
+     */
+    private void applyPhysics(){
+
+        EntityCollection collection = getEntityManager().getEntitiesWithComponent(PhysicsComponent.ID);
+        // Take for granted that this entities have a Transform component if not GAssert and await crash
+        for(Entity entity : collection){
+            GAssert.that(entity.hasComponent(TransformComponent.ID),
+                    "Entity has PhysicsComponent but no TransformComponent " + entity.getID());
+            /*if(!entity.hasComponent(TransformComponent.ID)){
+                return;
+            }*/
+            PhysicsComponent phys = (PhysicsComponent) entity.getComponent(PhysicsComponent.ID);
+            TransformComponent transform = (TransformComponent)entity.getComponent(TransformComponent.ID);
+
+            transform.setX(phys.getPosition().x);
+            transform.setY(phys.getPosition().y);
+            transform.setSize(phys.getWidth(),phys.getHeight());
+            // TODO Angle
+        }
+
+    }
+
+    /**
+     * Updates box2D physics
+     */
+    private void updatePhysics(){
+        //Update the box2D world
+        world.step(FPS, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
+    }
 
 
     // CONTACT LISTENING

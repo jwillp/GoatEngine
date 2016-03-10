@@ -32,6 +32,10 @@ public class TransformComponent extends EntityComponent {
         super(map);
     }
 
+    public TransformComponent() {
+        super(true);
+    }
+
     /**
      * Constructs a Map, to be implemented by subclasses
      *

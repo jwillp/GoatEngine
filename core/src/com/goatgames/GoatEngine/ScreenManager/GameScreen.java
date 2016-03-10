@@ -52,7 +52,7 @@ public final class GameScreen{
         ecsManager.getSystemManager().addSystem(InputSystem.class, new InputSystem());
         ecsManager.getSystemManager().addSystem(AISystem.class, new AISystem());
         ecsManager.getSystemManager().addSystem(LuaEntityScriptSystem.class, new LuaEntityScriptSystem());
-        
+
         physicsSystem = new PhysicsSystem();
         ecsManager.getSystemManager().addSystem(PhysicsSystem.class, physicsSystem);
         ecsManager.getSystemManager().addSystem(RenderingSystem.class, new RenderingSystem());
