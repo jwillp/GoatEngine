@@ -11,7 +11,6 @@ import com.goatgames.goatengine.ecs.Serializer;
 import com.goatgames.goatengine.ecs.common.TagsComponent;
 import com.goatgames.goatengine.utils.GAssert;
 
-import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -53,7 +52,7 @@ public class EntityManager {
      * Frees an entity
      * @param entity
      */
-    public void freeEntity(Entity entity){
+    public void freeEntityObject(Entity entity){
         entityPool.free(entity);
     }
 
@@ -92,7 +91,7 @@ public class EntityManager {
         //Call on attach
         Entity e = getEntityObject(entityId);
         component.onAttach(e);
-        freeEntity(e);
+        freeEntityObject(e);
         return this;
     }
 
@@ -111,7 +110,7 @@ public class EntityManager {
             Entity e = getEntityObject(entityId);
             componentEntry.get(entityId).onDetach(e);
             componentEntry.remove(entityId);
-            freeEntity(e);
+            freeEntityObject(e);
         }
         return this;
     }
@@ -181,8 +180,8 @@ public class EntityManager {
      * @param componentId
      * @return
      */
-    public Array<Entity> getEntitiesWithComponentEnabled(String componentId){
-        Array<Entity> entities = new Array<Entity>();
+    public EntityCollection getEntitiesWithComponentEnabled(String componentId){
+        EntityCollection entities = new EntityCollection();
         if(this.components.containsKey(componentId)){
             for(String enId : this.components.get(componentId).keys()){
                 if(this.components.get(componentId).get(enId).isEnabled()){
@@ -199,8 +198,8 @@ public class EntityManager {
      * @param tag
      * @return
      */
-    public Array<Entity> getEntitiesWithTag(String tag){
-        Array<Entity> entitiesWithTag = new Array<Entity>();
+    public EntityCollection getEntitiesWithTag(String tag){
+        EntityCollection entitiesWithTag = new EntityCollection();
         for(Entity e: getEntitiesWithComponent(TagsComponent.ID)){
             if(((TagsComponent)e.getComponent(TagsComponent.ID)).hasTag(tag)){
                 entitiesWithTag.add(e);
@@ -248,14 +247,14 @@ public class EntityManager {
      * Returns all entityPool as Entity Object
      * @return
      */
-    public Array<Entity> getEntities(){
+    public EntityCollection getEntities(){
         ObjectMap<String, Entity> entities = new ObjectMap<String, Entity>();
         for(String compId: this.components.keys()){
             for(Entity entity: this.getEntitiesWithComponent(compId)){
                 entities.put(entity.getID(), entity);
             }
         }
-        return new Array<Entity>(entities.values().toArray());
+        return new EntityCollection(entities.values().toArray());
     }
 
 
