@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.Matrix4;
 import com.goatgames.goatengine.GoatEngine;
+import com.goatgames.goatengine.ecs.common.TransformComponent;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.physics.PhysicsComponent;
@@ -163,24 +164,24 @@ public class LightSystem extends EntitySystem {
 
     private void renderSprites(Entity entity){
         LightComponent light = (LightComponent) entity.getComponent(LightComponent.ID);
-        PhysicsComponent phys = (PhysicsComponent) entity.getComponent(PhysicsComponent.ID);
+        TransformComponent transform = (TransformComponent) entity.getComponent(TransformComponent.ID);
         spriteBatch.setColor(light.getColor());
         if(light.autoAdjust){
 
-            float width = phys.getWidth();
+            float width = transform.getWidth();
             spriteBatch.draw(light.getCurrentSprite(),
-                    phys.getPosition().x - width + light.offsetX,
-                    phys.getPosition().y - phys.getHeight() + light.offsetY,
+                    transform.getX() - width + light.offsetX,
+                    transform.getY() - transform.getHeight() + light.offsetY,
                     width * 2,
-                    phys.getHeight() * 2
+                    transform.getHeight() * 2
             );
         }else{
             float width = light.getCurrentSprite().getRegionWidth() * light.scale;
             float height = light.getCurrentSprite().getRegionHeight() * light.scale;
             spriteBatch.draw(
                     light.getCurrentSprite(),
-                    phys.getPosition().x - width * 0.5f + light.offsetX,
-                    phys.getPosition().y - height * 0.5f + light.offsetY,
+                    transform.getX() - width * 0.5f + light.offsetX,
+                    transform.getY() - height * 0.5f + light.offsetY,
                     width,
                     height
 
