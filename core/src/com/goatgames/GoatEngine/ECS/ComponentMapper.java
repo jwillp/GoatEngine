@@ -2,6 +2,7 @@ package com.goatgames.goatengine.ecs;
 
 import com.badlogic.gdx.utils.ObjectMap;
 import com.goatgames.goatengine.ecs.common.TagsComponent;
+import com.goatgames.goatengine.ecs.common.TransformComponent;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
 import com.goatgames.goatengine.ecs.core.EntityComponentMap;
@@ -34,6 +35,7 @@ public class ComponentMapper {
         linkFactory(TouchableComponent.ID, new TouchableComponent.Factory());
         linkFactory(PhysicsComponent.ID, new PhysicsComponent.Factory());
         linkFactory(ScriptComponent.ID, new ScriptComponent.Factory());
+        linkFactory(TransformComponent.ID, new TransformComponent.Factory());
     }
 
     /**
