@@ -67,6 +67,7 @@ public class PrefabFactory {
             for(String key: ini.get(componentKey).keySet()){
                 map.put(key, ini.fetch(componentKey,key));
             }
+            map.put("component_id", componentKey.toUpperCase());
             comps.put(componentKey,map);
         }
         return comps;
