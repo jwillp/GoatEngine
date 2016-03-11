@@ -15,7 +15,6 @@ import java.util.HashMap;
 /**
  * Creates entities from reading prefab files
  */
-// TODO Convert process* methods to Classes (PrefabFactoryProcessor)
 public class PrefabFactory {
 
     private static HashMap<String, Ini> prefabs = new HashMap<String, Ini>();
@@ -60,7 +59,7 @@ public class PrefabFactory {
      */
     private  HashMap<String, EntityComponentMap> getComponents(Ini ini) {
         HashMap<String, EntityComponentMap> comps;
-        comps = new HashMap<String, EntityComponentMap>();
+        comps = new HashMap<>();
 
         for(String componentKey: ini.keySet()){
             EntityComponentMap map = new EntityComponentMap();
