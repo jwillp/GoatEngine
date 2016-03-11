@@ -1,7 +1,9 @@
 package com.goatgames.goatengine.ecs;
 
 import com.badlogic.gdx.Gdx;
+import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
+import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityComponentMap;
 import com.goatgames.goatengine.utils.Logger;
 import org.ini4j.Ini;
@@ -34,7 +36,14 @@ public class PrefabFactory {
                 ini = new Ini(Gdx.files.internal(prefab).file());
                 prefabs.put(prefab,ini);
             }
-            entity = LegacyEntityFactory.createFromMap(getComponents(ini));
+            HashMap<String, EntityComponentMap> comps = getComponents(ini);
+            // Create registered entity using manager
+            entity = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager().createEntity();
+            for(EntityComponentMap map: comps.values()){
+                EntityComponent comp = ComponentMapper.getComponent(map);
+                entity.addComponent(comp, comp.getId());
+            }
+
 
         } catch (IOException e) {
             Logger.error(e.getMessage());
