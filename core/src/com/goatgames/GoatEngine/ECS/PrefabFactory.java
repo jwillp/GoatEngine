@@ -29,7 +29,7 @@ public class PrefabFactory {
         Entity entity = null;
         Ini ini;
         try {
-            if(prefabs.containsKey(prefab)){
+            if(prefabs.containsKey(prefab) && GoatEngine.config.getBoolean("prefab.caching")){
                 ini = prefabs.get(prefab);
             }else{
                 ini = new Ini(Gdx.files.internal(prefab).file());
