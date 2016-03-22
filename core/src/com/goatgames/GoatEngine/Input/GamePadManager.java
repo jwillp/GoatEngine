@@ -7,7 +7,7 @@ import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.goatgames.goatengine.GoatEngine;
-import com.goatgames.goatengine.input.events.*;
+import com.goatgames.goatengine.input.events.gamepad.*;
 import com.goatgames.goatengine.utils.Logger;
 
 /**

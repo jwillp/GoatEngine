@@ -1,11 +1,12 @@
-package com.goatgames.goatengine.input.events;
+package com.goatgames.goatengine.input.events.gamepad;
 
 import com.badlogic.gdx.controllers.PovDirection;
+import com.goatgames.goatengine.input.events.InputEvent;
 
 /**
  * When dpad is moved
  */
-public class DPADMovedEvent extends InputEvent{
+public class DPADMovedEvent extends InputEvent {
     public final int gamePadId;
     public final int rawCode;
     public final PovDirection value;

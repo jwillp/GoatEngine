@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.controllers.Controllers;
+import com.badlogic.gdx.input.GestureDetector;
 
 /**
  * Global input manager
@@ -12,6 +13,7 @@ public class InputManager{
 
     private final GamePadManager gamePadManager;
     private final KeyboardInputManager keyboardInputManager;
+    private final GestureManager gestureManager;
     private final InputMultiplexer multiplexer;
 
 
@@ -19,12 +21,14 @@ public class InputManager{
         multiplexer = new InputMultiplexer();
         gamePadManager = new GamePadManager(this);
         keyboardInputManager = new KeyboardInputManager(this);
+        gestureManager = new GestureManager(this);
     }
 
 
     public void init(){
         Controllers.addListener(gamePadManager);
         multiplexer.addProcessor(keyboardInputManager);
+        multiplexer.addProcessor(new GestureDetector(gestureManager));
         setInputProcessor(multiplexer);
     }
 
@@ -41,7 +45,7 @@ public class InputManager{
     public void addInputProcessor(InputProcessor processor){
         multiplexer.addProcessor(processor);
 
-        //Make sure keyboardInputManager is always last // TODO more efficient way
+        // Make sure keyboardInputManager is always last // TODO more efficient way
         multiplexer.removeProcessor(keyboardInputManager);
         multiplexer.addProcessor(multiplexer.size(), keyboardInputManager);
 

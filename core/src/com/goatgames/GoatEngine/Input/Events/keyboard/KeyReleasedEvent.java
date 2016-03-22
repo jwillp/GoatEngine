@@ -1,6 +1,7 @@
-package com.goatgames.goatengine.input.events;
+package com.goatgames.goatengine.input.events.keyboard;
 
 import com.badlogic.gdx.Input;
+import com.goatgames.goatengine.input.events.InputEvent;
 
 /**
  * Triggered when a key is released

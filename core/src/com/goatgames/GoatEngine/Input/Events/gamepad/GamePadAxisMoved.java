@@ -1,6 +1,7 @@
-package com.goatgames.goatengine.input.events;
+package com.goatgames.goatengine.input.events.gamepad;
 
 import com.goatgames.goatengine.input.GamePadMap;
+import com.goatgames.goatengine.input.events.InputEvent;
 
 /**
  * Fired when one of the analog stick is moved

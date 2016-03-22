@@ -1,4 +1,6 @@
-package com.goatgames.goatengine.input.events;
+package com.goatgames.goatengine.input.events.gamepad;
+
+import com.goatgames.goatengine.input.events.InputEvent;
 
 /**
  * Triggered when a controller was connected

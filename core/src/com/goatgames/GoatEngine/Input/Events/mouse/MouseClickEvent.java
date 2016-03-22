@@ -1,4 +1,6 @@
-package com.goatgames.goatengine.input.events;
+package com.goatgames.goatengine.input.events.mouse;
+
+import com.goatgames.goatengine.input.events.InputEvent;
 
 /**
  * Fire when a Mouse is clicked

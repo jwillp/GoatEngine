@@ -1,6 +1,7 @@
-package com.goatgames.goatengine.input.events;
+package com.goatgames.goatengine.input.events.gamepad;
 
 import com.goatgames.goatengine.input.GamePadMap;
+import com.goatgames.goatengine.input.events.InputEvent;
 
 /**
  * Sent when an Game pad button is pressed

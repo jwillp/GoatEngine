@@ -17,8 +17,8 @@ import com.goatgames.goatengine.graphicsrendering.ZIndexComponent;
 import com.goatgames.goatengine.graphicsrendering.camera.CameraComponent;
 import com.goatgames.goatengine.input.events.EntityReleasedEvent;
 import com.goatgames.goatengine.input.events.EntityTouchedEvent;
-import com.goatgames.goatengine.input.events.MousePressEvent;
-import com.goatgames.goatengine.input.events.MouseReleasedEvent;
+import com.goatgames.goatengine.input.events.mouse.MousePressEvent;
+import com.goatgames.goatengine.input.events.mouse.MouseReleasedEvent;
 import com.goatgames.goatengine.utils.Logger;
 
 /**
