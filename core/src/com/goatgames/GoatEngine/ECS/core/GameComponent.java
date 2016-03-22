@@ -20,6 +20,13 @@ public class GameComponent extends EntityComponent {
 
     public GameComponent(Map<String, String> map) {
         super(map);
+        // Implicitly the method makeFromMap will be called
+        // from super constructor so makeFromMap should never
+        // be null. In such case that would mean super is broken
+        // or in the case of a sub class of GameComponent overriding
+        // method makeFromMap but not calling super.
+
+        GAssert.notNull(data,"Game Component data was null in map constructor, did you call makeFromMap?");
     }
 
     /**
@@ -29,7 +36,7 @@ public class GameComponent extends EntityComponent {
     public GameComponent(LuaTable data){
         // Enabled by default unless specified otherwise
         super(data.get("isEnabled") == LuaValue.NIL || data.get("isEnabled").toboolean());
-        GAssert.notNull(data, "GameComponent Data was null in constructor");
+        GAssert.notNull(data, "GameComponent Data was null in constructor table constructor");
         this.data = data;
         // This private ID makes sure that it is a GAME_COMPONENT
         this.data.set(INTERNAL_KEY, ID);
@@ -60,7 +67,7 @@ public class GameComponent extends EntityComponent {
      * Converts a map to a lua table
      * @return
      */
-    private LuaTable mapToLuaTable(Map<String, String> map){
+    protected LuaTable mapToLuaTable(Map<String, String> map){
         LuaTable table = (data == null) ? new LuaTable() : data;
         for(String key : map.keySet()){
             table.set(key, map.get(key)); // TODO try to detect type of value in map
@@ -73,7 +80,7 @@ public class GameComponent extends EntityComponent {
      * @param table
      * @return
      */
-    private Map<String, String> luaTableToMap(LuaTable table){
+    protected Map<String, String> luaTableToMap(LuaTable table){
         Map<String, String> map = new HashMap<String, String>();
         // Convert LuaTable to HashMap
         int keysCount = table.keys().length;
