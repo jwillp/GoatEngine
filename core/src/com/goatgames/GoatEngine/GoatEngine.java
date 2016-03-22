@@ -53,6 +53,8 @@ public class GoatEngine {
     private static EngineProfiler profiler = new EngineProfiler();
     public final static GEConfig config = new GEConfig();
 
+    private static Timer devCrxStatsTimer;
+
 
     /**
      * This initializes the Game Engine
@@ -67,6 +69,11 @@ public class GoatEngine {
         performanceTimer.reset();
 
         Logger.info("Engine Initialisation ...");
+
+        if(config.getBoolean("dev_ctx")){
+            devCrxStatsTimer = new Timer(Timer.ONE_SECOND);
+        }
+
 
         // Graphics Engine
         graphicsEngine = new GraphicsEngine();
@@ -132,9 +139,19 @@ public class GoatEngine {
             }
             //eventManager.fireEvent(new EngineEvents.GameTickBeginEvent(), false);
 
+
+            if(config.getBoolean("dev_ctx")){
+                if(devCrxStatsTimer.isDone()){
+                    devCrxStatsTimer.reset();
+                    int currentFPS = Gdx.graphics.getFramesPerSecond();
+                    String gameTitle = config.getString("game.name");
+                    String windowTitle = String.format("%s[%dx%d] %d FPS",
+                            gameTitle, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), currentFPS);
+                    Gdx.graphics.setTitle(windowTitle);
+                }
+            }
+
             float deltaTime = Gdx.graphics.getDeltaTime();
-
-
             if(gameScreenManager.isRunning()){
                 //Game Screen Manager
                 //eventManager.fireEvent(new EngineEvents.LogicTickBeginEvent(), false);
@@ -152,6 +169,15 @@ public class GoatEngine {
             Gdx.app.exit();
         }
     }
+
+
+    /**
+     * When dev ctx enabled updates statistics
+     */
+    public void updateDevCtxStats(){
+
+    }
+
 
 
     public static void shutdown(){
