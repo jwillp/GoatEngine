@@ -147,7 +147,7 @@ public class JsonSerializer implements Serializer{
         Map<String, Map<String, EntityComponentMap>> entities = new HashMap<>(jsEntities.size());
         for(JsonValue v : jsEntities){
             JsonObject entity = v.asObject();
-            entities.put(entity.get("id").toString(),deserializeEntity(entity));
+            entities.put(entity.get("id").asString(),deserializeEntity(entity));
         }
         return entities;
     }
