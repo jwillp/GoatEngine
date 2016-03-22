@@ -15,7 +15,6 @@ import java.util.HashMap;
 /**
  * Creates entities from reading prefab files
  */
-// TODO Convert process* methods to Classes (PrefabFactoryProcessor)
 public class PrefabFactory {
 
     private static HashMap<String, Ini> prefabs = new HashMap<String, Ini>();
@@ -30,7 +29,7 @@ public class PrefabFactory {
         Entity entity = null;
         Ini ini;
         try {
-            if(prefabs.containsKey(prefab)){
+            if(prefabs.containsKey(prefab) && GoatEngine.config.getBoolean("prefab.caching")){
                 ini = prefabs.get(prefab);
             }else{
                 ini = new Ini(Gdx.files.internal(prefab).file());
@@ -60,7 +59,7 @@ public class PrefabFactory {
      */
     private  HashMap<String, EntityComponentMap> getComponents(Ini ini) {
         HashMap<String, EntityComponentMap> comps;
-        comps = new HashMap<String, EntityComponentMap>();
+        comps = new HashMap<>();
 
         for(String componentKey: ini.keySet()){
             EntityComponentMap map = new EntityComponentMap();
@@ -68,6 +67,7 @@ public class PrefabFactory {
             for(String key: ini.get(componentKey).keySet()){
                 map.put(key, ini.fetch(componentKey,key));
             }
+            map.put("component_id", componentKey.toUpperCase());
             comps.put(componentKey,map);
         }
         return comps;

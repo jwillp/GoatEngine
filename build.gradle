@@ -20,7 +20,7 @@ allprojects {
 
         groovyVersion = '2.4.4'
         ini4jVersion = '0.5.4'
-        visUiVersion = '0.9.0'
+        visUiVersion = '1.0.1'
 
         luajVersion = '3.0.1'
         minimalJsonVersion = '0.9.4'

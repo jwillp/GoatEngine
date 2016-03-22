@@ -2,6 +2,7 @@ package com.goatgames.goatengine.ecs;
 
 import com.badlogic.gdx.utils.ObjectMap;
 import com.goatgames.goatengine.ecs.common.TagsComponent;
+import com.goatgames.goatengine.ecs.common.TransformComponent;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
 import com.goatgames.goatengine.ecs.core.EntityComponentMap;
@@ -11,6 +12,7 @@ import com.goatgames.goatengine.graphicsrendering.camera.CameraComponent;
 import com.goatgames.goatengine.input.TouchableComponent;
 import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.scriptingengine.ScriptComponent;
+import com.goatgames.goatengine.utils.GAssert;
 
 /**
  * Maps component map representation to component instances
@@ -34,6 +36,7 @@ public class ComponentMapper {
         linkFactory(TouchableComponent.ID, new TouchableComponent.Factory());
         linkFactory(PhysicsComponent.ID, new PhysicsComponent.Factory());
         linkFactory(ScriptComponent.ID, new ScriptComponent.Factory());
+        linkFactory(TransformComponent.ID, new TransformComponent.Factory());
     }
 
     /**
@@ -50,6 +53,8 @@ public class ComponentMapper {
     public static EntityComponent getComponent(EntityComponentMap map){
         String compId = map.get("component_id");
         // If the component has no linked factory it is a GameComponent (most probably)
+        GAssert.that(factories.containsKey(compId),
+                String.format("Component Mapper: No Factory for the specified Component: %s", compId));
         factories.get(compId);
         EntityComponentFactory f = factories.containsKey(compId) ? factories.get(compId) : new GameComponent.Factory();
         return f.processMapData(compId, map);

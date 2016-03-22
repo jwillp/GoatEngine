@@ -22,6 +22,7 @@ import com.brashmonkey.spriter.gdxIntegration.LibGdxSpriterLoader;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ai.AISystem;
 import com.goatgames.goatengine.ai.pathfinding.PathNode;
+import com.goatgames.goatengine.ecs.common.TransformComponent;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.eventmanager.Event;
@@ -29,7 +30,6 @@ import com.goatgames.goatengine.eventmanager.GameEventListener;
 import com.goatgames.goatengine.eventmanager.engineevents.EngineEvents;
 import com.goatgames.goatengine.graphicsrendering.camera.CameraDebugRenderer;
 import com.goatgames.goatengine.graphicsrendering.camera.CameraSystem;
-import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.utils.Logger;
 
 /**
@@ -128,8 +128,9 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
         for(Entity e: entitiesByZIndex) {
             getEntityManager().freeEntityObject(e);
         }
+
         //Order entities by ZIndex
-        entitiesByZIndex = getEntityManager().getEntitiesWithComponent(ZIndexComponent.ID);
+        entitiesByZIndex = getEntityManager().getEntitiesWithComponentEnabled(ZIndexComponent.ID);
         Sort.instance().sort(entitiesByZIndex, new ZIndexComponent.ZIndexComparator());
 
         //crt.setTime( dt * 1000 );
@@ -205,25 +206,25 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
     private void renderSprites(Entity entity, float dt){
         if(entity.hasComponentEnabled(SpriteComponent.ID)){
             SpriteComponent sprite = (SpriteComponent) entity.getComponent(SpriteComponent.ID);
-            PhysicsComponent phys = (PhysicsComponent) entity.getComponent(PhysicsComponent.ID);
+            TransformComponent transform = (TransformComponent)entity.getComponent(TransformComponent.ID);
             spriteBatch.setColor(sprite.getColor());
             if(sprite.autoAdjust){
 
                 float ratio = sprite.getCurrentSprite().getRegionWidth()/sprite.getCurrentSprite().getRegionHeight();
-                float width = phys.getWidth();
+                float width = transform.getWidth();
                 spriteBatch.draw(sprite.getCurrentSprite(),
-                        phys.getPosition().x - width + sprite.offsetX,
-                        phys.getPosition().y - phys.getHeight() + sprite.offsetY,
+                        transform.getX() - width + sprite.offsetX,
+                        transform.getY() - transform.getHeight() + sprite.offsetY,
                         width * 2,
-                        phys.getHeight() * 2
+                        transform.getHeight() * 2
                 );
             }else{
                 float width = sprite.getCurrentSprite().getRegionWidth() * sprite.scale;
                 float height = sprite.getCurrentSprite().getRegionHeight() * sprite.scale;
                 spriteBatch.draw(
                         sprite.getCurrentSprite(),
-                        phys.getPosition().x - width  * 0.5f + sprite.offsetX,
-                        phys.getPosition().y - height * 0.5f + sprite.offsetY,
+                        transform.getX() - width  * 0.5f + sprite.offsetX,
+                        transform.getY() - height * 0.5f + sprite.offsetY,
                         width,
                         height
 
@@ -240,7 +241,7 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
     private void renderSpriterAnimations(Entity entity, float delta){
         if(entity.hasComponentEnabled(SpriterAnimationComponent.ID)){
             SpriterAnimationComponent anim = (SpriterAnimationComponent)entity.getComponent(SpriterAnimationComponent.ID);
-            PhysicsComponent phys = (PhysicsComponent)  entity.getComponent(PhysicsComponent.ID);
+            TransformComponent transform = (TransformComponent)  entity.getComponent(TransformComponent.ID);
 
             // 15 == Default speed
             anim.getPlayer().speed = !GoatEngine.gameScreenManager.isRunning() ? 0 : 15;
@@ -250,10 +251,10 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
                 //TODO Fix this
             }else{
                 //anim.getPlayer().speed = GoatEngine.gameScreenManager.isRunning() ? 1 : 0;
-                float posX = phys.getPosition().x + anim.getOffsetX();
-                float posY =  phys.getPosition().y + anim.getOffsetY();
+                float posX = transform.getX() + anim.getOffsetX();
+                float posY =  transform.getY() + anim.getOffsetY();
                 anim.getPlayer().setPosition(posX, posY);
-                anim.getPlayer().setAngle(phys.getBody().getAngle());
+                anim.getPlayer().setAngle(transform.getRotation());
                 anim.getPlayer().setScale(anim.getScale());
                 Spriter.drawer().setLoader((Loader)Spriter.getLoader(anim.getAnimationFile()));
                 Spriter.drawer().draw(anim.getPlayer());
