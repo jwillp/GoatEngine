@@ -1,6 +1,7 @@
 package com.goatgames.goatengine;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.goatgames.goatengine.eventmanager.EventManager;
 import com.goatgames.goatengine.eventmanager.engineevents.EngineEvents;
 import com.goatgames.goatengine.graphicsrendering.GraphicsEngine;
@@ -40,7 +41,8 @@ public class GoatEngine {
     //Graphics Engine
     public static GraphicsEngine graphicsEngine;
 
-
+    //Asset Manager
+    public static ResourceManager resourceManager;
 
 
     // TODO NetworkManager ?
@@ -98,6 +100,11 @@ public class GoatEngine {
         Logger.info(" > Audio Manager initialised "+ performanceTimer.getDeltaTime() + "ms");
         performanceTimer.reset();
 
+
+        // Asset Manager
+        resourceManager = new ResourceManager();
+        resourceManager.init();
+        Logger.info("> Asset Manager initialised " + performanceTimer.getDeltaTime() + " ms ");
         performanceTimer.reset();
 
 
@@ -106,7 +113,6 @@ public class GoatEngine {
         scriptEngine.init();
         Logger.info(" > Scripting Engine initialised " + performanceTimer.getDeltaTime() + "ms");
         performanceTimer.reset();
-
 
         // Game Screen manager
         gameScreenManager = new GameScreenManager();
@@ -193,6 +199,9 @@ public class GoatEngine {
 
         //Dispose Script
         scriptEngine.dispose();
+
+        //Dispose resources
+        resourceManager.dispose();
     }
 
     static class EngineUninitializedException extends RuntimeException{
