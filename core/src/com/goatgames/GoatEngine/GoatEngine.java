@@ -42,6 +42,8 @@ public class GoatEngine {
     //Asset Manager
     public static ResourceManager resourceManager;
 
+    // Blackboard
+    public static Blackboard blackboard;
 
     // TODO NetworkManager ?
 
@@ -73,6 +75,8 @@ public class GoatEngine {
             devCrxStatsTimer = new Timer(Timer.ONE_SECOND);
         }
 
+        // Blackboard
+        blackboard = new Blackboard();
 
         // Graphics Engine
         graphicsEngine = new GraphicsEngine();
