@@ -56,6 +56,16 @@ public class ScriptComponent extends EntityComponent {
         }
     }
 
+    /**
+     * Used to clone a component
+     *
+     * @return
+     */
+    @Override
+    public EntityComponent clone() {
+        return new Factory().processMapData(this.getId(), this.makeMap());
+    }
+
 
     /**
      * Adds a script to the component

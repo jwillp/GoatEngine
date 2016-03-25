@@ -66,6 +66,16 @@ public class TransformComponent extends EntityComponent {
        this.height = Float.parseFloat(map.get("height"));
     }
 
+    /**
+     * Used to clone a component
+     *
+     * @return
+     */
+    @Override
+    public EntityComponent clone() {
+        return new Factory().processMapData(this.getId(), this.makeMap());
+    }
+
     @Override
     public String getId() {
         return ID;

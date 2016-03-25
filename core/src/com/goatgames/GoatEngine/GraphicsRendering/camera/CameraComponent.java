@@ -59,6 +59,16 @@ public class CameraComponent extends EntityComponent{
         camera.zoom = Float.parseFloat(map.get("zoom"));
     }
 
+    /**
+     * Used to clone a component
+     *
+     * @return
+     */
+    @Override
+    public EntityComponent clone() {
+        return new Factory().processMapData(this.getId(), this.makeMap());
+    }
+
 
     @Override
     public String getId() {

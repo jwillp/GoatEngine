@@ -64,6 +64,16 @@ public class TagsComponent extends EntityComponent {
     }
 
     /**
+     * Used to clone a component
+     *
+     * @return
+     */
+    @Override
+    public EntityComponent clone() {
+        return new Factory().processMapData(this.getId(), this.makeMap());
+    }
+
+    /**
      * Adds a new tag to an entity
      * @param tag
      */

@@ -93,6 +93,16 @@ public class ParticleEmitterComponent extends EntityComponent{
         // TODO this
     }
 
+    /**
+     * Used to clone a component
+     *
+     * @return
+     */
+    @Override
+    public EntityComponent clone() {
+        return new Factory().processMapData(this.getId(), this.makeMap());
+    }
+
     @Override
     public String getId() {
         return ID;

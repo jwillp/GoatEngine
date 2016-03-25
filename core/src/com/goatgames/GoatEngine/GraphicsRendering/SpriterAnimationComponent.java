@@ -149,6 +149,16 @@ public class SpriterAnimationComponent extends EntityComponent {
 
     }
 
+    /**
+     * Used to clone a component
+     *
+     * @return
+     */
+    @Override
+    public EntityComponent clone() {
+        return new Factory().processMapData(this.getId(), this.makeMap());
+    }
+
 
     /**
      * Adds a Player Listener to the current player

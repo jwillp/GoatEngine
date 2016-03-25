@@ -52,6 +52,16 @@ public class GameComponent extends EntityComponent {
         data = mapToLuaTable(map);
     }
 
+    /**
+     * Used to clone a component
+     *
+     * @return
+     */
+    @Override
+    public EntityComponent clone() {
+        return new Factory().processMapData(this.getId(), this.makeMap());
+    }
+
     @Override
     public String getId() {
         GAssert.notNull(data, "GameComponent Data was null");

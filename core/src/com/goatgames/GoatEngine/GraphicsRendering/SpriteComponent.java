@@ -1,9 +1,7 @@
 package com.goatgames.goatengine.graphicsrendering;
 
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
@@ -105,6 +103,16 @@ public class SpriteComponent extends EntityComponent {
         if(colorHex.length() == 6) colorHex += "FF";
         this.color = new Color(Color.valueOf(colorHex));
 
+    }
+
+    /**
+     * Used to clone a component
+     *
+     * @return
+     */
+    @Override
+    public EntityComponent clone() {
+        return new Factory().processMapData(this.getId(), this.makeMap());
     }
 
 

@@ -136,6 +136,16 @@ public class PhysicsComponent extends EntityComponent {
     }
 
     /**
+     * Used to clone a component
+     *
+     * @return
+     */
+    @Override
+    public EntityComponent clone() {
+        return new Factory().processMapData(this.getId(), this.makeMap());
+    }
+
+    /**
      * Returns a list of colliders for the current body
      * @return list of colliders
      */

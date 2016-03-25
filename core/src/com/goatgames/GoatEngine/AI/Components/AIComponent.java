@@ -52,6 +52,16 @@ public class AIComponent extends EntityComponent {
 
     }
 
+    /**
+     * Used to clone a component
+     *
+     * @return
+     */
+    @Override
+    public EntityComponent clone() {
+        return null;
+    }
+
     @Override
     public String getId() {
         return ID;
