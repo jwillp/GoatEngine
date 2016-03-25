@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Array;
@@ -215,6 +216,8 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
             float x;            // The display x coordinate of the sprite
             float y;            // The display y coordinate of the sprite
 
+            // Get Texture Region
+            TextureRegion region = GoatEngine.resourceManager.getTextureRegion(sprite.getResource());
             // Auto adjust the sprite to it's transform component
             if(sprite.autoAdjust){
                 //float ratio = sprite.getCurrentSprite().getRegionWidth()/sprite.getCurrentSprite().getRegionHeight();
@@ -224,13 +227,14 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
                 y = transform.getY() - transform.getHeight() + sprite.offsetY;
             }else{
                 //Use the image size and the scaling factor
-                width = sprite.getCurrentSprite().getRegionWidth() * sprite.scale;
-                height = sprite.getCurrentSprite().getRegionHeight() * sprite.scale;
+                width = region.getRegionWidth() * sprite.scale;
+                height = region.getRegionHeight() * sprite.scale;
                 x = transform.getX() - width  * 0.5f + sprite.offsetX;
                 y = transform.getY() - height * 0.5f + sprite.offsetY;
             }
-            spriteBatch.draw(sprite.getCurrentSprite(), x, y, width, height);
-            spriteBatch.setColor(Color.WHITE);
+
+            spriteBatch.draw(region, x, y, width, height);
+            spriteBatch.setColor(Color.WHITE); // Reset Sprite batch color
         }
     }
 

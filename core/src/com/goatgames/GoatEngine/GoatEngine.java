@@ -144,7 +144,7 @@ public class GoatEngine {
             //eventManager.fireEvent(new EngineEvents.GameTickBeginEvent(), false);
 
             updateDevCtxStats();
-
+            resourceManager.update();
 
             float deltaTime = Gdx.graphics.getDeltaTime();
             if(gameScreenManager.isRunning()){

@@ -101,23 +101,21 @@ public class SpriteComponent extends EntityComponent {
         this.resourceName =  map.get("resource_name");
         this.autoAdjust = Boolean.parseBoolean(map.get("auto_adjust"));
         this.scale = Float.parseFloat(map.get("scale"));
-        this.currentSprite = new TextureRegion(new Texture(Gdx.files.internal(resourceName)));
         String colorHex = map.getOrDefault("color", Color.WHITE.toString()).replace("#","");
         if(colorHex.length() == 6) colorHex += "FF";
         this.color = new Color(Color.valueOf(colorHex));
 
     }
 
-    public void setSprite(String image){
-        this.currentSprite = new TextureRegion(new Texture(Gdx.files.internal(image)));
-    }
 
     @Override
     public String getId() {
         return ID;
     }
 
-
+    public String getResource() {
+        return resourceName;
+    }
 
 
     // FACTORY //

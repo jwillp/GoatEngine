@@ -3,6 +3,8 @@ package com.goatgames.goatengine;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.goatgames.goatengine.utils.GAssert;
 
 /**
  * Manages Resources and Assets
@@ -10,10 +12,13 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 public class ResourceManager {
 
     private AssetManager manager;
+    private final String ATLAS_EXTENSION = ".atlas";
 
 
     public void init(){
         manager = new AssetManager();
+        loadTextureAtlas("level");
+        manager.finishLoading();
     }
 
 
@@ -23,9 +28,9 @@ public class ResourceManager {
      * First try to find atlas under resources.textures_directory
      * config parameter.
      */
-    public void loadTextureAtlast(String atlasResource){
+    public void loadTextureAtlas(String atlasResource){
         String texureDirectory  = GoatEngine.config.getString("resources.textures_directory");
-        manager.load(texureDirectory + atlasResource, TextureAtlas.class);
+        manager.load(texureDirectory + atlasResource + ATLAS_EXTENSION, TextureAtlas.class);
     }
 
 
@@ -44,8 +49,22 @@ public class ResourceManager {
      * @param textureResource
      * @return
      */
-    public TextureAtlas getTexture(String textureResource){
-        return manager.get(textureResource, TextureAtlas.class);
+    public TextureRegion getTextureRegion(String textureResource){
+        // Resource naming format atlas:resource
+        String[] split = textureResource.split(":");
+
+        GAssert.that(split.length == 2, String.format("Invalid texture identifier %s", textureResource));
+
+        String atlasName = split[0];
+        String resourceName = split[1];
+
+        String texureDirectory  = GoatEngine.config.getString("resources.textures_directory");
+
+
+        String assetKey = texureDirectory + atlasName + ATLAS_EXTENSION;
+        GAssert.that(manager.isLoaded(assetKey), String.format("Asset not loaded '%s' did you call Load() beforehand?", assetKey));
+        TextureAtlas atlas = manager.get(assetKey, TextureAtlas.class);
+        return atlas.findRegion(resourceName);
     }
 
     /**
