@@ -17,8 +17,6 @@ public class ResourceManager {
 
     public void init(){
         manager = new AssetManager();
-        loadTextureAtlas("level");
-        manager.finishLoading();
     }
 
 
