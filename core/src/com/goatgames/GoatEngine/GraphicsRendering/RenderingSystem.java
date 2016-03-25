@@ -139,7 +139,8 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
     @Override
     public void draw() {
 
-        if(GoatEngine.config.getBoolean("rendering.auto_clear")) {
+        boolean aBoolean = GoatEngine.config.getBoolean("rendering.auto_clear");
+        if(aBoolean) {
             GoatEngine.graphicsEngine.clearScreen();
         }
 
@@ -208,28 +209,27 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
             SpriteComponent sprite = (SpriteComponent) entity.getComponent(SpriteComponent.ID);
             TransformComponent transform = (TransformComponent)entity.getComponent(TransformComponent.ID);
             spriteBatch.setColor(sprite.getColor());
+
+            float width;        // The display width of the sprite
+            float height;       // The display height of the sprite
+            float x;            // The display x coordinate of the sprite
+            float y;            // The display y coordinate of the sprite
+
+            // Auto adjust the sprite to it's transform component
             if(sprite.autoAdjust){
-
-                float ratio = sprite.getCurrentSprite().getRegionWidth()/sprite.getCurrentSprite().getRegionHeight();
-                float width = transform.getWidth();
-                spriteBatch.draw(sprite.getCurrentSprite(),
-                        transform.getX() - width + sprite.offsetX,
-                        transform.getY() - transform.getHeight() + sprite.offsetY,
-                        width * 2,
-                        transform.getHeight() * 2
-                );
+                //float ratio = sprite.getCurrentSprite().getRegionWidth()/sprite.getCurrentSprite().getRegionHeight();
+                width = transform.getWidth() * 2;
+                height = transform.getHeight() * 2;
+                x = transform.getX() - transform.getWidth() + sprite.offsetX;
+                y = transform.getY() - transform.getHeight() + sprite.offsetY;
             }else{
-                float width = sprite.getCurrentSprite().getRegionWidth() * sprite.scale;
-                float height = sprite.getCurrentSprite().getRegionHeight() * sprite.scale;
-                spriteBatch.draw(
-                        sprite.getCurrentSprite(),
-                        transform.getX() - width  * 0.5f + sprite.offsetX,
-                        transform.getY() - height * 0.5f + sprite.offsetY,
-                        width,
-                        height
-
-                );
+                //Use the image size and the scaling factor
+                width = sprite.getCurrentSprite().getRegionWidth() * sprite.scale;
+                height = sprite.getCurrentSprite().getRegionHeight() * sprite.scale;
+                x = transform.getX() - width  * 0.5f + sprite.offsetX;
+                y = transform.getY() - height * 0.5f + sprite.offsetY;
             }
+            spriteBatch.draw(sprite.getCurrentSprite(), x, y, width, height);
             spriteBatch.setColor(Color.WHITE);
         }
     }
