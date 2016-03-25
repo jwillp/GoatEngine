@@ -1,14 +1,12 @@
 package com.goatgames.goatengine;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.goatgames.goatengine.eventmanager.EventManager;
 import com.goatgames.goatengine.eventmanager.engineevents.EngineEvents;
 import com.goatgames.goatengine.graphicsrendering.GraphicsEngine;
 import com.goatgames.goatengine.input.InputManager;
 import com.goatgames.goatengine.screenmanager.GameScreenManager;
 import com.goatgames.goatengine.scriptingengine.lua.LuaScriptingEngine;
-import com.goatgames.goatengine.utils.EngineProfiler;
 import com.goatgames.goatengine.utils.Logger;
 import com.goatgames.goatengine.utils.Timer;
 
@@ -52,7 +50,6 @@ public class GoatEngine {
 
     // Performance profiling
     private static Timer performanceTimer = new Timer();
-    private static EngineProfiler profiler = new EngineProfiler();
     public final static GEConfig config = new GEConfig();
 
     private static Timer devCrxStatsTimer;
@@ -81,7 +78,7 @@ public class GoatEngine {
         graphicsEngine = new GraphicsEngine();
         graphicsEngine.init();
         Logger.info(" > Graphics Engine initialised "+ performanceTimer.getDeltaTime() + "ms");
-        performanceTimer.reset();
+
 
         // Event Manager
         eventManager = new EventManager();
@@ -131,6 +128,7 @@ public class GoatEngine {
 
         Logger.info("Engine initialisation complete " + performanceTimer.getRunningTime() + "ms");
         performanceTimer.reset();
+
     }
 
 
@@ -145,17 +143,8 @@ public class GoatEngine {
             }
             //eventManager.fireEvent(new EngineEvents.GameTickBeginEvent(), false);
 
+            updateDevCtxStats();
 
-            if(config.getBoolean("dev_ctx")){
-                if(devCrxStatsTimer.isDone()){
-                    devCrxStatsTimer.reset();
-                    int currentFPS = Gdx.graphics.getFramesPerSecond();
-                    String gameTitle = config.getString("game.name");
-                    String windowTitle = String.format("%s[%dx%d] %d FPS",
-                            gameTitle, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), currentFPS);
-                    Gdx.graphics.setTitle(windowTitle);
-                }
-            }
 
             float deltaTime = Gdx.graphics.getDeltaTime();
             if(gameScreenManager.isRunning()){
@@ -180,8 +169,17 @@ public class GoatEngine {
     /**
      * When dev ctx enabled updates statistics
      */
-    public void updateDevCtxStats(){
-
+    public static void updateDevCtxStats(){
+        if(config.getBoolean("dev_ctx")){
+            if(devCrxStatsTimer.isDone()){
+                devCrxStatsTimer.reset();
+                int currentFPS = Gdx.graphics.getFramesPerSecond();
+                String gameTitle = config.getString("game.name");
+                String windowTitle = String.format("%s[%dx%d] %d FPS",
+                        gameTitle, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), currentFPS);
+                Gdx.graphics.setTitle(windowTitle);
+            }
+        }
     }
 
 
