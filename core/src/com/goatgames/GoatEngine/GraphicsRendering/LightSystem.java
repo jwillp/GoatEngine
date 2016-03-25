@@ -165,28 +165,29 @@ public class LightSystem extends EntitySystem {
     private void renderSprites(Entity entity){
         LightComponent light = (LightComponent) entity.getComponent(LightComponent.ID);
         TransformComponent transform = (TransformComponent) entity.getComponent(TransformComponent.ID);
-        spriteBatch.setColor(light.getColor());
+        float width;        // The display width of the sprite
+        float height;       // The display height of the sprite
+        float x;            // The display x coordinate of the sprite
+        float y;            // The display y coordinate of the sprite
+
+        // Get Texture Region
+        TextureRegion region = GoatEngine.resourceManager.getTextureRegion(light.getResource());
+        // Auto adjust the sprite to it's transform component
         if(light.autoAdjust){
-
-            float width = transform.getWidth();
-            spriteBatch.draw(light.getCurrentSprite(),
-                    transform.getX() - width + light.offsetX,
-                    transform.getY() - transform.getHeight() + light.offsetY,
-                    width * 2,
-                    transform.getHeight() * 2
-            );
+            //float ratio = sprite.getCurrentSprite().getRegionWidth()/sprite.getCurrentSprite().getRegionHeight();
+            width = transform.getWidth() * 2;
+            height = transform.getHeight() * 2;
+            x = transform.getX() - transform.getWidth() + light.offsetX;
+            y = transform.getY() - transform.getHeight() + light.offsetY;
         }else{
-            float width = light.getCurrentSprite().getRegionWidth() * light.scale;
-            float height = light.getCurrentSprite().getRegionHeight() * light.scale;
-            spriteBatch.draw(
-                    light.getCurrentSprite(),
-                    transform.getX() - width * 0.5f + light.offsetX,
-                    transform.getY() - height * 0.5f + light.offsetY,
-                    width,
-                    height
-
-            );
+            //Use the image size and the scaling factor
+            width = region.getRegionWidth() * light.scale;
+            height = region.getRegionHeight() * light.scale;
+            x = transform.getX() - width  * 0.5f + light.offsetX;
+            y = transform.getY() - height * 0.5f + light.offsetY;
         }
+
+        spriteBatch.draw(region, x, y, width, height);
     }
 
 
