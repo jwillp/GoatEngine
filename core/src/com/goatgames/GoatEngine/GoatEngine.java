@@ -148,7 +148,7 @@ public class GoatEngine {
             //eventManager.fireEvent(new EngineEvents.GameTickBeginEvent(), false);
 
             updateDevCtxStats();
-            resourceManager.update();
+
 
             float deltaTime = Gdx.graphics.getDeltaTime();
             if(gameScreenManager.isRunning()){
@@ -157,7 +157,7 @@ public class GoatEngine {
                 gameScreenManager.handleEvents();
                 gameScreenManager.update(deltaTime);
                 //eventManager.fireEvent(new EngineEvents.LogicTickEndEvent(), false);
-
+                resourceManager.update();
             }
             eventManager.fireEvent(renderTickBeginEvent, false);
             gameScreenManager.draw(deltaTime);
