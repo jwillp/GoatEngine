@@ -27,8 +27,8 @@ public class ResourceManager {
      * config parameter.
      */
     public void loadTextureAtlas(String atlasResource){
-        String texureDirectory  = GoatEngine.config.getString("resources.textures_directory");
-        manager.load(texureDirectory + atlasResource + ATLAS_EXTENSION, TextureAtlas.class);
+        String textureDirectory  = GoatEngine.config.getString("resources.textures_directory");
+        manager.load(textureDirectory + atlasResource + ATLAS_EXTENSION, TextureAtlas.class);
     }
 
 
@@ -73,6 +73,13 @@ public class ResourceManager {
     public BitmapFont getFont(String fontResource){
         return manager.get(fontResource, BitmapFont.class);
     }
+
+
+    public TextureAtlas getAtlas(String atlasResource){
+        String textureDirectory  = GoatEngine.config.getString("resources.textures_directory");
+        return manager.get(textureDirectory + atlasResource + ATLAS_EXTENSION, TextureAtlas.class);
+    }
+
 
     /**
      * Updates any loading job in progress
