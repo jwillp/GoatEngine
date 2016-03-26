@@ -1,10 +1,13 @@
 package com.goatgames.goatengine.ecs;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Array;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityComponentMap;
+import com.goatgames.goatengine.physics.Collider;
+import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.utils.Logger;
 import org.ini4j.Ini;
 
@@ -29,7 +32,7 @@ public class PrefabFactory {
         Entity entity = null;
         Ini ini;
         try {
-            if(prefabs.containsKey(prefab) && GoatEngine.config.getBoolean("prefab.caching")){
+            if(GoatEngine.config.getBoolean("prefab.caching") && prefabs.containsKey(prefab)){
                 ini = prefabs.get(prefab);
             }else{
                 ini = new Ini(Gdx.files.internal(prefab).file());
@@ -38,10 +41,22 @@ public class PrefabFactory {
             HashMap<String, EntityComponentMap> comps = getComponents(ini);
             // Create registered entity using manager
             entity = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager().createEntity();
+            Array<EntityComponentMap> colliders = new Array<EntityComponentMap>();
             for(EntityComponentMap map: comps.values()){
-                EntityComponent comp = ComponentMapper.getComponent(map);
-                entity.addComponent(comp, comp.getId());
+                if (map.get("component_id").contains("COLLIDER")) {
+                    colliders.add(map);
+                } else {
+                    EntityComponent comp = ComponentMapper.getComponent(map);
+                    entity.addComponent(comp, comp.getId());
+                }
             }
+
+            for(EntityComponentMap map : colliders){
+                // Read Colliders
+                String colliderKey = map.get("component_id");
+                Collider.addCollider(entity,LegacyEntityFactory.colliderDefFromMap(map));
+            }
+
 
 
         } catch (IOException e) {
