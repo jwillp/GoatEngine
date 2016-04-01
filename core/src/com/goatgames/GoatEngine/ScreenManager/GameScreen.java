@@ -44,10 +44,6 @@ public final class GameScreen{
 
         // Initialise Systems
         GoatEngine.eventManager.registerListener(this.ecsManager.getSystemManager());
-        //ecsManager.getSystemManager().addSystem(GroovyScriptSystem.class, new GroovyScriptSystem());
-        ecsManager.getSystemManager().addSystem(LuaEntityScriptSystem.class, new LuaEntityScriptSystem());
-
-
 
         ecsManager.getSystemManager().addSystem(InputSystem.class, new InputSystem());
         ecsManager.getSystemManager().addSystem(AISystem.class, new AISystem());
