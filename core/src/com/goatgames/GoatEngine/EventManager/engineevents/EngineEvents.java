@@ -37,12 +37,6 @@ public class EngineEvents extends Event {
     /**
      * Triggered when the tick of render begins
      */
-    public static class RenderTickBeginEvent extends Event {
-    }
-
-    /**
-     * Triggered when the tick of render begins
-     */
     public static class RenderTickEndEvent extends Event {
     }
 

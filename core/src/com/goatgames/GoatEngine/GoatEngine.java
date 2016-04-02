@@ -6,6 +6,7 @@ import com.goatgames.goatengine.eventmanager.engineevents.EngineEvents;
 import com.goatgames.goatengine.graphicsrendering.GraphicsEngine;
 import com.goatgames.goatengine.input.InputManager;
 import com.goatgames.goatengine.screenmanager.GameScreenManager;
+import com.goatgames.goatengine.screenmanager.LateUpdateEvent;
 import com.goatgames.goatengine.scriptingengine.lua.LuaScriptingEngine;
 import com.goatgames.goatengine.utils.Logger;
 import com.goatgames.goatengine.utils.Timer;
@@ -20,6 +21,7 @@ import com.goatgames.goatengine.utils.Timer;
  * And a static access to the most important modules
  */
 public class GoatEngine {
+
 
     //Scripting Engine
     public static LuaScriptingEngine scriptEngine;
@@ -56,6 +58,7 @@ public class GoatEngine {
 
     private static Timer devCrxStatsTimer;
 
+    private static final LateUpdateEvent lateUpdateEvent = new LateUpdateEvent();
 
     /**
      * This initializes the Game Engine
@@ -136,7 +139,7 @@ public class GoatEngine {
     }
 
 
-    private static EngineEvents.RenderTickBeginEvent renderTickBeginEvent = new EngineEvents.RenderTickBeginEvent();
+
     /**
      * Updates the engine for ONE frame
      */
@@ -158,8 +161,8 @@ public class GoatEngine {
                 gameScreenManager.update(deltaTime);
                 //eventManager.fireEvent(new EngineEvents.LogicTickEndEvent(), false);
                 resourceManager.update();
+                eventManager.fireEvent(lateUpdateEvent,false);
             }
-            eventManager.fireEvent(renderTickBeginEvent, false);
             gameScreenManager.draw(deltaTime);
             //eventManager.fireEvent(new EngineEvents.RenderTickEndEvent(), false);
 
