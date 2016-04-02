@@ -10,6 +10,7 @@ import com.goatgames.goatengine.graphicsrendering.PostRenderEvent;
 import com.goatgames.goatengine.graphicsrendering.PreRenderEvent;
 import com.goatgames.goatengine.input.events.InputEvent;
 import com.goatgames.goatengine.physics.CollisionEvent;
+import com.goatgames.goatengine.screenmanager.LateUpdateEvent;
 import com.goatgames.goatengine.scriptingengine.ScriptComponent;
 import com.goatgames.goatengine.utils.GAssert;
 import com.goatgames.goatengine.utils.Logger;
@@ -79,7 +80,19 @@ public class LuaEntityScriptSystem extends EntitySystem implements GameEventList
                 for(String scriptFile: scriptComp.getScripts()){
                     LuaScript script = GoatEngine.scriptEngine.getScript(scriptFile, entity.getID());
                     if (script != null) {
-                        if(e instanceof CollisionEvent){
+                        if( e instanceof LateUpdateEvent){
+                            final String lateUpdate = "lateUpdate";
+                            if(script.functionExists(lateUpdate))
+                                script.executeFunction(lateUpdate);
+                        }else if(e instanceof PreRenderEvent){
+                            final String preRender = "preRender";
+                            if(script.functionExists(preRender))
+                                script.executeFunction(preRender);
+                        }else if(e instanceof PostRenderEvent){
+                            final String postRender = "postRender";
+                            if(script.functionExists(postRender))
+                                script.executeFunction(postRender);
+                        }else if(e instanceof CollisionEvent){
                             // Only if collision is for current entity
                             CollisionEvent ce = (CollisionEvent) e;
                             if(Objects.equals(ce.getEntityA(), entity.getID())){
@@ -93,15 +106,7 @@ public class LuaEntityScriptSystem extends EntitySystem implements GameEventList
                             String onGameEvent = "onGameEvent";
                             if(script.functionExists(onGameEvent))
                                 script.executeFunction(onGameEvent, e);
-                        } else if(e instanceof PreRenderEvent){
-                            final String preRender = "preRender";
-                            if(script.functionExists(preRender))
-                                script.executeFunction(preRender);
-                        }else if(e instanceof PostRenderEvent){
-                            final String postRender = "postRender";
-                            if(script.functionExists(postRender))
-                                script.executeFunction(postRender);
-                        } else{
+                        }  else{
                             String msg = "Scripting System: Event of type " + e.toString() + " will not be processed";
                             Logger.warn(msg);
                             GAssert.that(true, msg);
