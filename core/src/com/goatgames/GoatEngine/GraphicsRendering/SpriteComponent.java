@@ -57,16 +57,38 @@ public class SpriteComponent extends EntityComponent {
         this.color = color;
     }
 
-    public int getZIndex() {
-        return zIndex;
+    /**
+     * Sets the color of the sprite
+     * @param colorHex RRGGBBAA Hex
+     */
+    public void setColor(String colorHex){
+        this.color = new Color(Color.valueOf(colorHex));
     }
 
-    public void setzIndex(int zIndex) {
-        this.zIndex = zIndex;
+
+    public String getResource() {
+        return resourceName;
+    }
+
+    /**
+     * Sets the resource
+     * @param resourceName
+     */
+    public void setResource(String resourceName){
+        this.resourceName = resourceName;
     }
 
     public Color getColor() {
         return color;
+    }
+
+
+    public int getZIndex() {
+        return zIndex;
+    }
+
+    public void setZIndex(int zIndex) {
+        this.zIndex = zIndex;
     }
 
 
@@ -83,7 +105,7 @@ public class SpriteComponent extends EntityComponent {
         map.put("resource_name", resourceName);
         map.put("auto_adjust", String.valueOf(autoAdjust));
         map.put("scale", String.valueOf(scale));
-        map.put("color", Color.WHITE.toString());
+        map.put("color", this.color.toString());
         return map;
     }
 
@@ -101,8 +123,7 @@ public class SpriteComponent extends EntityComponent {
         this.scale = Float.parseFloat(map.get("scale"));
         String colorHex = map.getOrDefault("color", Color.WHITE.toString()).replace("#","");
         if(colorHex.length() == 6) colorHex += "FF";
-        this.color = new Color(Color.valueOf(colorHex));
-
+        setColor(colorHex);
     }
 
     /**
@@ -120,11 +141,6 @@ public class SpriteComponent extends EntityComponent {
     public String getId() {
         return ID;
     }
-
-    public String getResource() {
-        return resourceName;
-    }
-
 
     // FACTORY //
     public static class Factory implements EntityComponentFactory {
