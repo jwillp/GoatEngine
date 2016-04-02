@@ -91,6 +91,7 @@ public class LuaScript {
 
         if(!function.isfunction()){
             //Logger.error("Lua Error: function " + functionName + " does not exist in " + scriptFile);
+            hasError = true;
             throw new LuaScriptException("Lua Error: function " + functionName + " does not exist", scriptFile);
         }
 
@@ -109,6 +110,11 @@ public class LuaScript {
         return true;
     }
 
+
+    public boolean functionExists(final String functionName){
+       LuaValue function = globals.get(functionName); // Get the function
+       return function.isfunction();
+    }
 
     /**
      * Exposes a java function to be called in a lua script

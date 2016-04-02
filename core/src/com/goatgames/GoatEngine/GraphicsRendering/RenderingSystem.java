@@ -137,12 +137,13 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
         //crt.setTime( dt * 1000 );
     }
 
+    private final static PreRenderEvent preRenderEvent = new PreRenderEvent();
+    private final static PostRenderEvent postRenderEvent = new PostRenderEvent();
     @Override
     public void draw() {
 
-        if(GoatEngine.config.getBoolean("rendering.auto_clear")) {
-            GoatEngine.graphicsEngine.clearScreen();
-        }
+        GoatEngine.graphicsEngine.clearScreen();
+        GoatEngine.eventManager.fireEvent(preRenderEvent);
 
         cameraSystem.update(0); // TODO deltatime  + documenting why this is here instead of update?
         spriteBatch.setProjectionMatrix(cameraSystem.getMainCamera().combined);
@@ -186,6 +187,7 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
             }
             cameraDebugRenderer.render();
         }
+        GoatEngine.eventManager.fireEvent(postRenderEvent);
     }
 
 

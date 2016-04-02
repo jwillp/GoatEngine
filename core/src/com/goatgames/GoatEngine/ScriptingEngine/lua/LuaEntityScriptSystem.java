@@ -6,6 +6,8 @@ import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.eventmanager.Event;
 import com.goatgames.goatengine.eventmanager.GameEvent;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
+import com.goatgames.goatengine.graphicsrendering.PostRenderEvent;
+import com.goatgames.goatengine.graphicsrendering.PreRenderEvent;
 import com.goatgames.goatengine.input.events.InputEvent;
 import com.goatgames.goatengine.physics.CollisionEvent;
 import com.goatgames.goatengine.scriptingengine.ScriptComponent;
@@ -84,9 +86,21 @@ public class LuaEntityScriptSystem extends EntitySystem implements GameEventList
                                 script.executeFunction("onCollision", e);
                             }
                         }else if(e instanceof InputEvent){
-                            script.executeFunction("onInputEvent", e);
+                            String onInputEvent = "onInputEvent";
+                            if(script.functionExists(onInputEvent))
+                                script.executeFunction(onInputEvent, e);
                         }else if(e instanceof GameEvent){
-                            script.executeFunction("onGameEvent", e);
+                            String onGameEvent = "onGameEvent";
+                            if(script.functionExists(onGameEvent))
+                                script.executeFunction(onGameEvent, e);
+                        } else if(e instanceof PreRenderEvent){
+                            final String preRender = "preRender";
+                            if(script.functionExists(preRender))
+                                script.executeFunction(preRender);
+                        }else if(e instanceof PostRenderEvent){
+                            final String postRender = "postRender";
+                            if(script.functionExists(postRender))
+                                script.executeFunction(postRender);
                         } else{
                             String msg = "Scripting System: Event of type " + e.toString() + " will not be processed";
                             Logger.warn(msg);
