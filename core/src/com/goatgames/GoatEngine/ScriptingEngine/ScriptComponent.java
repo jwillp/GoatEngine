@@ -73,7 +73,7 @@ public class ScriptComponent extends EntityComponent {
      */
     public void addScript(String scriptFilePath){
         if(this.scripts == null){
-            this.scripts = new ArrayList<String>();
+            this.scripts = new ArrayList<>();
         }
         this.scripts.add(scriptFilePath);
     }
@@ -99,6 +99,13 @@ public class ScriptComponent extends EntityComponent {
     @Override
     public String getId() {
         return ID;
+    }
+
+    public void addScripts(ArrayList<String> strings){
+        if(this.scripts == null){
+            this.scripts = new ArrayList<>();
+        }
+        this.scripts.addAll(strings);
     }
 
     // FACTORY //

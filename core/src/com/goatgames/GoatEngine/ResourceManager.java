@@ -4,6 +4,8 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.AtlasTmxMapLoader;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.goatgames.goatengine.utils.GAssert;
 
 /**
@@ -133,5 +135,24 @@ public class ResourceManager {
      */
     public void dispose(){
         unloadAll();
+    }
+
+    /**
+     * Returns a map file
+     * @param tmxFile tmx file
+     * @return
+     */
+    public TiledMap getMap(String tmxFile) {
+        String map = GoatEngine.config.getString("resources.maps_directory") + tmxFile;
+        GAssert.that(isLoaded(map), "TMX MAP File not loaded: " + map);
+        return manager.get(map);
+    }
+
+    /**
+     * Loads a tmx map file
+     * @param tmxFile
+     */
+    public void loadMap(String tmxFile) {
+        manager.load(GoatEngine.config.getString("resources.maps_directory") + tmxFile, AtlasTmxMapLoader.class);
     }
 }

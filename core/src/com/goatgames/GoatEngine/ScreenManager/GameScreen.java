@@ -1,9 +1,18 @@
 package com.goatgames.goatengine.screenmanager;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ai.AISystem;
+import com.goatgames.goatengine.ecs.PrefabFactory;
+import com.goatgames.goatengine.ecs.common.TransformComponent;
 import com.goatgames.goatengine.ecs.core.ECSManager;
+import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.graphicsrendering.RenderingSystem;
 import com.goatgames.goatengine.input.InputSystem;
@@ -62,8 +71,6 @@ public final class GameScreen{
 
         initialized = true;
         Logger.info(String.format("> Game Screen: %s initialised", this.name));
-
-
     }
 
     public void cleanUp() {
@@ -138,11 +145,71 @@ public final class GameScreen{
         String s = ser.serializeLevel(this.getEntityManager());
         Logger.info(String.format("Level WRITE time: %d ms", t.getDeltaTime()));
         Logger.info(s);*/
-
-
     }
 
 
+    private void loadMap(){
+        String TMX_FILE = config.getString("tmx_map");
+        if(TMX_FILE.isEmpty()) return;
+
+        TiledMap map = GoatEngine.resourceManager.getMap(TMX_FILE);
+        MapObjects mapObjects = map.getLayers().get("objects").getObjects();
+        int tileSize = map.getProperties().get("tilewidth", Integer.class);
+
+
+        PrefabFactory prefabFactory = new PrefabFactory();
+
+
+        int mapObjectsCount = mapObjects.getCount();
+        for(int i = 0; i< mapObjectsCount; i++){
+
+            RectangleMapObject obj = (RectangleMapObject) mapObjects.get(i);
+            MapProperties objProperties = obj.getProperties();
+
+            Rectangle rect = obj.getRectangle();
+            float posX = rect.getX() / tileSize;
+            float posY = rect.getY() / tileSize;
+
+            // Test properties
+            Entity entity = null;
+            // prefab
+            String prefab = "prefab";
+            if(objProperties.containsKey(prefab)){
+                String pref = objProperties.get(prefab, String.class);
+                GAssert.that(!pref.isEmpty(), "prefab property set with a null value");
+                if(!pref.isEmpty()){
+                    entity = prefabFactory.createEntity(pref);
+                    TransformComponent transformComponent = new TransformComponent();
+                    transformComponent.setHeight(rect.getHeight());
+                    transformComponent.setWidth(rect.getWidth());
+                    transformComponent.setX(posX);
+                    transformComponent.setY(posY);
+                    entity.addComponent(transformComponent,TransformComponent.ID);
+                }
+
+            }
+            if(entity == null){
+                // phys
+                String physics = "physics";
+                if(objProperties.containsKey(physics) && objProperties.get(physics, Boolean.class)){
+
+                    // Create Body with body type
+
+                    if(objProperties.containsKey("isSensor") && objProperties.get("isSensor", Boolean.class)){
+
+                    }
+                }
+
+
+                // scripting
+
+            }
+            this.getEntityManager().freeEntityObject(entity);
+        }
+
+
+
+    }
 
 
 

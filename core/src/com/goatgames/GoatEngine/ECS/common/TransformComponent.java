@@ -36,6 +36,15 @@ public class TransformComponent extends EntityComponent {
         super(true);
     }
 
+
+    public TransformComponent(float x, float y, float width, float height){
+        super(true);
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+    }
+
     /**
      * Constructs a Map, to be implemented by subclasses
      *

@@ -47,10 +47,8 @@ public class PhysicsComponent extends EntityComponent {
      * @param world the world in which we want to add the body
      * @param bodyType Type of Box2D body
      * @param position the initial position
-     * @param width the width
-     * @param height the height
      */
-    public PhysicsComponent(World world, BodyDef.BodyType bodyType, Vector2 position, float width, float height){
+    public PhysicsComponent(World world, BodyDef.BodyType bodyType, Vector2 position){
         super(true);
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = bodyType;
