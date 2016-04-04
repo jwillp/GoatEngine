@@ -2,6 +2,7 @@ package com.goatgames.goatengine.ecs.core;
 
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.Pool;
+import com.goatgames.goatengine.utils.GAssert;
 
 public class Entity implements Pool.Poolable {
 
@@ -38,12 +39,11 @@ public class Entity implements Pool.Poolable {
      * @return this for chaining
      */
     public Entity addComponent(EntityComponent cp, String compId){
-
-        try{
-            manager.addComponent(compId, cp, getID());
-        } catch (NullPointerException e) {
+        GAssert.notNull(manager, String.format("Unregistered entity %s", this.getID()));
+        if(manager == null)
             throw new UnregisteredEntityException();
-        }
+        manager.addComponent(compId, cp, getID());
+
         return this;
     }
 
