@@ -21,22 +21,24 @@ import java.util.Map;
 
 /**
  * All the physical properties of the entity so it can exist in a physical World
- * Dependencie: Box2D
+ * Dependency: Box2D
  */
 public class PhysicsComponent extends EntityComponent {
 
     public final static String ID = "PHYSICS_COMPONENT";
 
-    private Body body;  //the physical body of the entity
-
-    // Variable used in order not to calculate the size all the time
+    // Variable used in order not to calculate the size all the time. size caching
     private boolean dirtyWidth = true;
+
     private boolean dirtyHeight = true;
     private float width;
     private float height;
 
+    // Body definition
+    private PhysicsBodyDef bodyDef;
 
 
+    private Body body;  //the physical body of the entity
 
 
 
@@ -44,24 +46,27 @@ public class PhysicsComponent extends EntityComponent {
 
     /**
      * CTOR
-     * @param world the world in which we want to add the body
      * @param bodyType Type of Box2D body
      * @param position the initial position
+     * @param colliderDefs the potential collider definitions
      */
-    public PhysicsComponent(World world, BodyDef.BodyType bodyType, Vector2 position){
+    public PhysicsComponent(BodyDef.BodyType bodyType, Vector2 position, Array<ColliderDef> colliderDefs){
         super(true);
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = bodyType;
         bodyDef.position.set(position.x, position.y);
-        this.body = world.createBody(bodyDef);
-        body.setSleepingAllowed(false);
+        this.bodyDef.setColliderDefs(colliderDefs);
     }
 
+    public PhysicsComponent(PhysicsBodyDef bodyDef){
+        super(true);
+        this.bodyDef = bodyDef;
+    }
 
 
     @Override
     public void onAttach(Entity entity){
-        this.body.setUserData(entity.getID());
+
     }
 
     @Override
@@ -98,50 +103,34 @@ public class PhysicsComponent extends EntityComponent {
      */
     @Override
     protected void makeFromMap(Map<String, String> map) {
+        // Force size update
         setDirty(true);
-        // Create Body
-        World world = GoatEngine.gameScreenManager.getCurrentScreen().getPhysicsSystem().getWorld();
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.valueOf(map.get("body_type"));
+
+        // Create Body definition
+        bodyDef = new PhysicsBodyDef();
+        bodyDef.type = BodyDef.BodyType.valueOf(map.getOrDefault("body_type", "StaticBody"));
         bodyDef.position.set(Float.parseFloat(map.get("position_x")), Float.parseFloat(map.get("position_y")));
+        bodyDef.fixedRotation = Boolean.parseBoolean(map.getOrDefault("fixed_rotation", "true"));
+        bodyDef.allowSleep = Boolean.parseBoolean(map.getOrDefault("allow_sleep", "false"));
 
-        this.body = world.createBody(bodyDef);
-
-        this.setBodyType(BodyDef.BodyType.valueOf(map.get("body_type")));
-        body.setSleepingAllowed(false);
-
-        if(map.containsKey("fixed_rotation")){
-            body.setFixedRotation(Boolean.parseBoolean(map.get("fixed_rotation")));
-        }
-
-
-        // Load colliders
+        // Create collider definitions
         String collidersStr = map.get("colliders");
-        if(collidersStr != null && !collidersStr.isEmpty()){
+        if(collidersStr != null && !collidersStr.isEmpty()) {
             JsonArray jsColliders = Json.parse(collidersStr).asArray();
-            for(JsonValue v: jsColliders.values()){
+            for (JsonValue v : jsColliders.values()) {
                 //String ok = v.asString();
                 JsonObject jsCollider = v.asObject();
                 Map<String, String> colMap = new HashMap<>();
                 //Create a map for that collider
-                for(JsonObject.Member member: jsCollider){
+                for (JsonObject.Member member : jsCollider) {
                     colMap.put(member.getName(), member.getValue().asString());
                 }
                 ColliderDef def = Collider.defFromMap(colMap);
-                Collider.addCollider(this,def);
+                bodyDef.addColliderDef(def);
             }
         }
     }
 
-    /**
-     * Used to clone a component
-     *
-     * @return
-     */
-    @Override
-    public EntityComponent clone() {
-        return new Factory().processMapData(this.getId(), this.makeMap());
-    }
 
     /**
      * Returns a list of colliders for the current body
@@ -162,10 +151,7 @@ public class PhysicsComponent extends EntityComponent {
      * @return
      */
     public Rectangle getBounds(){
-        return new Rectangle(this.getPosition().x - this.getWidth(),
-                this.getPosition().y-this.getHeight(),
-                this.getWidth(),
-                this.getHeight());
+        return new Rectangle(getPosition().x - getWidth(), getPosition().y - getHeight(), getWidth(), getHeight());
     }
 
     public Vector2 getPosition() {
@@ -176,7 +162,7 @@ public class PhysicsComponent extends EntityComponent {
         this.body.setTransform(x,y, this.body.getAngle());
     }
 
-    public Vector2 getVelocity(){return this.body.getLinearVelocity();}
+
 
 
     /**
@@ -239,13 +225,52 @@ public class PhysicsComponent extends EntityComponent {
         return height;
     }
 
+
+    /**
+     * Returns the body
+     * @return
+     */
     public Body getBody() {
         return body;
     }
 
+    /**
+     * Sets the body
+     * @param body
+     */
+    public void setBody(Body body, String entityId){
+        this.body = body;
+        this.body.setUserData(entityId);
+    }
+
+    /**
+     * Sets the velocity of the body
+     * @param x velocity in X
+     * @param y velocity in Y
+     */
     public void setVelocity(float x, float y) {
         this.body.setLinearVelocity(x,y);
     }
+
+    /**
+     * Sets the X velocity
+     * @param x
+     */
+    public void setVelocityX(float x){
+        setVelocity(x,body.getLinearVelocity().y);
+    }
+
+    /**
+     * Sets the Y velocity
+     * @param y
+     */
+    public void setVelocityY(float y){
+        setVelocity(body.getLinearVelocity().x,y);
+    }
+
+    public Vector2 getVelocity(){return this.body.getLinearVelocity();}
+
+
 
     public void setBodyType(BodyDef.BodyType type) {
         if(body.getType() != type)
@@ -267,12 +292,32 @@ public class PhysicsComponent extends EntityComponent {
     }
 
 
-
+    /**
+     * Forces the size to be calculated again
+     * @param dirty
+     */
     public void setDirty(boolean dirty){
         this.dirtyHeight = dirty;
         this.dirtyWidth = dirty;
     }
 
+    /**
+     * Used to clone a component
+     *
+     * @return
+     */
+    @Override
+    public EntityComponent clone() {
+        return new Factory().processMapData(this.getId(), this.makeMap());
+    }
+
+    /**
+     * Returns this physics Component body def.
+     * @return
+     */
+    public PhysicsBodyDef getBodyDef() {
+        return bodyDef;
+    }
 
     // FACTORY //
     public static class Factory implements EntityComponentFactory {

@@ -21,6 +21,8 @@ import com.goatgames.goatengine.scriptingengine.lua.LuaEntityScriptSystem;
 import com.goatgames.goatengine.ui.UIEngine;
 import com.goatgames.goatengine.utils.GAssert;
 import com.goatgames.goatengine.utils.Logger;
+import com.goatgames.goatengine.utils.TmxMapLoader;
+import sun.rmi.runtime.Log;
 
 import java.io.FileNotFoundException;
 
@@ -64,10 +66,12 @@ public final class GameScreen{
 
         ecsManager.getSystemManager().initSystems();
 
+        
+        // Load Map
+        loadMap();
 
         // Apply Level Configuration
         loadLevel();
-
 
         initialized = true;
         Logger.info(String.format("> Game Screen: %s initialised", this.name));
@@ -152,63 +156,10 @@ public final class GameScreen{
         String TMX_FILE = config.getString("tmx_map");
         if(TMX_FILE.isEmpty()) return;
 
-        TiledMap map = GoatEngine.resourceManager.getMap(TMX_FILE);
-        MapObjects mapObjects = map.getLayers().get("objects").getObjects();
-        int tileSize = map.getProperties().get("tilewidth", Integer.class);
-
-
-        PrefabFactory prefabFactory = new PrefabFactory();
-
-
-        int mapObjectsCount = mapObjects.getCount();
-        for(int i = 0; i< mapObjectsCount; i++){
-
-            RectangleMapObject obj = (RectangleMapObject) mapObjects.get(i);
-            MapProperties objProperties = obj.getProperties();
-
-            Rectangle rect = obj.getRectangle();
-            float posX = rect.getX() / tileSize;
-            float posY = rect.getY() / tileSize;
-
-            // Test properties
-            Entity entity = null;
-            // prefab
-            String prefab = "prefab";
-            if(objProperties.containsKey(prefab)){
-                String pref = objProperties.get(prefab, String.class);
-                GAssert.that(!pref.isEmpty(), "prefab property set with a null value");
-                if(!pref.isEmpty()){
-                    entity = prefabFactory.createEntity(pref);
-                    TransformComponent transformComponent = new TransformComponent();
-                    transformComponent.setHeight(rect.getHeight());
-                    transformComponent.setWidth(rect.getWidth());
-                    transformComponent.setX(posX);
-                    transformComponent.setY(posY);
-                    entity.addComponent(transformComponent,TransformComponent.ID);
-                }
-
-            }
-            if(entity == null){
-                // phys
-                String physics = "physics";
-                if(objProperties.containsKey(physics) && objProperties.get(physics, Boolean.class)){
-
-                    // Create Body with body type
-
-                    if(objProperties.containsKey("isSensor") && objProperties.get("isSensor", Boolean.class)){
-
-                    }
-                }
-
-
-                // scripting
-
-            }
-            this.getEntityManager().freeEntityObject(entity);
-        }
-
-
-
+        TmxMapLoader loader = new TmxMapLoader(getEntityManager());
+        Logger.info(String.format("Loading map %s ... ", TMX_FILE));
+        loader.loadMap(config.getString("tmx_map"));
+        Logger.info(String.format("%s Loaded", TMX_FILE));
     }
 
 

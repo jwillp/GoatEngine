@@ -15,6 +15,8 @@ import com.goatgames.goatengine.ecs.common.TransformComponent;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.files.FileSystem;
+import com.goatgames.goatengine.physics.BodyDefFactory;
+import com.goatgames.goatengine.physics.PhysicsBodyDef;
 import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.scriptingengine.ScriptComponent;
 
@@ -52,50 +54,10 @@ public class TmxMapLoader{
 
         int mapObjectsCount = mapObjects.getCount();
         for(int i = 0; i< mapObjectsCount; i++) {
-
-            RectangleMapObject obj = (RectangleMapObject) mapObjects.get(i);
-            MapProperties objProperties = obj.getProperties();
-
-            Rectangle rect = obj.getRectangle();
-            float posX = rect.getX() / tileSize;
-            float posY = rect.getY() / tileSize;
-
-            // Test properties
-            Entity entity = null;
-            // prefab
-            String prefab = "prefab";
-            if (objProperties.containsKey(prefab)) {
-                String pref = objProperties.get(prefab, String.class);
-                GAssert.that(!pref.isEmpty(), "prefab property set with a null value");
-                if (!pref.isEmpty()) {
-                    entity = prefabFactory.createEntity(pref);
-                    TransformComponent transformComponent = new TransformComponent();
-                    transformComponent.setHeight(rect.getHeight());
-                    transformComponent.setWidth(rect.getWidth());
-                    transformComponent.setX(posX);
-                    transformComponent.setY(posY);
-                    entity.addComponent(transformComponent, TransformComponent.ID);
-                }
-
-            }
-            if (entity == null) {
-                // phys
-                String physics = "physics";
-                if (objProperties.containsKey(physics) && objProperties.get(physics, Boolean.class)) {
-
-                    // Create Body with body type
-
-                    if (objProperties.containsKey("isSensor") && objProperties.get("isSensor", Boolean.class)) {
-
-                    }
-                }
-
-
-                // scripting
-
-            }
+            Entity entity = loadEntity(mapObjects.get(i), tileSize);
             entityManager.freeEntityObject(entity);
         }
+
         return true;
     }
 
@@ -151,14 +113,11 @@ public class TmxMapLoader{
             boolean isSensor = objProperties.get("isSensor", false, Boolean.class);
             // Create body
             World world = GoatEngine.gameScreenManager.getCurrentScreen().getPhysicsSystem().getWorld();
-            PhysicsComponent physicsComponent = new PhysicsComponent(world,
-                    BodyDef.BodyType.valueOf(bodyType),
-                    new Vector2(posX, posY));
-            
+            PhysicsBodyDef bodyDef = BodyDefFactory.createStaticBox(rect.getWidth(), rect.getHeight(),isSensor);
+            bodyDef.type = BodyDef.BodyType.valueOf(bodyType);
+            PhysicsComponent physicsComponent = new PhysicsComponent(bodyDef);
+            entity.addComponent(physicsComponent, PhysicsComponent.ID);
         }
-
-
-
 
         return entity;
     }

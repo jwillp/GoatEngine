@@ -14,7 +14,7 @@ public abstract class ColliderDef{
 
     public static class UnknownColliderTypeException extends RuntimeException{
         public UnknownColliderTypeException(String unkownType){
-            super("Unknown collider type '" + unkownType + "'.");
+            super(String.format("Unknown collider type '%s'.", unkownType));
         }
     }
 

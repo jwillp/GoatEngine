@@ -7,10 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A Rectangle Collider
+ * A Rectangle shaped collider
  */
 public class BoxCollider extends Collider {
-
 
     float width;
     float height;
@@ -44,7 +43,6 @@ public class BoxCollider extends Collider {
         // TODO see if it is possible to update the fixture
     }
 
-
     @Override
     public Map<String, String> toMap() {
         Map<String, String> def = new HashMap<String, String>();
@@ -58,7 +56,6 @@ public class BoxCollider extends Collider {
         def.put("type", "box");
         return def;
     }
-
 
     /**
      * Returns center position of polygon
@@ -76,7 +73,6 @@ public class BoxCollider extends Collider {
             delta.x += v.x;
             delta.y += v.y;
         }
-
         delta.x /= shape.getVertexCount();
         delta.y /= shape.getVertexCount();
         return delta;

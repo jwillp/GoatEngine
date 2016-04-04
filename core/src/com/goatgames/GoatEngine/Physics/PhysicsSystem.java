@@ -2,10 +2,13 @@ package com.goatgames.goatengine.physics;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.common.TransformComponent;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityCollection;
+import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.screenmanager.GameScreenConfig;
 import com.goatgames.goatengine.utils.GAssert;
@@ -47,6 +50,7 @@ public class PhysicsSystem extends EntitySystem implements ContactListener {
     @Override
     public void update(float dt) {
 
+        createBodies();
         applyTransform();
         updatePhysics();
         applyPhysics();
@@ -60,6 +64,27 @@ public class PhysicsSystem extends EntitySystem implements ContactListener {
 
     @Override
     public void draw(){}
+
+    /**
+     * Create bodies as needed by looking a PhysicsComponents body definition
+     */
+    private void createBodies(){
+        ObjectMap<String, EntityComponent> componentsWithEntity = getEntityManager().getComponentsWithEntity(PhysicsComponent.ID);
+        for(ObjectMap.Entry<String, EntityComponent> entry : componentsWithEntity){
+            PhysicsComponent phys = (PhysicsComponent) entry.value;
+            // Create body
+            if(phys.getBody() == null){
+                PhysicsBodyDef bodyDef = phys.getBodyDef();
+                Body body = world.createBody(bodyDef);
+                phys.setBody(body,entry.key);
+                // Colliders
+                for(ColliderDef def : bodyDef.getColliderDefs()){
+                    Collider.addCollider(phys,def);
+                }
+            }
+        }
+    }
+
 
     /**
      * Applies information from transform
