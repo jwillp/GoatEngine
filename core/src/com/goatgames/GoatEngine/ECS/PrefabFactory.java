@@ -53,8 +53,8 @@ public class PrefabFactory {
 
             for(EntityComponentMap map : colliders){
                 // Read Colliders
-                String colliderKey = map.get("component_id");
-                Collider.addCollider(entity,LegacyEntityFactory.colliderDefFromMap(map));
+                PhysicsComponent phys = (PhysicsComponent) entity.getComponent(PhysicsComponent.ID);
+                phys.getBodyDef().addColliderDef(LegacyEntityFactory.colliderDefFromMap(map));
             }
 
 

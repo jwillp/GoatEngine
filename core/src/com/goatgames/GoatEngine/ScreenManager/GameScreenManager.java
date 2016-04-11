@@ -109,7 +109,7 @@ public class GameScreenManager {
     // LOOP //
     public void handleEvents() {
         if(!this.screens.empty()){
-            this.screens.peek().handleInput(this);
+            this.screens.peek().preUpdate(this);
         }else{
             handleEmptyStack();
         }

@@ -36,7 +36,7 @@ public abstract class EngineConfig {
      * @return
      */
     public String getString(String parameter){
-        return getParam(parameter).toString();
+        return getParam(parameter).toString().replace("nil", "");
     }
 
     /**

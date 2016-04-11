@@ -1,11 +1,13 @@
 package com.goatgames.goatengine;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.AtlasTmxMapLoader;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.goatgames.goatengine.utils.GAssert;
 
 /**
@@ -19,6 +21,8 @@ public class ResourceManager {
 
     public void init(){
         manager = new AssetManager();
+
+        manager.setLoader(TiledMap.class, new AtlasTmxMapLoader(new InternalFileHandleResolver()));
     }
 
 
@@ -58,12 +62,7 @@ public class ResourceManager {
         String atlasName = split[0];
         String resourceName = split[1];
 
-        String texureDirectory  = GoatEngine.config.getString("resources.textures_directory");
-
-
-        String assetKey = texureDirectory + atlasName + ATLAS_EXTENSION;
-        GAssert.that(manager.isLoaded(assetKey), String.format("Asset not loaded '%s' did you call Load() beforehand?", assetKey));
-        TextureAtlas atlas = manager.get(assetKey, TextureAtlas.class);
+        TextureAtlas atlas = getAtlas(atlasName);
         return atlas.findRegion(resourceName);
     }
 
@@ -79,7 +78,13 @@ public class ResourceManager {
 
     public TextureAtlas getAtlas(String atlasResource){
         String textureDirectory  = GoatEngine.config.getString("resources.textures_directory");
-        return manager.get(textureDirectory + atlasResource + ATLAS_EXTENSION, TextureAtlas.class);
+        String resourceName = textureDirectory + atlasResource + ATLAS_EXTENSION;
+        if(!isLoaded(resourceName) && GoatEngine.config.getBoolean("resources.auto_load")){
+            loadTextureAtlas(atlasResource);
+            manager.finishLoadingAsset(resourceName);
+        }
+        GAssert.that(isLoaded(resourceName), "Resource not loaded " + resourceName);
+        return manager.get(resourceName, TextureAtlas.class);
     }
 
 
@@ -144,6 +149,10 @@ public class ResourceManager {
      */
     public TiledMap getMap(String tmxFile) {
         String map = GoatEngine.config.getString("resources.maps_directory") + tmxFile;
+        if(! isLoaded(map) && GoatEngine.config.getBoolean("resources.auto_load")){
+            loadMap(tmxFile);
+            manager.finishLoadingAsset(map);
+        }
         GAssert.that(isLoaded(map), "TMX MAP File not loaded: " + map);
         return manager.get(map);
     }
@@ -153,6 +162,7 @@ public class ResourceManager {
      * @param tmxFile
      */
     public void loadMap(String tmxFile) {
-        manager.load(GoatEngine.config.getString("resources.maps_directory") + tmxFile, AtlasTmxMapLoader.class);
+        manager.load(GoatEngine.config.getString("resources.maps_directory") + tmxFile, TiledMap.class);
+        //manager.load("data/tiledmap/tilemap.tmx", TileMapRenderer.class, new TileMapRendererLoader.TileMapParameter("data/tiledmap/", 8, 8));
     }
 }

@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Sort;
@@ -49,7 +52,8 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
     private LightSystem lightSystem;
 
 
-
+    private TiledMap tiledMap = null;
+    private TiledMapRenderer tiledMapRenderer = null;
 
     private CameraDebugRenderer cameraDebugRenderer;
 
@@ -154,8 +158,18 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
 
 
        // postProcessor.capture();
-        spriteBatch.begin();
 
+        // Render Map (if necessary)
+        if(tiledMap != null){
+            if(tiledMapRenderer == null){
+                float tileSize = (int)tiledMap.getProperties().get("tilewidth");
+                tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap,1/tileSize);
+            }
+            tiledMapRenderer.setView(getCamera());
+            tiledMapRenderer.render();
+        }
+
+        spriteBatch.begin();
         // Render entities based on ZIndex
         for(Entity e: entitiesByZIndex){
             if(GoatEngine.gameScreenManager.getCurrentScreen().getConfig().getBoolean("rendering.texture")){
@@ -355,5 +369,13 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
 
     public OrthographicCamera getCamera() {
         return cameraSystem.getMainCamera();
+    }
+
+    public TiledMap getTiledMap() {
+        return tiledMap;
+    }
+
+    public void setTiledMap(TiledMap tiledMap) {
+        this.tiledMap = tiledMap;
     }
 }

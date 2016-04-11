@@ -25,7 +25,7 @@ public abstract class EntitySystem {
     /**
      * Handles the input
      */
-    public void handleInput(){}
+    public void preUpdate(){}
 
 
     /**

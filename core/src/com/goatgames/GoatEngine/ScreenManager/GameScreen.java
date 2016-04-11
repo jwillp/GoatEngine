@@ -1,18 +1,9 @@
 package com.goatgames.goatengine.screenmanager;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.maps.MapObjects;
-import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ai.AISystem;
-import com.goatgames.goatengine.ecs.PrefabFactory;
-import com.goatgames.goatengine.ecs.common.TransformComponent;
 import com.goatgames.goatengine.ecs.core.ECSManager;
-import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.graphicsrendering.RenderingSystem;
 import com.goatgames.goatengine.input.InputSystem;
@@ -22,7 +13,6 @@ import com.goatgames.goatengine.ui.UIEngine;
 import com.goatgames.goatengine.utils.GAssert;
 import com.goatgames.goatengine.utils.Logger;
 import com.goatgames.goatengine.utils.TmxMapLoader;
-import sun.rmi.runtime.Log;
 
 import java.io.FileNotFoundException;
 
@@ -37,6 +27,7 @@ public final class GameScreen{
 
     private UIEngine uiEngine;
     private boolean initialized = false;
+    private RenderingSystem renderingSystem;
 
     public GameScreen(final String name){
         this.name = name;
@@ -62,11 +53,12 @@ public final class GameScreen{
 
         physicsSystem = new PhysicsSystem();
         ecsManager.getSystemManager().addSystem(PhysicsSystem.class, physicsSystem);
-        ecsManager.getSystemManager().addSystem(RenderingSystem.class, new RenderingSystem());
+        renderingSystem = new RenderingSystem();
+        ecsManager.getSystemManager().addSystem(RenderingSystem.class, renderingSystem);
 
         ecsManager.getSystemManager().initSystems();
 
-        
+
         // Load Map
         loadMap();
 
@@ -90,10 +82,11 @@ public final class GameScreen{
     }
 
 
-    public void handleInput(GameScreenManager screenManager){}
+    public void preUpdate(GameScreenManager screenManager){
+        ecsManager.getSystemManager().preUpdate();
+    }
 
     public void update(GameScreenManager screenManager, float deltaTime){
-        //ecsManager.getSystemManager().getSystem(GroovyScriptSystem.class).update(0);
         ecsManager.getSystemManager().update();
     }
 
@@ -107,7 +100,6 @@ public final class GameScreen{
      * Reads the game screen config file
      */
     private void loadConfigFile(){
-
         try {
             config.load();
         } catch (FileNotFoundException e) {
@@ -155,11 +147,12 @@ public final class GameScreen{
     private void loadMap(){
         String TMX_FILE = config.getString("tmx_map");
         if(TMX_FILE.isEmpty()) return;
-
+        String map = config.getString("tmx_map");
         TmxMapLoader loader = new TmxMapLoader(getEntityManager());
         Logger.info(String.format("Loading map %s ... ", TMX_FILE));
-        loader.loadMap(config.getString("tmx_map"));
+        loader.loadMap(map);
         Logger.info(String.format("%s Loaded", TMX_FILE));
+        renderingSystem.setTiledMap(GoatEngine.resourceManager.getMap(map));
     }
 
 

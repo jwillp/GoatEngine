@@ -21,8 +21,8 @@ public class BodyDefFactory {
 
         // Box Collider
         BoxColliderDef boxDef = new BoxColliderDef();
-        boxDef.height = height;
-        boxDef.width = width;
+        boxDef.height = height * 0.5f;
+        boxDef.width = width * 0.5f;
         boxDef.isSensor = sensor;
         boxDef.x = 0;
         boxDef.y = 0;

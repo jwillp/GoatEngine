@@ -48,9 +48,14 @@ public class PhysicsSystem extends EntitySystem implements ContactListener {
     }
 
     @Override
+    public void preUpdate() {
+        createBodies();
+    }
+
+    @Override
     public void update(float dt) {
 
-        createBodies();
+
         applyTransform();
         updatePhysics();
         applyPhysics();

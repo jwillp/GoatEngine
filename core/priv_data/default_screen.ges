@@ -2,6 +2,7 @@
 function conf(s,geconf)
 
 s.level = ".gel"
+s.tmx_map = ""          -- tmx file to load (optional)
 
 -- PHYSICS BEGIN
 s.physics = {}

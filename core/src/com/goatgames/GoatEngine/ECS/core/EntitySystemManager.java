@@ -71,9 +71,9 @@ public class EntitySystemManager implements GameEventListener {
     /**
      *  Handles the input for all systems in order
      */
-    public void handleInput(){
+    public void preUpdate(){
         for(EntitySystem system: systems.values()){
-            system.handleInput();
+            system.preUpdate();
         }
     }
 

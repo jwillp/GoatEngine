@@ -29,27 +29,27 @@ import java.util.Arrays;
 public class TmxMapLoader{
 
     private final EntityManager entityManager;
+    private PrefabFactory prefabFactory;
 
     public TmxMapLoader(EntityManager entityManager){
         this.entityManager = entityManager;
+        // Prefab factory if an object has a prefab
+        prefabFactory = new PrefabFactory();
+
     }
 
 
     /**
      * Loads a TMX File
      * @param tmxFile
-     * @return true if successful loading
+     * @return the loaded map
      */
-    public boolean loadMap(String tmxFile){
-        GAssert.that(FileSystem.getFile(tmxFile).exists(), String.format("TMX Map file does not exist: %s", tmxFile));
+    public TiledMap loadMap(String tmxFile){
         TiledMap map = GoatEngine.resourceManager.getMap(tmxFile);
 
         // Get map objects
         MapObjects mapObjects = map.getLayers().get("objects").getObjects();
         int tileSize = map.getProperties().get("tilewidth", Integer.class);
-
-        // Prefab factory if an object has a prefab
-        PrefabFactory prefabFactory = new PrefabFactory();
 
 
         int mapObjectsCount = mapObjects.getCount();
@@ -58,7 +58,7 @@ public class TmxMapLoader{
             entityManager.freeEntityObject(entity);
         }
 
-        return true;
+        return map;
     }
 
 
@@ -74,8 +74,12 @@ public class TmxMapLoader{
         MapProperties objProperties = obj.getProperties();
 
         Rectangle rect = obj.getRectangle();
-        float posX = rect.getX() / tileSize;
-        float posY = rect.getY() / tileSize;
+        float width = rect.getWidth() / tileSize;
+        float height = rect.getHeight() / tileSize;
+                                              // Box2D body Position is in center, Tiled is bottom left
+        float posX = rect.getX() / tileSize + width * 0.5f;
+        float posY = rect.getY() / tileSize + height *0.5f;
+
 
         Entity entity;
 
@@ -84,7 +88,7 @@ public class TmxMapLoader{
         if(!prefab.isEmpty()){
             GAssert.that(FileSystem.getFile(prefab).exists(),
                          String.format("Cannot create entity from prefab '%s'. File does not exist", prefab));
-            entity = new PrefabFactory().createEntity(prefab);
+            entity = prefabFactory.createEntity(prefab);
         }else{
             entity = entityManager.createEntity();
         }
@@ -92,7 +96,7 @@ public class TmxMapLoader{
         // 2. handle transform component. (it is automatically added)
         // We don't make a check to see if it was already added (by prefab). We want to override it
         // to use the editor's data.
-        TransformComponent transformComponent = new TransformComponent(posX, posY, rect.getWidth(), rect.getHeight());
+        TransformComponent transformComponent = new TransformComponent(posX, posY, width, height);
         entity.addComponent(transformComponent, TransformComponent.ID);
 
         // 3. handle scripts
@@ -107,13 +111,12 @@ public class TmxMapLoader{
         }
 
         // 4. handle physics
-        boolean hasPhysics = objProperties.get("physics", false, Boolean.class);
+        boolean hasPhysics = Boolean.parseBoolean(objProperties.get("physics", "false", String.class));
         if(hasPhysics){
             String bodyType = objProperties.get("bodyType", "StaticBody", String.class);
             boolean isSensor = objProperties.get("isSensor", false, Boolean.class);
             // Create body
-            World world = GoatEngine.gameScreenManager.getCurrentScreen().getPhysicsSystem().getWorld();
-            PhysicsBodyDef bodyDef = BodyDefFactory.createStaticBox(rect.getWidth(), rect.getHeight(),isSensor);
+            PhysicsBodyDef bodyDef = BodyDefFactory.createStaticBox(width, height,isSensor);
             bodyDef.type = BodyDef.BodyType.valueOf(bodyType);
             PhysicsComponent physicsComponent = new PhysicsComponent(bodyDef);
             entity.addComponent(physicsComponent, PhysicsComponent.ID);
