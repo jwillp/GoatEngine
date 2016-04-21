@@ -108,6 +108,7 @@ public class TmxMapLoader{
                     new ScriptComponent(true);
 
             scriptComponent.addScripts(new ArrayList<>(Arrays.asList(scripts.split(";"))));
+            entity.addComponent(scriptComponent,ScriptComponent.ID);
         }
 
         // 4. handle physics
