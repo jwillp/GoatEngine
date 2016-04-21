@@ -216,7 +216,7 @@ public class EntityManager {
      */
     public ObjectMap<String, EntityComponent> getComponentsWithEntity(String compId){
         // Return empty object map if nothing found (instead of null)
-        return this.components.get(compId, new ObjectMap<>());
+        return this.components.get(compId, new ObjectMap<String, EntityComponent>());
     }
 
 
