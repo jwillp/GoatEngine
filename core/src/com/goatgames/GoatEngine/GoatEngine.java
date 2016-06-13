@@ -124,12 +124,6 @@ public class GoatEngine {
         Logger.info(" > Game screen Manager initialised " + performanceTimer.getDeltaTime() + "ms");
         performanceTimer.reset();
 
-        /*try{
-            scriptEngine.("scripts/main.groovy");
-        }catch(Exception e){
-            console.log(e.getMessage(), Console.LogLevel.ERROR);
-        }*/
-
         initialised = true;
         running = true;
 

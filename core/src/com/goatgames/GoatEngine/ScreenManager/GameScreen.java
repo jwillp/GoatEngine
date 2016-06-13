@@ -12,6 +12,7 @@ import com.goatgames.goatengine.scriptingengine.lua.LuaEntityScriptSystem;
 import com.goatgames.goatengine.ui.UIEngine;
 import com.goatgames.goatengine.utils.GAssert;
 import com.goatgames.goatengine.utils.Logger;
+import com.goatgames.goatengine.utils.TiledMapLoadedEvent;
 import com.goatgames.goatengine.utils.TmxMapLoader;
 
 import java.io.FileNotFoundException;
@@ -66,6 +67,7 @@ public final class GameScreen{
         loadLevel();
 
         initialized = true;
+        GoatEngine.eventManager.fireEvent(new GamScreenInitialisedEvent(this.name));
         Logger.info(String.format("> Game Screen: %s initialised", this.name));
     }
 
@@ -117,11 +119,10 @@ public final class GameScreen{
     private void loadLevel(){
         // Load Level Config File
         final String LEVEL_CONFIG = config.getString("level");
-        GAssert.that(Gdx.files.internal(LEVEL_CONFIG).exists(),
-                String.format("The Level could not be loaded the file \"%s\" does not exist.", LEVEL_CONFIG));
-
-        this.getEntityManager().loadLevel(LEVEL_CONFIG);
-
+        if(GAssert.that(Gdx.files.internal(LEVEL_CONFIG).exists(),
+                String.format("The Level could not be loaded the file \"%s\" does not exist.", LEVEL_CONFIG))){
+            this.getEntityManager().loadLevel(LEVEL_CONFIG);
+        }
 
         /*Timer t = new Timer(Timer.INFINITE);
         t.start();
@@ -153,6 +154,7 @@ public final class GameScreen{
         loader.loadMap(map);
         Logger.info(String.format("%s Loaded", TMX_FILE));
         renderingSystem.setTiledMap(GoatEngine.resourceManager.getMap(map));
+        GoatEngine.eventManager.fireEvent(new TiledMapLoadedEvent(map));
     }
 
 

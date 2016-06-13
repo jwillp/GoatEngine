@@ -8,10 +8,10 @@ import com.goatgames.goatengine.input.events.InputEvent;
  */
 public class KeyPressedEvent extends InputEvent {
 
-    public int key;
+    public final int key;
     public final String keyName;
 
-    public KeyPressedEvent(int key){
+    public KeyPressedEvent(final int key){
         this.key = key;
         keyName = Input.Keys.toString(key).toUpperCase();
     }
