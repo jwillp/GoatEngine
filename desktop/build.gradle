@@ -3,7 +3,7 @@ apply plugin: "java"
 sourceCompatibility = 1.7
 sourceSets.main.java.srcDirs = [ "src/" ]
 
-project.ext.mainClassName = "com.goatgames.goatengine.desktop.DesktopLauncher"
+project.ext.mainClassName = "com.goatgames.goatengine.desktop.GEDesktopLauncher"
 project.ext.coreDir = new File("../core");
 // project.ext.assetsDir = new File("../core/assets");
 
