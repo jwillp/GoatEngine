@@ -1,6 +1,9 @@
 package com.goatgames.goatengine.ecs.core;
 
 
+import com.goatgames.goatengine.scriptingengine.nativescripts.NativeScriptComponent;
+import com.goatgames.goatengine.utils.GAssert;
+
 import java.util.Map;
 
 public abstract class EntityComponent {
@@ -95,4 +98,23 @@ public abstract class EntityComponent {
 
 
     public abstract String getId();
+
+    public static class Factory implements EntityComponentFactory {
+        /**
+         * Takes a data map and tries to construct a component with it
+         * if the data map was incompatible with the factory
+         * return null
+         *
+         * @param componentId
+         * @param map         a map representation of a component
+         * @return A Constructed Component or null if it could not be constructed
+         */
+        @Override
+        public EntityComponent processMapData(String componentId, Map<String, String> map) {
+            GAssert.that(componentId.equals(NativeScriptComponent.ID),
+                    "Component Factory Mismatch: NativeScriptComponent.ID != " + componentId);
+            NativeScriptComponent component = new NativeScriptComponent(map);
+            return component;
+        }
+    }
 }

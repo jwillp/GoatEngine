@@ -12,6 +12,7 @@ import com.goatgames.goatengine.graphicsrendering.camera.CameraComponent;
 import com.goatgames.goatengine.input.TouchableComponent;
 import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.scriptingengine.ScriptComponent;
+import com.goatgames.goatengine.scriptingengine.nativescripts.NativeScriptComponent;
 import com.goatgames.goatengine.utils.GAssert;
 
 /**
@@ -37,6 +38,7 @@ public class ComponentMapper {
         linkFactory(PhysicsComponent.ID, new PhysicsComponent.Factory());
         linkFactory(ScriptComponent.ID, new ScriptComponent.Factory());
         linkFactory(TransformComponent.ID, new TransformComponent.Factory());
+        linkFactory(NativeScriptComponent.ID, new NativeScriptComponent.Factory());
     }
 
     /**

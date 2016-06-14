@@ -72,5 +72,5 @@ public abstract class EntitySystem {
      */ //TODO ABSTRACTING
     public <T extends EntityEvent>  void onEntityEvent(T event){}
 
-    public void draw(){};
+    public void draw(){}
 }
