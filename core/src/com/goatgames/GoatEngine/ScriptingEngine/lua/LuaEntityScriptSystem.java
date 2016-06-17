@@ -3,32 +3,24 @@ package com.goatgames.goatengine.scriptingengine.lua;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
-import com.goatgames.goatengine.eventmanager.Event;
-import com.goatgames.goatengine.eventmanager.GameEvent;
-import com.goatgames.goatengine.eventmanager.GameEventListener;
-import com.goatgames.goatengine.graphicsrendering.PostRenderEvent;
-import com.goatgames.goatengine.graphicsrendering.PreRenderEvent;
-import com.goatgames.goatengine.input.events.InputEvent;
-import com.goatgames.goatengine.physics.CollisionEvent;
-import com.goatgames.goatengine.screenmanager.LateUpdateEvent;
+import com.goatgames.goatengine.scriptingengine.EntityScriptComponent;
+import com.goatgames.goatengine.scriptingengine.IEntityScript;
 import com.goatgames.goatengine.scriptingengine.ScriptComponent;
 import com.goatgames.goatengine.utils.GAssert;
 import com.goatgames.goatengine.utils.Logger;
 
-import java.util.Objects;
-
 /**
  * Entity System managing entity scripts as lua scripts
  */
-public class LuaEntityScriptSystem extends EntitySystem implements GameEventListener {
+public class LuaEntityScriptSystem extends EntitySystem {
 
-
+    LuaScriptingManager scriptManager;
     /**
      * Used to initialise the system
      */
     @Override
     public void init() {
-        GoatEngine.eventManager.registerListener(this);
+        scriptManager = new LuaScriptingManager();
     }
 
     /**
@@ -38,27 +30,48 @@ public class LuaEntityScriptSystem extends EntitySystem implements GameEventList
      */
     @Override
     public void update(float dt) {
-        for(Entity entity: getEntityManager().getEntitiesWithComponent(ScriptComponent.ID)){
-            ScriptComponent scriptComp = (ScriptComponent) entity.getComponent(ScriptComponent.ID);
-            for(String scriptFile: scriptComp.getScripts()){
-                try{
-                    LuaScript script = GoatEngine.scriptEngine.getScript(scriptFile, entity.getID());
-
-                    if(script == null){
-                        script = GoatEngine.scriptEngine.addScript(scriptFile,entity.getID());
-                        onEntityInit(entity, script);
-                    }
-
-                    script.executeFunction("update", dt);
-                }catch (LuaScript.LuaScriptException ex){
-                    Logger.error(ex.getMessage());
-                    Logger.logStackTrace(ex);
+        for(Entity entity: getEntityManager().getEntitiesWithComponent(LuaEntityScriptComponent.ID)){
+            LuaEntityScriptComponent luaScriptComp;
+            luaScriptComp = (LuaEntityScriptComponent) entity.getComponent(LuaEntityScriptComponent.ID);
+            if(!GAssert.that(entity.hasComponent(EntityScriptComponent.ID),
+                    "Entity does not have an EntityScriptComponent, an instance will automatically be added")){
+                entity.addComponent(new EntityScriptComponent(true), EntityScriptComponent.ID);
+            }
+            EntityScriptComponent entityScriptComp = (EntityScriptComponent)entity.getComponent(ScriptComponent.ID);
+            // Add missing script instances
+            for(String scriptFile: luaScriptComp.getScripts()){
+                if(!entityScriptComp.hasScriptWithName(scriptFile)){
+                    entityScriptComp.addScript(getScriptInstance(scriptFile, entity));
                 }
+            }
+            // Remove unused scripts
+            for(String scriptToRemove: luaScriptComp.getScriptsToRemove()){
+                entityScriptComp.removeScriptByName(scriptToRemove);
+                luaScriptComp.getScriptsToRemove().remove(scriptToRemove);
             }
             getEntityManager().freeEntityObject(entity);
         }
     }
 
+    /**
+     * Returns an instance of a script
+     * @param scriptFile
+     * @param entity
+     * @return
+     */
+    public LuaEntityScript getScriptInstance(String scriptFile, Entity entity){
+        LuaEntityScript script = null;
+        try{
+             script = scriptManager.getScript(scriptFile, entity.getID());
+            if(script == null){
+                script = scriptManager.addScript(scriptFile,entity.getID());
+            }
+        }catch (LuaScript.LuaScriptException ex){
+            Logger.error(ex.getMessage());
+            Logger.logStackTrace(ex);
+        }
+        return script;
+    }
 
     /**
      * Initialises an entity Script
@@ -71,53 +84,4 @@ public class LuaEntityScriptSystem extends EntitySystem implements GameEventList
         script.executeFunction("init");
     }
 
-
-    @Override
-    public void onEvent(Event e) {
-        for(Entity entity: getEntityManager().getEntitiesWithComponent(ScriptComponent.ID)){
-            ScriptComponent scriptComp = (ScriptComponent) entity.getComponent(ScriptComponent.ID);
-            try{
-                for(String scriptFile: scriptComp.getScripts()){
-                    LuaScript script = GoatEngine.scriptEngine.getScript(scriptFile, entity.getID());
-                    if (script != null) {
-                        if( e instanceof LateUpdateEvent){
-                            final String lateUpdate = "lateUpdate";
-                            if(script.functionExists(lateUpdate))
-                                script.executeFunction(lateUpdate);
-                        }else if(e instanceof PreRenderEvent){
-                            final String preRender = "preRender";
-                            if(script.functionExists(preRender))
-                                script.executeFunction(preRender);
-                        }else if(e instanceof PostRenderEvent){
-                            final String postRender = "postRender";
-                            if(script.functionExists(postRender))
-                                script.executeFunction(postRender);
-                        }else if(e instanceof CollisionEvent){
-                            // Only if collision is for current entity
-                            CollisionEvent ce = (CollisionEvent) e;
-                            if(Objects.equals(ce.getEntityA(), entity.getID())){
-                                script.executeFunction("onCollision", e);
-                            }
-                        }else if(e instanceof InputEvent){
-                            String onInputEvent = "onInputEvent";
-                            if(script.functionExists(onInputEvent))
-                                script.executeFunction(onInputEvent, e);
-                        }else if(e instanceof GameEvent){
-                            String onGameEvent = "onGameEvent";
-                            if(script.functionExists(onGameEvent))
-                                script.executeFunction(onGameEvent, e);
-                        }  else{
-                            String msg = "Scripting System: Event of type " + e.toString() + " will not be processed";
-                            Logger.warn(msg);
-                            GAssert.that(true, msg);
-                        }
-                    }
-                }
-            }catch(LuaScript.LuaScriptException ex){
-                Logger.error(ex.getMessage());
-                Logger.logStackTrace(ex);
-            }
-            getEntityManager().freeEntityObject(entity);
-        }
-    }
 }

@@ -17,8 +17,6 @@ public class ScriptComponent extends EntityComponent {
     public static final String ID = "SCRIPT_COMPONENT";
     private ArrayList<String> scripts;
 
-    // TODO maybe keep script instances, because values can differ for the same script in two different entities
-
     public ScriptComponent(boolean b) {
         super(b);
         scripts = new ArrayList<String>();
@@ -86,6 +84,8 @@ public class ScriptComponent extends EntityComponent {
     public void removeScript(String scriptFilePath){
         this.scripts.remove(scriptFilePath);
     }
+
+
 
     /**
      * Returns all the scripts

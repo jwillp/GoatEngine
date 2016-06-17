@@ -2,12 +2,11 @@ package com.goatgames.goatengine;
 
 import com.badlogic.gdx.Gdx;
 import com.goatgames.goatengine.eventmanager.EventManager;
-import com.goatgames.goatengine.eventmanager.engineevents.EngineEvents;
 import com.goatgames.goatengine.graphicsrendering.GraphicsEngine;
 import com.goatgames.goatengine.input.InputManager;
 import com.goatgames.goatengine.screenmanager.GameScreenManager;
 import com.goatgames.goatengine.screenmanager.LateUpdateEvent;
-import com.goatgames.goatengine.scriptingengine.lua.LuaScriptingEngine;
+import com.goatgames.goatengine.scriptingengine.lua.LuaScriptingManager;
 import com.goatgames.goatengine.utils.Logger;
 import com.goatgames.goatengine.utils.Timer;
 
@@ -22,9 +21,6 @@ import com.goatgames.goatengine.utils.Timer;
  */
 public class GoatEngine {
 
-
-    //Scripting Engine
-    public static LuaScriptingEngine scriptEngine;
 
     //ScreenManager
     public static GameScreenManager gameScreenManager;
@@ -111,13 +107,6 @@ public class GoatEngine {
         Logger.info("> Asset Manager initialised " + performanceTimer.getDeltaTime() + " ms ");
         performanceTimer.reset();
 
-
-        // Script Engine Init
-        scriptEngine = new LuaScriptingEngine();
-        scriptEngine.init();
-        Logger.info(" > Scripting Engine initialised " + performanceTimer.getDeltaTime() + "ms");
-        performanceTimer.reset();
-
         // Game Screen manager
         gameScreenManager = new GameScreenManager();
         gameScreenManager.init();
@@ -195,9 +184,6 @@ public class GoatEngine {
     public static void cleanUp(){
         //GameScreen Manager
         gameScreenManager.cleanUp();
-
-        //Dispose Script
-        scriptEngine.dispose();
 
         //Dispose resources
         resourceManager.dispose();

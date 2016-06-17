@@ -11,10 +11,10 @@ import org.luaj.vm2.lib.jse.JsePlatform;
 /**
  * A Lua Script
  */
-public class LuaScript {
+public class LuaScript{
 
     private final String scriptFile;                         // Path to the script file
-    private LuaValue chunk;                                          // Read data from t lua script
+    private LuaValue chunk;                                  // Read data from lua script
     private Globals globals = JsePlatform.standardGlobals(); // The standard Lua Lib
 
     private boolean hasError = true; // indicates if the script has encountered an error

@@ -14,7 +14,7 @@ public class NativeScriptComponent extends EntityComponent {
     public final static String ID = "NATIVE_SCRIPT_COMPONENT";
 
 
-    private Array<NativeScript> scripts;
+    private Array<NativeEntityScript> scripts;
 
     public NativeScriptComponent() {
         this(true);
@@ -30,11 +30,11 @@ public class NativeScriptComponent extends EntityComponent {
 
 
 
-    public void addScript(NativeScript script){
+    public void addScript(NativeEntityScript script){
         scripts.add(script);
     }
 
-    public void removeScript(NativeScript script){
+    public void removeScript(NativeEntityScript script){
         scripts.removeValue(script,false);
     }
 
@@ -61,7 +61,7 @@ public class NativeScriptComponent extends EntityComponent {
         return ID;
     }
 
-    public Array<NativeScript> getScripts() {
+    public Array<NativeEntityScript> getScripts() {
         return scripts;
     }
 }

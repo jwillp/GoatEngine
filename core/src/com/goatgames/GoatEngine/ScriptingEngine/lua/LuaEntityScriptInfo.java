@@ -9,7 +9,7 @@ public class LuaEntityScriptInfo {
 
     private long lastModified = 0;
     // Key is id of entity and value is instance of script
-    private final ObjectMap<String, LuaScript> instances = new ObjectMap<String, LuaScript>();
+    private final ObjectMap<String, LuaEntityScript> instances = new ObjectMap<>();
 
 
     LuaEntityScriptInfo(long lastModified) {
@@ -21,7 +21,7 @@ public class LuaEntityScriptInfo {
      * @param id
      * @return
      */
-    public LuaScript getInstance(String id){
+    public LuaEntityScript getInstance(String id){
         return this.instances.get(id);
     }
 
@@ -30,7 +30,7 @@ public class LuaEntityScriptInfo {
      * @param entityId
      * @param instance
      */
-    public void addInstance(LuaScript instance, String entityId){
+    public void addInstance(LuaEntityScript instance, String entityId){
         this.instances.put(entityId, instance);
     }
 
@@ -54,7 +54,7 @@ public class LuaEntityScriptInfo {
      * Returns all instances of scripts
      * @return
      */
-    public ObjectMap<String,LuaScript> getInstances() {
+    public ObjectMap<String,LuaEntityScript> getInstances() {
         return instances;
     }
 }

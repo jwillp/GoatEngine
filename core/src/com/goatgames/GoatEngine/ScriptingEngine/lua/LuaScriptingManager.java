@@ -11,8 +11,9 @@ import java.util.ArrayList;
 /**
  * Lua Scripting Engine managing script instances and
  * data caching for efficient performances.
+ * TODO: Move this logic to LuaEntityScriptSystem
  */
-public final class LuaScriptingEngine {
+public final class LuaScriptingManager {
 
     // For entity scripts
     private ObjectMap<String, LuaEntityScriptInfo> entityScripts;
@@ -25,8 +26,8 @@ public final class LuaScriptingEngine {
     /**
      * Constructor
      */
-    public LuaScriptingEngine(){
-        entityScripts = new ObjectMap<String, LuaEntityScriptInfo>();
+    public LuaScriptingManager(){
+        entityScripts = new ObjectMap<>();
     }
 
     public void init() {
@@ -34,37 +35,20 @@ public final class LuaScriptingEngine {
     }
 
     /**
-     * Cleanly disposes the scripting engine
+     * Cleanly disposes the manager
      */
     public void dispose(){
         this.entityScripts.clear();
     }
 
     /**
-     * Indicates if a given script was already registered with the engine or not
-     * @param scriptFile path to script file
-     * @return true if registered
-     */
-    private boolean isScriptRegistered(String scriptFile){
-        return entityScripts.containsKey(scriptFile);
-    }
-
-    /**
-     * Registers the script with the engine. (Make it available to the engine)
-     * @param scriptFile path to script file
-     */
-    private void registerScript(String scriptFile){
-        long lastModified = Gdx.files.internal(scriptFile).lastModified();
-        entityScripts.put(scriptFile, new LuaEntityScriptInfo(lastModified));
-    }
-
-
-    /**
-     * Adsd an entity script to the engine
+     * Adds an entity script to the engine.
+     * First creates an instance of the script and then, associate it with an entity id
+     * for easy retrieval. Also loads the GoatEngine API into the script's global
      * @param scriptFile path to the script file
      * @param entityId the id of the entity to assciate the instance
      */
-    public LuaScript addScript(String scriptFile, String entityId){
+    public LuaEntityScript addScript(String scriptFile, String entityId){
 
         scriptFile = GoatEngine.config.getString("scripting.directory") + scriptFile;
 
@@ -74,9 +58,9 @@ public final class LuaScriptingEngine {
         }
 
         // Does the current entity has an instance of that script?
-        LuaScript script = this.entityScripts.get(scriptFile).getInstance(entityId);
+        LuaEntityScript script = this.entityScripts.get(scriptFile).getInstance(entityId);
         if(script == null){
-            script = new LuaScript(scriptFile);
+            script = new LuaEntityScript(scriptFile);
             // Expose API and import libraries
             script.exposeJavaFunction(new GoatEngineAPI());
             script.load();
@@ -88,13 +72,38 @@ public final class LuaScriptingEngine {
         return script;
     }
 
+
+
+    /**
+     * Indicates if a given script was already registered with the manager or not
+     * @param scriptFile path to script file
+     * @return true if registered
+     */
+    private boolean isScriptRegistered(String scriptFile){
+        return entityScripts.containsKey(scriptFile);
+    }
+
+    /**
+     * Registers the script with the manager. (Make it available to the manager)
+     * It will load metadata about the script and keep this in memory.
+     * This metadata is mainly used for script reloading
+     * @param scriptFile path to script file
+     */
+    private void registerScript(String scriptFile){
+        long lastModified = Gdx.files.internal(scriptFile).lastModified();
+        entityScripts.put(scriptFile, new LuaEntityScriptInfo(lastModified));
+    }
+
+
+
+
     /**
      * Returns an instance of a script for a certain entity
      * and if necessary reloads it.
      * @param scriptFile the path to the script file
      * @param entityId the Id of the entity
      */
-    public LuaScript getScript(String scriptFile, String entityId){
+    public LuaEntityScript getScript(String scriptFile, String entityId){
         scriptFile =  GoatEngine.config.getString("scripting.directory")  + scriptFile;
         LuaEntityScriptInfo info = this.entityScripts.get(scriptFile);
         // Means the script has not been loaded yet (it will be done eventually)
@@ -117,7 +126,7 @@ public final class LuaScriptingEngine {
      * @param info script info object
      */
     private void reloadScript(String scriptFile, LuaEntityScriptInfo info){
-        for (ObjectMap.Values<LuaScript> iterator = info.getInstances().values().iterator(); iterator.hasNext(); ) {
+        for (ObjectMap.Values<LuaEntityScript> iterator = info.getInstances().values().iterator(); iterator.hasNext(); ) {
             LuaScript instance = iterator.next();
             instance.reload();
             iterator.remove();

@@ -1,21 +1,24 @@
 package com.goatgames.goatengine.scriptingengine.nativescripts;
 
+import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.eventmanager.GameEvent;
 import com.goatgames.goatengine.input.events.InputEvent;
 import com.goatgames.goatengine.physics.CollisionEvent;
+import com.goatgames.goatengine.scriptingengine.IEntityScript;
 
 /**
- * Abstract Native Script class
+ * Abstract Native Script class to be implemented by Native Scripts
  */
-public abstract class NativeScript {
+public abstract class NativeEntityScript implements IEntityScript {
 
     private boolean initialised;
 
     /**
      * Called when the script instance is considered initialised by the engine.
      * it can also be considered as a method to call when the script instance is attached to the entity
+     * @param entity
      */
-    public abstract void init();
+    public abstract void init(Entity entity);
 
     /**
      * Called every gameloop tick
@@ -59,4 +62,12 @@ public abstract class NativeScript {
     public abstract void preRender();
 
     public abstract void lateUpdate();
+
+    /**
+     * Returns a string uniquely identifying the script (not the script instance)
+     * @return
+     */
+    public String getName(){
+        return this.getClass().getName();
+    }
 }

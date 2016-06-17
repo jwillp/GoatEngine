@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.scriptingengine;
+package com.goatgames.goatengine.scriptingengine.lua;
 
 import com.goatgames.goatengine.eventmanager.Event;
 

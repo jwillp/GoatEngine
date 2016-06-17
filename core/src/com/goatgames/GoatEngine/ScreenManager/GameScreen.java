@@ -8,8 +8,8 @@ import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.graphicsrendering.RenderingSystem;
 import com.goatgames.goatengine.input.InputSystem;
 import com.goatgames.goatengine.physics.PhysicsSystem;
+import com.goatgames.goatengine.scriptingengine.EntityScriptSystem;
 import com.goatgames.goatengine.scriptingengine.lua.LuaEntityScriptSystem;
-import com.goatgames.goatengine.scriptingengine.nativescripts.NativeScripSystem;
 import com.goatgames.goatengine.ui.UIEngine;
 import com.goatgames.goatengine.utils.GAssert;
 import com.goatgames.goatengine.utils.Logger;
@@ -51,8 +51,8 @@ public final class GameScreen{
 
         ecsManager.getSystemManager().addSystem(InputSystem.class, new InputSystem());
         ecsManager.getSystemManager().addSystem(AISystem.class, new AISystem());
+        ecsManager.getSystemManager().addSystem(EntityScriptSystem.class, new EntityScriptSystem());
         ecsManager.getSystemManager().addSystem(LuaEntityScriptSystem.class, new LuaEntityScriptSystem());
-        ecsManager.getSystemManager().addSystem(NativeScripSystem.class, new NativeScripSystem());
 
         physicsSystem = new PhysicsSystem();
         ecsManager.getSystemManager().addSystem(PhysicsSystem.class, physicsSystem);
