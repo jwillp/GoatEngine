@@ -15,10 +15,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * PRovides functionalites to convert entities to JSON
+ * Provides functionality to convert entities to JSON
  */
-public class JsonSerializer implements Serializer{
-
+public class JsonSerialiser implements ISerialiser {
 
     /**
      * Converts a group of entities to JSON
@@ -33,14 +32,12 @@ public class JsonSerializer implements Serializer{
         return jsonEntities;
     }
 
-
     /**
      * Converts an entity with it's component to JSON
      * @param entity the entity to convert
      * @return JsonObject representation of entity
      */
     public JsonObject entityToJson(Entity entity){
-
         ObjectMap<String,EntityComponent> components = entity.getComponents();
         JsonObject jsonEntity = Json.object();
         JsonArray jsonComponents = new JsonArray();
@@ -66,7 +63,6 @@ public class JsonSerializer implements Serializer{
         return jsonComponent;
     }
 
-
     /**
      * Converts a component to JSON
      * @param manager the component to convert
@@ -83,22 +79,22 @@ public class JsonSerializer implements Serializer{
     }
 
     @Override
-    public String serializeEntity(Entity e) {
+    public String serialiseEntity(Entity e) {
         return entityToJson(e).toString();
     }
 
     @Override
-    public String serializeComponent(EntityComponent c) {
+    public String serialiseComponent(EntityComponent c) {
         return componentToJson(c).toString();
     }
 
     @Override
-    public String serializeEntities(Array<Entity> entities) {
+    public String serialiseEntities(Array<Entity> entities) {
         return entitiesToJson(entities).toString();
     }
 
     @Override
-    public String serializeLevel(EntityManager manager) {
+    public String serialiseLevel(EntityManager manager) {
         return levelToJson(manager).toString();
     }
 
@@ -106,7 +102,7 @@ public class JsonSerializer implements Serializer{
     // DESERIALIZATION //
 
     @Override
-    public NormalisedEntityComponent deserializeComponent(String c) {
+    public NormalisedEntityComponent deserialiseComponent(String c) {
         // Call Factory
         // Convert json string to map representation
         return deserializeComponent(Json.parse(c).asObject());
@@ -123,7 +119,7 @@ public class JsonSerializer implements Serializer{
 
 
     @Override
-    public Map<String, NormalisedEntityComponent> deserializeEntity(String e) {
+    public Map<String, NormalisedEntityComponent> deserialiseEntity(String e) {
         return deserializeEntity(Json.parse(e).asObject());
     }
 
@@ -139,7 +135,7 @@ public class JsonSerializer implements Serializer{
 
 
     @Override
-    public Map<String, Map<String, NormalisedEntityComponent>> deserializeEntities(String entities) {
+    public Map<String, Map<String, NormalisedEntityComponent>> deserialiseEntities(String entities) {
         return deserializeEntities(Json.parse(entities).asArray());
     }
 
@@ -153,7 +149,8 @@ public class JsonSerializer implements Serializer{
     }
 
     @Override
-    public Map<String, Map<String, NormalisedEntityComponent>> deserializeLevel(String level) {
+    public Map<String, Map<String, NormalisedEntityComponent>> deserialiseLevel(String level) {
+        if(level.isEmpty()) return new HashMap<>();
         JsonObject jsLevel = Json.parse(level).asObject();
         JsonArray jsEntities = jsLevel.get("entities").asArray();
         return deserializeEntities(jsEntities);

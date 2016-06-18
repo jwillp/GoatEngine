@@ -8,7 +8,7 @@ import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
-import com.goatgames.goatengine.ecs.JsonSerializer;
+import com.goatgames.goatengine.ecs.JsonSerialiser;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
@@ -83,7 +83,7 @@ public class PhysicsComponent extends EntityComponent {
         // Convert colliders to a Json string and save it such in the map
         JsonArray jsonArray = new JsonArray();
         for(Collider c: this.getColliders()){
-            jsonArray.add(JsonSerializer.mapToJson(c.normalise()));
+            jsonArray.add(JsonSerialiser.mapToJson(c.normalise()));
         }
         physMap.put("colliders", jsonArray.toString());
         return physMap;

@@ -140,8 +140,8 @@ public final class GameScreen{
 
 
         // TEST TO JSON //
-        Serializer ser = new JsonSerializer();
-        String s = ser.serializeLevel(this.getEntityManager());
+        ISerialiser ser = new JsonSerialiser();
+        String s = ser.serialiseLevel(this.getEntityManager());
         Logger.info(String.format("Level WRITE time: %d ms", t.getDeltaTime()));
         Logger.info(s);*/
     }
