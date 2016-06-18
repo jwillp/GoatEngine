@@ -8,35 +8,16 @@ import com.badlogic.gdx.utils.ObjectMap;
 public class LuaEntityScriptInfo {
 
     private long lastModified = 0;
-    // Key is id of entity and value is instance of script
-    private final ObjectMap<String, LuaEntityScript> instances = new ObjectMap<>();
-
+    private boolean valid;
 
     LuaEntityScriptInfo(long lastModified) {
         this.lastModified = lastModified;
-    }
-
-    /**
-     * Returns the script instance for a certain entity Id
-     * @param id
-     * @return
-     */
-    public LuaEntityScript getInstance(String id){
-        return this.instances.get(id);
-    }
-
-    /**
-     * Adds a new instance associated with an entity Id
-     * @param entityId
-     * @param instance
-     */
-    public void addInstance(LuaEntityScript instance, String entityId){
-        this.instances.put(entityId, instance);
+        this.valid = true;
     }
 
     /**
      * Returns the last time the script was modified
-     * @return
+     * @return the last modified time
      */
     public long getLastModified() {
         return lastModified;
@@ -44,17 +25,25 @@ public class LuaEntityScriptInfo {
 
     /**
      * Sets the last time the script was modified
-     * @param lastModified
+     * @param lastModified time at which the script was last modified
      */
     public void setLastModified(long lastModified) {
         this.lastModified = lastModified;
     }
 
     /**
-     * Returns all instances of scripts
-     * @return
+     * Sets the validity of the script
+     * @param valid
      */
-    public ObjectMap<String,LuaEntityScript> getInstances() {
-        return instances;
+    public void setValid(boolean valid) {
+        this.valid = valid;
+    }
+
+    /**
+     * Indicates whether the script has errors or not
+     * @return true if valid, otherwise false
+     */
+    public boolean isValid() {
+        return valid;
     }
 }

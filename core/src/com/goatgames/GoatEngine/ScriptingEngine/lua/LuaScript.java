@@ -1,6 +1,7 @@
 package com.goatgames.goatengine.scriptingengine.lua;
 
 import com.badlogic.gdx.Gdx;
+import com.goatgames.goatengine.utils.GAssert;
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaValue;
@@ -32,8 +33,9 @@ public class LuaScript{
      * @return true if the load operation was successful
      */
     public boolean load(){
-        if(!Gdx.files.internal(scriptFile).exists()){
-            //Logger.error("Lua Script not found: " + scriptFile);
+        // Check if script exists
+        if(!GAssert.that(Gdx.files.internal(scriptFile).exists(),
+                String.format("Lua Script not found: \"%s\"", scriptFile))){
             hasError = true;
             return false;
         }
