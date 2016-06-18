@@ -3,7 +3,6 @@ package com.goatgames.goatengine.scriptingengine.lua;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.scriptingengine.EntityScriptComponent;
-import com.goatgames.goatengine.utils.GAssert;
 import com.goatgames.goatengine.utils.Logger;
 
 /**

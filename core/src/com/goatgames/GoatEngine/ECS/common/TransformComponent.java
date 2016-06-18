@@ -1,12 +1,7 @@
 package com.goatgames.goatengine.ecs.common;
 
 import com.goatgames.goatengine.ecs.core.EntityComponent;
-import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
 import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
-import com.goatgames.goatengine.utils.GAssert;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Transform component describing the position, size and

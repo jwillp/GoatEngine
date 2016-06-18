@@ -9,8 +9,6 @@ import com.goatgames.goatengine.eventmanager.GameEvent;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
 import com.goatgames.goatengine.input.events.InputEvent;
 import com.goatgames.goatengine.physics.CollisionEvent;
-import com.goatgames.goatengine.scriptingengine.lua.LuaScript;
-import com.goatgames.goatengine.utils.Logger;
 
 /**
  * Entity System managing entity scripts

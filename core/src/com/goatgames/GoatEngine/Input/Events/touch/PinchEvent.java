@@ -1,7 +1,6 @@
 package com.goatgames.goatengine.input.events.touch;
 
 import com.badlogic.gdx.math.Vector2;
-import com.goatgames.goatengine.eventmanager.Event;
 import com.goatgames.goatengine.input.events.InputEvent;
 
 /**

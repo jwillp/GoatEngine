@@ -4,12 +4,7 @@ package com.goatgames.goatengine.graphicsrendering;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
-import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
 import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
-import com.goatgames.goatengine.utils.GAssert;
-
-import java.util.HashMap;
-import java.util.Map;
 
 
 /**

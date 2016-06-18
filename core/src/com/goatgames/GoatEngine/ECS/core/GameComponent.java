@@ -6,7 +6,6 @@ import org.luaj.vm2.LuaValue;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
 * Mostly used by scripts to easily create new components

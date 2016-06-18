@@ -4,9 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * A circular collider
  */

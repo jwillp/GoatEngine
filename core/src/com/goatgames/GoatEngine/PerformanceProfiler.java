@@ -1,6 +1,5 @@
 package com.goatgames.goatengine;
 
-import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.LongArray;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.goatgames.goatengine.utils.Logger;

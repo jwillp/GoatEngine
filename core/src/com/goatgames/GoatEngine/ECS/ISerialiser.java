@@ -3,8 +3,8 @@ package com.goatgames.goatengine.ecs;
 import com.badlogic.gdx.utils.Array;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
-import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityManager;
+import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 
 import java.util.Map;
 

@@ -6,7 +6,6 @@ import com.goatgames.goatengine.graphicsrendering.GraphicsEngine;
 import com.goatgames.goatengine.input.InputManager;
 import com.goatgames.goatengine.screenmanager.GameScreenManager;
 import com.goatgames.goatengine.screenmanager.LateUpdateEvent;
-import com.goatgames.goatengine.scriptingengine.lua.LuaScriptingManager;
 import com.goatgames.goatengine.utils.Logger;
 import com.goatgames.goatengine.utils.Timer;
 

@@ -1,12 +1,7 @@
 package com.goatgames.goatengine.graphicsrendering;
 
 import com.badlogic.gdx.graphics.Color;
-import com.goatgames.goatengine.ecs.core.EntityComponent;
-import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
 import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
-import com.goatgames.goatengine.utils.GAssert;
-
-import java.util.Map;
 
 /**
  * Used to display simple fake lights (alpha blending)

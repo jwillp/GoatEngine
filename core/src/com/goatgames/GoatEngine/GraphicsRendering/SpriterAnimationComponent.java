@@ -6,13 +6,8 @@ import com.brashmonkey.spriter.Player;
 import com.brashmonkey.spriter.Spriter;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
-import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
 import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 import com.goatgames.goatengine.files.FileSystem;
-import com.goatgames.goatengine.utils.GAssert;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * An animation component specialy made for Spriter animations

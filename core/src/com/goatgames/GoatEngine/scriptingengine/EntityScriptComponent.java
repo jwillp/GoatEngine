@@ -6,9 +6,6 @@ import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
 import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 import com.goatgames.goatengine.utils.GAssert;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Enables entities to have Custom Behaviour using Scripts
  */

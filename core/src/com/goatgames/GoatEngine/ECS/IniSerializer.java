@@ -3,10 +3,9 @@ package com.goatgames.goatengine.ecs;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
-import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
-import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityManager;
+import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 import com.goatgames.goatengine.physics.BoxCollider;
 import com.goatgames.goatengine.physics.CircleCollider;
 import com.goatgames.goatengine.physics.Collider;
@@ -15,7 +14,10 @@ import com.goatgames.goatengine.utils.Logger;
 import org.ini4j.Ini;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 
 /**
  * Used to serialize entities in Ini format

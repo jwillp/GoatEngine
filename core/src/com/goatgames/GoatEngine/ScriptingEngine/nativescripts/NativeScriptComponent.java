@@ -4,9 +4,6 @@ import com.badlogic.gdx.utils.Array;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * USed for Native (Java) Scripts
  */

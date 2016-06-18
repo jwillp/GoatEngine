@@ -13,7 +13,6 @@ import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.common.TransformComponent;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
-import com.goatgames.goatengine.physics.PhysicsComponent;
 
 /**
  * System responsible of rendering Fake lights

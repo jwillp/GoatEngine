@@ -8,8 +8,8 @@ import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
-import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityManager;
+import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 
 import java.util.HashMap;
 import java.util.Map;
