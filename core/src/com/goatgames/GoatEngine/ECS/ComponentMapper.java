@@ -11,10 +11,8 @@ import com.goatgames.goatengine.graphicsrendering.*;
 import com.goatgames.goatengine.graphicsrendering.camera.CameraComponent;
 import com.goatgames.goatengine.input.TouchableComponent;
 import com.goatgames.goatengine.physics.PhysicsComponent;
-import com.goatgames.goatengine.scriptingengine.ScriptComponent;
 import com.goatgames.goatengine.scriptingengine.lua.LuaEntityScriptComponent;
 import com.goatgames.goatengine.scriptingengine.nativescripts.NativeScriptComponent;
-import com.goatgames.goatengine.utils.GAssert;
 
 /**
  * Maps component map representation to component instances

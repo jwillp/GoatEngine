@@ -1,11 +1,8 @@
 package com.goatgames.goatengine.scriptingengine.lua;
 
-import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.scriptingengine.EntityScriptComponent;
-import com.goatgames.goatengine.scriptingengine.IEntityScript;
-import com.goatgames.goatengine.scriptingengine.ScriptComponent;
 import com.goatgames.goatengine.utils.GAssert;
 import com.goatgames.goatengine.utils.Logger;
 

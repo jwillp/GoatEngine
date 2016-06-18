@@ -6,9 +6,7 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.World;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.PrefabFactory;
 import com.goatgames.goatengine.ecs.common.TransformComponent;
@@ -18,7 +16,6 @@ import com.goatgames.goatengine.files.FileSystem;
 import com.goatgames.goatengine.physics.BodyDefFactory;
 import com.goatgames.goatengine.physics.PhysicsBodyDef;
 import com.goatgames.goatengine.physics.PhysicsComponent;
-import com.goatgames.goatengine.scriptingengine.ScriptComponent;
 import com.goatgames.goatengine.scriptingengine.lua.LuaEntityScriptComponent;
 
 import java.util.ArrayList;

@@ -19,6 +19,7 @@ public class EntityScriptComponent extends EntityComponent {
 
     public EntityScriptComponent(boolean enabled) {
         super(enabled);
+        scripts = new ObjectMap<>();
     }
 
     public EntityScriptComponent(Map<String, String> map) {
@@ -114,7 +115,7 @@ public class EntityScriptComponent extends EntityComponent {
     public static class Factory implements EntityComponentFactory {
         @Override
         public EntityComponent processMapData(String componentId, Map<String, String> map){
-            GAssert.that(componentId.equals(ScriptComponent.ID),
+            GAssert.that(componentId.equals(EntityScriptComponent.ID),
                     "Component Factory Mismatch: EntityScriptComponent.ID != " + componentId);
             EntityScriptComponent component = new EntityScriptComponent(map);
             return component;
