@@ -18,15 +18,15 @@ public class GameComponent extends EntityComponent {
 
     public LuaTable data;
 
-    public GameComponent(Map<String, String> map) {
-        super(map);
-        // Implicitly the method makeFromMap will be called
-        // from super constructor so makeFromMap should never
+    public GameComponent(NormalisedEntityComponent data) {
+        super(data);
+        // Implicitly the method denormalise will be called
+        // from super constructor so denormalise should never
         // be null. In such case that would mean super is broken
         // or in the case of a sub class of GameComponent overriding
-        // method makeFromMap but not calling super.
+        // method denormalise but not calling super.
 
-        GAssert.notNull(data,"Game Component data was null in map constructor, did you call makeFromMap?");
+        GAssert.notNull(this.data,"Game Component data was null in constructor, did you call denormalise?");
     }
 
     /**
@@ -43,13 +43,16 @@ public class GameComponent extends EntityComponent {
     }
 
     @Override
-    protected Map<String, String> makeMap() {
-        return luaTableToMap(data);
+    public NormalisedEntityComponent normalise() {
+        NormalisedEntityComponent normData = super.normalise();
+        normData.putAll(luaTableToMap(data));
+        return normData;
     }
 
     @Override
-    protected void makeFromMap(Map<String, String> map) {
-        data = mapToLuaTable(map);
+    public void denormalise(NormalisedEntityComponent data) {
+        super.denormalise(data);
+        this.data = mapToLuaTable(data);
     }
 
     /**
@@ -59,13 +62,13 @@ public class GameComponent extends EntityComponent {
      */
     @Override
     public EntityComponent clone() {
-        return new Factory().processMapData(this.getId(), this.makeMap());
+        return new GameComponent(normalise());
     }
 
     @Override
     public String getId() {
         GAssert.notNull(data, "GameComponent Data was null");
-        GAssert.that(data.get("component_id") != LuaValue.NIL, "Game component has no ID: Unkown component");
+        GAssert.that(data.get("component_id") != LuaValue.NIL, "Game component has no ID: Unknown component");
         return data.get("component_id").toString();
     }
 
@@ -101,21 +104,4 @@ public class GameComponent extends EntityComponent {
         }
         return map;
     }
-
-
-
-    // FACTORY //
-    public static class Factory implements EntityComponentFactory{
-        @Override
-        public EntityComponent processMapData(String componentId, Map<String, String> map){
-            GAssert.that(map.containsKey(INTERNAL_KEY), String.format("Game Component %s has no ID_INTERNAL", componentId));
-            String internalId = map.get(INTERNAL_KEY);
-            GAssert.that(Objects.equals(internalId, GameComponent.ID),
-                    String.format("Component Factory Mismatch: GameComponent internal id %s != %s", internalId, INTERNAL_KEY));
-            return new GameComponent(map);
-        }
-    }
-
-
-
 }

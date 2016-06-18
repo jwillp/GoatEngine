@@ -3,7 +3,7 @@ package com.goatgames.goatengine.ecs;
 import com.badlogic.gdx.utils.Array;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
-import com.goatgames.goatengine.ecs.core.EntityComponentMap;
+import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityManager;
 
 import java.util.Map;
@@ -50,14 +50,14 @@ public interface Serializer {
      * @param e entity to deserialize
      * @return deserialized entity as a String
      */
-    Map<String, EntityComponentMap> deserializeEntity(String e);
+    Map<String, NormalisedEntityComponent> deserializeEntity(String e);
 
     /**
      * Deserializes a Component and returns it as a Map representation
      * @param c component to deserialize
      * @return deserialized component as a string
      */
-    EntityComponentMap deserializeComponent(String c);
+    NormalisedEntityComponent deserializeComponent(String c);
 
     /**
      * Deserializes a Group of Entities and returns it as an map of Map of map representation
@@ -66,7 +66,7 @@ public interface Serializer {
      * @param entities an array of entities
      * @return deserialized group of entities as a string
      */
-    Map<String, Map<String, EntityComponentMap>> deserializeEntities(String entities);
+    Map<String, Map<String, NormalisedEntityComponent>> deserializeEntities(String entities);
 
     /**
      * Deserializes every entity of an EntityManager
@@ -74,7 +74,7 @@ public interface Serializer {
      * @param level level string to deserialize
      * @return deserialized manager as a string
      */
-    Map<String, Map<String, EntityComponentMap>> deserializeLevel(String level);
+    Map<String, Map<String, NormalisedEntityComponent>> deserializeLevel(String level);
 
 
 }

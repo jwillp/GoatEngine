@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
-import com.goatgames.goatengine.ecs.core.EntityComponentMap;
+import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.physics.BoxCollider;
 import com.goatgames.goatengine.physics.CircleCollider;
@@ -88,13 +88,13 @@ public class IniSerializer {
         Logger.info("Level: " + iniPath + " loaded");
     }
 
-
     public void dispose(){
         this.ini.clear();
         this.ini = null;
         this.entityIds.clear();
         this.entityIds = null;
     }
+
     /**
      * Writes the entity index to file.
      * The index is used to make a list of all
@@ -110,7 +110,6 @@ public class IniSerializer {
         }
     }
 
-
     /**
      * Writes a component to INI
      * @param entityId
@@ -118,8 +117,8 @@ public class IniSerializer {
      */
     private void writeComponent(String entityId, EntityComponent component) {
         String secName = entityId + "/" + component.getId().toLowerCase();
-        Map<String, String> map = component.toMap();
-        writeMap(secName, map);
+        NormalisedEntityComponent data = component.normalise();
+        writeNormalisedObject(secName, data);
 
         // Special Case
         // Physics Component's colliders
@@ -133,12 +132,12 @@ public class IniSerializer {
     }
 
     /**
-     * Write a Map object
+     * Write a normalised entity component object
      * @param sectionName the name of the section to write
-     * @param map the map object instance
+     * @param normalisedEntityComponent the normalisedEntityComponent object instance
      */
-    private void writeMap(String sectionName, Map<String, String> map){
-        for(String key: map.keySet()){ ini.put(sectionName, key, map.get(key)); }
+    private void writeNormalisedObject(String sectionName, NormalisedEntityComponent normalisedEntityComponent){
+        for(String key: normalisedEntityComponent.keySet()){ ini.put(sectionName, key, normalisedEntityComponent.get(key)); }
     }
 
     /**
@@ -146,7 +145,7 @@ public class IniSerializer {
      * however they still need to be serialized
      */
     private void writePhysicsCollider(String entityId, Collider collider, int index){
-        Map<String, String> map = collider.toMap();
+        NormalisedEntityComponent data = collider.normalise();
 
         // Determine collider name
         String colliderType = "";
@@ -155,11 +154,10 @@ public class IniSerializer {
         }else if(collider instanceof BoxCollider){
             colliderType = "box_collider";
         }
-        map.put("type", colliderType.toLowerCase().replace("_collider", ""));
+        data.put("type", colliderType.toLowerCase().replace("_collider", ""));
         String sectionName = entityId + "/" + "physics_collider_" + colliderType.toLowerCase() + index;
-        writeMap(sectionName, map);
+        writeNormalisedObject(sectionName, data);
     }
-
 
     /**
      * Loads the entity index
@@ -174,21 +172,20 @@ public class IniSerializer {
         componentsSection.addAll(ini.keySet());
     }
 
-
     /**
      * Returns list of component as Maps for a certain entity with the specified ID
      * @param entityId
      * @return entity component maps
      */
-    private  HashMap<String, EntityComponentMap> getComponentsForEntity(String entityId) {
+    private  HashMap<String, NormalisedEntityComponent> getComponentsForEntity(String entityId) {
         // HashMap<ComponentId, ComponentData>
-        HashMap<String, EntityComponentMap> comps = new HashMap<String, EntityComponentMap>();
+        HashMap<String, NormalisedEntityComponent> comps = new HashMap<String, NormalisedEntityComponent>();
         for (Iterator<String> iterator = componentsSection.iterator(); iterator.hasNext(); ) {
             String c = iterator.next();
             if (c.startsWith(entityId)){
                 if(c.contains("/")){
                     String componentName = c.replace(entityId + "/", "");
-                    EntityComponentMap map = new EntityComponentMap();
+                    NormalisedEntityComponent map = new NormalisedEntityComponent();
                     // fetch values for string substitution
                     for(String key: ini.get(c).keySet()){
                         map.put(key, ini.fetch(c,key));
@@ -213,17 +210,10 @@ public class IniSerializer {
         return c.toUpperCase().equals(targetComp.toUpperCase());
     }
 
-
                                 // EXCEPTION //
     public class InvalidLevelDefinitionException extends RuntimeException{
         public InvalidLevelDefinitionException(String reason){
             super("Invalid Level Definition could not read level, reason: " + reason);
         }
     }
-
-
-
-
-
-
 }

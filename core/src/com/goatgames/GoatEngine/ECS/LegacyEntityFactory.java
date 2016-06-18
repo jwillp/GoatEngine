@@ -1,10 +1,9 @@
 package com.goatgames.goatengine.ecs;
 
 import com.goatgames.goatengine.GoatEngine;
-import com.goatgames.goatengine.ai.components.AIComponent;
 import com.goatgames.goatengine.ecs.common.TagsComponent;
 import com.goatgames.goatengine.ecs.core.Entity;
-import com.goatgames.goatengine.ecs.core.EntityComponentMap;
+import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.ecs.core.GameComponent;
 import com.goatgames.goatengine.graphicsrendering.*;
@@ -24,7 +23,7 @@ public class LegacyEntityFactory {
     /**
      * Creates a registered entity from a Map of componentMaps
      */
-    public static Entity createFromMap(Map<String, EntityComponentMap> components){
+    public static Entity createFromMap(Map<String, NormalisedEntityComponent> components){
         EntityManager entityManager = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager();
 
         // Create registered entity using manager
@@ -33,7 +32,7 @@ public class LegacyEntityFactory {
         // Read each component
         for(String componentId: components.keySet()){
 
-            EntityComponentMap map = components.get(componentId);
+            NormalisedEntityComponent map = components.get(componentId);
 
             // Depending on the type create the component
             if(processScriptComponent(componentId, entity, map)) continue;
@@ -42,7 +41,6 @@ public class LegacyEntityFactory {
             if(processSpriteComponent(componentId, entity, map)) continue;
             if(processSpriterAnimationComponent(componentId, entity, map)) continue;
             if(processCameraComponent(componentId, entity, map)) continue;
-            if(processAIComponent(componentId, entity, map)) continue;
             if(processZIndexComponent(componentId, entity, map)) continue;
             if(processFakeLightComponent(componentId, entity, map)) continue;
             if(processTouchableComponent(componentId, entity, map)) continue;
@@ -57,7 +55,7 @@ public class LegacyEntityFactory {
      * @param entity the entity to update
      * @param componentData the map containing data bout the component
      */
-    private static boolean processTouchableComponent(String componentId, Entity entity, EntityComponentMap componentData) {
+    private static boolean processTouchableComponent(String componentId, Entity entity, NormalisedEntityComponent componentData) {
         if(!isComponent(componentId, TouchableComponent.ID)){return false;}
         entity.addComponent(new TouchableComponent(componentData), TouchableComponent.ID);
         return true;
@@ -69,7 +67,7 @@ public class LegacyEntityFactory {
      * @param entity the entity to update
      * @param componentData the map containing data bout the component
      */
-    private static boolean processFakeLightComponent(String componentId, Entity entity, EntityComponentMap componentData) {
+    private static boolean processFakeLightComponent(String componentId, Entity entity, NormalisedEntityComponent componentData) {
         if(!isComponent(componentId, LightComponent.ID)){return false;}
         entity.addComponent(new LightComponent(componentData), LightComponent.ID);
         return true;
@@ -81,7 +79,7 @@ public class LegacyEntityFactory {
      * @param entity the entity to update
      * @param componentData the map containing data bout the component
      */
-    private static boolean processScriptComponent(String componentId, Entity entity, EntityComponentMap componentData){
+    private static boolean processScriptComponent(String componentId, Entity entity, NormalisedEntityComponent componentData){
         if(!isComponent(componentId, LuaEntityScriptComponent.ID)){
             return false;
         }
@@ -97,8 +95,8 @@ public class LegacyEntityFactory {
      * @param componentData the map containing data bout the component
      */
     private static boolean processPhysicsComponent(String componentId, Entity entity,
-                                                   EntityComponentMap componentData,
-                                                   Map<String, EntityComponentMap> components)
+                                                   NormalisedEntityComponent componentData,
+                                                   Map<String, NormalisedEntityComponent> components)
     {
         if(!isComponent(componentId, PhysicsComponent.ID)){ return false; }
         entity.addComponent(new PhysicsComponent(componentData), PhysicsComponent.ID);
@@ -106,7 +104,7 @@ public class LegacyEntityFactory {
         // Read Colliders
         for(String colliderKey: components.keySet()){
             if(!colliderKey.contains("physics_collider_")) continue;
-            EntityComponentMap colliderData = components.get(colliderKey);
+            NormalisedEntityComponent colliderData = components.get(colliderKey);
             Collider.addCollider(entity,colliderDefFromMap(colliderData));
         }
         return true;
@@ -161,7 +159,7 @@ public class LegacyEntityFactory {
      * @param entity the entity to update
      * @param componentData the map containing data bout the component
      */
-    private static boolean processTagsComponent(String componentId, Entity entity, EntityComponentMap componentData){
+    private static boolean processTagsComponent(String componentId, Entity entity, NormalisedEntityComponent componentData){
         if(!isComponent(componentId, TagsComponent.ID)){ return false; }
         entity.addComponent(new TagsComponent(componentData), TagsComponent.ID);
         return true;
@@ -173,7 +171,7 @@ public class LegacyEntityFactory {
      * @param entity the entity to update
      * @param componentData the map containing data bout the component
      */
-    private static boolean processSpriteComponent(String componentId, Entity entity, EntityComponentMap componentData){
+    private static boolean processSpriteComponent(String componentId, Entity entity, NormalisedEntityComponent componentData){
         if(!isComponent(componentId, SpriteComponent.ID)){ return false; }
         entity.addComponent(new SpriteComponent(componentData), SpriteComponent.ID);
         return true;
@@ -185,7 +183,7 @@ public class LegacyEntityFactory {
      * @param entity the entity to update
      * @param componentData the map containing data bout the component
      */
-    private static boolean processSpriterAnimationComponent(String componentId, Entity entity, EntityComponentMap componentData){
+    private static boolean processSpriterAnimationComponent(String componentId, Entity entity, NormalisedEntityComponent componentData){
         if(!isComponent(componentId, SpriterAnimationComponent.ID)){ return false; }
         entity.addComponent(new SpriterAnimationComponent(componentData), SpriterAnimationComponent.ID);
         return true;
@@ -198,24 +196,11 @@ public class LegacyEntityFactory {
      * @param entity the entity to update
      * @param componentData the map containing data bout the component
      */
-    private static boolean processCameraComponent(String componentId, Entity entity, EntityComponentMap componentData){
+    private static boolean processCameraComponent(String componentId, Entity entity, NormalisedEntityComponent componentData){
         if(!isComponent(componentId, CameraComponent.ID)){ return false; }
         entity.addComponent(new CameraComponent(componentData), CameraComponent.ID);
         return true;
     }
-
-    /**
-     * Processes a AIComponent
-     * @param componentId the id of the component as found in the component list
-     * @param entity the entity to update
-     * @param componentData the map containing data bout the component
-     */
-    private static boolean processAIComponent(String componentId, Entity entity, EntityComponentMap componentData){
-        if(!isComponent(componentId, AIComponent.ID)){ return false; }
-        entity.addComponent(new AIComponent(componentData), AIComponent.ID);
-        return true;
-    }
-
 
     /**
      * Processes a ZComponent
@@ -223,7 +208,7 @@ public class LegacyEntityFactory {
      * @param entity the entity to update
      * @param componentData the map containing data bout the component
      */
-    private static boolean processZIndexComponent(String componentId, Entity entity, EntityComponentMap componentData){
+    private static boolean processZIndexComponent(String componentId, Entity entity, NormalisedEntityComponent componentData){
         if(!isComponent(componentId, ZIndexComponent.ID)) return false;
         entity.addComponent(new ZIndexComponent(componentData), ZIndexComponent.ID);
         return true;
@@ -236,7 +221,7 @@ public class LegacyEntityFactory {
      * @param entity the entity to update
      * @param componentMap the map containing data bout the component
      */
-    private static boolean processGameComponent(String componentId, Entity entity, EntityComponentMap componentMap){
+    private static boolean processGameComponent(String componentId, Entity entity, NormalisedEntityComponent componentMap){
         if(!componentMap.containsKey("component_id_internal")) return false;
         entity.addComponent(new GameComponent(componentMap), componentId);
         return true;

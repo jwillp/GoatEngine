@@ -3,6 +3,7 @@ package com.goatgames.goatengine.graphicsrendering.camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
+import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 import com.goatgames.goatengine.utils.GAssert;
 
 import java.util.HashMap;
@@ -26,49 +27,33 @@ public class CameraComponent extends EntityComponent{
         camera = new OrthographicCamera();
     }
 
-    public CameraComponent(Map<String, String> map) {
-        super(map);
+    public CameraComponent(NormalisedEntityComponent data) {
+        super(data);
         camera = new OrthographicCamera();
     }
 
-
-    /**
-     * Constructs a Map, to be implemented by subclasses
-     *
-     * @return
-     */
     @Override
-    protected Map<String, String> makeMap() {
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("zoom", String.valueOf(camera.zoom));
-        map.put("position_x", String.valueOf(camera.position.x));
-        map.put("position_y", String.valueOf(camera.position.y));
-        return map;
+    public NormalisedEntityComponent normalise() {
+        NormalisedEntityComponent data = super.normalise();
+        data.put("zoom", String.valueOf(camera.zoom));
+        data.put("position_x", String.valueOf(camera.position.x));
+        data.put("position_y", String.valueOf(camera.position.y));
+        return data;
     }
 
-    /**
-     * Builds the current object from a pod representation
-     *
-     * @param map the pod representation to use
-     */
     @Override
-    protected void makeFromMap(Map<String, String> map) {
+    public void denormalise(NormalisedEntityComponent data) {
+        super.denormalise(data);
         camera = new OrthographicCamera();
-        camera.position.x = Float.parseFloat(map.get("position_x"));
-        camera.position.y = Float.parseFloat(map.get("position_y"));
-        camera.zoom = Float.parseFloat(map.get("zoom"));
+        camera.position.x = Float.parseFloat(data.get("position_x"));
+        camera.position.y = Float.parseFloat(data.get("position_y"));
+        camera.zoom = Float.parseFloat(data.get("zoom"));
     }
 
-    /**
-     * Used to clone a component
-     *
-     * @return
-     */
     @Override
     public EntityComponent clone() {
-        return new Factory().processMapData(this.getId(), this.makeMap());
+        return new CameraComponent(normalise());
     }
-
 
     @Override
     public String getId() {
@@ -78,18 +63,4 @@ public class CameraComponent extends EntityComponent{
     public OrthographicCamera getCamera() {
         return camera;
     }
-
-
-    // FACTORY //
-    public static class Factory implements EntityComponentFactory {
-        @Override
-        public EntityComponent processMapData(String componentId, Map<String, String> map){
-            GAssert.that(componentId.equals(CameraComponent.ID),
-                    "Component Factory Mismatch: CameraComponent.ID != " + componentId);
-            CameraComponent component = new CameraComponent(map);
-            return component;
-        }
-    }
-
-
 }

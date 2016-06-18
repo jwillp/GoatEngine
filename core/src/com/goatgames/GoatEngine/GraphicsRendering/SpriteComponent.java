@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
+import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 import com.goatgames.goatengine.utils.GAssert;
 
 import java.util.HashMap;
@@ -32,13 +33,8 @@ public class SpriteComponent extends EntityComponent {
 
     private int zIndex;
 
-    /**
-     * Ctor taking a map Representation of the current component
-     *
-     * @param map
-     */
-    public SpriteComponent(Map<String, String> map) {
-        super(map);
+    public SpriteComponent(NormalisedEntityComponent data) {
+        super(data);
     }
 
     public TextureRegion getCurrentSprite() {
@@ -65,7 +61,6 @@ public class SpriteComponent extends EntityComponent {
         this.color = new Color(Color.valueOf(colorHex));
     }
 
-
     public String getResource() {
         return resourceName;
     }
@@ -82,7 +77,6 @@ public class SpriteComponent extends EntityComponent {
         return color;
     }
 
-
     public int getZIndex() {
         return zIndex;
     }
@@ -91,66 +85,38 @@ public class SpriteComponent extends EntityComponent {
         this.zIndex = zIndex;
     }
 
-
-    /**
-     * Constructs a PODType, to be implemented by subclasses
-     *
-     * @return
-     */
     @Override
-    protected Map<String, String>  makeMap() {
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("offset_x", String.valueOf(offsetX));
-        map.put("offset_y", String.valueOf(offsetY));
-        map.put("resource_name", resourceName);
-        map.put("auto_adjust", String.valueOf(autoAdjust));
-        map.put("scale", String.valueOf(scale));
-        map.put("color", this.color.toString());
-        return map;
+    public NormalisedEntityComponent normalise() {
+        NormalisedEntityComponent data = super.normalise();
+        data.put("offset_x", String.valueOf(offsetX));
+        data.put("offset_y", String.valueOf(offsetY));
+        data.put("resource_name", resourceName);
+        data.put("auto_adjust", String.valueOf(autoAdjust));
+        data.put("scale", String.valueOf(scale));
+        data.put("color", this.color.toString());
+        return data;
     }
 
-    /**
-     * Builds the current object from a pod representation
-     *
-     * @param map the pod representation to use
-     */
     @Override
-    protected void makeFromMap(Map<String, String> map) {
-        this.offsetX = Float.parseFloat(map.get("offset_x"));
-        this.offsetY = Float.parseFloat(map.get("offset_y"));
-        this.resourceName =  map.get("resource_name");
-        this.autoAdjust = Boolean.parseBoolean(map.get("auto_adjust"));
-        this.scale = Float.parseFloat(map.get("scale"));
-        String colorHex = map.getOrDefault("color", Color.WHITE.toString()).replace("#","");
+    public void denormalise(NormalisedEntityComponent data) {
+        super.denormalise(data);
+        this.offsetX = Float.parseFloat(data.get("offset_x"));
+        this.offsetY = Float.parseFloat(data.get("offset_y"));
+        this.resourceName =  data.get("resource_name");
+        this.autoAdjust = Boolean.parseBoolean(data.get("auto_adjust"));
+        this.scale = Float.parseFloat(data.get("scale"));
+        String colorHex = data.getOrDefault("color", Color.WHITE.toString()).replace("#","");
         if(colorHex.length() == 6) colorHex += "FF";
         setColor(colorHex);
     }
 
-    /**
-     * Used to clone a component
-     *
-     * @return
-     */
     @Override
     public EntityComponent clone() {
-        return new Factory().processMapData(this.getId(), this.makeMap());
+        return new SpriteComponent(normalise());
     }
-
 
     @Override
     public String getId() {
         return ID;
     }
-
-    // FACTORY //
-    public static class Factory implements EntityComponentFactory {
-        @Override
-        public EntityComponent processMapData(String componentId, Map<String, String> map){
-            GAssert.that(componentId.equals(SpriteComponent.ID),
-                    "Component Factory Mismatch: SpriteComponent.ID != " + componentId);
-            SpriteComponent component = new SpriteComponent(map);
-            return component;
-        }
-    }
-
 }

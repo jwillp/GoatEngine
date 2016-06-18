@@ -3,6 +3,7 @@ package com.goatgames.goatengine.physics;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.goatgames.goatengine.ecs.core.Entity;
+import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 import com.goatgames.goatengine.utils.GAssert;
 
 import java.util.Iterator;
@@ -273,8 +274,8 @@ public abstract class Collider{
         }
     }
 
-    // TODO make something like entityComponent with makeMap instead
-    public abstract Map<String, String> toMap();
+    // TODO make something like entityComponent with normalise instead
+    public abstract NormalisedEntityComponent normalise();
 
     /**
      * Updates a collider according to a new Definition, must be of same type

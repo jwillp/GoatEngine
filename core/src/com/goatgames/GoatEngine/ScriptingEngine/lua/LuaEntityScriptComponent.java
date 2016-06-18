@@ -2,6 +2,7 @@ package com.goatgames.goatengine.scriptingengine.lua;
 
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
+import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 import com.goatgames.goatengine.utils.GAssert;
 
 import java.util.ArrayList;
@@ -24,12 +25,9 @@ public class LuaEntityScriptComponent extends EntityComponent {
         scriptsToRemove = new ArrayList<>();
     }
 
-    public LuaEntityScriptComponent(Map<String, String> map) {
-        super(map);
+    public LuaEntityScriptComponent(NormalisedEntityComponent data) {
+        super(data);
     }
-
-
-
 
     /**
      * Adds a script to the component
@@ -73,7 +71,6 @@ public class LuaEntityScriptComponent extends EntityComponent {
         this.scriptsToRemove.add(scriptFile);
     }
 
-
     /**
      * Returns all the active scripts
      * @return the scripts
@@ -91,64 +88,32 @@ public class LuaEntityScriptComponent extends EntityComponent {
         return this.scriptsToRemove;
     }
 
-
-    /**
-     * Constructs a PODType, to be implemented by subclasses
-     *
-     * @return
-     */
     @Override
-    protected Map<String, String> makeMap() {
-        Map<String, String> map = new HashMap<String, String>();
+    public NormalisedEntityComponent normalise() {
+        NormalisedEntityComponent data = super.normalise();
         // Convert array to csv (script.lua;script.lua;script.lua)
         String csv = this.scripts.toString().replace(", ", ";").replace("[", "").replace("]", "");
-        map.put("scripts", csv);
-        return map;
+        data.put("scripts", csv);
+        return data;
     }
 
-    /**
-     * Builds the current object from a map representation
-     *
-     * @param map the map representation to use
-     */
-    protected void makeFromMap(Map<String, String> map) {
-        // Convert
-        if(map.get("scripts").equals("")){
+    public void denormalise(NormalisedEntityComponent data) {
+        if(data.get("scripts").equals("")){
             scripts = new ArrayList<>();
         }else{
             // Scripts are split by ";" (script.lua;script.lua;script.lua)
-            scripts = new ArrayList<>(Arrays.asList(map.get("scripts").split(";")));
+            scripts = new ArrayList<>(Arrays.asList(data.get("scripts").split(";")));
         }
-
         scriptsToRemove = new ArrayList<>();
     }
 
-    /**
-     * Used to clone a component
-     *
-     * @return
-     */
     @Override
     public EntityComponent clone() {
-        return new Factory().processMapData(this.getId(), this.makeMap());
+        return new LuaEntityScriptComponent(normalise());
     }
-
 
     @Override
     public String getId() {
         return ID;
-    }
-
-    // FACTORY //
-    public static class Factory implements EntityComponentFactory {
-        @Override
-        public EntityComponent processMapData(String componentId, Map<String, String> map){
-            LuaEntityScriptComponent component = null;
-            if (GAssert.that(componentId.equals(LuaEntityScriptComponent.ID),
-                    "Component Factory Mismatch: LuaEntityScriptComponent.ID != " + componentId)){
-                component = new LuaEntityScriptComponent(map);
-            }
-            return component;
-        }
     }
 }

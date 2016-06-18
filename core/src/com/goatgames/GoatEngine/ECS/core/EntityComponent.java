@@ -1,30 +1,31 @@
 package com.goatgames.goatengine.ecs.core;
 
-
-import com.goatgames.goatengine.scriptingengine.nativescripts.NativeScriptComponent;
-import com.goatgames.goatengine.utils.GAssert;
-
-import java.util.Map;
-
+/**
+ * Entity Component class
+ */
 public abstract class EntityComponent {
 
+    /**
+     * By default a component is enabled
+     */
+    private boolean enabled = true;
 
-    private boolean enabled = true; //By default a component is enabled
-
-
+    /**
+     * Constructor accepting a booleato indicate if the component
+     * is flagged as enabled ornot
+     * @param enabled
+     */
     public EntityComponent(boolean enabled){
         this.setEnabled(enabled);
     }
 
-
     /**
-     * Ctor taking a map Representation of the current component
-     * @param map
+     * Constructor taking a normalised entity component of the current component
+     * @param normalisedComponent the normalised component data
      */
-    public EntityComponent(Map<String, String> map){
-        makeFromMap(map);
+    public EntityComponent(NormalisedEntityComponent normalisedComponent){
+        denormalise(normalisedComponent);
     }
-
 
     /**
      * Called when the component is attached to an entity
@@ -37,84 +38,60 @@ public abstract class EntityComponent {
     public void onDetach(Entity entity){}
 
     /**
-     * Converts the current component to a POD Representation
-     * @return a POD representation of the current component
+     * Constructs a normalised entity component
+     * Sub classes should override this method (and use super)
+     * to specify additional data to be normalised
+     * @return the normalised entity component
      */
-    public final Map<String, String> toMap(){
-        Map<String, String> map = makeMap();
-        map.put("component_id", this.getId());
-        map.put("enabled", String.valueOf(this.enabled));
-        return map;
+    public NormalisedEntityComponent normalise(){
+        NormalisedEntityComponent data = new NormalisedEntityComponent();
+        data.put("component_id", this.getId());
+        data.put("enabled", String.valueOf(this.enabled));
+        return data;
     }
 
     /**
-     * Constructs a Map, to be implemented by subclasses
-     * @return the map built
+     * initialises the current component instance
+     * from the data of a normalised component representation
+     * @param data  normalised component
      */
-    protected abstract Map<String, String> makeMap();
-
-
-    /**
-     * Builds the current object from a map representation
-     * @param map the map representation to use
-     */
-    protected abstract void makeFromMap(Map<String, String>  map);
-
-    /**
-     * Builds the current object from a map representation public method
-     * @param map the map representation to use
-     */
-    public void fromMap(Map<String, String> map){
-        makeFromMap(map);
+    public void denormalise(NormalisedEntityComponent data){
+        this.enabled = Boolean.parseBoolean(data.getOrDefault("enabled", "true"));
     }
 
-
     /**
-     * Used to clone a component
-     * @return
+     * Returns a clone of the current component
+     * @return a clone of the component
      */
     public abstract EntityComponent clone();
 
-
     /**
-     * Returns if the component is enabled
-     * @return
+     * Indicates whether or not the component is enabled
+     * @return true if enabled, otherwise false
      */
     public boolean isEnabled() {
         return enabled;
     }
 
+    /**
+     * Sets the component as being enabled or not
+     * @param enabled whether or not the component should be enabled
+     */
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
 
     /**
-     * Returns if the component is disabled
-     * @return
+     * Indicates  whether the component is disabled or not
+     * @return true if disabled, otherwise false
      */
     public boolean isDisabled(){
         return !enabled;
     }
 
-
+    /**
+     * Returns the ID of the current component
+     * @return String representing the ID of the current component
+     */
     public abstract String getId();
-
-    public static class Factory implements EntityComponentFactory {
-        /**
-         * Takes a data map and tries to construct a component with it
-         * if the data map was incompatible with the factory
-         * return null
-         *
-         * @param componentId
-         * @param map         a map representation of a component
-         * @return A Constructed Component or null if it could not be constructed
-         */
-        @Override
-        public EntityComponent processMapData(String componentId, Map<String, String> map) {
-            GAssert.that(componentId.equals(NativeScriptComponent.ID),
-                    "Component Factory Mismatch: NativeScriptComponent.ID != " + componentId);
-            NativeScriptComponent component = new NativeScriptComponent(map);
-            return component;
-        }
-    }
 }

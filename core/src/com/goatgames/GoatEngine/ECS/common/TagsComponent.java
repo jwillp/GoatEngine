@@ -1,13 +1,10 @@
 package com.goatgames.goatengine.ecs.common;
 
 import com.goatgames.goatengine.ecs.core.EntityComponent;
-import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
-import com.goatgames.goatengine.utils.GAssert;
+import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 
 
 /**
@@ -18,59 +15,37 @@ public class TagsComponent extends EntityComponent {
     public static final String ID = "TAGS_COMPONENT";
     private HashSet<String> tags;
 
-    /**
-     * Ctor taking a map Representation of the current component
-     *
-     * @param map
-     */
-    public TagsComponent(Map<String, String> map) {
-        super(map);
+    public TagsComponent(NormalisedEntityComponent data) {
+        super(data);
     }
 
-    public TagsComponent(boolean b) {
-        super(b);
-        tags = new HashSet<String>();
+    public TagsComponent(boolean enabled) {
+        super(enabled);
+        tags = new HashSet<>();
     }
 
-
-    /**
-     * Constructs a PODType, to be implemented by subclasses
-     *
-     * @return
-     */
     @Override
-    protected Map<String, String> makeMap() {
-        Map<String, String> map = new HashMap<String, String>();
+    public NormalisedEntityComponent normalise() {
+        NormalisedEntityComponent data = super.normalise();
         // Convert array to csv
         String csv = this.tags.toString().replace(", ", ";").replace("[", "").replace("]", "");
-        map.put("tags", csv);
-        return map;
+        data.put("tags", csv);
+        return data;
     }
 
-    /**
-     * Builds the current object from a pod representation
-     *
-     * @param map the map representation to use
-     */
     @Override
-    protected void makeFromMap(Map<String, String> map){
-
-        // Convert
-        if(map.get("tags").equals("")){
+    public void denormalise(NormalisedEntityComponent data){
+        super.denormalise(data);
+        if(data.get("tags").equals("")){
             tags = new HashSet<String>();
         }else{
-            tags = new HashSet<String>(Arrays.asList(map.get("tags").split(";")));
+            tags = new HashSet<String>(Arrays.asList(data.get("tags").split(";")));
         }
     }
 
-    /**
-     * Used to clone a component
-     *
-     * @return
-     */
     @Override
     public EntityComponent clone() {
-        return new Factory().processMapData(this.getId(), this.makeMap());
+        return new TagsComponent(normalise());
     }
 
     /**
@@ -110,25 +85,4 @@ public class TagsComponent extends EntityComponent {
     public String getId() {
         return ID;
     }
-
-
-    // FACTORY //
-    public static class Factory implements EntityComponentFactory {
-        @Override
-        public EntityComponent processMapData(String componentId, Map<String, String> map){
-            GAssert.that(componentId.equals(TagsComponent.ID),
-                    String.format("Component Factory Mismatch: TagsComponent.ID != %s", componentId));
-            TagsComponent component = new TagsComponent(map);
-            return component;
-        }
-    }
-
-
-
-
-
-
-
-
-
 }

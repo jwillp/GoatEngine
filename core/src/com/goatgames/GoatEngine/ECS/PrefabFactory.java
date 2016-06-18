@@ -5,8 +5,7 @@ import com.badlogic.gdx.utils.Array;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
-import com.goatgames.goatengine.ecs.core.EntityComponentMap;
-import com.goatgames.goatengine.physics.Collider;
+import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.utils.Logger;
 import org.ini4j.Ini;
@@ -38,11 +37,11 @@ public class PrefabFactory {
                 ini = new Ini(Gdx.files.internal(prefab).file());
                 prefabs.put(prefab,ini);
             }
-            HashMap<String, EntityComponentMap> comps = getComponents(ini);
+            HashMap<String, NormalisedEntityComponent> comps = getComponents(ini);
             // Create registered entity using manager
             entity = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager().createEntity();
-            Array<EntityComponentMap> colliders = new Array<EntityComponentMap>();
-            for(EntityComponentMap map: comps.values()){
+            Array<NormalisedEntityComponent> colliders = new Array<NormalisedEntityComponent>();
+            for(NormalisedEntityComponent map: comps.values()){
                 if (map.get("component_id").contains("COLLIDER")) {
                     colliders.add(map);
                 } else {
@@ -51,7 +50,7 @@ public class PrefabFactory {
                 }
             }
 
-            for(EntityComponentMap map : colliders){
+            for(NormalisedEntityComponent map : colliders){
                 // Read Colliders
                 PhysicsComponent phys = (PhysicsComponent) entity.getComponent(PhysicsComponent.ID);
                 phys.getBodyDef().addColliderDef(LegacyEntityFactory.colliderDefFromMap(map));
@@ -72,12 +71,12 @@ public class PrefabFactory {
      * @param ini
      * @return entity component maps
      */
-    private  HashMap<String, EntityComponentMap> getComponents(Ini ini) {
-        HashMap<String, EntityComponentMap> comps;
+    private  HashMap<String, NormalisedEntityComponent> getComponents(Ini ini) {
+        HashMap<String, NormalisedEntityComponent> comps;
         comps = new HashMap<>();
 
         for(String componentKey: ini.keySet()){
-            EntityComponentMap map = new EntityComponentMap();
+            NormalisedEntityComponent map = new NormalisedEntityComponent();
             // fetch values for string substitution
             for(String key: ini.get(componentKey).keySet()){
                 map.put(key, ini.fetch(componentKey,key));

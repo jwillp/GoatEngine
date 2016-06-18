@@ -20,7 +20,7 @@ public class EntitySystemManager implements GameEventListener {
 
     public EntitySystemManager(ECSManager manager){
         ecsManager = manager;
-        systems = new LinkedHashMap<Class, EntitySystem>();
+        systems = new LinkedHashMap<>();
     }
 
     /**
@@ -46,7 +46,6 @@ public class EntitySystemManager implements GameEventListener {
         this.systems.put(systemType, system);
     }
 
-
     /**
      * Inits all systems in order
      */
@@ -55,7 +54,6 @@ public class EntitySystemManager implements GameEventListener {
             ((EntitySystem)system).init();
         }
     }
-
 
     /**
      * Deinits all systems in order
@@ -66,8 +64,6 @@ public class EntitySystemManager implements GameEventListener {
         }
     }
 
-
-
     /**
      *  Handles the input for all systems in order
      */
@@ -76,8 +72,6 @@ public class EntitySystemManager implements GameEventListener {
             system.preUpdate();
         }
     }
-
-
 
     /**
      * Updates all systems in order
@@ -103,7 +97,6 @@ public class EntitySystemManager implements GameEventListener {
                 system.onEntityEvent((EntityEvent) e);
         }
     }
-
 
     public void draw() {
         for(EntitySystem system: systems.values()){

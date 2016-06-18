@@ -3,7 +3,7 @@ package com.goatgames.goatengine;
 import com.goatgames.goatengine.ecs.ComponentMapper;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
-import com.goatgames.goatengine.ecs.core.EntityComponentMap;
+import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityManager;
 
 import java.util.Map;
@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class EntityFactory {
 
-    public void fromLevelData(Map<String, Map<String, EntityComponentMap>> levelData, EntityManager manager){
+    public void fromLevelData(Map<String, Map<String, NormalisedEntityComponent>> levelData, EntityManager manager){
 
         for(String entityId: levelData.keySet()){
             Entity e = fromComponentMap(entityId,levelData.get(entityId), manager);
@@ -28,7 +28,7 @@ public class EntityFactory {
      * @param manager the entity manager that will store the entity and its component
      * @return
      */
-    public Entity fromComponentMap(String id, Map<String, EntityComponentMap> components, EntityManager manager){
+    public Entity fromComponentMap(String id, Map<String, NormalisedEntityComponent> components, EntityManager manager){
         // Create registered entity using manager
         Entity entity = manager.getEntityObject(id);
 

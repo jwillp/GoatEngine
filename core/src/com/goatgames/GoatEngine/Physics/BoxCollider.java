@@ -2,6 +2,7 @@ package com.goatgames.goatengine.physics;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,8 +45,8 @@ public class BoxCollider extends Collider {
     }
 
     @Override
-    public Map<String, String> toMap() {
-        Map<String, String> def = new HashMap<String, String>();
+    public NormalisedEntityComponent normalise() {
+        NormalisedEntityComponent def = new NormalisedEntityComponent();
         def.put("width", String.valueOf(width));
         def.put("height", String.valueOf(height));
         def.put("is_sensor", String.valueOf(this.isSensor()));

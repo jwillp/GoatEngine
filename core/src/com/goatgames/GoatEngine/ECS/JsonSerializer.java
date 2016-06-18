@@ -8,7 +8,7 @@ import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
-import com.goatgames.goatengine.ecs.core.EntityComponentMap;
+import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityManager;
 
 import java.util.HashMap;
@@ -58,7 +58,7 @@ public class JsonSerializer implements Serializer{
      * @return JsonObject representation of component
      */
     public JsonObject componentToJson(EntityComponent component){
-        Map<String,String> map = component.toMap();
+        Map<String,String> map = component.normalise();
         JsonObject jsonComponent = Json.object();
         for(String key: map.keySet()){
             jsonComponent.add(key, map.get(key));
@@ -106,14 +106,14 @@ public class JsonSerializer implements Serializer{
     // DESERIALIZATION //
 
     @Override
-    public EntityComponentMap deserializeComponent(String c) {
+    public NormalisedEntityComponent deserializeComponent(String c) {
         // Call Factory
         // Convert json string to map representation
         return deserializeComponent(Json.parse(c).asObject());
     }
 
-    private EntityComponentMap deserializeComponent(JsonObject jsComponent){
-        EntityComponentMap map = new EntityComponentMap();
+    private NormalisedEntityComponent deserializeComponent(JsonObject jsComponent){
+        NormalisedEntityComponent map = new NormalisedEntityComponent();
         for(JsonObject.Member member: jsComponent){
             map.put(member.getName(), member.getValue().asString());
         }
@@ -123,15 +123,15 @@ public class JsonSerializer implements Serializer{
 
 
     @Override
-    public Map<String, EntityComponentMap> deserializeEntity(String e) {
+    public Map<String, NormalisedEntityComponent> deserializeEntity(String e) {
         return deserializeEntity(Json.parse(e).asObject());
     }
 
-    private Map<String, EntityComponentMap> deserializeEntity(JsonObject jsEntity){
+    private Map<String, NormalisedEntityComponent> deserializeEntity(JsonObject jsEntity){
         JsonArray jsComponents = jsEntity.get("components").asArray();
-        Map<String, EntityComponentMap> components = new HashMap<>(jsComponents.size());
+        Map<String, NormalisedEntityComponent> components = new HashMap<>(jsComponents.size());
         for(JsonValue jsComponent: jsComponents){
-            EntityComponentMap map = deserializeComponent(jsComponent.asObject());
+            NormalisedEntityComponent map = deserializeComponent(jsComponent.asObject());
             components.put(map.get("component_id"), map);
         }
         return components;
@@ -139,12 +139,12 @@ public class JsonSerializer implements Serializer{
 
 
     @Override
-    public Map<String, Map<String, EntityComponentMap>> deserializeEntities(String entities) {
+    public Map<String, Map<String, NormalisedEntityComponent>> deserializeEntities(String entities) {
         return deserializeEntities(Json.parse(entities).asArray());
     }
 
-    private Map<String, Map<String, EntityComponentMap>> deserializeEntities(JsonArray jsEntities){
-        Map<String, Map<String, EntityComponentMap>> entities = new HashMap<>(jsEntities.size());
+    private Map<String, Map<String, NormalisedEntityComponent>> deserializeEntities(JsonArray jsEntities){
+        Map<String, Map<String, NormalisedEntityComponent>> entities = new HashMap<>(jsEntities.size());
         for(JsonValue v : jsEntities){
             JsonObject entity = v.asObject();
             entities.put(entity.get("id").asString(),deserializeEntity(entity));
@@ -153,7 +153,7 @@ public class JsonSerializer implements Serializer{
     }
 
     @Override
-    public Map<String, Map<String, EntityComponentMap>> deserializeLevel(String level) {
+    public Map<String, Map<String, NormalisedEntityComponent>> deserializeLevel(String level) {
         JsonObject jsLevel = Json.parse(level).asObject();
         JsonArray jsEntities = jsLevel.get("entities").asArray();
         return deserializeEntities(jsEntities);

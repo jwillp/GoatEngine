@@ -4,12 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
-import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
-import com.goatgames.goatengine.ecs.core.EntityComponentMap;
-import com.goatgames.goatengine.utils.GAssert;
+import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
+import com.goatgames.goatengine.utils.NotImplementedException;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 
 /**
@@ -27,10 +25,9 @@ public class ParticleEmitterComponent extends EntityComponent{
         super(true);
     }
 
-    public ParticleEmitterComponent(Map<String, String> map) {
-        super(map);
+    public ParticleEmitterComponent(NormalisedEntityComponent data) {
+        super(data);
     }
-
 
     /**
      * Adds a new Particle effect to the list
@@ -57,11 +54,9 @@ public class ParticleEmitterComponent extends EntityComponent{
         addEffect(particle, pos, true);
     }
 
-
     public ArrayList<GParticleEmitter> getEffects() {
         return effects;
     }
-
 
     public float getAlpha() {
         return alpha;
@@ -71,61 +66,27 @@ public class ParticleEmitterComponent extends EntityComponent{
         this.alpha = alpha;
     }
 
-
-    /**
-     * Constructs a Map, to be implemented by subclasses
-     *
-     * @return
-     */
     @Override
-    protected Map<String, String> makeMap() {
-        // TODO this
-        return new EntityComponentMap();
+    public NormalisedEntityComponent normalise() {
+        //NormalisedEntityComponent data = super.normalise();
+        // TODO complete
+        throw new NotImplementedException();
     }
 
-    /**
-     * Builds the current object from a map representation
-     *
-     * @param map the map representation to use
-     */
     @Override
-    protected void makeFromMap(Map<String, String> map) {
-        // TODO this
+    public void denormalise(NormalisedEntityComponent data) {
+        super.denormalise(data);
+        // TODO complete
+        throw new NotImplementedException();
     }
 
-    /**
-     * Used to clone a component
-     *
-     * @return
-     */
     @Override
     public EntityComponent clone() {
-        return new Factory().processMapData(this.getId(), this.makeMap());
+        return new ParticleEmitterComponent(normalise());
     }
 
     @Override
     public String getId() {
         return ID;
     }
-
-
-
-
-
-
-
-
-    // FACTORY //
-    public static class Factory implements EntityComponentFactory {
-        @Override
-        public EntityComponent processMapData(String componentId, Map<String, String> map){
-            GAssert.that(componentId.equals(ParticleEmitterComponent.ID),
-                    "Component Factory Mismatch: ParticleEmitterComponent.ID != " + componentId);
-            ParticleEmitterComponent component = new ParticleEmitterComponent(map);
-            return component;
-        }
-    }
-
-
-
 }

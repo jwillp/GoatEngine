@@ -3,6 +3,7 @@ package com.goatgames.goatengine.scriptingengine;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
+import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 import com.goatgames.goatengine.utils.GAssert;
 
 import java.util.HashMap;
@@ -22,10 +23,9 @@ public class EntityScriptComponent extends EntityComponent {
         scripts = new ObjectMap<>();
     }
 
-    public EntityScriptComponent(Map<String, String> map) {
-        super(map);
+    public EntityScriptComponent(NormalisedEntityComponent data) {
+        super(data);
     }
-
 
     /**
      * Adds a script to the component
@@ -83,18 +83,18 @@ public class EntityScriptComponent extends EntityComponent {
     }
 
     @Override
-    protected Map<String, String> makeMap() {
-        return new HashMap<>();
+    public NormalisedEntityComponent normalise() {
+        return super.normalise();
     }
 
     @Override
-    protected void makeFromMap(Map<String, String> map) {
+    public void denormalise(NormalisedEntityComponent data) {
         scripts = new ObjectMap<>();
     }
 
     @Override
     public EntityComponent clone() {
-        return new Factory().processMapData(this.getId(), this.makeMap());
+        return new Factory().processMapData(this.getId(), this.normalise());
     }
 
     @Override
@@ -114,10 +114,10 @@ public class EntityScriptComponent extends EntityComponent {
     // FACTORY //
     public static class Factory implements EntityComponentFactory {
         @Override
-        public EntityComponent processMapData(String componentId, Map<String, String> map){
+        public EntityComponent processMapData(String componentId, NormalisedEntityComponent data){
             GAssert.that(componentId.equals(EntityScriptComponent.ID),
                     "Component Factory Mismatch: EntityScriptComponent.ID != " + componentId);
-            EntityScriptComponent component = new EntityScriptComponent(map);
+            EntityScriptComponent component = new EntityScriptComponent(data);
             return component;
         }
     }

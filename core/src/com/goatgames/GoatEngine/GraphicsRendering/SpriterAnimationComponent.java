@@ -7,6 +7,7 @@ import com.brashmonkey.spriter.Spriter;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
+import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 import com.goatgames.goatengine.files.FileSystem;
 import com.goatgames.goatengine.utils.GAssert;
 
@@ -48,8 +49,8 @@ public class SpriterAnimationComponent extends EntityComponent {
         this.createPlayerListener();
     }
 
-    public SpriterAnimationComponent(Map<String, String> map) {
-        super(map);
+    public SpriterAnimationComponent(NormalisedEntityComponent data) {
+        super(data);
     }
 
 
@@ -97,56 +98,43 @@ public class SpriterAnimationComponent extends EntityComponent {
         this.scale = scale;
     }
 
-
-
-    /**
-     * Constructs a PODType, to be implemented by subclasses
-     *
-     * @return
-     */
     @Override
-    protected Map<String, String>  makeMap() {
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("offset_x", String.valueOf(offsetX));
-        map.put("offset_y", String.valueOf(offsetY));
-        map.put("scale", String.valueOf(scale));
-        map.put("animation_file", this.animationFile);
-        map.put("animation_title", this.getAnimation().name);
-        map.put("entity_name", this.getPlayer().getEntity().name);
-        return map;
+    public NormalisedEntityComponent normalise() {
+        NormalisedEntityComponent data = super.normalise();
+        data.put("offset_x", String.valueOf(offsetX));
+        data.put("offset_y", String.valueOf(offsetY));
+        data.put("scale", String.valueOf(scale));
+        data.put("animation_file", this.animationFile);
+        data.put("animation_title", this.getAnimation().name);
+        data.put("entity_name", this.getPlayer().getEntity().name);
+        return data;
     }
 
-    /**
-     * Builds the current object from a map representation
-     *
-     * @param map the map representation to use
-     */
     @Override
-    protected void makeFromMap(Map<String, String> map){
-        this.offsetX = Float.parseFloat(map.get("offset_x"));
-        this.offsetY = Float.parseFloat(map.get("offset_y"));
-        this.scale = Float.parseFloat(map.get("scale"));
-        animationFile = map.get("animation_file");
-        Spriter.load(FileSystem.getFile(map.get("animation_file")).read(), map.get("animation_file"));
+    public void denormalise(NormalisedEntityComponent data){
+        super.denormalise(data);
+        this.offsetX = Float.parseFloat(data.get("offset_x"));
+        this.offsetY = Float.parseFloat(data.get("offset_y"));
+        this.scale = Float.parseFloat(data.get("scale"));
+        animationFile = data.get("animation_file");
+        Spriter.load(FileSystem.getFile(data.get("animation_file")).read(), data.get("animation_file"));
 
         // We only create a new player if there is not already one
         if(player == null){
             try{
-                player = Spriter.newPlayer(map.get("animation_file"), map.get("entity_name"));
+                player = Spriter.newPlayer(data.get("animation_file"), data.get("entity_name"));
             }catch (java.lang.ArrayIndexOutOfBoundsException e){
-                throw new SpriterEntityNotFoundException(map.get("entity_name"));
+                throw new SpriterEntityNotFoundException(data.get("entity_name"));
             }
         }
 
         // We'll specify the animation to play if it was provided, else we use the default one
-
-        if(map.containsKey("animation_title")){
-            String animationTitle = map.get("animation_title");
+        if(data.containsKey("animation_title")){
+            String animationTitle = data.get("animation_title");
             if(player.getEntity().getAnimation(animationTitle) != null){
                 player.setAnimation(animationTitle);
             }
         }
-
     }
 
     /**
@@ -156,9 +144,8 @@ public class SpriterAnimationComponent extends EntityComponent {
      */
     @Override
     public EntityComponent clone() {
-        return new Factory().processMapData(this.getId(), this.makeMap());
+        return new SpriterAnimationComponent(normalise());
     }
-
 
     /**
      * Adds a Player Listener to the current player
@@ -186,7 +173,6 @@ public class SpriterAnimationComponent extends EntityComponent {
         });
     }
 
-
     @Override
     public void onDetach(Entity entity) {
         // Spriter.remove(this.player); // TODO Update spriter library
@@ -204,20 +190,6 @@ public class SpriterAnimationComponent extends EntityComponent {
     private class SpriterEntityNotFoundException extends RuntimeException {
         public SpriterEntityNotFoundException(String entityName) {
             super("Spriter Aniamtion Entity not found: " + entityName);
-        }
-    }
-
-
-
-
-    // FACTORY //
-    public static class Factory implements EntityComponentFactory {
-        @Override
-        public EntityComponent processMapData(String componentId, Map<String, String> map){
-            GAssert.that(componentId.equals(SpriterAnimationComponent.ID),
-                    "Component Factory Mismatch: SpriterAnimationComponent.ID != " + componentId);
-            SpriterAnimationComponent component = new SpriterAnimationComponent(map);
-            return component;
         }
     }
 }

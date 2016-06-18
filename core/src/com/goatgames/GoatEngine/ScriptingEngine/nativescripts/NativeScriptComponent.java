@@ -2,6 +2,7 @@ package com.goatgames.goatengine.scriptingengine.nativescripts;
 
 import com.badlogic.gdx.utils.Array;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
+import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +14,6 @@ public class NativeScriptComponent extends EntityComponent {
 
     public final static String ID = "NATIVE_SCRIPT_COMPONENT";
 
-
     private Array<NativeEntityScript> scripts;
 
     public NativeScriptComponent() {
@@ -23,12 +23,9 @@ public class NativeScriptComponent extends EntityComponent {
         super(enabled);
     }
 
-    public NativeScriptComponent(Map<String, String> map) {
-        super(map);
+    public NativeScriptComponent(NormalisedEntityComponent data) {
+        super(data);
     }
-
-
-
 
     public void addScript(NativeEntityScript script){
         scripts.add(script);
@@ -37,14 +34,6 @@ public class NativeScriptComponent extends EntityComponent {
     public void removeScript(NativeEntityScript script){
         scripts.removeValue(script,false);
     }
-
-    @Override
-    protected Map<String, String> makeMap() {
-        return new HashMap<String, String>();
-    }
-
-    @Override
-    protected void makeFromMap(Map<String, String> map) {}
 
     /**
      * Used to clone a component

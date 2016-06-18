@@ -8,12 +8,10 @@ import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
-import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.JsonSerializer;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
-import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
-import com.goatgames.goatengine.utils.GAssert;
+import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +40,7 @@ public class PhysicsComponent extends EntityComponent {
 
 
 
-    public PhysicsComponent(Map<String, String> map){ super(map); }
+    public PhysicsComponent(NormalisedEntityComponent data){ super(data); }
 
     /**
      * CTOR
@@ -63,7 +61,6 @@ public class PhysicsComponent extends EntityComponent {
         this.bodyDef = bodyDef;
     }
 
-
     @Override
     public void onAttach(Entity entity){
 
@@ -75,14 +72,9 @@ public class PhysicsComponent extends EntityComponent {
         this.getBody().getWorld().destroyBody(this.body);
     }
 
-    /**
-     * Constructs a MapType, to be implemented by subclasses
-     *
-     * @return
-     */
     @Override
-    protected Map<String, String> makeMap() {
-        Map<String, String> physMap = new HashMap<String, String>();
+    public NormalisedEntityComponent normalise() {
+        NormalisedEntityComponent physMap = super.normalise();
         physMap.put("body_type", String.valueOf(this.body.getType()));
         physMap.put("position_x", String.valueOf(this.getPosition().x));
         physMap.put("position_y", String.valueOf(this.getPosition().y));
@@ -91,30 +83,28 @@ public class PhysicsComponent extends EntityComponent {
         // Convert colliders to a Json string and save it such in the map
         JsonArray jsonArray = new JsonArray();
         for(Collider c: this.getColliders()){
-            jsonArray.add(JsonSerializer.mapToJson(c.toMap()));
+            jsonArray.add(JsonSerializer.mapToJson(c.normalise()));
         }
         physMap.put("colliders", jsonArray.toString());
         return physMap;
     }
 
-    /**
-     * Builds the current object from a Map representation
-     * @param map the Map representation to use
-     */
     @Override
-    protected void makeFromMap(Map<String, String> map) {
+    public void denormalise(NormalisedEntityComponent data) {
+        super.denormalise(data);
+
         // Force size update
         setDirty(true);
 
         // Create Body definition
         bodyDef = new PhysicsBodyDef();
-        bodyDef.type = BodyDef.BodyType.valueOf(map.getOrDefault("body_type", "StaticBody"));
-        bodyDef.position.set(Float.parseFloat(map.get("position_x")), Float.parseFloat(map.get("position_y")));
-        bodyDef.fixedRotation = Boolean.parseBoolean(map.getOrDefault("fixed_rotation", "true"));
-        bodyDef.allowSleep = Boolean.parseBoolean(map.getOrDefault("allow_sleep", "false"));
+        bodyDef.type = BodyDef.BodyType.valueOf(data.getOrDefault("body_type", "StaticBody"));
+        bodyDef.position.set(Float.parseFloat(data.get("position_x")), Float.parseFloat(data.get("position_y")));
+        bodyDef.fixedRotation = Boolean.parseBoolean(data.getOrDefault("fixed_rotation", "true"));
+        bodyDef.allowSleep = Boolean.parseBoolean(data.getOrDefault("allow_sleep", "false"));
 
         // Create collider definitions
-        String collidersStr = map.get("colliders");
+        String collidersStr = data.get("colliders");
         if(collidersStr != null && !collidersStr.isEmpty()) {
             JsonArray jsColliders = Json.parse(collidersStr).asArray();
             for (JsonValue v : jsColliders.values()) {
@@ -130,7 +120,6 @@ public class PhysicsComponent extends EntityComponent {
             }
         }
     }
-
 
     /**
      * Returns a list of colliders for the current body
@@ -162,12 +151,9 @@ public class PhysicsComponent extends EntityComponent {
         this.body.setTransform(x,y, this.body.getAngle());
     }
 
-
-
-
     /**
      * Returns the width of the entity (in game units)
-     * @return
+     * @return the width
      */
     public float getWidth() {
         // Return last calculation
@@ -198,14 +184,14 @@ public class PhysicsComponent extends EntityComponent {
 
     /**
      * Returns the height of the entity (in game units)
-     * @return
+     * @return the height
      */
     public float getHeight() {
         // Return last calculation
         if(!dirtyHeight)
             return height;
 
-        float furthestY = -750.0f;
+        float furthestY = -750.0f; // why 750? and not float_MAX
         Array<Fixture> fixtureArray = body.getFixtureList();
         for(int i=0; i<fixtureArray.size; i++){
             Fixture fixture = fixtureArray.get(i);
@@ -224,7 +210,6 @@ public class PhysicsComponent extends EntityComponent {
         height = Math.abs(furthestY);
         return height;
     }
-
 
     /**
      * Returns the body
@@ -270,8 +255,6 @@ public class PhysicsComponent extends EntityComponent {
 
     public Vector2 getVelocity(){return this.body.getLinearVelocity();}
 
-
-
     public void setBodyType(BodyDef.BodyType type) {
         if(body.getType() != type)
             body.setType(type);
@@ -285,12 +268,10 @@ public class PhysicsComponent extends EntityComponent {
         return body.getAngle();
     }
 
-
     @Override
     public String getId() {
         return ID;
     }
-
 
     /**
      * Forces the size to be calculated again
@@ -308,7 +289,7 @@ public class PhysicsComponent extends EntityComponent {
      */
     @Override
     public EntityComponent clone() {
-        return new Factory().processMapData(this.getId(), this.makeMap());
+        return new PhysicsComponent(normalise());
     }
 
     /**
@@ -318,17 +299,5 @@ public class PhysicsComponent extends EntityComponent {
     public PhysicsBodyDef getBodyDef() {
         return bodyDef;
     }
-
-    // FACTORY //
-    public static class Factory implements EntityComponentFactory {
-        @Override
-        public EntityComponent processMapData(String componentId, Map<String, String> map){
-            GAssert.that(componentId.equals(PhysicsComponent.ID),
-                    "Component Factory Mismatch: PhysicsComponent.ID != " + componentId);
-            PhysicsComponent component = new PhysicsComponent(map);
-            return component;
-        }
-    }
-
 
 }

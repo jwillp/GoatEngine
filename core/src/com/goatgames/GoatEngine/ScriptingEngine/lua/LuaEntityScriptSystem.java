@@ -30,8 +30,8 @@ public class LuaEntityScriptSystem extends EntitySystem {
         for(Entity entity: getEntityManager().getEntitiesWithComponent(LuaEntityScriptComponent.ID)){
             LuaEntityScriptComponent luaScriptComp;
             luaScriptComp = (LuaEntityScriptComponent) entity.getComponent(LuaEntityScriptComponent.ID);
-            if(!GAssert.that(entity.hasComponent(EntityScriptComponent.ID),
-                    "Entity does not have an EntityScriptComponent, an instance will automatically be added")){
+            if(!entity.hasComponent(EntityScriptComponent.ID)){
+                Logger.warn("Entity does not have an EntityScriptComponent, an instance will automatically be added");
                 entity.addComponent(new EntityScriptComponent(true), EntityScriptComponent.ID);
             }
             EntityScriptComponent entityScriptComp = (EntityScriptComponent)entity.getComponent(EntityScriptComponent.ID);
