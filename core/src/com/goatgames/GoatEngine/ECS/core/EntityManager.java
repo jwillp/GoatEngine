@@ -53,7 +53,8 @@ public class EntityManager {
      * @param entity
      */
     public void freeEntityObject(Entity entity){
-        entityPool.free(entity);
+        if(GAssert.notNull(entity, "entity == null, object will not be freed"))
+           entityPool.free(entity);
     }
 
 

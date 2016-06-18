@@ -12,6 +12,7 @@ import com.goatgames.goatengine.graphicsrendering.camera.CameraComponent;
 import com.goatgames.goatengine.input.TouchableComponent;
 import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.scriptingengine.ScriptComponent;
+import com.goatgames.goatengine.scriptingengine.lua.LuaEntityScriptComponent;
 import com.goatgames.goatengine.scriptingengine.nativescripts.NativeScriptComponent;
 import com.goatgames.goatengine.utils.GAssert;
 
@@ -36,8 +37,8 @@ public class ComponentMapper {
         linkFactory(ZIndexComponent.ID, new ZIndexComponent.Factory());
         linkFactory(TouchableComponent.ID, new TouchableComponent.Factory());
         linkFactory(PhysicsComponent.ID, new PhysicsComponent.Factory());
-        linkFactory(ScriptComponent.ID, new ScriptComponent.Factory());
         linkFactory(TransformComponent.ID, new TransformComponent.Factory());
+        linkFactory(LuaEntityScriptComponent.ID, new LuaEntityScriptComponent.Factory());
         linkFactory(NativeScriptComponent.ID, new NativeScriptComponent.Factory());
     }
 
@@ -55,9 +56,9 @@ public class ComponentMapper {
     public static EntityComponent getComponent(EntityComponentMap map){
         String compId = map.get("component_id");
         // If the component has no linked factory it is a GameComponent (most probably)
-        GAssert.that(factories.containsKey(compId),
-                String.format("Component Mapper: No Factory for the specified Component: %s", compId));
-        factories.get(compId);
+        /*GAssert.that(factories.containsKey(compId),
+                String.format("Component Mapper: No Factory for the specified Component: %s", compId));*/
+        // If no factory found, default to GameComponent.Factory()
         EntityComponentFactory f = factories.containsKey(compId) ? factories.get(compId) : new GameComponent.Factory();
         return f.processMapData(compId, map);
     }

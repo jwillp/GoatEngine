@@ -20,7 +20,8 @@ public class LuaEntityScriptComponent extends EntityComponent {
 
     public LuaEntityScriptComponent(boolean b) {
         super(b);
-        scripts = new ArrayList<String>();
+        scripts = new ArrayList<>();
+        scriptsToRemove = new ArrayList<>();
     }
 
     public LuaEntityScriptComponent(Map<String, String> map) {
@@ -86,6 +87,7 @@ public class LuaEntityScriptComponent extends EntityComponent {
      * @return arrayList of scripts scheduled for removal
      */
     public ArrayList<String> getScriptsToRemove(){
+        GAssert.notNull(this.scriptsToRemove, "scriptsToRemove == null");
         return this.scriptsToRemove;
     }
 
@@ -112,11 +114,13 @@ public class LuaEntityScriptComponent extends EntityComponent {
     protected void makeFromMap(Map<String, String> map) {
         // Convert
         if(map.get("scripts").equals("")){
-            scripts = new ArrayList<String>();
+            scripts = new ArrayList<>();
         }else{
             // Scripts are split by ";" (script.lua;script.lua;script.lua)
-            scripts = new ArrayList<String>(Arrays.asList(map.get("scripts").split(";")));
+            scripts = new ArrayList<>(Arrays.asList(map.get("scripts").split(";")));
         }
+
+        scriptsToRemove = new ArrayList<>();
     }
 
     /**
@@ -139,9 +143,11 @@ public class LuaEntityScriptComponent extends EntityComponent {
     public static class Factory implements EntityComponentFactory {
         @Override
         public EntityComponent processMapData(String componentId, Map<String, String> map){
-            GAssert.that(componentId.equals(LuaEntityScriptComponent.ID),
-                    "Component Factory Mismatch: ScriptComponent.ID != " + componentId);
-            LuaEntityScriptComponent component = new LuaEntityScriptComponent(map);
+            LuaEntityScriptComponent component = null;
+            if (GAssert.that(componentId.equals(LuaEntityScriptComponent.ID),
+                    "Component Factory Mismatch: LuaEntityScriptComponent.ID != " + componentId)){
+                component = new LuaEntityScriptComponent(map);
+            }
             return component;
         }
     }

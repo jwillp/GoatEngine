@@ -37,7 +37,7 @@ public class LuaEntityScriptSystem extends EntitySystem {
                     "Entity does not have an EntityScriptComponent, an instance will automatically be added")){
                 entity.addComponent(new EntityScriptComponent(true), EntityScriptComponent.ID);
             }
-            EntityScriptComponent entityScriptComp = (EntityScriptComponent)entity.getComponent(ScriptComponent.ID);
+            EntityScriptComponent entityScriptComp = (EntityScriptComponent)entity.getComponent(EntityScriptComponent.ID);
             // Add missing script instances
             for(String scriptFile: luaScriptComp.getScripts()){
                 if(!entityScriptComp.hasScriptWithName(scriptFile)){

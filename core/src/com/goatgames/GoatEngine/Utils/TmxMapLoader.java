@@ -19,6 +19,7 @@ import com.goatgames.goatengine.physics.BodyDefFactory;
 import com.goatgames.goatengine.physics.PhysicsBodyDef;
 import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.scriptingengine.ScriptComponent;
+import com.goatgames.goatengine.scriptingengine.lua.LuaEntityScriptComponent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -92,7 +93,9 @@ public class TmxMapLoader{
         }else{
             entity = entityManager.createEntity();
         }
-
+        if(!GAssert.notNull(entity, "entity == null")){
+            return null;
+        }
         // 2. handle transform component. (it is automatically added)
         // We don't make a check to see if it was already added (by prefab). We want to override it
         // to use the editor's data.
@@ -102,13 +105,14 @@ public class TmxMapLoader{
         // 3. handle scripts
         String scripts = objProperties.get("scripts", "",String.class);
         if(!scripts.isEmpty()){
-            ScriptComponent scriptComponent;
-            scriptComponent = entity.hasComponent(ScriptComponent.ID) ?
-                    (ScriptComponent) entity.getComponent(ScriptComponent.ID) :
-                    new ScriptComponent(true);
+            LuaEntityScriptComponent scriptComponent;
+            if (entity.hasComponent(LuaEntityScriptComponent.ID))
+                scriptComponent = (LuaEntityScriptComponent) entity.getComponent(LuaEntityScriptComponent.ID);
+            else
+                scriptComponent = new LuaEntityScriptComponent(true);
 
             scriptComponent.addScripts(new ArrayList<>(Arrays.asList(scripts.split(";"))));
-            entity.addComponent(scriptComponent,ScriptComponent.ID);
+            entity.addComponent(scriptComponent,LuaEntityScriptComponent.ID);
         }
 
         // 4. handle physics

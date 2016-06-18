@@ -35,8 +35,8 @@ public class GAssert{
      * @param messageOnFail message to log on test failure
      */
     public static boolean notNull(Object o, String messageOnFail){
-        boolean test = o == null;
-        if(test){
+        boolean test = o != null;
+        if(!test){
             logAssertionError(messageOnFail);
         }
         return test;
@@ -48,8 +48,8 @@ public class GAssert{
      * @param messageOnFail message to log on test failure
      */
     public static boolean notNull(Object o, String messageOnFail, String fileName){
-        boolean test = o == null;
-        if(o == null){
+        boolean test = (o != null);
+        if(!test){
             logAssertionError(messageOnFail, fileName);
         }
         return test;
@@ -61,8 +61,8 @@ public class GAssert{
      * @param messageOnFail message to log on test failure
      */
     public static boolean isNull(Object o, String messageOnFail){
-        boolean test = (o != null);
-        if(test){
+        boolean test = (o == null);
+        if(!test){
             logAssertionError(messageOnFail);
         }
         return test;
@@ -74,8 +74,8 @@ public class GAssert{
      * @param messageOnFail message to log on test failure
      */
     public static boolean isNull(Object o, String messageOnFail, String fileName){
-        boolean test = (o != null);
-        if(test){
+        boolean test = (o == null);
+        if(!test){
             logAssertionError(messageOnFail, fileName);
         }
         return test;

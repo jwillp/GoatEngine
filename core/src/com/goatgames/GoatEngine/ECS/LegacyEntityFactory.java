@@ -12,6 +12,7 @@ import com.goatgames.goatengine.graphicsrendering.camera.CameraComponent;
 import com.goatgames.goatengine.input.TouchableComponent;
 import com.goatgames.goatengine.physics.*;
 import com.goatgames.goatengine.scriptingengine.ScriptComponent;
+import com.goatgames.goatengine.scriptingengine.lua.LuaEntityScriptComponent;
 
 import java.util.Map;
 
@@ -82,11 +83,11 @@ public class LegacyEntityFactory {
      * @param componentData the map containing data bout the component
      */
     private static boolean processScriptComponent(String componentId, Entity entity, EntityComponentMap componentData){
-        if(!isComponent(componentId, ScriptComponent.ID)){
+        if(!isComponent(componentId, LuaEntityScriptComponent.ID)){
             return false;
         }
-        ScriptComponent scriptComp = new ScriptComponent(componentData);
-        entity.addComponent(scriptComp, ScriptComponent.ID);
+        LuaEntityScriptComponent scriptComp = new LuaEntityScriptComponent(componentData);
+        entity.addComponent(scriptComp, LuaEntityScriptComponent.ID);
         return true;
     }
 

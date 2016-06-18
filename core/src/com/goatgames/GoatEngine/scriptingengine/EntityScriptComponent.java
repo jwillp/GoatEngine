@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class EntityScriptComponent extends EntityComponent {
 
-    public static final String ID = "SCRIPT_COMPONENT";
+    public static final String ID = "ENTITY_SCRIPT_COMPONENT";
 
     private ObjectMap<String, IEntityScript> scripts;
 
@@ -34,7 +34,7 @@ public class EntityScriptComponent extends EntityComponent {
         if(!GAssert.notNull(this.scripts, "scripts == null")){
             this.scripts = new ObjectMap<>();
         }
-        if(GAssert.notNull(script, "script === null, it will not be added")){
+        if(GAssert.notNull(script, "script == null, it will not be added")){
             this.scripts.put(script.getName(), script);
         }
     }
@@ -102,7 +102,11 @@ public class EntityScriptComponent extends EntityComponent {
     }
 
     public boolean hasScriptWithName(String scriptName) {
-        return this.scripts.containsKey(scriptName);
+        if(GAssert.notNull(this.scripts, "scripts == null")){
+            return this.scripts.containsKey(scriptName);
+        }else{
+            return false;
+        }
     }
 
 
