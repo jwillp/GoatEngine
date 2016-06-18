@@ -6,7 +6,9 @@ import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
+import com.goatgames.goatengine.physics.ColliderDef;
 import com.goatgames.goatengine.physics.PhysicsComponent;
+import com.goatgames.goatengine.utils.GAssert;
 import com.goatgames.goatengine.utils.Logger;
 import org.ini4j.Ini;
 
@@ -41,23 +43,23 @@ public class PrefabFactory {
             // Create registered entity using manager
             entity = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager().createEntity();
             Array<NormalisedEntityComponent> colliders = new Array<NormalisedEntityComponent>();
-            for(NormalisedEntityComponent map: comps.values()){
-                if (map.get("component_id").contains("COLLIDER")) {
-                    colliders.add(map);
+            for(NormalisedEntityComponent data: comps.values()){
+                if (data.get("component_id").contains("COLLIDER")) {
+                    colliders.add(data);
                 } else {
-                    EntityComponent comp = ComponentMapper.getComponent(map);
-                    entity.addComponent(comp, comp.getId());
+                    EntityComponent comp = ComponentMapper.getComponent(data);
+                    if(GAssert.notNull(comp, "comp == null, will not be added")){
+                        assert comp != null;
+                        entity.addComponent(comp, comp.getId());
+                    }
                 }
             }
 
             for(NormalisedEntityComponent map : colliders){
                 // Read Colliders
                 PhysicsComponent phys = (PhysicsComponent) entity.getComponent(PhysicsComponent.ID);
-                phys.getBodyDef().addColliderDef(LegacyEntityFactory.colliderDefFromMap(map));
+                phys.getBodyDef().addColliderDef(ColliderDef.colliderDefFromNormalisedData(map));
             }
-
-
-
         } catch (IOException e) {
             Logger.error(e.getMessage());
             Logger.logStackTrace(e);
