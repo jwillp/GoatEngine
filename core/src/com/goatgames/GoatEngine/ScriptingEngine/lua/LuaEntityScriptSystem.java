@@ -2,6 +2,7 @@ package com.goatgames.goatengine.scriptingengine.lua;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.goatgames.goatengine.GEConfig;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
@@ -66,8 +67,10 @@ public class LuaEntityScriptSystem extends EntitySystem {
                 entityScriptComp.removeScriptByName(scriptToRemove);
                 luaScriptComp.getScriptsToRemove().remove(scriptToRemove);
             }
+
             getEntityManager().freeEntityObject(entity);
         }
+        checkReload();
     }
 
     /**
@@ -135,6 +138,34 @@ public class LuaEntityScriptSystem extends EntitySystem {
         // Get entities having the script
         // Reload the script
         info.setLastModified(Gdx.files.internal(scriptFile).lastModified());
+    }
+
+    private void checkReload(){
+        if(!GoatEngine.config.getBoolean("scripting.auto_reload")) return;
+        for (ObjectMap.Entry<String, LuaEntityScriptInfo> entry: this.entityScripts.entries()){
+            String scriptFile = entry.key;
+            LuaEntityScriptInfo info = entry.value;
+            long lastModifiedOnDisk = Gdx.files.internal(scriptFile).lastModified();
+            if (info.getLastModified() != lastModifiedOnDisk){
+                info.setLastModified(lastModifiedOnDisk);
+                // Find entities with that script
+                for (Entity entity: getEntityManager().getEntitiesWithComponent(EntityScriptComponent.ID)){
+                    Logger.info(String.format("Reloading script \"%s\" ...", scriptFile));
+                    EntityScriptComponent comp = (EntityScriptComponent) entity.getComponent(EntityScriptComponent.ID);
+                    if (comp.hasScriptWithName(scriptFile)){
+                        IEntityScript script = comp.getScriptByName(scriptFile);
+                        LuaEntityScript luaScript = (LuaEntityScript) script;
+                        if(GAssert.notNull(luaScript,
+                                String.format("Script %s was not a lua script instance.", scriptFile))){
+                            luaScript.reload();
+                            Logger.info(String.format("Reloaded script \"%s\".", scriptFile));
+                        }else{
+                            Logger.info("Could not reload script.");
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**

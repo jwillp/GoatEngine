@@ -38,6 +38,14 @@ public class EntityScriptComponent extends EntityComponent {
     }
 
     /**
+     * Returns a script instance with specified name
+     * @param scriptName the name of the script to retrieve
+     */
+    public IEntityScript getScriptByName(String scriptName){
+        return this.scripts.get(scriptName);
+    }
+
+    /**
      * Removes a script from the component. Checks by identity
      * @param script the script instance to remove
      */
