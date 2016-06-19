@@ -26,6 +26,12 @@ public class GEConfig extends EngineConfig{
      * Loads the settings from the private data file
      */
     public void load(){
+        // Make sure priv_data exist
+        if(!Gdx.files.internal(PRIV_DATA_DIRECTORY).exists()){
+            throw new MissingConfigFileException(
+                    String.format("The directory for private data \"%s\" is missing.", PRIV_DATA_DIRECTORY));
+        }
+
         try{
             LuaScript defaultConfig = new LuaScript(CONFIG_FILE_PATH);
             if(!defaultConfig.load()){

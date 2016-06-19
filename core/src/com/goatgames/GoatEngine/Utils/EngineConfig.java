@@ -89,7 +89,7 @@ public abstract class EngineConfig {
             try{
                 returnValue = returnValue.get(parts[i]);
             }catch(LuaError er){
-                throw new UnkownConfigParameterException(param);
+                throw new UnknownConfigParameterException(param);
             }
         }
         return returnValue;
@@ -108,7 +108,7 @@ public abstract class EngineConfig {
                     returnValue = returnValue.get(parts[i]);
                 }
             }catch(LuaError er){
-                throw new UnkownConfigParameterException(param);
+                throw new UnknownConfigParameterException(param);
             }
         }
     }
@@ -158,30 +158,11 @@ public abstract class EngineConfig {
      * @param value the new value
      *
      */
-    public void  setArray(String parameter, Array<String> value){
+    public void setArray(String parameter, Array<String> value){
         //setParam(parameter, LuaValue.valueOf(value));
         // TODO Implement
         throw new NotImplementedException();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public LuaTable getData() {
         return data;
@@ -194,8 +175,8 @@ public abstract class EngineConfig {
         }
     }
 
-    public static class UnkownConfigParameterException extends RuntimeException{
-        public UnkownConfigParameterException(String parameter){
+    public static class UnknownConfigParameterException extends RuntimeException{
+        public UnknownConfigParameterException(String parameter){
             super(String.format("Parameter %s not found", parameter));
         }
     }
