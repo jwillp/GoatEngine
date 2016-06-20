@@ -4,6 +4,7 @@ import com.goatgames.goatengine.AudioMixer;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.GameComponent;
 import com.goatgames.goatengine.eventmanager.GameEvent;
+import com.goatgames.goatengine.fsm.FiniteStateMachine;
 import com.goatgames.goatengine.utils.GAssert;
 import com.goatgames.goatengine.utils.Logger;
 import com.goatgames.goatengine.utils.Timer;
@@ -33,10 +34,10 @@ public class GoatEngineAPI extends TwoArgFunction {
 
         library.set("GAssert", CoerceJavaToLua.coerce(new GAssert())); // We only access static methods
 
-
-        //library.set("GameComponent", CoerceJavaToLua.coerce(new GameComponent(true)));
         library.set("GameComponent",CoerceJavaToLua.coerce(new GameComponentAPI()));
         library.set("GameEvent",CoerceJavaToLua.coerce(new GameEventAPI()));
+        library.set("FiniteStateMachine", CoerceJavaToLua.coerce(new FiniteStateMachineAPI()));
+        library.set("MachineState", CoerceJavaToLua.coerce(new MachineStateAPI()));
 
         library.set("playMusic", new PlayMusicAPI());
         library.set("playAudio", new PlayAudioAPI());
@@ -52,6 +53,7 @@ public class GoatEngineAPI extends TwoArgFunction {
 
 
     /**
+     * Exposes GameComponent creation
      * Used so scripts can generate GameComponents
      */
     public class GameComponentAPI extends OneArgFunction{
@@ -63,6 +65,7 @@ public class GoatEngineAPI extends TwoArgFunction {
     }
 
     /**
+     * Exposes GameEvents creation
      * Used so scripts can generate GameEvents
      */
     public class GameEventAPI extends TwoArgFunction{
@@ -74,6 +77,28 @@ public class GoatEngineAPI extends TwoArgFunction {
     }
 
     /**
+     * Exposes the Finite State Machine
+     */
+    private class FiniteStateMachineAPI extends OneArgFunction{
+        @Override
+        public LuaValue call(LuaValue table) {
+            return CoerceJavaToLua.coerce(new FiniteStateMachine());
+        }
+    }
+
+    /**
+     * Exposes the APi to create a Machine State
+     */
+    private class MachineStateAPI extends OneArgFunction{
+
+        @Override
+        public LuaValue call(LuaValue table) {
+            return CoerceJavaToLua.coerce(new LuaMachineState(table.checktable()));
+        }
+    }
+
+    /**
+     * Exposes Timer
      * Used to create timers
      */
     public class TimerAPI extends OneArgFunction{
@@ -84,11 +109,9 @@ public class GoatEngineAPI extends TwoArgFunction {
         }
     }
 
-
-
-
-
-
+    /**
+     * Exposes music playing
+     */
     public class PlayMusicAPI extends TwoArgFunction{
         @Override
         public LuaValue call(LuaValue arg1, LuaValue arg2) {
@@ -97,8 +120,9 @@ public class GoatEngineAPI extends TwoArgFunction {
 
     }
 
-
-
+    /**
+     * Exposes audio playing
+     */
     public class PlayAudioAPI extends OneArgFunction{
 
         @Override
@@ -107,6 +131,4 @@ public class GoatEngineAPI extends TwoArgFunction {
         }
 
     }
-
-
 }

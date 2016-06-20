@@ -151,7 +151,7 @@ public class Animator{
         StringWriter writer = new StringWriter();
         XmlWriter xml = new XmlWriter(writer);
         xml.element("TestMachine");
-        for(MachineState state: this.states){
+        for(LegacyMachineState state: this.states){
             state.writeXml(xml);
         }
         xml.pop();
@@ -168,7 +168,7 @@ public class Animator{
         Array<XmlReader.Element> states = root.getChildrenByName("State");
 
         for(XmlReader.Element state : states){
-            this.addState(new MachineState(state));
+            this.addState(new LegacyMachineState(state));
         }
     }*/
 

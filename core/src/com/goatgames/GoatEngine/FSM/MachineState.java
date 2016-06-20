@@ -1,90 +1,63 @@
 package com.goatgames.goatengine.fsm;
 
-import com.badlogic.gdx.utils.XmlReader;
-import com.badlogic.gdx.utils.XmlWriter;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
+import com.goatgames.goatengine.eventmanager.GameEvent;
+import com.goatgames.goatengine.input.events.InputEvent;
+import com.goatgames.goatengine.physics.CollisionEvent;
 
 /**
- * State of an FSM
+ *  A Finite State Machine State
  */
-public class MachineState{
-
-
-    /**
-     * Special Flags for states
-     */
-    public enum StateFlag{
-        None,
-        Enter,  // Root Node (only one per machine)
-        Exit    // The End of a path (normally we get back to an the Enter Node)
-    }
-
-    String id;                          // A Unique ID for that node
-    String name;                        // The name of the state
-    String description;                 // A Description for the state
-    ArrayList<String> neighbours;       // The Direct Neighbours of the node
-    StateFlag flag;                     // The flag of the node
+public class MachineState {
 
     /**
-     *
-     * @param id
-     * @param flag
-     * @param name
-     * @param description
-     * @param neighbours the neighbours' unique Id as a CSV string
+     * Called for update of the state
+     * @param dt delta time
      */
-    public MachineState(String id, StateFlag flag, String name, String description, String neighbours){
-        this.id = id;
-        this.flag = flag;
-        this.name = name;
-        this.description = description;
-        this.neighbours = new ArrayList<String>(Arrays.asList(neighbours.split(",")));
-    }
+    public void update(final float dt){
 
+    }
 
     /**
-     * Creates a state from an Xml Element
-     * @param state
+     * Called when the state is considered the current active state of the
+     * state machine
+     * @param oldStateName the name of the state that was previously the active state of the machine
+     * @param oldState the state that was previously the active state of the machine
      */
-    public MachineState(XmlReader.Element state) {
-        this(
-                state.getChildByName("ID").getText(),
-                StateFlag.valueOf(state.getChildByName("Flag").getText()),
-                state.getChildByName("Name").getText(),
-                state.getChildByName("Description").getText(),
-                state.getChildByName("Neighbours").getText()
-        );
+    public void onEnter(final String oldStateName, final MachineState oldState){
+
     }
 
+    /**
+     * Called when the state is no longer considered as the current active state
+     * of the state machine
+     * @param newStateName the name of the state that will become the new active state of the machine
+     * @param newState the state that will become the new active state of the machine
+     */
+    public void onExit(final String newStateName, final MachineState newState){
 
-
-
-    public String toString(){
-        return name + " " + description;
     }
 
+    /**
+     * Called for input events
+     * @param event represents the input event
+     */
+    public void onInputEvent(InputEvent event){
 
-
-    public void writeXml(XmlWriter writer) throws IOException {
-        //CSV of the neighbours
-        StringBuffer neighbours = new StringBuffer();
-        for(Iterator it=this.neighbours.iterator(); it.hasNext(); ) {
-            if (neighbours.length()>0)
-                neighbours.append(",");
-            neighbours.append(it.next());
-        }
-        writer.element("State")
-                .element("ID", this.id)
-                .element("Flag", this.flag.toString())
-                .element("Name", this.name)
-                .element("Description", this.description)
-                .element("Neighbours", neighbours)
-        .pop();
     }
 
+    /**
+     * Called for game events
+     * @param event represents the game event
+     */
+    public void onGameEvent(GameEvent event){
 
+    }
+
+    /**
+     * Called for collision events
+     * @param event represents the collision event
+     */
+    public void onCollisionEvent(CollisionEvent event){
+
+    }
 }
