@@ -1,6 +1,7 @@
 package com.goatgames.goatengine.scriptingengine.lua;
 
 import com.goatgames.goatengine.eventmanager.GameEvent;
+import com.goatgames.goatengine.fsm.FiniteStateMachine;
 import com.goatgames.goatengine.fsm.MachineState;
 import com.goatgames.goatengine.input.events.InputEvent;
 import com.goatgames.goatengine.physics.CollisionEvent;
@@ -20,7 +21,7 @@ public class LuaMachineState extends MachineState{
     }
 
     @Override
-    public void onEnter(String oldStateName, MachineState oldState) {
+    public void onEnter(FiniteStateMachine stateMachine, String oldStateName, MachineState oldState) {
         LuaValue method = this.state.get("onEnter");
         if(method != LuaValue.NIL)
             method.call(CoerceJavaToLua.coerce(oldStateName),
@@ -36,28 +37,28 @@ public class LuaMachineState extends MachineState{
     }
 
     @Override
-    public void onCollisionEvent(CollisionEvent event) {
+    public void onCollisionEvent(FiniteStateMachine finiteStateMachine, CollisionEvent event) {
         LuaValue method = this.state.get("onCollisionEvent");
         if(method != LuaValue.NIL)
             method.call(CoerceJavaToLua.coerce(event));
     }
 
     @Override
-    public void onGameEvent(GameEvent event) {
+    public void onGameEvent(FiniteStateMachine finiteStateMachine, GameEvent event) {
         LuaValue method = this.state.get("onGameEvent");
         if(method != LuaValue.NIL)
             method.call(CoerceJavaToLua.coerce(event));
     }
 
     @Override
-    public void onInputEvent(InputEvent event) {
+    public void onInputEvent(FiniteStateMachine finiteStateMachine, InputEvent event) {
         LuaValue method = this.state.get("onInputEvent");
         if(method != LuaValue.NIL)
             method.call(CoerceJavaToLua.coerce(event));
     }
 
     @Override
-    public void update(float dt) {
+    public void update(FiniteStateMachine stateMachine, float dt) {
         LuaValue method = this.state.get("update");
         if(method != LuaValue.NIL)
             method.call(CoerceJavaToLua.coerce(dt));

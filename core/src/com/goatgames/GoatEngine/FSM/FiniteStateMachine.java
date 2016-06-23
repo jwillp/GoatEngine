@@ -79,7 +79,7 @@ public class FiniteStateMachine {
                 MachineState newState = states.get(stateName);
 
                 oldState.onExit(stateName, newState);
-                newState.onEnter(oldStateName, oldState);
+                newState.onEnter(this, oldStateName, oldState);
 
                 currentStateName = stateName;
             }
@@ -106,7 +106,7 @@ public class FiniteStateMachine {
      * @param dt delta time
      */
     public void update(float dt){
-        this.getCurrentState().update(dt);
+        this.getCurrentState().update(this, dt);
     }
 
     /**
@@ -114,7 +114,7 @@ public class FiniteStateMachine {
      * @param event represents the input event
      */
     public void onInputEvent(InputEvent event){
-        this.getCurrentState().onInputEvent(event);
+        this.getCurrentState().onInputEvent(this, event);
     }
 
     /**
@@ -122,7 +122,7 @@ public class FiniteStateMachine {
      * @param event represents the game event
      */
     public void onGameEvent(GameEvent event){
-        this.getCurrentState().onGameEvent(event);
+        this.getCurrentState().onGameEvent(this, event);
     }
 
     /**
@@ -130,6 +130,6 @@ public class FiniteStateMachine {
      * @param event represents the collision event
      */
     public void onCollisionEvent(CollisionEvent event){
-        this.getCurrentState().onCollisionEvent(event);
+        this.getCurrentState().onCollisionEvent(this, event);
     }
 }
