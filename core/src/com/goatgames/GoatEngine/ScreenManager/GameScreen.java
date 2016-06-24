@@ -3,6 +3,7 @@ package com.goatgames.goatengine.screenmanager;
 import com.badlogic.gdx.Gdx;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ai.AISystem;
+import com.goatgames.goatengine.ecs.common.EntityDestructionSystem;
 import com.goatgames.goatengine.ecs.core.ECSManager;
 import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.graphicsrendering.RenderingSystem;
@@ -53,6 +54,7 @@ public final class GameScreen{
         ecsManager.getSystemManager().addSystem(AISystem.class, new AISystem());
         ecsManager.getSystemManager().addSystem(EntityScriptSystem.class, new EntityScriptSystem());
         ecsManager.getSystemManager().addSystem(LuaEntityScriptSystem.class, new LuaEntityScriptSystem());
+        ecsManager.getSystemManager().addSystem(EntityDestructionSystem.class, new EntityDestructionSystem());
 
         physicsSystem = new PhysicsSystem();
         ecsManager.getSystemManager().addSystem(PhysicsSystem.class, physicsSystem);
