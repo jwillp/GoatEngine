@@ -1,5 +1,6 @@
 package com.goatgames.goatengine.scriptingengine;
 
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
@@ -51,8 +52,10 @@ public class EntityScriptSystem extends EntitySystem implements GameEventListene
         }
         for(Entity entity: entityManager.getEntitiesWithComponent(EntityScriptComponent.ID)){
             EntityScriptComponent scriptComp = (EntityScriptComponent)entity.getComponent(EntityScriptComponent.ID);
-            for (ObjectMap.Entry<String, IEntityScript> entry : scriptComp.getScripts()) {
-                IEntityScript script = entry.value;
+            // Save scripts in an array to avoid nested iterators
+            Array<IEntityScript> scripts = scriptComp.getScripts().values().toArray();
+            for(int i=0; i < scripts.size; i++){
+                IEntityScript script = scripts.get(i);
                 if(e instanceof InputEvent){
                     script.onInputEvent(entity, (InputEvent) e);
                 }else if(e instanceof CollisionEvent){

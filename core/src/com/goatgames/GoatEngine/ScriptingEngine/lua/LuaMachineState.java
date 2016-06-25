@@ -24,15 +24,18 @@ public class LuaMachineState extends MachineState{
     public void onEnter(FiniteStateMachine stateMachine, String oldStateName, MachineState oldState) {
         LuaValue method = this.state.get("onEnter");
         if(method != LuaValue.NIL)
-            method.call(CoerceJavaToLua.coerce(oldStateName),
+            method.call(CoerceJavaToLua.coerce(stateMachine),
+                    CoerceJavaToLua.coerce(oldStateName),
                     CoerceJavaToLua.coerce(oldState));
     }
 
     @Override
-    public void onExit(String newStateName, MachineState newState) {
+    public void onExit(FiniteStateMachine stateMachine, String newStateName, MachineState newState) {
         LuaValue method = this.state.get("onExit");
         if(method != LuaValue.NIL)
-            method.call(CoerceJavaToLua.coerce(newStateName),
+            method.call(
+                    CoerceJavaToLua.coerce(stateMachine),
+                    CoerceJavaToLua.coerce(newStateName),
                     CoerceJavaToLua.coerce(newState));
     }
 
@@ -40,27 +43,27 @@ public class LuaMachineState extends MachineState{
     public void onCollisionEvent(FiniteStateMachine finiteStateMachine, CollisionEvent event) {
         LuaValue method = this.state.get("onCollisionEvent");
         if(method != LuaValue.NIL)
-            method.call(CoerceJavaToLua.coerce(event));
+            method.call(CoerceJavaToLua.coerce(finiteStateMachine), CoerceJavaToLua.coerce(event));
     }
 
     @Override
     public void onGameEvent(FiniteStateMachine finiteStateMachine, GameEvent event) {
         LuaValue method = this.state.get("onGameEvent");
         if(method != LuaValue.NIL)
-            method.call(CoerceJavaToLua.coerce(event));
+            method.call(CoerceJavaToLua.coerce(finiteStateMachine), CoerceJavaToLua.coerce(event));
     }
 
     @Override
     public void onInputEvent(FiniteStateMachine finiteStateMachine, InputEvent event) {
         LuaValue method = this.state.get("onInputEvent");
         if(method != LuaValue.NIL)
-            method.call(CoerceJavaToLua.coerce(event));
+            method.call(CoerceJavaToLua.coerce(finiteStateMachine), CoerceJavaToLua.coerce(event));
     }
 
     @Override
     public void update(FiniteStateMachine stateMachine, float dt) {
         LuaValue method = this.state.get("update");
         if(method != LuaValue.NIL)
-            method.call(CoerceJavaToLua.coerce(dt));
+            method.call(CoerceJavaToLua.coerce(stateMachine), CoerceJavaToLua.coerce(dt));
     }
 }

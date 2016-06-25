@@ -5,6 +5,7 @@ import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.GameComponent;
 import com.goatgames.goatengine.eventmanager.GameEvent;
 import com.goatgames.goatengine.fsm.FiniteStateMachine;
+import com.goatgames.goatengine.scriptingengine.PublicAPI;
 import com.goatgames.goatengine.utils.GAssert;
 import com.goatgames.goatengine.utils.Logger;
 import com.goatgames.goatengine.utils.Timer;
@@ -45,6 +46,8 @@ public class GoatEngineAPI extends TwoArgFunction {
         //env.set("input.Buttons", CoerceJavaToLua.coerce(new GamePadMap()));
 
         library.set("Timer", CoerceJavaToLua.coerce(new TimerAPI()));
+
+        library.set("utils", CoerceJavaToLua.coerce(new PublicAPI())); // We aonly access static methods
 
         env.set("GE", library);
         env.get("package").get("loaded").set("GE", library);

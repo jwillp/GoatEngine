@@ -32,10 +32,11 @@ public class MachineState {
     /**
      * Called when the state is no longer considered as the current active state
      * of the state machine
+     * @param stateMachine
      * @param newStateName the name of the state that will become the new active state of the machine
      * @param newState the state that will become the new active state of the machine
      */
-    public void onExit(final String newStateName, final MachineState newState){
+    public void onExit(FiniteStateMachine stateMachine, final String newStateName, final MachineState newState){
 
     }
 

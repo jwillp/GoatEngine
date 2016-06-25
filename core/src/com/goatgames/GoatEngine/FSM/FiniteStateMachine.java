@@ -28,7 +28,7 @@ public class FiniteStateMachine {
      * @param state
      */
     public FiniteStateMachine addState(final String stateName, MachineState state){
-        if(GAssert.notNull(state, "state == null") && GAssert.notNull(stateName, "stateName == null"))
+        if(GAssert.notNull(state, "state == null for " + stateName) && GAssert.notNull(stateName, "stateName == null"))
             states.put(stateName, state);
         return this;
     }
@@ -78,7 +78,7 @@ public class FiniteStateMachine {
 
                 MachineState newState = states.get(stateName);
 
-                oldState.onExit(stateName, newState);
+                oldState.onExit(this, stateName, newState);
                 newState.onEnter(this, oldStateName, oldState);
 
                 currentStateName = stateName;
@@ -114,7 +114,9 @@ public class FiniteStateMachine {
      * @param event represents the input event
      */
     public void onInputEvent(InputEvent event){
-        this.getCurrentState().onInputEvent(this, event);
+        MachineState currentState = this.getCurrentState();
+        if(GAssert.notNull(currentState, "currentState == null"))
+            currentState.onInputEvent(this, event);
     }
 
     /**
