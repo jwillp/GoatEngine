@@ -41,7 +41,7 @@ public class JsonSerialiser implements ISerialiser {
         ObjectMap<String,EntityComponent> components = entity.getComponents();
         JsonObject jsonEntity = Json.object();
         JsonArray jsonComponents = new JsonArray();
-        jsonEntity.add("id", entity.getID());
+        jsonEntity.add("id", entity.getId());
         jsonEntity.add("components", jsonComponents);
         for(EntityComponent c: components.values()){
             jsonComponents.add(componentToJson(c));

@@ -64,9 +64,9 @@ public class EntityManager {
      * @return returns the id of the newly registered entity
      */
     public String registerEntity(Entity entity) {
-        entity.setID(generateId());
+        entity.setId(generateId());
         entity.setManager(this);
-        return entity.getID();
+        return entity.getId();
     }
 
 
@@ -239,7 +239,7 @@ public class EntityManager {
      */
     public Entity getEntityObject(String entityId){
         Entity e = entityPool.obtain();
-        e.setID(entityId);
+        e.setId(entityId);
         e.setManager(this);
         return e;
     }
@@ -253,7 +253,7 @@ public class EntityManager {
         ObjectMap<String, Entity> entities = new ObjectMap<String, Entity>();
         for(String compId: this.components.keys()){
             for(Entity entity: this.getEntitiesWithComponent(compId)){
-                entities.put(entity.getID(), entity);
+                entities.put(entity.getId(), entity);
             }
         }
         return new EntityCollection(entities.values().toArray());

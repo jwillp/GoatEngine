@@ -10,11 +10,11 @@ public class Entity implements Pool.Poolable {
     protected EntityManager manager;
 
 
-    public String getID() {
+    public String getId() {
         return ID;
     }
 
-    public void setID(String ID) {
+    public void setId(String ID) {
         this.ID = ID;
     }
 
@@ -26,7 +26,7 @@ public class Entity implements Pool.Poolable {
     public Entity(){}
 
     public Entity(String id){
-        this.setID(id);
+        this.setId(id);
     }
 
 
@@ -39,74 +39,59 @@ public class Entity implements Pool.Poolable {
      * @return this for chaining
      */
     public Entity addComponent(EntityComponent cp, String compId){
-        GAssert.notNull(manager, String.format("Unregistered entity %s", this.getID()));
-        if(manager == null)
+        if(!GAssert.notNull(manager,
+                String.format("manager == null, Unregistered entity %s", this.getId())))
             throw new UnregisteredEntityException();
-        manager.addComponent(compId, cp, getID());
-
+        manager.addComponent(compId, cp, getId());
         return this;
     }
 
     /**
      * WRAPPER METHOD removes a component from an entity
-     * @param componentId
+     * @param componentId id of the component to remove
      * @return this for chaining
      */
     public Entity removeComponent(String componentId){
-        try {
-            manager.removeComponent(componentId, getID());
-        } catch (NullPointerException e) {
-            throw new UnregisteredEntityException();
-        }
+        if(!GAssert.notNull(manager, "manager == null")) throw new UnregisteredEntityException();
+        manager.removeComponent(componentId, getId());
         return this;
     }
-
 
     /**
      * WRAPPER METHOD Gets a component using its ID
      * @param componentId the id of the component
-     * @return
+     * @return the component
      */
     public EntityComponent getComponent(String componentId){
-        try {
-            EntityComponent component = manager.getComponent(componentId, getID());
-            if(component == null)
-                throw new EntityComponentNotFoundException(componentId);
-            return component;
-        } catch (NullPointerException e) {
-            if(manager == null)
-                throw new UnregisteredEntityException();
-        }
-        return null;
+        if(!GAssert.notNull(manager, "manager == null")) throw new UnregisteredEntityException();
+
+        EntityComponent component = manager.getComponent(componentId, getId());
+        if(!GAssert.notNull(component, "component == null"))
+            throw new EntityComponentNotFoundException(componentId);
+        return component;
     }
 
     /**
      * WRAPPER METHOD Returns whether or not the entity has a certain Component
      * @param componentId the id of the component
-     * @return
+     * @return true if has the component, false otherwise
      */
     public boolean hasComponent(String componentId){
-        try {
-            return  manager.hasComponent(componentId, getID());
-        } catch (NullPointerException e) {
+        if(!GAssert.notNull(manager, "manager == null")){
             throw new UnregisteredEntityException();
         }
+        return  manager.hasComponent(componentId, getId());
     }
 
     /**
      * Returns if the entity has a certain Component and if that component is Enabled
      * If it does not have the component or that component is disabled returns false
      * otherwise true
-     * @return
+     * @return true if has the component and it is enabled, false otherwise
      */
-    public boolean hasComponentEnabled(String componentId){
-        if(hasComponent(componentId)){
-            //it has the component, is it enabled?
-            return getComponent(componentId).isEnabled();
-        }
-        return false;
+    public boolean hasComponentEnabled(String componentId) {
+        return hasComponent(componentId) && getComponent(componentId).isEnabled();
     }
-
 
     /**
      * Enables a Component
@@ -122,29 +107,32 @@ public class Entity implements Pool.Poolable {
         this.getComponent(componentId).setEnabled(false);
     }
 
+    /**
+     * Returns the manager of the entity
+     * @return the manager of the entity
+     */
     public EntityManager getManager() {
         return manager;
     }
 
+    /**
+     * Returns the component of the entity
+     * @return ObjectMap containing the components of the entity
+     */
     public ObjectMap<String, EntityComponent> getComponents() {
-        return manager.getComponentsForEntity(this.getID());
+        return manager.getComponentsForEntity(this.getId());
     }
 
-
-
     /**
-     * Resets the object for reuse. Object references should be nulled and fields may be set to default values.
+     * Resets the object for reuse. Object references should be set to null and fields may be set to default values.
      */
     @Override
     public void reset() {
         this.setManager(null);
-        this.setID("");
+        this.setId("");
     }
 
-
     /// EXCEPTIONS ///
-
-
 
     /**
      * Thrown when an unregistered entity tries to access a null EntityManager
@@ -155,7 +143,6 @@ public class Entity implements Pool.Poolable {
         }
     }
 
-
     /**
      * Exception thrown when the game engine tries to use a component from an entity
      * that does not poses that particular component
@@ -163,10 +150,8 @@ public class Entity implements Pool.Poolable {
     public static class EntityComponentNotFoundException extends RuntimeException{
         //Constructor that accepts a message
         public EntityComponentNotFoundException(String componentName){
-            super("The Component \"" + componentName + "\" was not found in Entity");
+            super(String.format("The Component \"%s\" was not found in Entity", componentName));
         }
-
     }
-
 }
 

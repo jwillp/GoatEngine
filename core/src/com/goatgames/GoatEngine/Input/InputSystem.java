@@ -174,7 +174,7 @@ public class InputSystem extends EntitySystem implements GameEventListener{
                 }
             }
             // The top One is the one we want
-            if (ZEntities.size != 0) return ZEntities.first().getID();
+            if (ZEntities.size != 0) return ZEntities.first().getId();
         }
         return null;
     }

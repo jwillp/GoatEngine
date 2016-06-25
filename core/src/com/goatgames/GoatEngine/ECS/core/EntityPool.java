@@ -18,7 +18,7 @@ public class EntityPool extends Pool<Entity> {
     @Override
     public void free(Entity entity){
         super.free(entity);
-        entity.setID("");
+        entity.setId("");
         entity.setManager(null);
     }
 

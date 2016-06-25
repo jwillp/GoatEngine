@@ -37,7 +37,7 @@ public class LuaEntityScript extends LuaScript implements IEntityScript {
     public void init(Entity entity) {
         if(GAssert.notNull(entity, "entity == null")){
             try{
-                exposeJavaFunction(new CtxAPI(entity.getManager().getEntityObject(entity.getID()), getName()));
+                exposeJavaFunction(new CtxAPI(entity.getManager().getEntityObject(entity.getId()), getName()));
                 executeFunction("init");
                 initialised = true;
             } catch (LuaScript.LuaScriptException ex){
@@ -94,7 +94,7 @@ public class LuaEntityScript extends LuaScript implements IEntityScript {
 
             try{
                 // Only if collision is for current entity
-                if (!Objects.equals(collisionEvent.getEntityA(), entity.getID())) return;
+                if (!Objects.equals(collisionEvent.getEntityA(), entity.getId())) return;
                 executeFunction("onCollision", collisionEvent);
             } catch (LuaScript.LuaScriptException ex){
                 Logger.error(ex.getMessage());
@@ -181,5 +181,12 @@ public class LuaEntityScript extends LuaScript implements IEntityScript {
     @Override
     public boolean isInitialised() {
         return initialised;
+    }
+
+    @Override
+    public boolean reload() {
+        boolean retVal =  super.reload();
+        this.initialised = false;
+        return retVal;
     }
 }

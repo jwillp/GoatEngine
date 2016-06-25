@@ -120,7 +120,7 @@ public class PhysicsSystem extends EntitySystem implements ContactListener {
         // Take for granted that this entities have a Transform component if not GAssert and await crash
         for(Entity entity : collection){
             GAssert.that(entity.hasComponent(TransformComponent.ID),
-                    "Entity has PhysicsComponent but no TransformComponent " + entity.getID());
+                    "Entity has PhysicsComponent but no TransformComponent " + entity.getId());
             /*if(!entity.hasComponent(TransformComponent.ID)){
                 return;
             }*/

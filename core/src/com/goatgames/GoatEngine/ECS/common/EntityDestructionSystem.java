@@ -18,7 +18,7 @@ public class EntityDestructionSystem extends EntitySystem {
         for (Entity entity : getEntityManager().getEntitiesWithComponent(LifespanComponent.ID)) {
             LifespanComponent lifespanComponent = (LifespanComponent)entity.getComponent(LifespanComponent.ID);
             if(lifespanComponent.isFinished()){
-                getEntityManager().deleteEntity(entity.getID());
+                getEntityManager().deleteEntity(entity.getId());
             }
 
         }
