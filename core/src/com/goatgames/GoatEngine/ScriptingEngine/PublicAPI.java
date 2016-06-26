@@ -46,7 +46,7 @@ public class PublicAPI {
      * Makes the camera follow an entity with a lerp
      */
     public static void cameraFollow(Entity entity, float speed, float delta){
-        if(GAssert.notNull(entity, "entity == null"))
+        if(!GAssert.notNull(entity, "entity == null"))
             return;
 
         OrthographicCamera cam = getCamera();
@@ -55,8 +55,10 @@ public class PublicAPI {
 
         float lerpProgress = speed * delta;
         Vector2 entityPos = getPosition(entity);
-        if(entityPos != null)
+        if (entityPos != null) {
             cam.position.x = MathUtils.lerp(cam.position.x, entityPos.x, lerpProgress);
+            cam.position.y = MathUtils.lerp(cam.position.y, entityPos.y, lerpProgress);
+        }
     }
 
     /**
