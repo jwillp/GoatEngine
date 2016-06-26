@@ -5,65 +5,98 @@ import com.goatgames.goatengine.fsm.FiniteStateMachine;
 import com.goatgames.goatengine.fsm.MachineState;
 import com.goatgames.goatengine.input.events.InputEvent;
 import com.goatgames.goatengine.physics.CollisionEvent;
+import com.goatgames.goatengine.utils.Logger;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * Used for creating Machine states from lua script
  */
-public class LuaMachineState extends MachineState{
+public class LuaMachineState extends MachineState {
 
-    private final LuaTable state;
+    private final LuaTable stateTable;
 
-    public LuaMachineState(LuaTable state) {
-        this.state = state;
+    public LuaMachineState(LuaTable stateTable) {
+        this.stateTable = stateTable;
     }
 
     @Override
     public void onEnter(FiniteStateMachine stateMachine, String oldStateName, MachineState oldState) {
-        LuaValue method = this.state.get("onEnter");
-        if(method != LuaValue.NIL)
-            method.call(CoerceJavaToLua.coerce(stateMachine),
-                    CoerceJavaToLua.coerce(oldStateName),
-                    CoerceJavaToLua.coerce(oldState));
+        String functionName = "onEnter";
+        if(this.stateTable.get(functionName).isfunction())
+            executeFunction(functionName, stateMachine,oldStateName,oldState);
     }
 
     @Override
     public void onExit(FiniteStateMachine stateMachine, String newStateName, MachineState newState) {
-        LuaValue method = this.state.get("onExit");
-        if(method != LuaValue.NIL)
-            method.call(
-                    CoerceJavaToLua.coerce(stateMachine),
-                    CoerceJavaToLua.coerce(newStateName),
-                    CoerceJavaToLua.coerce(newState));
+        String functionName = "onExit";
+        if(this.stateTable.get(functionName).isfunction())
+            executeFunction(functionName, stateMachine,newStateName,newState);
     }
 
     @Override
     public void onCollisionEvent(FiniteStateMachine finiteStateMachine, CollisionEvent event) {
-        LuaValue method = this.state.get("onCollisionEvent");
-        if(method != LuaValue.NIL)
-            method.call(CoerceJavaToLua.coerce(finiteStateMachine), CoerceJavaToLua.coerce(event));
+        String functionName = "onCollisionEvent";
+        if(this.stateTable.get(functionName).isfunction())
+            executeFunction(functionName, finiteStateMachine, event);
     }
 
     @Override
     public void onGameEvent(FiniteStateMachine finiteStateMachine, GameEvent event) {
-        LuaValue method = this.state.get("onGameEvent");
-        if(method != LuaValue.NIL)
-            method.call(CoerceJavaToLua.coerce(finiteStateMachine), CoerceJavaToLua.coerce(event));
+        String functionName = "onGameEvent";
+        if(this.stateTable.get(functionName).isfunction())
+            executeFunction(functionName, finiteStateMachine, event);
     }
 
     @Override
     public void onInputEvent(FiniteStateMachine finiteStateMachine, InputEvent event) {
-        LuaValue method = this.state.get("onInputEvent");
-        if(method != LuaValue.NIL)
-            method.call(CoerceJavaToLua.coerce(finiteStateMachine), CoerceJavaToLua.coerce(event));
+        String functionName = "onInputEvent";
+        if(this.stateTable.get(functionName).isfunction())
+            executeFunction(functionName, finiteStateMachine, event);
     }
 
     @Override
     public void update(FiniteStateMachine stateMachine, float dt) {
-        LuaValue method = this.state.get("update");
-        if(method != LuaValue.NIL)
-            method.call(CoerceJavaToLua.coerce(stateMachine), CoerceJavaToLua.coerce(dt));
+        String functionName = "update";
+        if(this.stateTable.get(functionName).isfunction())
+            executeFunction(functionName, stateMachine, dt);
+    }
+
+    /**
+     * Call a function in the Lua script with the parameters
+     * @param functionName the name of the function to call
+     */
+    public void executeFunction(String functionName, Object ... objects){
+        executeFunctionWithParamAsArray(functionName, objects);
+    }
+
+    /**
+     * Call a function in the Lua script with the given parameters passed
+     * @param functionName the name of the function to call
+     * @param objects the objects to pass a parameters
+     */
+    public void executeFunctionWithParamAsArray(String functionName, Object[] objects){
+
+        LuaValue function = stateTable.get(functionName); // Get the function
+
+        // Must call with self as first parameter (lua class)
+        boolean mustAddSelf = stateTable.getmetatable() != null;
+        if(mustAddSelf) {
+            ArrayList<Object> temp = new ArrayList<>(Arrays.asList(objects));
+            temp.add(0, stateTable);
+            objects = temp.toArray();
+        }
+        LuaValue[] parameters = (objects == null) ? new LuaValue[0] : new LuaValue[objects.length];
+
+        for(int i = 0; i<parameters.length; i++){
+            // Convert Java Object To LuaValue
+            Object obj = (objects != null) ? objects[i] : null;
+            parameters[i] = CoerceJavaToLua.coerce(obj);
+        }
+        function.invoke(parameters);
     }
 }
