@@ -167,7 +167,7 @@ public class PublicAPI {
         if (!GAssert.that(entity.hasComponent(PhysicsComponent.ID), "entity does not have PhysicsComponent"))
             return;
         PhysicsComponent comp = (PhysicsComponent) entity.getComponent(PhysicsComponent.ID);
-        comp.setVelocityX(vy);
+        comp.setVelocityY(vy);
     }
 
     /**
