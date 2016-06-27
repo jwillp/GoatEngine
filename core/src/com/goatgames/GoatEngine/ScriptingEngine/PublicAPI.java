@@ -211,7 +211,7 @@ public class PublicAPI {
         PhysicsComponent comp = (PhysicsComponent) entity.getComponent(PhysicsComponent.ID);
         float resultingVelocity = comp.getVelocity().x + speed;
         if(Math.abs(resultingVelocity) > maxSpeed){
-            resultingVelocity = resultingVelocity > 0 ? maxSpeed : -maxSpeed;
+            resultingVelocity = (resultingVelocity > 0) ? maxSpeed : -maxSpeed;
         }
         comp.setVelocity(resultingVelocity, comp.getVelocity().y);
     }

@@ -79,9 +79,8 @@ public class FiniteStateMachine {
                 MachineState newState = states.get(stateName);
 
                 oldState.onExit(this, stateName, newState);
-                newState.onEnter(this, oldStateName, oldState);
-
                 currentStateName = stateName;
+                newState.onEnter(this, oldStateName, oldState);
             }
         }
     }
