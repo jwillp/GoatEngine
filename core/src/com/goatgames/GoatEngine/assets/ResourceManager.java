@@ -1,4 +1,4 @@
-package com.goatgames.goatengine;
+package com.goatgames.goatengine.assets;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.AtlasTmxMapLoader;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.goatgames.goatengine.GoatEngine;
+import com.goatgames.goatengine.assets.TextAsset;
+import com.goatgames.goatengine.assets.TextAssetLoader;
 import com.goatgames.goatengine.utils.GAssert;
 
 /**
@@ -22,6 +25,7 @@ public class ResourceManager {
         manager = new AssetManager();
 
         manager.setLoader(TiledMap.class, new AtlasTmxMapLoader(new InternalFileHandleResolver()));
+        manager.setLoader(TextAsset.class, new TextAssetLoader(new InternalFileHandleResolver()));
     }
 
 
@@ -148,11 +152,11 @@ public class ResourceManager {
      */
     public TiledMap getMap(String tmxFile) {
         String map = GoatEngine.config.getString("resources.maps_directory") + tmxFile;
-        if(! isLoaded(map) && GoatEngine.config.getBoolean("resources.auto_load")){
+        if(!isLoaded(map) && GoatEngine.config.getBoolean("resources.auto_load")){
             loadMap(tmxFile);
             manager.finishLoadingAsset(map);
         }
-        GAssert.that(isLoaded(map), "TMX MAP File not loaded: " + map);
+        GAssert.that(isLoaded(map), String.format("TMX MAP File not loaded: %s", map));
         return manager.get(map);
     }
 
@@ -163,5 +167,28 @@ public class ResourceManager {
     public void loadMap(String tmxFile) {
         manager.load(GoatEngine.config.getString("resources.maps_directory") + tmxFile, TiledMap.class);
         //manager.load("data/tiledmap/tilemap.tmx", TileMapRenderer.class, new TileMapRendererLoader.TileMapParameter("data/tiledmap/", 8, 8));
+    }
+
+    /**
+     * Loads a text File
+     * @param resource path to the text file
+     */
+    public void loadText(String resource){
+        manager.load(resource, TextAsset.class);
+    }
+
+    /**
+     * Returns a text file (if it was already loaded)
+     * @param resource resource.
+     * @return text file
+     */
+    public String getText(String resource){
+        if(!isLoaded(resource) && GoatEngine.config.getBoolean("resources.auto_load")){
+            loadText(resource);
+            manager.finishLoading();
+        }
+        GAssert.that(isLoaded(resource), String.format("Text file not loaded: %s", resource));
+        TextAsset txt = manager.get(resource);
+        return txt.getData();
     }
 }

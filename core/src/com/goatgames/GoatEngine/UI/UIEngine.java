@@ -3,6 +3,7 @@ package com.goatgames.goatengine.ui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.goatgames.goatengine.GoatEngine;
 
 /**
@@ -15,17 +16,22 @@ public class UIEngine {
 
 
     public UIEngine(){
-        stage = new Stage();
+        stage = new Stage(new ScreenViewport());
         GoatEngine.inputManager.addInputProcessor(stage);
 
-        rootTable = new Table();
+        UIBuilder builder = new UIBuilder();
+        UIManager manager = builder.build("H:/home/Dev/GoatEngine/local/ui.uiml.twig");
+        rootTable = manager.getRoot();
         rootTable.setFillParent(true);
-        stage.addActor(rootTable);
+
 
         // TODO move value in GEConfig
         rootTable.setDebug(true); // This is optional, but enables debug lines for tables.
 
+        stage.addActor(rootTable);
+
         // Add widgets to the rootTable here.
+
     }
 
 

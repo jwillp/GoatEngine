@@ -1,6 +1,7 @@
 package com.goatgames.goatengine;
 
 import com.badlogic.gdx.Gdx;
+import com.goatgames.goatengine.assets.ResourceManager;
 import com.goatgames.goatengine.eventmanager.EventManager;
 import com.goatgames.goatengine.graphicsrendering.GraphicsEngine;
 import com.goatgames.goatengine.input.InputManager;
