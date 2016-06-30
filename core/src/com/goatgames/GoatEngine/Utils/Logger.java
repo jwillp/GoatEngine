@@ -32,41 +32,41 @@ public class Logger {
      * @param message
      */
     private static void log(String level, Object message){
-        if(!GEConfig.isReady()) return;
-        if (!GoatEngine.config.getArray("logger.levels").contains(level, false))return;
+        if (GEConfig.isReady()) {
+            if (!GoatEngine.config.getArray("logger.levels").contains(level, false /* identity */)) {
+                return;
+            }
+            printToScreen = GoatEngine.config.getBoolean("logger.print_screen");
 
-        printToScreen = GoatEngine.config.getBoolean("logger.print_screen");
+            if(logFile == null){
+                String longDate = new SimpleDateFormat("YYYYMMDDHHmmss").format(GEConfig.LAUNCH_DATE);
+                final String LOGGER_DIRECTORY = GoatEngine.config.getString("logger.directory");
+                final String LOG_FILE_FORMAT = GoatEngine.config.getString("logger.file_name_format");
+                String outputFile =  LOGGER_DIRECTORY + LOG_FILE_FORMAT.replace("%date%", longDate);
+
+                String osInfo = String.format("OS: %s  Version: %s Architecture: %s",
+                        System.getProperty("os.name"),
+                        System.getProperty("os.version"),
+                        System.getProperty("os.arch"));
+
+                String envXml = envToXml(outputFile, GEConfig.LAUNCH_DATE.toString(), osInfo);
+                Gdx.files.local(outputFile).writeString(envXml + "\n", true, StandardCharsets.UTF_8.toString());
+                logFile = outputFile;
+            }
+        }
+
         String logTime = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
         String time = "["+logTime+"] ";
-
-        if(logFile == null){
-            String longDate = new SimpleDateFormat("YYYYMMDDHHmmss").format(GEConfig.LAUNCH_DATE);
-            final String LOGGER_DIRECTORY = GoatEngine.config.getString("logger.directory");
-            final String LOG_FILE_FORMAT = GoatEngine.config.getString("logger.file_name_format");
-            String outputFile =  LOGGER_DIRECTORY + LOG_FILE_FORMAT.replace("%date%", longDate);
-
-
-
-
-            String osInfo = String.format("OS: %s  Version: %s Architecture: %s",
-                    System.getProperty("os.name"),
-                    System.getProperty("os.version"),
-                    System.getProperty("os.arch"));
-
-            String envXml = envToXml(outputFile, GEConfig.LAUNCH_DATE.toString(), osInfo);
-            Gdx.files.local(outputFile).writeString(envXml + "\n", true, StandardCharsets.UTF_8.toString());
-            logFile = outputFile;
-        }
 
         // File Line
         String stack = new Exception().getStackTrace()[2].toString();
         int firstBracket = stack.indexOf('(');
         String fileAndLine = stack.substring(firstBracket + 1, stack.indexOf(')', firstBracket));
 
-
         String xml = logToXml(level, message, fileAndLine, time);
-
-        Gdx.files.local(logFile).writeString(xml + "\n", true, StandardCharsets.UTF_8.toString());
+        if(logFile != null) {
+            Gdx.files.local(logFile).writeString(xml + "\n", true, StandardCharsets.UTF_8.toString());
+        }
         print(level, message);
     }
 
