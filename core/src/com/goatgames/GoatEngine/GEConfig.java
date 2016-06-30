@@ -18,8 +18,7 @@ public class GEConfig extends EngineConfig{
     private static final String CONFIG_FILE_PATH = PRIV_DATA_DIRECTORY + "ge.conf";
     public static final String BUILD_VERSION = "16.02.12";                   // The current build version of the engine
     public static final Date LAUNCH_DATE = Calendar.getInstance().getTime(); // The date at which the engine was launched
-
-
+    private static boolean ready = false;
 
 
     /**
@@ -54,6 +53,11 @@ public class GEConfig extends EngineConfig{
         }catch (LuaScript.LuaScriptException ex){
             throw new InvalidConfigFileException(ex.getMessage());
         }
+        ready = true;
+    }
+
+    public static boolean isReady() {
+        return ready;
     }
 
     /**

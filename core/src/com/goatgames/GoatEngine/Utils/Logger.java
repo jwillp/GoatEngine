@@ -32,6 +32,7 @@ public class Logger {
      * @param message
      */
     private static void log(String level, Object message){
+        if(!GEConfig.isReady()) return;
         if (!GoatEngine.config.getArray("logger.levels").contains(level, false))return;
 
         printToScreen = GoatEngine.config.getBoolean("logger.print_screen");
@@ -68,7 +69,6 @@ public class Logger {
         Gdx.files.local(logFile).writeString(xml + "\n", true, StandardCharsets.UTF_8.toString());
         print(level, message);
     }
-
 
     /**
      * Returns the environnement information in an XML format
@@ -110,9 +110,6 @@ public class Logger {
 
     }
 
-
-
-
     /**
      * Prints in the program's console
      */
@@ -138,8 +135,6 @@ public class Logger {
     public static void debug(Object message){
         print(LEVEL_DEBUG, message);
     }
-
-
 
     /**
      * Writes an important but not erroneous message
@@ -167,12 +162,6 @@ public class Logger {
     public static void fatal(Object message){
         log(LEVEL_FATAL, message);
     }
-
-
-    private static String createHeader(final String level){
-        return "[" + level + "]" + " ";
-    }
-
 
     /**
      * Enables the screen printing
