@@ -17,7 +17,13 @@ public abstract class Macro {
      * Do not return the @ character.
      * @return
      */
-    public abstract String getToken();
+    public String getToken(){
+        String simpleName = this.getClass().getSimpleName();
+        char[] c = simpleName.toCharArray();
+        c[0] = Character.toLowerCase(c[0]);
+        simpleName = new String(c);
+        return simpleName;
+    }
 
     /**
      * Multiplies two variables
@@ -35,11 +41,6 @@ public abstract class Macro {
 
             int result = number.getInt() * factor.getInt();
             return new UIVariable(result);
-        }
-
-        @Override
-        public String getToken() {
-            return "multiply";
         }
     }
 
@@ -62,11 +63,6 @@ public abstract class Macro {
             int result = number.getInt() / factor.getInt(); // Result might not be accurate (TODO add float type)
             return new UIVariable(result);
         }
-
-        @Override
-        public String getToken() {
-            return "divide";
-        }
     }
 
     /**
@@ -81,11 +77,6 @@ public abstract class Macro {
             if(!GAssert.that(!(params.length < NB_ARGUMENTS), "MACRO(" + getToken() + "), not enough arguments")) return null;
 
             throw new NotImplementedException();
-        }
-
-        @Override
-        public String getToken() {
-            return "add";
         }
     }
 
@@ -102,11 +93,6 @@ public abstract class Macro {
 
             throw new NotImplementedException();
         }
-
-        @Override
-        public String getToken() {
-            return "minus";
-        }
     }
 
     /**
@@ -121,11 +107,6 @@ public abstract class Macro {
             if(!GAssert.that(!(params.length < NB_ARGUMENTS), "MACRO(" + getToken() + "), not enough arguments")) return null;
 
             throw new NotImplementedException();
-        }
-
-        @Override
-        public String getToken() {
-            return "setValue";
         }
     }
 
@@ -142,11 +123,6 @@ public abstract class Macro {
 
             throw new NotImplementedException();
         }
-
-        @Override
-        public String getToken() {
-            return "increment";
-        }
     }
 
     /**
@@ -161,11 +137,6 @@ public abstract class Macro {
             if(!GAssert.that(!(params.length < NB_ARGUMENTS), "MACRO(" + getToken() + "), not enough arguments")) return null;
 
             throw new NotImplementedException();
-        }
-
-        @Override
-        public String getToken() {
-            return "isNull";
         }
     }
 
@@ -182,11 +153,6 @@ public abstract class Macro {
 
             throw new NotImplementedException();
         }
-
-        @Override
-        public String getToken() {
-            return "not";
-        }
     }
 
     /**
@@ -201,11 +167,6 @@ public abstract class Macro {
             if(!GAssert.that(!(params.length < NB_ARGUMENTS), "MACRO(" + getToken() + "), not enough arguments")) return null;
 
             throw new NotImplementedException();
-        }
-
-        @Override
-        public String getToken() {
-            return "or";
         }
     }
 
@@ -222,17 +183,12 @@ public abstract class Macro {
 
             throw new NotImplementedException();
         }
-
-        @Override
-        public String getToken() {
-            return "and";
-        }
     }
 
     /**
      * Macro used to return a parameter from the Goat Engine configuration file
      */
-    class GetGEParam extends Macro{
+    public static class GetGEParam extends Macro{
 
         public UIVariable execute(UIVariable[] params){
 
@@ -258,16 +214,12 @@ public abstract class Macro {
 
             return var;
         }
-
-        public String getToken(){
-            return "getGeParam";
-        }
     }
 
     /**
      * Macro used to get absolute value of another value
      */
-    class Abs extends Macro{
+    public static class Abs extends Macro{
 
         public UIVariable execute(UIVariable[] params){
             final int NB_ARGUMENTS = 1;
@@ -276,16 +228,12 @@ public abstract class Macro {
             UIVariable var = params[0];
             return new UIVariable(Math.abs(var.getInt()));
         }
-
-        public String getToken(){
-            return "abs";
-        }
     }
 
     /**
      * Macro used to get the lowest value
      */
-    class Min extends Macro{
+    public static class Min extends Macro{
 
         public UIVariable execute(UIVariable[] params){
             if(!GAssert.that(params.length > 0, "Not enough arguments")) return null;
@@ -297,10 +245,6 @@ public abstract class Macro {
                 min = (intValue < min) ? intValue : min;
             }
             return new UIVariable(min);
-        }
-
-        public String getToken(){
-            return "min";
         }
     }
 
@@ -320,10 +264,6 @@ public abstract class Macro {
             }
             return new UIVariable(max);
         }
-
-        public String getToken(){
-            return "max";
-        }
     }
 
     /**
@@ -341,10 +281,6 @@ public abstract class Macro {
 
             return new UIVariable(start.toString() + var.getString() + end.toString());
         }
-
-        public String getToken(){
-            return "enclose";
-        }
     }
 
     /**
@@ -358,10 +294,6 @@ public abstract class Macro {
             if(GAssert.that( !(params.length < NB_ARGUMENTS), "Not enough arguments")) return null;
             UIVariable var = params[0];
             return new UIVariable(var.getString().toUpperCase());
-        }
-
-        public String getToken(){
-            return "upper";
         }
     }
 
@@ -377,10 +309,6 @@ public abstract class Macro {
             UIVariable var = params[0];
 
             return new UIVariable(var.getString().toLowerCase());
-        }
-
-        public String getToken(){
-            return "lower";
         }
     }
 
@@ -398,10 +326,6 @@ public abstract class Macro {
             String replaceWith = params[1].getString();
             return new UIVariable(var.replace(var, replaceWith));
         }
-
-        public String getToken(){
-            return "replace";
-        }
     }
 
     /**
@@ -417,16 +341,12 @@ public abstract class Macro {
             String var = params[0].getString();
             return new UIVariable(var.trim());
         }
-
-        public String getToken(){
-            return "trim";
-        }
     }
 
     /**
      * Indicates if a string or a char is contained in another
      */
-    class Contains extends Macro {
+    public static class Contains extends Macro {
 
         public  UIVariable execute(UIVariable[] params){
             final int NB_ARGUMENTS = 2;
@@ -438,16 +358,12 @@ public abstract class Macro {
 
             return new UIVariable(hay.getString().contains(needle.getString()));
         }
-
-        public String getToken(){
-            return "contains";
-        }
     }
 
     /**
      * Indicates if a string or a char is contained in another
      */
-    class Sum extends Macro {
+    public static class Sum extends Macro {
 
         public  UIVariable execute(UIVariable[] params){
             if(!GAssert.that(params.length > 0, "Not enough arguments")) return null;
@@ -458,16 +374,12 @@ public abstract class Macro {
             }
             return new UIVariable(sum);
         }
-
-        public String getToken(){
-            return "sum";
-        }
     }
 
     /**
      * Indicates if a string or a char is contained in another
      */
-    class Avg extends Macro {
+    public static class Avg extends Macro {
 
         public  UIVariable execute(UIVariable[] params){
             if(!GAssert.that(params.length > 0, "Not enough arguments")) return null;
@@ -477,10 +389,6 @@ public abstract class Macro {
                 sum = params[i].getInt();
             }
             return new UIVariable(sum);
-        }
-
-        public String getToken(){
-            return "sum";
         }
     }
 }
