@@ -25,6 +25,17 @@ public abstract class Macro {
         return simpleName;
     }
 
+    protected boolean isValidNumberArg(int nbArgReceived, int nbArgumentsNeeded) {
+        if(!GAssert.that(!(nbArgReceived > nbArgumentsNeeded),
+                String.format("MACRO(%s), too many arguments", getToken())))
+            return false;
+        if(!GAssert.that(!(nbArgReceived < nbArgumentsNeeded),
+                String.format("MACRO(%s), not enough arguments", getToken())))
+            return false;
+
+        return true;
+    }
+
     /**
      * Multiplies two variables
      * e.g. size = 4, @multiply($size,2) : returns 8
@@ -33,8 +44,9 @@ public abstract class Macro {
         @Override
         public UIVariable execute(UIVariable[] params) {
             final int NB_ARGUMENTS = 2; // Number of arguments for the command
-            if(!GAssert.that(!(params.length > NB_ARGUMENTS), "MACRO(" + getToken() + "), too many arguments")) return null;
-            if(!GAssert.that(!(params.length < NB_ARGUMENTS), "MACRO(" + getToken() + "), not enough arguments")) return null;
+            if(!isValidNumberArg(params.length, NB_ARGUMENTS)){
+                return UIVariable.NULL;
+            }
             // All params will be interpreted as integers
             UIVariable number = params[0];
             UIVariable factor = params[1];
@@ -42,6 +54,7 @@ public abstract class Macro {
             int result = number.getInt() * factor.getInt();
             return new UIVariable(result);
         }
+
     }
 
     /**
@@ -53,8 +66,7 @@ public abstract class Macro {
         @Override
         public UIVariable execute(UIVariable[] params) {
             final int NB_ARGUMENTS = 2; // Number of arguments for the command
-            if(!GAssert.that(!(params.length > NB_ARGUMENTS), "MACRO(" + getToken() + "), too many arguments")) return null;
-            if(!GAssert.that(!(params.length < NB_ARGUMENTS), "MACRO(" + getToken() + "), not enough arguments")) return null;
+            if(!isValidNumberArg(params.length, NB_ARGUMENTS)) return UIVariable.NULL;
 
             // All params will be interpreted as integers
             UIVariable number = params[0];
@@ -72,24 +84,22 @@ public abstract class Macro {
 
         @Override
         public UIVariable execute(UIVariable[] params) {
-            final int NB_ARGUMENTS = 0; // Number of arguments for the command
-            if(!GAssert.that(!(params.length > NB_ARGUMENTS), "MACRO(" + getToken() + "), too many arguments")) return null;
-            if(!GAssert.that(!(params.length < NB_ARGUMENTS), "MACRO(" + getToken() + "), not enough arguments")) return null;
+            final int NB_ARGUMENTS = 2; // Number of arguments for the command
+            if(!isValidNumberArg(params.length, NB_ARGUMENTS)) return UIVariable.NULL;
 
             throw new NotImplementedException();
         }
     }
 
     /**
-     *  Minuss
+     *  Minus
      */
     public static class Minus extends Macro{
 
         @Override
         public UIVariable execute(UIVariable[] params) {
-            final int NB_ARGUMENTS = 0; // Number of arguments for the command
-            if(!GAssert.that(!(params.length > NB_ARGUMENTS), "MACRO(" + getToken() + "), too many arguments")) return null;
-            if(!GAssert.that(!(params.length < NB_ARGUMENTS), "MACRO(" + getToken() + "), not enough arguments")) return null;
+            final int NB_ARGUMENTS = 2; // Number of arguments for the command
+            if(!isValidNumberArg(params.length, NB_ARGUMENTS)) return UIVariable.NULL;
 
             throw new NotImplementedException();
         }
@@ -102,9 +112,8 @@ public abstract class Macro {
 
         @Override
         public UIVariable execute(UIVariable[] params) {
-            final int NB_ARGUMENTS = 0; // Number of arguments for the command
-            if(!GAssert.that(!(params.length > NB_ARGUMENTS), "MACRO(" + getToken() + "), too many arguments")) return null;
-            if(!GAssert.that(!(params.length < NB_ARGUMENTS), "MACRO(" + getToken() + "), not enough arguments")) return null;
+            final int NB_ARGUMENTS = 1; // Number of arguments for the command
+            if(!isValidNumberArg(params.length, NB_ARGUMENTS)) return UIVariable.NULL;
 
             throw new NotImplementedException();
         }
@@ -117,9 +126,8 @@ public abstract class Macro {
 
         @Override
         public UIVariable execute(UIVariable[] params) {
-            final int NB_ARGUMENTS = 0; // Number of arguments for the command
-            if(!GAssert.that(!(params.length > NB_ARGUMENTS), "MACRO(" + getToken() + "), too many arguments")) return null;
-            if(!GAssert.that(!(params.length < NB_ARGUMENTS), "MACRO(" + getToken() + "), not enough arguments")) return null;
+            final int NB_ARGUMENTS = 2; // Number of arguments for the command
+            if(!isValidNumberArg(params.length, NB_ARGUMENTS)) return UIVariable.NULL;
 
             throw new NotImplementedException();
         }
@@ -132,9 +140,8 @@ public abstract class Macro {
 
         @Override
         public UIVariable execute(UIVariable[] params) {
-            final int NB_ARGUMENTS = 0; // Number of arguments for the command
-            if(!GAssert.that(!(params.length > NB_ARGUMENTS), "MACRO(" + getToken() + "), too many arguments")) return null;
-            if(!GAssert.that(!(params.length < NB_ARGUMENTS), "MACRO(" + getToken() + "), not enough arguments")) return null;
+            final int NB_ARGUMENTS = 1; // Number of arguments for the command
+            if(!isValidNumberArg(params.length, NB_ARGUMENTS)) return UIVariable.NULL;
 
             throw new NotImplementedException();
         }
@@ -147,9 +154,8 @@ public abstract class Macro {
 
         @Override
         public UIVariable execute(UIVariable[] params) {
-            final int NB_ARGUMENTS = 0; // Number of arguments for the command
-            if(!GAssert.that(!(params.length > NB_ARGUMENTS), "MACRO(" + getToken() + "), too many arguments")) return null;
-            if(!GAssert.that(!(params.length < NB_ARGUMENTS), "MACRO(" + getToken() + "), not enough arguments")) return null;
+            final int NB_ARGUMENTS = 1; // Number of arguments for the command
+            if(!isValidNumberArg(params.length, NB_ARGUMENTS)) return UIVariable.NULL;
 
             throw new NotImplementedException();
         }
@@ -162,9 +168,8 @@ public abstract class Macro {
 
         @Override
         public UIVariable execute(UIVariable[] params) {
-            final int NB_ARGUMENTS = 0; // Number of arguments for the command
-            if(!GAssert.that(!(params.length > NB_ARGUMENTS), "MACRO(" + getToken() + "), too many arguments")) return null;
-            if(!GAssert.that(!(params.length < NB_ARGUMENTS), "MACRO(" + getToken() + "), not enough arguments")) return null;
+            final int NB_ARGUMENTS = 2; // Number of arguments for the command
+            if(!isValidNumberArg(params.length, NB_ARGUMENTS)) return UIVariable.NULL;
 
             throw new NotImplementedException();
         }
@@ -177,9 +182,8 @@ public abstract class Macro {
 
         @Override
         public UIVariable execute(UIVariable[] params) {
-            final int NB_ARGUMENTS = 0; // Number of arguments for the command
-            if(!GAssert.that(!(params.length > NB_ARGUMENTS), "MACRO(" + getToken() + "), too many arguments")) return null;
-            if(!GAssert.that(!(params.length < NB_ARGUMENTS), "MACRO(" + getToken() + "), not enough arguments")) return null;
+            final int NB_ARGUMENTS = 2; // Number of arguments for the command
+            if(!isValidNumberArg(params.length, NB_ARGUMENTS)) return UIVariable.NULL;
 
             throw new NotImplementedException();
         }
@@ -193,8 +197,7 @@ public abstract class Macro {
         public UIVariable execute(UIVariable[] params){
 
             final int NB_ARGUMENTS = 2;
-            if(GAssert.that( !(params.length > NB_ARGUMENTS), "Too many arguments")) return null;
-            if(GAssert.that( !(params.length < NB_ARGUMENTS), "Not enough arguments")) return null;
+            if(!isValidNumberArg(params.length, NB_ARGUMENTS)) return UIVariable.NULL;
 
             String[] types = {"boolean", "int", "float", "string"};
 
@@ -203,7 +206,7 @@ public abstract class Macro {
 
             //if(!GAssert.that(typeName in types, "Invalid type name")) return null;
 
-            UIVariable var = null;
+            UIVariable var = UIVariable.NULL;
 
             if(typeName.equals("boolean"))
                 var = new UIVariable(GoatEngine.config.getBoolean(paramName));
@@ -223,8 +226,8 @@ public abstract class Macro {
 
         public UIVariable execute(UIVariable[] params){
             final int NB_ARGUMENTS = 1;
-            if(GAssert.that( !(params.length > NB_ARGUMENTS), "Too many arguments")) return null;
-            if(GAssert.that( !(params.length < NB_ARGUMENTS), "Not enough arguments")) return null;
+            if(!isValidNumberArg(params.length, NB_ARGUMENTS)) return UIVariable.NULL;
+
             UIVariable var = params[0];
             return new UIVariable(Math.abs(var.getInt()));
         }
@@ -236,7 +239,7 @@ public abstract class Macro {
     public static class Min extends Macro{
 
         public UIVariable execute(UIVariable[] params){
-            if(!GAssert.that(params.length > 0, "Not enough arguments")) return null;
+            if(!GAssert.that(params.length > 0, "Not enough arguments")) return UIVariable.NULL;
 
             int min = Integer.MAX_VALUE;
             for(int i=0; i<params.length; i++){
@@ -254,7 +257,7 @@ public abstract class Macro {
     public static class Max extends Macro{
 
         public UIVariable execute(UIVariable[] params){
-            if(!GAssert.that(params.length > 0, "Not enough arguments")) return null;
+            if(!GAssert.that(params.length > 0, "Not enough arguments")) return UIVariable.NULL;
 
             int max = Integer.MIN_VALUE;
             for(int i=0; i<params.length; i++){
@@ -273,8 +276,8 @@ public abstract class Macro {
 
         public  UIVariable execute(UIVariable[] params){
             final int NB_ARGUMENTS = 3;
-            if(GAssert.that( !(params.length > NB_ARGUMENTS), "Too many arguments")) return null;
-            if(GAssert.that( !(params.length < NB_ARGUMENTS), "Not enough arguments")) return null;
+            if(!isValidNumberArg(params.length, NB_ARGUMENTS)) return UIVariable.NULL;
+
             UIVariable var = params[0];
             UIVariable start = params[1];
             UIVariable end = params[2];
@@ -290,8 +293,8 @@ public abstract class Macro {
 
         public  UIVariable execute(UIVariable[] params){
             final int NB_ARGUMENTS = 1;
-            if(GAssert.that( !(params.length > NB_ARGUMENTS), "Too many arguments")) return null;
-            if(GAssert.that( !(params.length < NB_ARGUMENTS), "Not enough arguments")) return null;
+            if(!isValidNumberArg(params.length, NB_ARGUMENTS)) return UIVariable.NULL;
+
             UIVariable var = params[0];
             return new UIVariable(var.getString().toUpperCase());
         }
@@ -304,8 +307,8 @@ public abstract class Macro {
 
         public  UIVariable execute(UIVariable[] params){
             final int NB_ARGUMENTS = 1;
-            if(GAssert.that( !(params.length > NB_ARGUMENTS), "Too many arguments")) return null;
-            if(GAssert.that( !(params.length < NB_ARGUMENTS), "Not enough arguments")) return null;
+            if(!isValidNumberArg(params.length, NB_ARGUMENTS)) return UIVariable.NULL;
+
             UIVariable var = params[0];
 
             return new UIVariable(var.getString().toLowerCase());
@@ -319,8 +322,7 @@ public abstract class Macro {
 
         public  UIVariable execute(UIVariable[] params){
             final int NB_ARGUMENTS = 2;
-            if(GAssert.that( !(params.length > NB_ARGUMENTS), "Too many arguments")) return null;
-            if(GAssert.that( !(params.length < NB_ARGUMENTS), "Not enough arguments")) return null;
+            if(!isValidNumberArg(params.length, NB_ARGUMENTS)) return UIVariable.NULL;
 
             String var = params[0].getString();
             String replaceWith = params[1].getString();
@@ -335,8 +337,7 @@ public abstract class Macro {
 
         public  UIVariable execute(UIVariable[] params){
             final int NB_ARGUMENTS = 1;
-            if(GAssert.that( !(params.length > NB_ARGUMENTS), "Too many arguments")) return null;
-            if(GAssert.that( !(params.length < NB_ARGUMENTS), "Not enough arguments")) return null;
+            if(!isValidNumberArg(params.length, NB_ARGUMENTS)) return UIVariable.NULL;
 
             String var = params[0].getString();
             return new UIVariable(var.trim());
@@ -350,8 +351,7 @@ public abstract class Macro {
 
         public  UIVariable execute(UIVariable[] params){
             final int NB_ARGUMENTS = 2;
-            if(GAssert.that( !(params.length > NB_ARGUMENTS), "Too many arguments")) return null;
-            if(GAssert.that( !(params.length < NB_ARGUMENTS), "Not enough arguments")) return null;
+            if(!isValidNumberArg(params.length, NB_ARGUMENTS)) return UIVariable.NULL;
 
             UIVariable hay = params[0];
             UIVariable needle = params[1];
@@ -366,7 +366,7 @@ public abstract class Macro {
     public static class Sum extends Macro {
 
         public  UIVariable execute(UIVariable[] params){
-            if(!GAssert.that(params.length > 0, "Not enough arguments")) return null;
+            if(!GAssert.that(params.length > 0, "Not enough arguments")) return UIVariable.NULL;
 
             int sum = 0;
             for(int i=0; i<params.length; i++){
@@ -382,7 +382,7 @@ public abstract class Macro {
     public static class Avg extends Macro {
 
         public  UIVariable execute(UIVariable[] params){
-            if(!GAssert.that(params.length > 0, "Not enough arguments")) return null;
+            if(!GAssert.that(params.length > 0, "Not enough arguments")) return UIVariable.NULL;
 
             int sum = 0;
             for(int i=0; i<params.length; i++){

@@ -5,9 +5,11 @@ package com.goatgames.goatengine.ui;
  */
 public class UIVariable {
 
+    public final static UIVariable NULL = new UIVariable(null, VariableType.STRING, true /* constant */);
 
     protected String value;
     protected VariableType varType;
+    protected boolean _const; // is constant or not
 
     public UIVariable(String strValue){
         this(strValue, VariableType.STRING);
@@ -21,10 +23,20 @@ public class UIVariable {
         this(String.valueOf(value), VariableType.BOOLEAN);
     }
 
+    public UIVariable(boolean value, boolean constant) {
+        this(String.valueOf(value), VariableType.BOOLEAN, constant);
+    }
+
     public UIVariable(String valueAsStr, VariableType varType){
+        this(valueAsStr, varType, false);
+    }
+
+    public UIVariable(String valueAsStr, VariableType varType, boolean constant){
         this.value = valueAsStr;
         this.varType = varType;
+        this._const = constant;
     }
+
 
     public boolean getBoolean(){
         return Boolean.parseBoolean(value);
@@ -94,6 +106,10 @@ public class UIVariable {
     @Override
     public String toString() {
         return String.format("%s(%s)", varType, value);
+    }
+
+    public boolean isConst() {
+        return _const;
     }
 
     /**

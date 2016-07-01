@@ -250,6 +250,7 @@ class GUTLLexer{
                 case '\r': // Skip carrige return
                 case '\n': // Skip new lines
                     processIgnoredChar(src, i, tokens);
+                    break;
                 default: // Everything else is an atom
                     processAtom(src, i, tokens);
             }
@@ -413,8 +414,11 @@ class GUTLParser{
     private Array<Token> tokens;
 
 
-
-
+    /**
+     * Parses an Array of token and generates a ParseTree out of it
+     * @param tokens array of tokens to parse
+     * @return ParseTree generatoed from the token
+     */
     public GUTLParseTreeNode parseTokens(Array<Token> tokens){
         if(tokens.size == 0) return null;
         curTokenIdx = -1;
@@ -423,15 +427,19 @@ class GUTLParser{
         // String should start with a macro
         nextToken();
         // Create an Empty root node to use as parent of the real root node because Java does not have pass-by-reference
-        GUTLParseTreeNode root = new GUTLParseTreeNode();
+        GUTLParseTreeNode root = null;
         if(expect(TokenType.MACRO)){
-            parseMacro(root);
+            root = parseMacro();
         }
         expect(TokenType.EOF);
-        return root.getChildren().get(0);
+        //GAssert.notNull(root, "root == null"); // Parsing Failed
+        return root;
     }
 
-
+    /**
+     * Returns the current token being evaluated by the parser
+     * @return current token evaluated
+     */
     private Token getCurrentToken(){
         return tokens.get(curTokenIdx);
     }
@@ -448,7 +456,7 @@ class GUTLParser{
      * (equivalent of doing if accept(type) then nextToken())
      */
     private boolean expect(TokenType type){
-        return GAssert.that(accept(type), "Unexpected token type :" + type.toString());
+        return GAssert.that(accept(type), "GUTL Parse Error: Expected token type :" + type.toString());
     }
 
     /**
@@ -456,6 +464,9 @@ class GUTLParser{
      * and if so changes the current token to that next one.
      */
     private boolean accept(TokenType type){
+        // Consume Blanks
+        while(getCurrentToken().type == TokenType.BLANK) nextToken();
+
         if(getCurrentToken().type == type){
             nextToken();
             return true;
@@ -464,49 +475,39 @@ class GUTLParser{
     }
 
     /**
-     * Parses the current Token as a macro
+     * Convenience method
+     * @return ParseTreeNode generated for the current evaluated macro
      */
-    private void parseMacro(GUTLParseTreeNode parent){
-        GUTLParseTreeNode node = createNode();
-        // Only macro nodes can be parents
-        GAssert.notNull(parent, "parent == null");
-        parent.addChild(node);
-        //Consume Blanks
-        while(accept(TokenType.BLANK));
-
-        if(expect(TokenType.LPAREN)){
-            do{
-                if(accept(TokenType.ATOM)){
-                    GUTLParseTreeNode atom = createNode();
-                    node.addChild(atom);
-                }
-                else if(accept(TokenType.STRLIT)){
-                    GUTLParseTreeNode str = createNode();
-                    node.addChild(str);
-                }
-                else if(accept(TokenType.MACRO)){
-                    parseMacro(node);
-                }
-            }while(accept(TokenType.COMMA));
-            if(expect(TokenType.RPAREN)){
-                //parseRParen();
-            }
-        }
+    private GUTLParseTreeNode parseMacro(){
+        return parseMacro(null);
     }
 
     /**
-     * Parses a Right Parenthesis
+     * Parses the current Token as a macro
      */
-    private void parseRParen(){
-        /*if(accept(TokenType.COMMA)){
-            if(expect(TokenType.MACRO)) {
-                parseMacro();
+    private GUTLParseTreeNode parseMacro(GUTLParseTreeNode parent){
+        GUTLParseTreeNode node = createNode();
+        // Only macro nodes can be parents
+        //GAssert.notNull(parent, "parent == null");
+        if(parent != null)
+            parent.addChild(node);
+
+        if (!expect(TokenType.LPAREN)) return null;
+        do{
+            if(accept(TokenType.ATOM)){
+                GUTLParseTreeNode atom = createNode();
+                node.addChild(atom);
             }
-        }*/
-        if(accept(TokenType.RPAREN)){
-            // )) can exist
-        }else if(accept(TokenType.EOF)){
-        }
+            else if(accept(TokenType.STRLIT)){
+                GUTLParseTreeNode str = createNode();
+                node.addChild(str);
+            }
+            else if(accept(TokenType.MACRO)){
+                parseMacro(node);
+            }
+        }while(accept(TokenType.COMMA));
+        if(!expect(TokenType.RPAREN)) return null;
+        return node;
     }
 
     /**
@@ -518,5 +519,7 @@ class GUTLParser{
         int prevIndex = (curTokenIdx > 0) ? (curTokenIdx - 1) : 0;
         return new GUTLParseTreeNode(tokens.get(prevIndex));
     }
+
+
 }
 

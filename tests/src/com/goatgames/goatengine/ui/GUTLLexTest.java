@@ -21,7 +21,27 @@ public class GUTLLexTest {
         assertTrue(tokens.size == 2);
 
         tokens = lexer.lex(" 3 ");
-        assertTrue(tokens.size == 4);
+        assertTrue(tokens.size == 2); // Lexer trims input
+    }
+
+    @Test
+    public void testLexExpressionsWithSpaces() throws Exception{
+        GUTLLexer lexer = new GUTLLexer();
+        Array<Token> tokens;
+
+        tokens = lexer.lex("@max(0,    200)  ");
+        // 1  - @max
+        // 2  - (
+        // 3  - 0
+        // 4  - ,
+        // 5  -
+        // 6  -
+        // 7  -
+        // 8  -
+        // 9  - 200
+        // 10 - )
+        // 11 - EOF
+        assertTrue(tokens.size == 11);
     }
 
     @Test
@@ -29,11 +49,25 @@ public class GUTLLexTest {
         GUTLLexer lexer = new GUTLLexer();
         Array<Token> tokens;
 
-        tokens = lexer.lex("2");
-        assertTrue(tokens.size == 2);
+        // 1 - @abs
+        // 2 - (
+        // 3 - 0
+        // 4 - )
+        // 5 - EOF
+        tokens = lexer.lex("@abs(0)");
+        assertTrue(tokens.size == 5);
 
-        tokens = lexer.lex(" 3 ");
-        assertTrue(tokens.size == 4);
+        // 1 - @sum
+        // 2 - (
+        // 3 - 1
+        // 4 - ,
+        // 5 - 2
+        // 6 - ,
+        // 7 - 3
+        // 8 - )
+        // 9 - EOF
+        tokens = lexer.lex("@sum(1,2,3)");
+        assertTrue(tokens.size == 9);
     }
 
     @Test
