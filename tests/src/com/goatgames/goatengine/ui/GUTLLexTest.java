@@ -75,11 +75,17 @@ public class GUTLLexTest {
         GUTLLexer lexer = new GUTLLexer();
         Array<Token> tokens;
 
-        tokens = lexer.lex("'a String Literal'");
+        tokens = lexer.lex("'a string Literal'");
         assertTrue(tokens.size == 2);
 
         tokens = lexer.lex("'incomplete string literal ");
         assertTrue(tokens.size == 1); // it should GAssert unclosed so only one token EOF
+
+        // 1 - '@trim(this string literal contains a macro)'
+        // 2 - EOF
+        tokens = lexer.lex("'@trim(this string literal contains a macro)'");
+        assertTrue(tokens.size == 2);
+
     }
 
     @Test

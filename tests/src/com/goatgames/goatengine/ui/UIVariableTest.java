@@ -38,6 +38,6 @@ public class UIVariableTest {
 
         constant.setValue("56"); // Cannot set value of constant
         assertFalse(constant.getInt() == 56);
-        
+
     }
 }
