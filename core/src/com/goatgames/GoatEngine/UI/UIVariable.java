@@ -16,7 +16,11 @@ public class UIVariable {
     }
 
     public UIVariable(int value){
-        this(String.valueOf(value),VariableType.INT);
+        this(value,false);
+    }
+
+    public UIVariable(int v, boolean constant) {
+        this(String.valueOf(v),VariableType.INT, constant);
     }
 
     public UIVariable(boolean value) {
@@ -36,6 +40,8 @@ public class UIVariable {
         this.varType = varType;
         this._const = constant;
     }
+
+
 
 
     public boolean getBoolean(){
@@ -100,6 +106,7 @@ public class UIVariable {
     }
 
     public void setValue(String value) {
+        if(this.isConst()) return;
         this.value = value;
     }
 
