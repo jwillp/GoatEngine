@@ -8,8 +8,7 @@ import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 import com.goatgames.goatengine.physics.ColliderDef;
 import com.goatgames.goatengine.physics.PhysicsComponent;
-import com.goatgames.goatengine.utils.GAssert;
-import com.goatgames.goatengine.utils.Logger;
+import com.goatgames.gdk.GAssert;
 import org.ini4j.Ini;
 
 import java.io.IOException;
@@ -61,8 +60,8 @@ public class PrefabFactory {
                 phys.getBodyDef().addColliderDef(ColliderDef.colliderDefFromNormalisedData(map));
             }
         } catch (IOException e) {
-            Logger.error(e.getMessage());
-            Logger.logStackTrace(e);
+            GoatEngine.logger.error(e.getMessage());
+            GoatEngine.logger.error(e);
             e.printStackTrace();
         }
         return entity;

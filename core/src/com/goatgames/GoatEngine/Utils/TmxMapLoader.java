@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.PrefabFactory;
 import com.goatgames.goatengine.ecs.common.TransformComponent;

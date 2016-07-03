@@ -1,6 +1,6 @@
 package com.goatgames.goatengine.animator;
 
-import com.goatgames.goatengine.utils.Logger;
+import com.goatgames.goatengine.GoatEngine;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,7 +58,7 @@ public class Animator{
         }
 
 
-        Logger.debug(this.currentState.getAnimation());
+        GoatEngine.logger.debug(this.currentState.getAnimation());
     }
 
 

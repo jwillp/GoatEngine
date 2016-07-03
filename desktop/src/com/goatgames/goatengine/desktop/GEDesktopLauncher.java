@@ -6,6 +6,8 @@ import com.goatgames.goatengine.GenericGame;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
 import com.goatgames.goatengine.files.GdxFileManager;
+import com.goatgames.goatengine.logger.GameLogger;
+import com.goatgames.gdk.GAssert;
 
 import javax.swing.*;
 
@@ -28,6 +30,8 @@ public class GEDesktopLauncher {
 
         // GoatEngine
         GoatEngine.fileManager = new GdxFileManager();
+        GoatEngine.logger = new GameLogger(GoatEngine.fileManager);
+        GAssert.logger = GoatEngine.logger;
 
         // Libgdx application
         LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();

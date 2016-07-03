@@ -5,9 +5,9 @@ import com.goatgames.goatengine.eventmanager.EventManager;
 import com.goatgames.goatengine.files.GdxFileManager;
 import com.goatgames.goatengine.graphicsrendering.GraphicsEngine;
 import com.goatgames.goatengine.input.InputManager;
+import com.goatgames.goatengine.logger.GameLogger;
 import com.goatgames.goatengine.screenmanager.GameScreenManager;
 import com.goatgames.goatengine.screenmanager.LateUpdateEvent;
-import com.goatgames.goatengine.utils.Logger;
 import com.goatgames.goatengine.utils.Timer;
 
 /**
@@ -55,7 +55,9 @@ public class GoatEngine {
     private static Timer devCrxStatsTimer;
 
     private static final LateUpdateEvent lateUpdateEvent = new LateUpdateEvent();
+
     public static GdxFileManager fileManager = null;
+    public static GameLogger logger = null;
 
     /**
      * This initializes the Game Engine
@@ -66,10 +68,10 @@ public class GoatEngine {
 
         // Load configuration
         config.load();
-        Logger.info(" > Engine config read and applied " + performanceTimer.getDeltaTime() + "ms");
+        GoatEngine.logger.info(" > Engine config read and applied " + performanceTimer.getDeltaTime() + "ms");
         performanceTimer.reset();
 
-        Logger.info("Engine Initialisation ...");
+        GoatEngine.logger.info("Engine Initialisation ...");
 
         if(config.getBoolean("dev_ctx")){
             devCrxStatsTimer = new Timer(Timer.ONE_SECOND);
@@ -81,43 +83,43 @@ public class GoatEngine {
         // Graphics Engine
         graphicsEngine = new GraphicsEngine();
         graphicsEngine.init();
-        Logger.info(" > Graphics Engine initialised "+ performanceTimer.getDeltaTime() + "ms");
+        GoatEngine.logger.info(" > Graphics Engine initialised "+ performanceTimer.getDeltaTime() + "ms");
 
 
         // Event Manager
         eventManager = new EventManager();
-        Logger.info(" > Event Manager initialised "+ performanceTimer.getDeltaTime() + "ms");
+        GoatEngine.logger.info(" > Event Manager initialised "+ performanceTimer.getDeltaTime() + "ms");
         //eventManager.registerListener(profiler);
         performanceTimer.reset();
 
         // Input manager
         inputManager = new InputManager();
         inputManager.init();
-        Logger.info(" > Input Manager initialised "+ performanceTimer.getDeltaTime() + "ms");
+        GoatEngine.logger.info(" > Input Manager initialised "+ performanceTimer.getDeltaTime() + "ms");
         performanceTimer.reset();
 
         // Audio Manager
         audioMixer = new AudioMixer();
-        Logger.info(" > Audio Manager initialised "+ performanceTimer.getDeltaTime() + "ms");
+        GoatEngine.logger.info(" > Audio Manager initialised "+ performanceTimer.getDeltaTime() + "ms");
         performanceTimer.reset();
 
 
         // Asset Manager
         resourceManager = new ResourceManager();
         resourceManager.init();
-        Logger.info("> Asset Manager initialised " + performanceTimer.getDeltaTime() + " ms ");
+        GoatEngine.logger.info("> Asset Manager initialised " + performanceTimer.getDeltaTime() + " ms ");
         performanceTimer.reset();
 
         // Game Screen manager
         gameScreenManager = new GameScreenManager();
         gameScreenManager.init();
-        Logger.info(" > Game screen Manager initialised " + performanceTimer.getDeltaTime() + "ms");
+        GoatEngine.logger.info(" > Game screen Manager initialised " + performanceTimer.getDeltaTime() + "ms");
         performanceTimer.reset();
 
         initialised = true;
         running = true;
 
-        Logger.info("Engine initialisation complete " + performanceTimer.getRunningTime() + "ms");
+        GoatEngine.logger.info("Engine initialisation complete " + performanceTimer.getRunningTime() + "ms");
         performanceTimer.reset();
 
     }

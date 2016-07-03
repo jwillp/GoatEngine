@@ -19,7 +19,6 @@ import com.goatgames.goatengine.input.events.EntityReleasedEvent;
 import com.goatgames.goatengine.input.events.EntityTouchedEvent;
 import com.goatgames.goatengine.input.events.mouse.MousePressEvent;
 import com.goatgames.goatengine.input.events.mouse.MouseReleasedEvent;
-import com.goatgames.goatengine.utils.Logger;
 
 /**
  * System used to process some input related events. For example clicked and dragged entities
@@ -76,7 +75,7 @@ public class InputSystem extends EntitySystem implements GameEventListener{
                 TouchableComponent touchableComponent = (TouchableComponent) entity.getComponent(TouchableComponent.ID);
                 touchableComponent.setTouched(true);
                 fireEvent(new EntityTouchedEvent(entityId));
-                Logger.debug("Entity Selection yeah!");
+                GoatEngine.logger.debug("Entity Selection yeah!");
             }
             getEntityManager().freeEntityObject(entity);
         }

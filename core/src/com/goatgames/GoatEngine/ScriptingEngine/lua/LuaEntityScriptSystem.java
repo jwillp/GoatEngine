@@ -2,14 +2,12 @@ package com.goatgames.goatengine.scriptingengine.lua;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.goatgames.goatengine.GEConfig;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.scriptingengine.EntityScriptComponent;
 import com.goatgames.goatengine.scriptingengine.IEntityScript;
-import com.goatgames.goatengine.utils.GAssert;
-import com.goatgames.goatengine.utils.Logger;
+import com.goatgames.gdk.GAssert;
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaValue;
 
@@ -40,7 +38,7 @@ public class LuaEntityScriptSystem extends EntitySystem {
             LuaEntityScriptComponent luaScriptComp;
             luaScriptComp = (LuaEntityScriptComponent) entity.getComponent(LuaEntityScriptComponent.ID);
             if(!entity.hasComponent(EntityScriptComponent.ID)){
-                Logger.warn("Entity does not have an EntityScriptComponent, an instance will automatically be added");
+                GoatEngine.logger.warn("Entity does not have an EntityScriptComponent, an instance will automatically be added");
                 entity.addComponent(new EntityScriptComponent(true), EntityScriptComponent.ID);
             }
             EntityScriptComponent entityScriptComp = (EntityScriptComponent)entity.getComponent(EntityScriptComponent.ID);
@@ -83,8 +81,8 @@ public class LuaEntityScriptSystem extends EntitySystem {
         try{
             script = loadScript(scriptFile);
         }catch (LuaScript.LuaScriptException ex){
-            Logger.error(ex.getMessage());
-            Logger.logStackTrace(ex);
+            GoatEngine.logger.error(ex.getMessage());
+            GoatEngine.logger.error(ex);
         }
         return script;
     }
@@ -150,7 +148,7 @@ public class LuaEntityScriptSystem extends EntitySystem {
                 info.setLastModified(lastModifiedOnDisk);
                 // Find entities with that script
                 for (Entity entity: getEntityManager().getEntitiesWithComponent(EntityScriptComponent.ID)){
-                    Logger.info(String.format("Reloading script \"%s\" ...", scriptFile));
+                    GoatEngine.logger.info(String.format("Reloading script \"%s\" ...", scriptFile));
                     EntityScriptComponent comp = (EntityScriptComponent) entity.getComponent(EntityScriptComponent.ID);
                     if (comp.hasScriptWithName(scriptFile)){
                         IEntityScript script = comp.getScriptByName(scriptFile);
@@ -158,9 +156,9 @@ public class LuaEntityScriptSystem extends EntitySystem {
                         if(GAssert.notNull(luaScript,
                                 String.format("Script %s was not a lua script instance.", scriptFile))){
                             luaScript.reload();
-                            Logger.info(String.format("Reloaded script \"%s\".", scriptFile));
+                            GoatEngine.logger.info(String.format("Reloaded script \"%s\".", scriptFile));
                         }else{
-                            Logger.info("Could not reload script.");
+                            GoatEngine.logger.info("Could not reload script.");
                         }
                     }
                 }

@@ -9,7 +9,7 @@ import com.goatgames.goatengine.ecs.ISerialiser;
 import com.goatgames.goatengine.ecs.IniSerializer;
 import com.goatgames.goatengine.ecs.JsonSerialiser;
 import com.goatgames.goatengine.ecs.common.TagsComponent;
-import com.goatgames.goatengine.utils.GAssert;
+import com.goatgames.gdk.GAssert;
 
 import java.util.UUID;
 

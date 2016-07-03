@@ -1,8 +1,6 @@
 package com.goatgames.goatengine.screenmanager;
 
-
 import com.goatgames.goatengine.GoatEngine;
-import com.goatgames.goatengine.utils.Logger;
 
 import java.util.Stack;
 
@@ -36,7 +34,7 @@ public class GameScreenManager {
      * Does necessary clean ups of the manager
      */
     public void cleanUp() {
-        Logger.info("Screen Manager cleaning up");
+        GoatEngine.logger.info("Screen Manager cleaning up");
     }
 
 
@@ -71,13 +69,13 @@ public class GameScreenManager {
      * @param screen
      */
     private void addScreen(GameScreen screen){
-        Logger.info("> Game Engine adding Screen ...");
+        GoatEngine.logger.info("> Game Engine adding Screen ...");
         if(!this.screens.isEmpty())
             this.screens.peek().pause();
 
         this.screens.push(screen);
         this.screens.peek().init(this);
-        Logger.info("> Game Engine Screen Added");
+        GoatEngine.logger.info("> Game Engine Screen Added");
     }
 
     /**
@@ -165,7 +163,7 @@ public class GameScreenManager {
     private void handleEmptyStack(){
         /*if(GEConfig.ScreenManager.ON_EMPTY_STACK.equals(GEConfig.ScreenManager.FATAL)){*/
             EmptyScreenManagerException ex = new EmptyScreenManagerException();
-            Logger.fatal(ex.getMessage());
+            GoatEngine.logger.fatal(ex.getMessage());
             throw ex;
         /*}else if(GEConfig.ScreenManager.ON_EMPTY_STACK.equals(GEConfig.ScreenManager.EXIT)){
             // TODO notify GoatEngine that we want to quit

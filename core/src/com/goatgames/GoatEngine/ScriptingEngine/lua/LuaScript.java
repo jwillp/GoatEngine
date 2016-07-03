@@ -1,7 +1,7 @@
 package com.goatgames.goatengine.scriptingengine.lua;
 
 import com.badlogic.gdx.Gdx;
-import com.goatgames.goatengine.utils.GAssert;
+import com.goatgames.gdk.GAssert;
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaValue;

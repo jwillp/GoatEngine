@@ -6,8 +6,7 @@ import com.goatgames.goatengine.ecs.core.GameComponent;
 import com.goatgames.goatengine.eventmanager.GameEvent;
 import com.goatgames.goatengine.fsm.FiniteStateMachine;
 import com.goatgames.goatengine.scriptingengine.PublicAPI;
-import com.goatgames.goatengine.utils.GAssert;
-import com.goatgames.goatengine.utils.Logger;
+import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.utils.Timer;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
@@ -25,8 +24,8 @@ public class GoatEngineAPI extends TwoArgFunction {
     public LuaValue call(LuaValue modname, LuaValue env) {
         LuaValue library = tableOf();
 
-        library.set("logger", CoerceJavaToLua.coerce(new Logger()));      // We only access static methods
         library.set("engine", CoerceJavaToLua.coerce(new GoatEngine()));  // We only access static methods
+        library.set("logger", CoerceJavaToLua.coerce(GoatEngine.logger));
 
         library.set("resourceManager", CoerceJavaToLua.coerce(GoatEngine.resourceManager));
         library.set("eventManager", CoerceJavaToLua.coerce(GoatEngine.eventManager));

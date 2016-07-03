@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.input.events.gamepad.*;
-import com.goatgames.goatengine.utils.Logger;
 
 /**
  * Manages Game Controllers (GamePads)
@@ -77,7 +76,7 @@ public class GamePadManager implements ControllerListener{
         }
         int gamePadId = getControllerId(controller);
         GoatEngine.eventManager.fireEvent(new GamePadConnectedEvent(gamePadId));
-        Logger.debug("CONTROLLER CONNECTED! " + controller.getName());
+        GoatEngine.logger.debug("CONTROLLER CONNECTED! " + controller.getName());
     }
 
     /**

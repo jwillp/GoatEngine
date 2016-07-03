@@ -1,9 +1,13 @@
-package com.goatgames.goatengine.utils;
+package com.goatgames.gdk;
+
+import com.goatgames.goatengine.GoatEngine;
 
 /**
  * Classed use to test assertions
  */
 public class GAssert{
+
+    public static ILogger logger = null;
 
     /**
      * Assert that test is true otherwise log failure
@@ -86,7 +90,9 @@ public class GAssert{
      * @param message
      */
      private static void logAssertionError(String message){
-         Logger.error("ASSERTION FAIL " + message + " at: " + new Exception().getStackTrace()[2].toString());
+         if(logger != null) {
+             GoatEngine.logger.error("ASSERTION FAIL " + message + " at: " + new Exception().getStackTrace()[2].toString());
+         }
      }
 
     /**
@@ -95,6 +101,8 @@ public class GAssert{
      * @param fileName
      */
     private static void logAssertionError(String messageOnFail, String fileName) {
-        Logger.error("ASSERTION FAIL " + messageOnFail + " in: " + fileName);
+        if(logger != null) {
+            GoatEngine.logger.error("ASSERTION FAIL " + messageOnFail + " in: " + fileName);
+        }
     }
 }

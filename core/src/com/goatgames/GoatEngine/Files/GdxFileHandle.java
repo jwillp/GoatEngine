@@ -1,6 +1,7 @@
 package com.goatgames.goatengine.files;
 
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 
@@ -97,5 +98,23 @@ public class GdxFileHandle implements IFileHandle {
     @Override
     public InputStream read() {
         return gdxHandle.read();
+    }
+
+    @Override
+    public void writeString(String string, boolean append) {
+        // We cannot write using an internal handler, convert it to local
+        if(gdxHandle.type() == Files.FileType.Internal ){
+            gdxHandle = Gdx.files.local(string);
+        }
+        gdxHandle.writeString(string, append);
+    }
+
+    @Override
+    public void writeString(String string, boolean append, String charset) {
+        // We cannot write using an internal handler, convert it to local
+        if(gdxHandle.type() == Files.FileType.Internal ){
+            gdxHandle = Gdx.files.local(gdxHandle.path());
+        }
+        gdxHandle.writeString(string, append, charset);
     }
 }

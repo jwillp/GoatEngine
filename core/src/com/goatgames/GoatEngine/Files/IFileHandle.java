@@ -96,4 +96,21 @@ public interface IFileHandle {
      * @return InputStream
      */
     InputStream read();
+
+    /**
+     * Writes a string to the file.
+     * @param string the string to write
+     * @param append if <code>false</code>, the file should be overwritten if it exists, otherwise
+     *               append text at the end of the file
+     */
+    void writeString(String string, boolean append);
+
+    /**
+     * Writes a string to the file.
+     * @param string the string to write
+     * @param append if <code>false</code>, the file should be overwritten if it exists, otherwise
+     *               append text at the end of the file
+     * @param charset the charset to use
+     */
+    void writeString(String string, boolean append, String charset);
 }

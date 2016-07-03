@@ -7,8 +7,7 @@ import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.eventmanager.EntityEvent;
 import com.goatgames.goatengine.screenmanager.GameScreenConfig;
-import com.goatgames.goatengine.utils.GAssert;
-import com.goatgames.goatengine.utils.Logger;
+import com.goatgames.gdk.GAssert;
 
 /**
  * A system handling all cameras and their movements
@@ -23,8 +22,8 @@ public class CameraSystem extends EntitySystem {
 
     @Override
     public void init() {
-        Logger.info("Camera System initialisation ...");
-        Logger.info("Camera System initialised");
+        GoatEngine.logger.info("Camera System initialisation ...");
+        GoatEngine.logger.info("Camera System initialised");
     }
 
 

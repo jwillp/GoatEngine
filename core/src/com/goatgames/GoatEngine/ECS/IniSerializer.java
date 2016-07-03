@@ -3,6 +3,7 @@ package com.goatgames.goatengine.ecs;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
+import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
@@ -10,7 +11,6 @@ import com.goatgames.goatengine.physics.BoxCollider;
 import com.goatgames.goatengine.physics.CircleCollider;
 import com.goatgames.goatengine.physics.Collider;
 import com.goatgames.goatengine.physics.PhysicsComponent;
-import com.goatgames.goatengine.utils.Logger;
 import org.ini4j.Ini;
 
 import java.io.IOException;
@@ -39,8 +39,8 @@ public class IniSerializer {
         try {
             ini = new Ini(Gdx.files.internal(iniPath).file());
         } catch (IOException e) {
-            Logger.error(e.getMessage());
-            Logger.logStackTrace(e);
+            GoatEngine.logger.error(e.getMessage());
+            GoatEngine.logger.error(e);
             e.printStackTrace();
         }
     }
@@ -63,8 +63,8 @@ public class IniSerializer {
         try {
             ini.store();
         } catch (IOException e) {
-            Logger.error(e.getMessage());
-            Logger.logStackTrace(e);
+            GoatEngine.logger.error(e.getMessage());
+            GoatEngine.logger.error(e);
             e.printStackTrace();
         }
     }
@@ -73,7 +73,7 @@ public class IniSerializer {
      * Loads a manager from file
      */
     public void load(){
-        Logger.info("Loading Level: " + iniPath);
+        GoatEngine.logger.info("Loading Level: " + iniPath);
         try {
             ini.getConfig().setTree(true);
             ini.getConfig().setMultiSection(true);
@@ -87,7 +87,7 @@ public class IniSerializer {
             e.printStackTrace();
         }
 
-        Logger.info("Level: " + iniPath + " loaded");
+        GoatEngine.logger.info("Level: " + iniPath + " loaded");
     }
 
     public void dispose(){

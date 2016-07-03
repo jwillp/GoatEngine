@@ -11,7 +11,7 @@ import com.goatgames.goatengine.eventmanager.GameEvent;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
 import com.goatgames.goatengine.input.events.InputEvent;
 import com.goatgames.goatengine.physics.CollisionEvent;
-import com.goatgames.goatengine.utils.GAssert;
+import com.goatgames.gdk.GAssert;
 
 /**
  * Entity System managing entity scripts

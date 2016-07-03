@@ -34,7 +34,6 @@ import com.goatgames.goatengine.eventmanager.GameEventListener;
 import com.goatgames.goatengine.eventmanager.engineevents.EngineEvents;
 import com.goatgames.goatengine.graphicsrendering.camera.CameraDebugRenderer;
 import com.goatgames.goatengine.graphicsrendering.camera.CameraSystem;
-import com.goatgames.goatengine.utils.Logger;
 
 /**
  * Responsible for displaying all visual elements on screen
@@ -68,7 +67,7 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
      */
     @Override
     public void init() {
-        Logger.info("GraphicsRendering System initialisation ... ");
+        GoatEngine.logger.info("GraphicsRendering System initialisation ... ");
 
         // Camera System
         this.cameraSystem = new CameraSystem();
@@ -119,7 +118,7 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
 
 
         GoatEngine.eventManager.registerListener(this);
-        Logger.info("GraphicsRendering System initalised");
+        GoatEngine.logger.info("GraphicsRendering System initalised");
     }
 
     /**

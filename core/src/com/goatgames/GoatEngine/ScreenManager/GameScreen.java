@@ -12,8 +12,7 @@ import com.goatgames.goatengine.physics.PhysicsSystem;
 import com.goatgames.goatengine.scriptingengine.EntityScriptSystem;
 import com.goatgames.goatengine.scriptingengine.lua.LuaEntityScriptSystem;
 import com.goatgames.goatengine.ui.UIEngine;
-import com.goatgames.goatengine.utils.GAssert;
-import com.goatgames.goatengine.utils.Logger;
+import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.utils.TiledMapLoadedEvent;
 import com.goatgames.goatengine.utils.TmxMapLoader;
 
@@ -40,7 +39,7 @@ public final class GameScreen{
 
 
     public void init(GameScreenManager screenManager) {
-        Logger.info(String.format("> Game Screen: %s initialisation ... ", this.name));
+        GoatEngine.logger.info(String.format("> Game Screen: %s initialisation ... ", this.name));
 
         //READ data from Config file
         loadConfigFile();
@@ -72,19 +71,19 @@ public final class GameScreen{
 
         initialized = true;
         GoatEngine.eventManager.fireEvent(new GamScreenInitialisedEvent(this.name));
-        Logger.info(String.format("> Game Screen: %s initialised", this.name));
+        GoatEngine.logger.info(String.format("> Game Screen: %s initialised", this.name));
     }
 
     public void cleanUp() {
-        Logger.info(String.format("Game Screen: %s cleaned up", this.name));
+        GoatEngine.logger.info(String.format("Game Screen: %s cleaned up", this.name));
     }
 
     public void pause() {
-        Logger.info(String.format("Game Screen: %s paused", this.name));
+        GoatEngine.logger.info(String.format("Game Screen: %s paused", this.name));
     }
 
     public void resume() {
-        Logger.info(String.format("Game Screen: %s resumed", this.name));
+        GoatEngine.logger.info(String.format("Game Screen: %s resumed", this.name));
     }
 
 
@@ -110,7 +109,7 @@ public final class GameScreen{
             config.load();
         } catch (FileNotFoundException e) {
             GameScreenNotFoundException exception = new GameScreenNotFoundException(this.name);
-            Logger.fatal(exception.getMessage());
+            GoatEngine.logger.fatal(exception.getMessage());
             throw exception;
         }
     }
@@ -154,9 +153,9 @@ public final class GameScreen{
         if(TMX_FILE.isEmpty()) return;
         String map = config.getString("tmx_map");
         TmxMapLoader loader = new TmxMapLoader(getEntityManager());
-        Logger.info(String.format("Loading map %s ... ", TMX_FILE));
+        GoatEngine.logger.info(String.format("Loading map %s ... ", TMX_FILE));
         loader.loadMap(map);
-        Logger.info(String.format("%s Loaded", TMX_FILE));
+        GoatEngine.logger.info(String.format("%s Loaded", TMX_FILE));
         renderingSystem.setTiledMap(GoatEngine.resourceManager.getMap(map));
         GoatEngine.eventManager.fireEvent(new TiledMapLoadedEvent(map));
     }

@@ -1,6 +1,6 @@
 package com.goatgames.goatengine.ecs.core;
 
-import com.goatgames.goatengine.utils.GAssert;
+import com.goatgames.gdk.GAssert;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 

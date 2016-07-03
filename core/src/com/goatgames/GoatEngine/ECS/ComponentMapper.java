@@ -1,6 +1,7 @@
 package com.goatgames.goatengine.ecs;
 
 import com.badlogic.gdx.utils.ObjectMap;
+import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.common.TagsComponent;
 import com.goatgames.goatengine.ecs.common.TransformComponent;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
@@ -12,8 +13,7 @@ import com.goatgames.goatengine.input.TouchableComponent;
 import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.scriptingengine.lua.LuaEntityScriptComponent;
 import com.goatgames.goatengine.scriptingengine.nativescripts.NativeScriptComponent;
-import com.goatgames.goatengine.utils.GAssert;
-import com.goatgames.goatengine.utils.Logger;
+import com.goatgames.gdk.GAssert;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -72,8 +72,8 @@ public class ComponentMapper {
                 constructor = clazz.getConstructor(NormalisedEntityComponent.class);
                 return (EntityComponent) constructor.newInstance(data);
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
-                Logger.error(e);
-                Logger.logStackTrace(e);
+                GoatEngine.logger.error(e);
+                GoatEngine.logger.error(e);
             }
         }
         return null;
