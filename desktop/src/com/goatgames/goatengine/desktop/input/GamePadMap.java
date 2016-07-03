@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.input;
+package com.goatgames.goatengine.desktop.input;
 
 import com.badlogic.gdx.utils.IntMap;
 
@@ -11,10 +11,15 @@ public abstract class GamePadMap{
     protected int dpadCode;
     protected IntMap<Axis> axisMap;
 
+    public GamePadMap(){
+        this.buttonMap = new IntMap<>();
+        this.axisMap = new IntMap<>(2);
+    }
+
     /**
      * Converts a raw code and returns it's standard button name
-     * @param rawCode
-     * @return
+     * @param rawCode the raw code of the button
+     * @return the Button corresponding to the raw button
      */
     public Button getButton(int rawCode) {
         Button button = buttonMap.get(rawCode);
@@ -38,12 +43,6 @@ public abstract class GamePadMap{
      */
     public int getAxisRawCode(Axis axis){
         return axisMap.findKey(axis,true, -1);
-    }
-
-
-    public GamePadMap(){
-        this.buttonMap = new IntMap<>();
-        this.axisMap = new IntMap<>(2);
     }
 
     /**
@@ -76,7 +75,6 @@ public abstract class GamePadMap{
      * Standard Buttons
      */
     public enum Button {
-
         BUTTON_A,
         BUTTON_B,
         BUTTON_X,
@@ -105,7 +103,6 @@ public abstract class GamePadMap{
         UNMAPPED,
     }
 
-
     /**
      * An axis means wither a joy stick or a trigger
      */
@@ -117,5 +114,4 @@ public abstract class GamePadMap{
         TRIGGER,  /* Triggers */
         UNMAPPED, /* UNMAPPED */
     }
-
 }

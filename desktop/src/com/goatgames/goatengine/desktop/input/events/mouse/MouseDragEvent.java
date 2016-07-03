@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.input.events.mouse;
+package com.goatgames.goatengine.desktop.input.events.mouse;
 
 import com.goatgames.goatengine.input.events.InputEvent;
 

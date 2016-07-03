@@ -6,6 +6,7 @@ import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.ComponentMapper;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
+import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 import com.goatgames.goatengine.physics.ColliderDef;
 import com.goatgames.goatengine.physics.PhysicsComponent;
@@ -14,6 +15,7 @@ import org.ini4j.Ini;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -21,25 +23,57 @@ import java.util.HashMap;
  */
 public class PrefabFactory {
 
-    private static HashMap<String, Ini> prefabs = new HashMap<String, Ini>();
+    private static Map<String, Prefab> cache = new HashMap<>();
 
     private IPrefabLoader loader;
 
+
     /**
-     * Creates an entity by reading a prefab file
-     * @param prefab
+     * Creates an entity in an entity manager from a prefab
+     * @param prefab prefab to use to create the entity
+     * @param manager entity manager holding the newly created entity
+     * @return Entity created
+     */
+    public Entity createEntity(Prefab prefab, EntityManager manager){
+        Entity entity = null;
+
+
+        return entity;
+    }
+
+    /**
+     * Creates an entity from a pathToPrefab
+     * @param pathToPrefab
+     * @param entityManager
      * @return
      */
-    public Entity createEntity(final String prefab){
+    public Entity createEntity(final String pathToPrefab, EntityManager entityManager){
+        Prefab prefab = null;
+        // if caching is enabled, load from cache otherwise load from pathToPrefab
+        boolean cachingEnabled = GoatEngine.config.getBoolean("pathToPrefab.caching");
+        if(cachingEnabled) {
+            if (cache.containsKey(pathToPrefab)) {
+                prefab = cache.get(pathToPrefab);
+            } else {
+                prefab = this.loader.load(pathToPrefab);
+                cache.put(pathToPrefab, prefab);
+            }
+        }
+        else{
+            prefab = this.loader.load(pathToPrefab);
+        }
 
-        Entity entity = null;
+        // Load prefab from path to prefab
+        return createEntity(prefab, entityManager);
+
+       /* Entity entity = null;
         Ini ini;
         try {
-            if(GoatEngine.config.getBoolean("prefab.caching") && prefabs.containsKey(prefab)){
-                ini = prefabs.get(prefab);
+            if(GoatEngine.config.getBoolean("pathToPrefab.caching") && cache.containsKey(pathToPrefab)){
+                ini = cache.get(pathToPrefab);
             }else{
-                ini = new Ini(Gdx.files.internal(prefab).file());
-                prefabs.put(prefab,ini);
+                ini = new Ini(Gdx.files.internal(pathToPrefab).file());
+                cache.put(pathToPrefab,ini);
             }
             HashMap<String, NormalisedEntityComponent> comps = getComponents(ini);
             // Create registered entity using manager
@@ -67,7 +101,7 @@ public class PrefabFactory {
             GoatEngine.logger.error(e);
             e.printStackTrace();
         }
-        return entity;
+        return entity;*/
     }
 
     /**

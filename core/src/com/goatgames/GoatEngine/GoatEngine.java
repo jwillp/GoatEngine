@@ -1,8 +1,10 @@
 package com.goatgames.goatengine;
 
 import com.badlogic.gdx.Gdx;
+import com.goatgames.gdk.GAssert;
 import com.goatgames.gdk.logger.ILogger;
 import com.goatgames.goatengine.ecs.prefabs.IPrefabLoader;
+import com.goatgames.goatengine.ecs.prefabs.PrefabFactory;
 import com.goatgames.goatengine.eventmanager.EventManager;
 import com.goatgames.goatengine.files.IFileManager;
 import com.goatgames.goatengine.graphicsrendering.GraphicsEngine;
@@ -33,7 +35,7 @@ public class GoatEngine {
     public static AudioMixer audioMixer;
 
     //InputManager
-    public static InputManager inputManager;
+    public static InputManager inputManager = null;
 
     //Graphics Engine
     public static GraphicsEngine graphicsEngine;
@@ -62,7 +64,7 @@ public class GoatEngine {
     private static Timer devCrxStatsTimer;
 
     private static final LateUpdateEvent lateUpdateEvent = new LateUpdateEvent();
-
+    public static PrefabFactory prefabFactory = new PrefabFactory();
 
 
     /**
@@ -99,10 +101,11 @@ public class GoatEngine {
         performanceTimer.reset();
 
         // Input manager
-        inputManager = new InputManager();
-        inputManager.init();
-        GoatEngine.logger.info(" > Input Manager initialised "+ performanceTimer.getDeltaTime() + "ms");
-        performanceTimer.reset();
+        if(GAssert.notNull(inputManager, "input manager == null")){
+            inputManager.init();
+            GoatEngine.logger.info(" > Input Manager initialised "+ performanceTimer.getDeltaTime() + "ms");
+            performanceTimer.reset();
+        }
 
         // Audio Manager
         audioMixer = new AudioMixer();

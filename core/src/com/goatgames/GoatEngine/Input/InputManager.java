@@ -11,46 +11,34 @@ import com.badlogic.gdx.input.GestureDetector;
  */
 public class InputManager{
 
-    private final GamePadManager gamePadManager;
-    private final KeyboardInputManager keyboardInputManager;
-    private final GestureManager gestureManager;
-    private final InputMultiplexer multiplexer;
-
+    protected final GestureManager gestureManager;
+    protected final InputMultiplexer multiplexer;
 
     public InputManager(){
         multiplexer = new InputMultiplexer();
-        gamePadManager = new GamePadManager(this);
-        keyboardInputManager = new KeyboardInputManager(this);
         gestureManager = new GestureManager(this);
     }
 
-
+    /**
+     * Initialises the input manager
+     */
     public void init(){
-        Controllers.addListener(gamePadManager);
-        multiplexer.addProcessor(keyboardInputManager);
-        multiplexer.addProcessor(new GestureDetector(gestureManager));
+        multiplexer.addProcessor(new GestureDetector(gestureManager)); // Do not call addInputProcessor for this
         setInputProcessor(multiplexer);
     }
 
-
-    public GamePadManager getGamePadManager() {
-        return gamePadManager;
-    }
-
-    public KeyboardInputManager getKeyboardInputManager() {
-        return keyboardInputManager;
-    }
-
-
+    /**
+     * Adds a new input processor
+     * @param processor the input processor to add
+     */
     public void addInputProcessor(InputProcessor processor){
         multiplexer.addProcessor(processor);
-
-        // Make sure keyboardInputManager is always last // TODO more efficient way
-        multiplexer.removeProcessor(keyboardInputManager);
-        multiplexer.addProcessor(multiplexer.size(), keyboardInputManager);
-
     }
 
+    /**
+     * Removes an input processor from the manager
+     * @param processor the input processor to remove
+     */
     public void removeInputProcessor(InputProcessor processor){
         multiplexer.removeProcessor(processor);
     }
@@ -70,12 +58,18 @@ public class InputManager{
         setInputProcessor(multiplexer);
     }
 
-
-
+    /**
+     * Sets the global input processor
+     * @param processor the processor to use as global input processor
+     */
     private void setInputProcessor(final InputProcessor processor){
         Gdx.input.setInputProcessor(processor);
     }
 
+    /**
+     * Returns the number of processors
+     * @return the number of processors in use by the input manager
+     */
     public int getProcessorCount() {
         return multiplexer.size();
     }

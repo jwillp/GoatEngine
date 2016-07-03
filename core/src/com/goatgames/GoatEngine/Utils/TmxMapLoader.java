@@ -27,15 +27,10 @@ import java.util.Arrays;
 public class TmxMapLoader{
 
     private final EntityManager entityManager;
-    private PrefabFactory prefabFactory;
 
     public TmxMapLoader(EntityManager entityManager){
         this.entityManager = entityManager;
-        // Prefab factory if an object has a prefab
-        prefabFactory = new PrefabFactory();
-
     }
-
 
     /**
      * Loads a TMX File
@@ -86,7 +81,7 @@ public class TmxMapLoader{
         if(!prefab.isEmpty()){
             GAssert.that(GoatEngine.fileManager.getFileHandle(prefab).exists(),
                          String.format("Cannot create entity from prefab '%s'. File does not exist", prefab));
-            entity = prefabFactory.createEntity(prefab);
+            entity = GoatEngine.prefabFactory.createEntity(prefab, entityManager);
         }else{
             entity = entityManager.createEntity();
         }

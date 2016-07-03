@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.input;
+package com.goatgames.goatengine.desktop.input;
 
 /**
  * Xbox 360 Game Pad Map

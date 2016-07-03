@@ -1,6 +1,7 @@
 package com.goatgames.gdk;
 
 import com.goatgames.gdk.logger.ILogger;
+import com.goatgames.gdk.logger.SystemOutLogger;
 import com.goatgames.goatengine.GoatEngine;
 
 /**
@@ -8,7 +9,7 @@ import com.goatgames.goatengine.GoatEngine;
  */
 public class GAssert{
 
-    public static ILogger logger = null;
+    public static ILogger logger = new SystemOutLogger();
 
     /**
      * Assert that test is true otherwise log failure

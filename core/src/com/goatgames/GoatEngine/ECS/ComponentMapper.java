@@ -72,7 +72,7 @@ public class ComponentMapper {
                 constructor = clazz.getConstructor(NormalisedEntityComponent.class);
                 return (EntityComponent) constructor.newInstance(data);
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
-                GoatEngine.logger.error(e);
+                GoatEngine.logger.error(e.getMessage());
                 GoatEngine.logger.error(e);
             }
         }

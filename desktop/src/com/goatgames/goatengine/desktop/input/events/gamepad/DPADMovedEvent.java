@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.input.events.gamepad;
+package com.goatgames.goatengine.desktop.input.events.gamepad;
 
 import com.badlogic.gdx.controllers.PovDirection;
 import com.goatgames.goatengine.input.events.InputEvent;

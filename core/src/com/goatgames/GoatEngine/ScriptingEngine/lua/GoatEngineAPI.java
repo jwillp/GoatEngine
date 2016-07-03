@@ -30,7 +30,7 @@ public class GoatEngineAPI extends TwoArgFunction {
         library.set("resourceManager", CoerceJavaToLua.coerce(GoatEngine.resourceManager));
         library.set("eventManager", CoerceJavaToLua.coerce(GoatEngine.eventManager));
 
-        library.set("gamePadManager", CoerceJavaToLua.coerce(GoatEngine.inputManager.getGamePadManager()));
+        //library.set("gamePadManager", CoerceJavaToLua.coerce(GoatEngine.inputManager.getGamePadManager())); // TODO Desktop
 
         library.set("GAssert", CoerceJavaToLua.coerce(new GAssert())); // We only access static methods
 

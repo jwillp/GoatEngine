@@ -8,6 +8,7 @@ import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.graphicsrendering.camera.CameraComponent;
 import com.goatgames.goatengine.screenmanager.GameScreen;
 import com.goatgames.gdk.GAssert;
+import com.goatgames.goatengine.scriptingengine.PublicAPI;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.TwoArgFunction;
@@ -80,7 +81,8 @@ public class CtxAPI extends TwoArgFunction {
             if(!prefab.startsWith(DATA_DIR + "prefabs")){
                 prefab = DATA_DIR + "prefabs/" + prefab;
             }
-            return CoerceJavaToLua.coerce(new PrefabFactory().createEntity(prefab));
+            return CoerceJavaToLua.coerce(GoatEngine.prefabFactory.createEntity(prefab,
+                    PublicAPI.getCurrentGameScreen().getEntityManager()));
         }
     }
 

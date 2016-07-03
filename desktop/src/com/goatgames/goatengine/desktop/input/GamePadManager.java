@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.input;
+package com.goatgames.goatengine.desktop.input;
 
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerListener;
@@ -7,7 +7,8 @@ import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.goatgames.goatengine.GoatEngine;
-import com.goatgames.goatengine.input.events.gamepad.*;
+import com.goatgames.goatengine.input.InputManager;
+import com.goatgames.goatengine.desktop.input.events.gamepad.*;
 
 /**
  * Manages Game Controllers (GamePads)
@@ -34,11 +35,7 @@ public class GamePadManager implements ControllerListener{
         }
     }
 
-
-
     public void update(){
-
-
 
     }
 
@@ -48,7 +45,6 @@ public class GamePadManager implements ControllerListener{
     public void releaseController(Controller controller){
         this.availableControllers.add(controller);
     }
-
 
     /**
      * Removes a controller from the available list
@@ -92,8 +88,6 @@ public class GamePadManager implements ControllerListener{
         int gamePadId = getControllerId(controller);
         GoatEngine.eventManager.fireEvent(new GamePadDisconnectedEvent(gamePadId));
     }
-
-
 
     /**
      * A button on the {@link com.badlogic.gdx.controllers.Controller} was pressed. The buttonCode is controller specific. The
@@ -209,7 +203,6 @@ public class GamePadManager implements ControllerListener{
         return false;
     }
 
-
     /**
      * Translate a Raw button code to a standard virtual one
      * for a certain controller
@@ -242,8 +235,6 @@ public class GamePadManager implements ControllerListener{
         return GamePadMap.Axis.UNMAPPED;
     }
 
-
-
     /**
      * Returns the controller id of a certain controller
      * @param controller the controller for which we want to get the id
@@ -253,11 +244,10 @@ public class GamePadManager implements ControllerListener{
         return availableControllers.indexOf(controller, true);
     }
 
-
     /**
-     * Returns null if not found
-     * @param id
-     * @return
+     * Returns A VirtualGamePad Instance, or null if not found
+     * @param id id of the game Pad to return
+     * @return VirtualGamePad Instance, if not found returns null
      */
     public VirtualGamePad getGamePad(int id){
         try{
@@ -266,9 +256,6 @@ public class GamePadManager implements ControllerListener{
             return null;
         }
     }
-
-
-
 
     /**
      * Thrown when there are no Controllers available
@@ -279,8 +266,4 @@ public class GamePadManager implements ControllerListener{
             super("No controllers where found");
         }
     }
-
-
-
-
 }

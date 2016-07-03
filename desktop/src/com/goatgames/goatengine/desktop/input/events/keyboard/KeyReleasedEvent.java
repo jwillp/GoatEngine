@@ -1,18 +1,18 @@
-package com.goatgames.goatengine.input.events.keyboard;
+package com.goatgames.goatengine.desktop.input.events.keyboard;
 
 import com.badlogic.gdx.Input;
 import com.goatgames.goatengine.input.events.InputEvent;
 
 /**
- * Triggered when a Key is pressed
+ * Triggered when a key is released
  */
-public class KeyPressedEvent extends InputEvent {
+public class KeyReleasedEvent extends InputEvent {
 
     public final int key;
     public final String keyName;
 
-    public KeyPressedEvent(final int key){
-        this.key = key;
+    public KeyReleasedEvent(int key){
+        this. key = key;
         keyName = Input.Keys.toString(key).toUpperCase();
     }
 }

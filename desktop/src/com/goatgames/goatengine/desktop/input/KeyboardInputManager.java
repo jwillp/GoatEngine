@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.input;
+package com.goatgames.goatengine.desktop.input;
 
 
 import com.badlogic.gdx.Gdx;
@@ -7,9 +7,10 @@ import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.goatgames.goatengine.GoatEngine;
-import com.goatgames.goatengine.input.events.keyboard.KeyPressedEvent;
-import com.goatgames.goatengine.input.events.keyboard.KeyReleasedEvent;
-import com.goatgames.goatengine.input.events.mouse.*;
+import com.goatgames.goatengine.input.InputManager;
+import com.goatgames.goatengine.desktop.input.events.keyboard.KeyPressedEvent;
+import com.goatgames.goatengine.desktop.input.events.keyboard.KeyReleasedEvent;
+import com.goatgames.goatengine.desktop.input.events.mouse.*;
 
 
 /**
