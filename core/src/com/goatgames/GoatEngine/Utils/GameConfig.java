@@ -2,13 +2,14 @@ package com.goatgames.goatengine.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.utils.Array;
-import com.goatgames.goatengine.files.FileSystem;
+import com.goatgames.goatengine.GoatEngine;
+import com.goatgames.goatengine.files.IFileHandle;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Class used for Game Specific Configs
@@ -80,12 +81,12 @@ public class GameConfig extends EngineConfig{
         //Read all overrides
         String inheritencePrefix = configName + "_";
 
-        Array<FileHandle> potentialOverrides = FileSystem.getFilesInDir(baseHandle.parent().toString());
-        for(FileHandle overrideHandle: potentialOverrides){
-            if(overrideHandle.name().contains(inheritencePrefix)){
-                ConfigData data = readData(overrideHandle.path());
+        List<IFileHandle> potentialOverrides = GoatEngine.fileManager.getFiles(baseHandle.parent().toString(), true);
+        for(IFileHandle overrideHandle: potentialOverrides){
+            if(overrideHandle.getName().contains(inheritencePrefix)){
+                ConfigData data = readData(overrideHandle.getPath());
                 // Get Override Name
-                String overrideName  = overrideHandle.nameWithoutExtension().replace(inheritencePrefix, "");
+                String overrideName  = overrideHandle.getNameWithoutExtension().replace(inheritencePrefix, "");
                 overrides.put(overrideName, data);
             }
         }
@@ -165,8 +166,6 @@ public class GameConfig extends EngineConfig{
         return data;
     }
 
-
-
     /**
      * Exceptions thrown when an override does not exists for a base config file
      */
@@ -184,5 +183,4 @@ public class GameConfig extends EngineConfig{
             super("The config parameter '" + parameter + "' was not found in config '" + configName + "'.");
         }
     }
-
 }

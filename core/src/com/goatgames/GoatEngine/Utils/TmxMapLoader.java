@@ -12,7 +12,6 @@ import com.goatgames.goatengine.ecs.PrefabFactory;
 import com.goatgames.goatengine.ecs.common.TransformComponent;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityManager;
-import com.goatgames.goatengine.files.FileSystem;
 import com.goatgames.goatengine.physics.BodyDefFactory;
 import com.goatgames.goatengine.physics.PhysicsBodyDef;
 import com.goatgames.goatengine.physics.PhysicsComponent;
@@ -84,7 +83,7 @@ public class TmxMapLoader{
         // 1. If there is a prefab create from prefab
         String prefab = objProperties.get("prefab", "", String.class);
         if(!prefab.isEmpty()){
-            GAssert.that(FileSystem.getFile(prefab).exists(),
+            GAssert.that(GoatEngine.fileManager.getFileHandle(prefab).exists(),
                          String.format("Cannot create entity from prefab '%s'. File does not exist", prefab));
             entity = prefabFactory.createEntity(prefab);
         }else{

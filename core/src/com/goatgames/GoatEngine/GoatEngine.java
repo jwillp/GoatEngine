@@ -2,6 +2,7 @@ package com.goatgames.goatengine;
 
 import com.badlogic.gdx.Gdx;
 import com.goatgames.goatengine.eventmanager.EventManager;
+import com.goatgames.goatengine.files.GdxFileManager;
 import com.goatgames.goatengine.graphicsrendering.GraphicsEngine;
 import com.goatgames.goatengine.input.InputManager;
 import com.goatgames.goatengine.screenmanager.GameScreenManager;
@@ -54,6 +55,7 @@ public class GoatEngine {
     private static Timer devCrxStatsTimer;
 
     private static final LateUpdateEvent lateUpdateEvent = new LateUpdateEvent();
+    public static GdxFileManager fileManager = null;
 
     /**
      * This initializes the Game Engine

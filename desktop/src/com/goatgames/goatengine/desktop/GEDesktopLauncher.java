@@ -3,7 +3,9 @@ package com.goatgames.goatengine.desktop;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.goatgames.goatengine.GenericGame;
+import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
+import com.goatgames.goatengine.files.GdxFileManager;
 
 import javax.swing.*;
 
@@ -24,6 +26,10 @@ public class GEDesktopLauncher {
             e.printStackTrace();
         }
 
+        // GoatEngine
+        GoatEngine.fileManager = new GdxFileManager();
+
+        // Libgdx application
         LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 
         cfg.width = 0;

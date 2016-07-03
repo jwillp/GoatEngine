@@ -1,6 +1,7 @@
 package com.goatgames.goatengine.files;
 
 import java.io.File;
+import java.io.InputStream;
 
 /**
  * Interface used to represent a handle on a file or directory.
@@ -89,4 +90,10 @@ public interface IFileHandle {
      * @return file manager
      */
     IFileManager getFileManager();
+
+    /**
+     * Reads a file as an input stream
+     * @return InputStream
+     */
+    InputStream read();
 }
