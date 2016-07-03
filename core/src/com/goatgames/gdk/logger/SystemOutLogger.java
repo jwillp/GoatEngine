@@ -1,4 +1,4 @@
-package com.goatgames.gdk;
+package com.goatgames.gdk.logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

@@ -1,8 +1,9 @@
-package com.goatgames.goatengine.ecs;
+package com.goatgames.goatengine.ecs.prefabs;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.goatgames.goatengine.GoatEngine;
+import com.goatgames.goatengine.ecs.ComponentMapper;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
@@ -16,11 +17,13 @@ import java.util.HashMap;
 
 
 /**
- * Creates entities from reading prefab files
+ * Creates entities from prefab objects
  */
 public class PrefabFactory {
 
     private static HashMap<String, Ini> prefabs = new HashMap<String, Ini>();
+
+    private IPrefabLoader loader;
 
     /**
      * Creates an entity by reading a prefab file

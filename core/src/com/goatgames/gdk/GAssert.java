@@ -1,5 +1,6 @@
 package com.goatgames.gdk;
 
+import com.goatgames.gdk.logger.ILogger;
 import com.goatgames.goatengine.GoatEngine;
 
 /**

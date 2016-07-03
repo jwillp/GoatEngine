@@ -1,4 +1,4 @@
-package com.goatgames.gdk;
+package com.goatgames.gdk.logger;
 
 /**
  * Logger, to log information somewhere (console, file, network etc.)

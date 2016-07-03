@@ -1,11 +1,12 @@
 package com.goatgames.goatengine;
 
 import com.badlogic.gdx.Gdx;
+import com.goatgames.gdk.logger.ILogger;
+import com.goatgames.goatengine.ecs.prefabs.IPrefabLoader;
 import com.goatgames.goatengine.eventmanager.EventManager;
-import com.goatgames.goatengine.files.GdxFileManager;
+import com.goatgames.goatengine.files.IFileManager;
 import com.goatgames.goatengine.graphicsrendering.GraphicsEngine;
 import com.goatgames.goatengine.input.InputManager;
-import com.goatgames.goatengine.logger.GameLogger;
 import com.goatgames.goatengine.screenmanager.GameScreenManager;
 import com.goatgames.goatengine.screenmanager.LateUpdateEvent;
 import com.goatgames.goatengine.utils.Timer;
@@ -43,6 +44,12 @@ public class GoatEngine {
     // Blackboard
     public static Blackboard blackboard;
 
+    public static IPrefabLoader prefabLoader;
+
+    public static IFileManager fileManager = null;
+
+    public static ILogger logger = null;
+
     // TODO NetworkManager ?
 
     private static boolean initialised = false;
@@ -56,8 +63,7 @@ public class GoatEngine {
 
     private static final LateUpdateEvent lateUpdateEvent = new LateUpdateEvent();
 
-    public static GdxFileManager fileManager = null;
-    public static GameLogger logger = null;
+
 
     /**
      * This initializes the Game Engine

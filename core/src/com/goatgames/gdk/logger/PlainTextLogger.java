@@ -1,4 +1,4 @@
-package com.goatgames.gdk;
+package com.goatgames.gdk.logger;
 
 import com.goatgames.goatengine.files.IFileHandle;
 import com.goatgames.goatengine.files.IFileManager;

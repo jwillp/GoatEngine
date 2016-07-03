@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.goatgames.goatengine.GoatEngine;
-import com.goatgames.goatengine.ecs.PrefabFactory;
+import com.goatgames.goatengine.ecs.prefabs.PrefabFactory;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityManager;
