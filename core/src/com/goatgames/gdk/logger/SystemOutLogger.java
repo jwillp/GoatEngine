@@ -9,7 +9,14 @@ import java.util.Calendar;
 public class SystemOutLogger implements ILogger {
     @Override
     public void log(Object message) {
+        System.out.println(message);
+    }
 
+    /**
+     * Logs data for a certain level in a standardised manner
+     * @param level (INFO, DEBUG,WARNING,ERROR,FATAL)
+     */
+    private void logData(String level, Object message){
         // Special case for logging Stack Trace
         if(message instanceof Throwable) {
             Throwable t = (Throwable) message;
@@ -20,14 +27,6 @@ public class SystemOutLogger implements ILogger {
             }
             message = sb.toString();
         }
-        System.out.println(message);
-    }
-
-    /**
-     * Logs data for a certain level in a standardised manner
-     * @param level (INFO, DEBUG,WARNING,ERROR,FATAL)
-     */
-    private void logData(String level, Object message){
         log(String.format("[%s][%s]: %s", getTimeInfo(), level, message));
     }
 

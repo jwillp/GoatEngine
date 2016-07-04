@@ -48,9 +48,9 @@ public class PrefabFactory {
      * @return
      */
     public Entity createEntity(final String pathToPrefab, EntityManager entityManager){
-        Prefab prefab = null;
+        Prefab prefab;
         // if caching is enabled, load from cache otherwise load from pathToPrefab
-        boolean cachingEnabled = GoatEngine.config.getBoolean("pathToPrefab.caching");
+        boolean cachingEnabled = GoatEngine.config.getBoolean("prefab.caching");
         if(cachingEnabled) {
             if (cache.containsKey(pathToPrefab)) {
                 prefab = cache.get(pathToPrefab);
@@ -62,7 +62,6 @@ public class PrefabFactory {
         else{
             prefab = this.loader.load(pathToPrefab);
         }
-
         // Load prefab from path to prefab
         return createEntity(prefab, entityManager);
 

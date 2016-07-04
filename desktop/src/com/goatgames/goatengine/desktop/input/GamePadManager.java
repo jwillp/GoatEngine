@@ -25,6 +25,11 @@ public class GamePadManager implements ControllerListener{
 
     public GamePadManager(InputManager inputManager){
         this.inputManager = inputManager;
+    }
+
+    public void init(){
+        // This initialisation must be delayed as the Controllers object depends on Libgdx's initialisation
+
         availableControllers = Controllers.getControllers();
         // Detect Available User Game Pad Maps
 
@@ -33,7 +38,9 @@ public class GamePadManager implements ControllerListener{
             Controller ctrl = availableControllers.get(i);
             virtualGamePads.add(new VirtualGamePad(ctrl,new Xbox360Map()));
         }
+
     }
+
 
     public void update(){
 

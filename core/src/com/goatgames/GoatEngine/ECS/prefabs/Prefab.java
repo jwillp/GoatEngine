@@ -20,6 +20,9 @@ public class Prefab {
         components = new HashMap<>();
     }
 
+    public void setComponents(Map<String, NormalisedEntityComponent> components){
+        this.components = components;
+    }
     /**
      * Adds a component to the prefab definition
      * @param componentData Normalised component

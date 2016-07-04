@@ -2,6 +2,11 @@ package com.goatgames.gdk.logger;
 
 /**
  * Logger, to log information somewhere (console, file, network etc.)
+ * Levels explanation:
+ * ERROR	Designates error events that might still allow the application to continue running.
+ * FATAL	Designates very severe error events that will presumably lead the application to abort.
+ * INFO	    Designates informational messages that highlight the progress of the application at coarse-grained level.
+ * WARN	    Designates potentially harmful situations.
  */
 public interface ILogger {
 

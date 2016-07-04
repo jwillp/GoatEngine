@@ -5,6 +5,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.goatgames.goatengine.GenericGame;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.desktop.input.DesktopInputManager;
+import com.goatgames.goatengine.ecs.prefabs.IniPrefabLoader;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
 import com.goatgames.goatengine.files.GdxFileManager;
 import com.goatgames.goatengine.logger.GameLogger;
@@ -33,7 +34,7 @@ public class GEDesktopLauncher {
         GoatEngine.fileManager = new GdxFileManager();
         GoatEngine.logger = new GameLogger(GoatEngine.fileManager);
         GAssert.logger = GoatEngine.logger;
-
+        GoatEngine.prefabLoader = new IniPrefabLoader();
         GoatEngine.inputManager = new DesktopInputManager();
 
         // Libgdx application
