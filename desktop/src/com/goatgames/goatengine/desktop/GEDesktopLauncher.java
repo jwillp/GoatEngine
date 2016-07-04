@@ -34,7 +34,6 @@ public class GEDesktopLauncher {
         GoatEngine.fileManager = new GdxFileManager();
         GoatEngine.logger = new GameLogger(GoatEngine.fileManager);
         GAssert.logger = GoatEngine.logger;
-        GoatEngine.prefabLoader = new IniPrefabLoader();
         GoatEngine.inputManager = new DesktopInputManager();
 
         // Libgdx application

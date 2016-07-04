@@ -12,6 +12,8 @@ import com.goatgames.goatengine.graphicsrendering.GraphicsEngine;
 import com.goatgames.goatengine.input.InputManager;
 import com.goatgames.goatengine.screenmanager.GameScreenManager;
 import com.goatgames.goatengine.screenmanager.LateUpdateEvent;
+import com.goatgames.goatengine.scriptingengine.common.IScriptingEngine;
+import com.goatgames.goatengine.scriptingengine.lua.LuaScriptingEngine;
 import com.goatgames.goatengine.utils.Timer;
 
 /**
@@ -47,12 +49,13 @@ public class GoatEngine {
     // Blackboard
     public static Blackboard blackboard;
 
-    public static IPrefabLoader prefabLoader;
-
     public static IFileManager fileManager = null;
 
     public static ILogger logger = null;
 
+    public static PrefabFactory prefabFactory = new PrefabFactory(new IniPrefabLoader());
+
+    public static IScriptingEngine scriptingEngine = new LuaScriptingEngine();
     // TODO NetworkManager ?
 
     private static boolean initialised = false;
@@ -65,7 +68,7 @@ public class GoatEngine {
     private static Timer devCrxStatsTimer;
 
     private static final LateUpdateEvent lateUpdateEvent = new LateUpdateEvent();
-    public static PrefabFactory prefabFactory = new PrefabFactory(new IniPrefabLoader());
+
 
 
     /**

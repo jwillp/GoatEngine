@@ -5,6 +5,7 @@ import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
 import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
+import com.goatgames.goatengine.scriptingengine.common.IEntityScript;
 
 /**
  * Enables entities to have Custom Behaviour using Scripts
@@ -66,7 +67,6 @@ public class EntityScriptComponent extends EntityComponent {
         }
     }
 
-
     /**
      * Clears all script instances
      */
@@ -114,7 +114,6 @@ public class EntityScriptComponent extends EntityComponent {
             return false;
         }
     }
-
 
     // FACTORY //
     public static class Factory implements EntityComponentFactory {

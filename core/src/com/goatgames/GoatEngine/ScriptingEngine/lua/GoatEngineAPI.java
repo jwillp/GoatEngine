@@ -6,7 +6,7 @@ import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.GameComponent;
 import com.goatgames.goatengine.eventmanager.GameEvent;
 import com.goatgames.goatengine.fsm.FiniteStateMachine;
-import com.goatgames.goatengine.scriptingengine.PublicAPI;
+import com.goatgames.goatengine.scriptingengine.UtilAPI;
 import com.goatgames.goatengine.utils.Timer;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
@@ -46,7 +46,7 @@ public class GoatEngineAPI extends TwoArgFunction {
 
         library.set("Timer", CoerceJavaToLua.coerce(new TimerAPI()));
 
-        library.set("utils", CoerceJavaToLua.coerce(new PublicAPI())); // We aonly access static methods
+        library.set("utils", CoerceJavaToLua.coerce(new UtilAPI())); // We aonly access static methods
 
         env.set("GE", library);
         env.get("package").get("loaded").set("GE", library);

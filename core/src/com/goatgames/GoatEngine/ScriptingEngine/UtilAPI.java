@@ -13,17 +13,18 @@ import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.graphicsrendering.camera.CameraComponent;
 import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.screenmanager.GameScreen;
+import com.goatgames.goatengine.scriptingengine.common.IScriptingAPI;
 
 /**
- * Public API, contains free function to ease some tasks
+ * A Sample Game Specific API, contains utility function to ease some tasks
  */
-public class PublicAPI {
+public class UtilAPI implements IScriptingAPI {
 
     /**
      * Returns the active camera for the current game screen
      * @return the active camera, null if none found
      */
-    public static OrthographicCamera getCamera(){
+    public OrthographicCamera getCamera(){
         Array<EntityComponent> comps = GoatEngine.gameScreenManager.getCurrentScreen()
                 .getEntityManager().getComponents(CameraComponent.ID);
         return (comps.size != 0) ? ((CameraComponent) comps.first()).getCamera() : null;
@@ -35,7 +36,7 @@ public class PublicAPI {
      * @param makeShakeOffset the max possible offset in world units
      * @param duration the duration of the shake in milliseconds
      */
-    public static void shakeCamera(float shakeStrength, float makeShakeOffset, int duration){
+    public void shakeCamera(float shakeStrength, float makeShakeOffset, int duration){
         OrthographicCamera cam = getCamera();
         if(GAssert.notNull(cam, "No Camera was found")){
             // cam.setShaking(true);
@@ -45,7 +46,7 @@ public class PublicAPI {
     /**
      * Makes the camera follow an entity with a lerp
      */
-    public static void cameraFollow(Entity entity, float speed, float delta){
+    public void cameraFollow(Entity entity, float speed, float delta){
         if(!GAssert.notNull(entity, "entity == null"))
             return;
 
@@ -67,7 +68,7 @@ public class PublicAPI {
      * @param entity the entity of which to return the position
      * @return a Vector2 representing the position of the entity
      */
-    private static Vector2 getPosition(Entity entity) {
+    private Vector2 getPosition(Entity entity) {
         if (!GAssert.notNull(entity, "entity == null")) return null;
         if (!GAssert.that(entity.hasComponent(TransformComponent.ID), "entity does not have TransformComponent"))
             return null;
@@ -81,7 +82,7 @@ public class PublicAPI {
      * @param x X axis value
      * @param y Y axis value
      */
-    public static void setPosition(Entity entity, float x, float y){
+    public void setPosition(Entity entity, float x, float y){
         if (!GAssert.notNull(entity, "entity == null")) return;
         if (!GAssert.that(entity.hasComponent(TransformComponent.ID), "entity does not have TransformComponent"))
             return;
@@ -95,7 +96,7 @@ public class PublicAPI {
      * @param entity the entity of which to set the position
      * @param x the X axis value
      */
-    public static void setPositionX(Entity entity, float x){
+    public void setPositionX(Entity entity, float x){
         if (!GAssert.notNull(entity, "entity == null")) return;
         if (!GAssert.that(entity.hasComponent(TransformComponent.ID), "entity does not have TransformComponent"))
             return;
@@ -108,7 +109,7 @@ public class PublicAPI {
      * @param entity the entity of which to set the position
      * @param y the Y axis value
      */
-    public static void setPositionY(Entity entity, float y){
+    public void setPositionY(Entity entity, float y){
         if (!GAssert.notNull(entity, "entity == null")) return;
         if (!GAssert.that(entity.hasComponent(TransformComponent.ID), "entity does not have TransformComponent"))
             return;
@@ -121,7 +122,7 @@ public class PublicAPI {
      * @param entity the entity of which to get the value
      * @return a Vector2 representing the velocity of the entity
      */
-    public static Vector2 getVelocity(Entity entity){
+    public Vector2 getVelocity(Entity entity){
         if (!GAssert.notNull(entity, "entity == null")) return null;
         if (!GAssert.that(entity.hasComponent(PhysicsComponent.ID), "entity does not have PhysicsComponent"))
             return null;
@@ -136,7 +137,7 @@ public class PublicAPI {
      * @param x x value
      * @param y y value
      */
-    public static void setVelocity(Entity entity, float x, float y){
+    public void setVelocity(Entity entity, float x, float y){
         if (!GAssert.notNull(entity, "entity == null")) return;
         if (!GAssert.that(entity.hasComponent(PhysicsComponent.ID), "entity does not have PhysicsComponent"))
             return;
@@ -150,7 +151,7 @@ public class PublicAPI {
      * @param entity entity entity of which we want to set the velocity
      * @param vx value
      */
-    public static void setVelocityX(Entity entity, float vx){
+    public void setVelocityX(Entity entity, float vx){
         if (!GAssert.notNull(entity, "entity == null")) return;
         if (!GAssert.that(entity.hasComponent(PhysicsComponent.ID), "entity does not have PhysicsComponent"))
             return;
@@ -164,7 +165,7 @@ public class PublicAPI {
      * @param entity entity of which we want to set the velocity
      * @param vy value
      */
-    public static void setVelocityY(Entity entity, float vy){
+    public void setVelocityY(Entity entity, float vy){
         if (!GAssert.notNull(entity, "entity == null")) return;
         if (!GAssert.that(entity.hasComponent(PhysicsComponent.ID), "entity does not have PhysicsComponent"))
             return;
@@ -177,7 +178,7 @@ public class PublicAPI {
      * @param entity the entity to move
      * @param speed the speed at which to move the entity
      */
-    public static void moveEntityX(Entity entity, float speed){
+    public void moveEntityX(Entity entity, float speed){
         if (!GAssert.notNull(entity, "entity == null")) return;
         if (!GAssert.that(entity.hasComponent(PhysicsComponent.ID), "entity does not have PhysicsComponent"))
             return;
@@ -190,7 +191,7 @@ public class PublicAPI {
      * @param entity the entity to move
      * @param speed the speed at which to move the entity
      */
-    public static void moveEntityY(Entity entity, float speed){
+    public void moveEntityY(Entity entity, float speed){
         if (!GAssert.notNull(entity, "entity == null")) return;
         if (!GAssert.that(entity.hasComponent(PhysicsComponent.ID), "entity does not have PhysicsComponent"))
             return;
@@ -204,7 +205,7 @@ public class PublicAPI {
      * @param speed the speed at which to move the entity
      * @param maxSpeed maximum speed at which the entity can go (abs value)
      */
-    public static void moveEntityX(Entity entity, float speed, float maxSpeed){
+    public void moveEntityX(Entity entity, float speed, float maxSpeed){
         if (!GAssert.notNull(entity, "entity == null")) return;
         if (!GAssert.that(entity.hasComponent(PhysicsComponent.ID), "entity does not have PhysicsComponent"))
             return;
@@ -222,7 +223,7 @@ public class PublicAPI {
      * @param speed the speed at which to move the entity
      * @param maxSpeed maximum speed at which the entity can go
      */
-    public static void moveEntityY(Entity entity, float speed, float maxSpeed){
+    public void moveEntityY(Entity entity, float speed, float maxSpeed){
         if (!GAssert.notNull(entity, "entity == null")) return;
         if (!GAssert.that(entity.hasComponent(PhysicsComponent.ID), "entity does not have PhysicsComponent"))
             return;
@@ -239,7 +240,7 @@ public class PublicAPI {
      * Returns the game screen currently processed by the engine
      * @return current game screen
      */
-    public static GameScreen getCurrentGameScreen(){
+    public GameScreen getCurrentGameScreen(){
         return GoatEngine.gameScreenManager.getCurrentScreen();
     }
 
@@ -247,7 +248,7 @@ public class PublicAPI {
      * Returns the world gravity
      * @return a vector2 representing the world gravity
      */
-    public static Vector2 getWorldGravity(){
+    public Vector2 getWorldGravity(){
         return getCurrentGameScreen().getPhysicsSystem().getWorld().getGravity();
     }
 
@@ -256,7 +257,7 @@ public class PublicAPI {
      * @param x X axis value in m/s
      * @param y Y axis value in m/s
      */
-    public static void setWorldGravity(float x, float y){
+    public void setWorldGravity(float x, float y){
         getCurrentGameScreen().getPhysicsSystem().getWorld().setGravity(new Vector2(x,y));
     }
 
@@ -264,7 +265,7 @@ public class PublicAPI {
      * Sets the Gravity of the world on the X axis
      * @param x the value in m/s
      */
-    public static void setWorldGravityX(float x){
+    public void setWorldGravityX(float x){
         setWorldGravity(x, getWorldGravity().y);
     }
 
@@ -272,7 +273,7 @@ public class PublicAPI {
      * Sets the Gravity of the world on the Y axis
      * @param y the value in m/s
      */
-    public static void setWorldGravityY(float y){
+    public void setWorldGravityY(float y){
         setWorldGravity(getWorldGravity().x, y);
     }
 
@@ -281,7 +282,7 @@ public class PublicAPI {
      * @param min minimum value
      * @param max maximum value
      */
-    public static float randomFloat(float min, float max){
+    public float randomFloat(float min, float max){
         return MathUtils.random(min, max);
     }
 
@@ -290,7 +291,7 @@ public class PublicAPI {
      * @param min minimum value
      * @param max maximum value
      */
-    public static int randomInt(int min, int max){
+    public int randomInt(int min, int max){
         return MathUtils.random(min, max);
     }
 
@@ -301,7 +302,7 @@ public class PublicAPI {
      * @param chance the chance of generating true
      * @return a randomly generated boolean
      */
-    public static boolean randomBool(float chance){
+    public boolean randomBool(float chance){
         return MathUtils.randomBoolean(chance);
     }
 
@@ -309,17 +310,15 @@ public class PublicAPI {
      * Generates a random boolean with a 1/2 change of having either true or false
      * @return a randomly generated boolean
      */
-    public static boolean randomBool(){
+    public boolean randomBool(){
         return randomBool(0.5f);
     }
-
 
     /**
      * Schedules the destruction of an entity
      * @param time time from now in ms. 5000 means that the entity will be destroyed in 5 secs
      */
-    public static void scheduleEntityDestroy(Entity entity, int time){
+    public void scheduleEntityDestroy(Entity entity, int time){
         entity.addComponent(new LifespanComponent(time), LifespanComponent.ID);
     }
-
 }

@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.scriptingengine;
+package com.goatgames.goatengine.scriptingengine.common;
 
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.eventmanager.GameEvent;
