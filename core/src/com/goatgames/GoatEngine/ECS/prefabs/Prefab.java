@@ -2,6 +2,7 @@ package com.goatgames.goatengine.ecs.prefabs;
 
 import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,6 @@ public class Prefab {
      * @return list of components
      */
     public List<NormalisedEntityComponent> getComponents(){
-        return (List<NormalisedEntityComponent>) components.values();
+        return new ArrayList<>(components.values());
     }
 }

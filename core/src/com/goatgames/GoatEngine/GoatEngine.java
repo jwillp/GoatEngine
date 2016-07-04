@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.goatgames.gdk.GAssert;
 import com.goatgames.gdk.logger.ILogger;
 import com.goatgames.goatengine.ecs.prefabs.IPrefabLoader;
+import com.goatgames.goatengine.ecs.prefabs.IniPrefabLoader;
 import com.goatgames.goatengine.ecs.prefabs.PrefabFactory;
 import com.goatgames.goatengine.eventmanager.EventManager;
 import com.goatgames.goatengine.files.IFileManager;
@@ -64,7 +65,7 @@ public class GoatEngine {
     private static Timer devCrxStatsTimer;
 
     private static final LateUpdateEvent lateUpdateEvent = new LateUpdateEvent();
-    public static PrefabFactory prefabFactory = new PrefabFactory();
+    public static PrefabFactory prefabFactory = new PrefabFactory(new IniPrefabLoader());
 
 
     /**
