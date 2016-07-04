@@ -1,13 +1,12 @@
 package com.goatgames.goatengine.scriptingengine.lua;
 
 import com.badlogic.gdx.utils.Array;
+import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.GoatEngine;
-import com.goatgames.goatengine.ecs.prefabs.PrefabFactory;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.graphicsrendering.camera.CameraComponent;
 import com.goatgames.goatengine.screenmanager.GameScreen;
-import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.scriptingengine.PublicAPI;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;

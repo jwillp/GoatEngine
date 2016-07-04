@@ -1,7 +1,5 @@
 package com.goatgames.goatengine.scriptingengine.lua;
 
-import com.badlogic.gdx.utils.ObjectMap;
-
 /**
  * Represents info about a script (last edit date, path etc.)
  */

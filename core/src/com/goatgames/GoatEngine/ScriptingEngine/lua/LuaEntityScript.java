@@ -1,12 +1,12 @@
 package com.goatgames.goatengine.scriptingengine.lua;
 
+import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.eventmanager.GameEvent;
 import com.goatgames.goatengine.input.events.InputEvent;
 import com.goatgames.goatengine.physics.CollisionEvent;
 import com.goatgames.goatengine.scriptingengine.IEntityScript;
-import com.goatgames.gdk.GAssert;
 
 import java.util.Objects;
 

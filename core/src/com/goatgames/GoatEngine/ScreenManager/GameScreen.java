@@ -1,6 +1,7 @@
 package com.goatgames.goatengine.screenmanager;
 
 import com.badlogic.gdx.Gdx;
+import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ai.AISystem;
 import com.goatgames.goatengine.ecs.common.EntityDestructionSystem;
@@ -12,7 +13,6 @@ import com.goatgames.goatengine.physics.PhysicsSystem;
 import com.goatgames.goatengine.scriptingengine.EntityScriptSystem;
 import com.goatgames.goatengine.scriptingengine.lua.LuaEntityScriptSystem;
 import com.goatgames.goatengine.ui.UIEngine;
-import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.utils.TiledMapLoadedEvent;
 import com.goatgames.goatengine.utils.TmxMapLoader;
 

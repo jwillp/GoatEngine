@@ -1,7 +1,6 @@
 package com.goatgames.goatengine.ecs.prefabs;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.Array;
+import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.ComponentMapper;
 import com.goatgames.goatengine.ecs.core.Entity;
@@ -10,10 +9,7 @@ import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 import com.goatgames.goatengine.physics.ColliderDef;
 import com.goatgames.goatengine.physics.PhysicsComponent;
-import com.goatgames.gdk.GAssert;
-import org.ini4j.Ini;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

@@ -1,12 +1,12 @@
 package com.goatgames.goatengine.scriptingengine.lua;
 
+import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.AudioMixer;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.GameComponent;
 import com.goatgames.goatengine.eventmanager.GameEvent;
 import com.goatgames.goatengine.fsm.FiniteStateMachine;
 import com.goatgames.goatengine.scriptingengine.PublicAPI;
-import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.utils.Timer;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;

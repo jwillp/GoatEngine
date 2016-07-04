@@ -2,12 +2,12 @@ package com.goatgames.goatengine.graphicsrendering.camera;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.Array;
+import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.eventmanager.EntityEvent;
 import com.goatgames.goatengine.screenmanager.GameScreenConfig;
-import com.goatgames.gdk.GAssert;
 
 /**
  * A system handling all cameras and their movements

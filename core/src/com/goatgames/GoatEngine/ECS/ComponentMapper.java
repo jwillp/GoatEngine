@@ -1,6 +1,7 @@
 package com.goatgames.goatengine.ecs;
 
 import com.badlogic.gdx.utils.ObjectMap;
+import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.common.TagsComponent;
 import com.goatgames.goatengine.ecs.common.TransformComponent;
@@ -13,7 +14,6 @@ import com.goatgames.goatengine.input.TouchableComponent;
 import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.scriptingengine.lua.LuaEntityScriptComponent;
 import com.goatgames.goatengine.scriptingengine.nativescripts.NativeScriptComponent;
-import com.goatgames.gdk.GAssert;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

@@ -1,8 +1,8 @@
 package com.goatgames.goatengine.scriptingengine.lua;
 
+import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
-import com.goatgames.gdk.GAssert;
 
 import java.util.ArrayList;
 import java.util.Arrays;

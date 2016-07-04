@@ -1,10 +1,10 @@
 package com.goatgames.goatengine.scriptingengine;
 
 import com.badlogic.gdx.utils.ObjectMap;
+import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
 import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
-import com.goatgames.gdk.GAssert;
 
 /**
  * Enables entities to have Custom Behaviour using Scripts

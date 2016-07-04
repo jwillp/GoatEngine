@@ -2,12 +2,12 @@ package com.goatgames.goatengine.scriptingengine.lua;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.scriptingengine.EntityScriptComponent;
 import com.goatgames.goatengine.scriptingengine.IEntityScript;
-import com.goatgames.gdk.GAssert;
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaValue;
 

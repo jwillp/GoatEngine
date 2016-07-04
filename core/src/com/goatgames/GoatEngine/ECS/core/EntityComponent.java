@@ -1,7 +1,5 @@
 package com.goatgames.goatengine.ecs.core;
 
-import com.goatgames.goatengine.scriptingengine.IEntityScript;
-
 /**
  * Entity Component class
  */
