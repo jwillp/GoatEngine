@@ -1,21 +1,18 @@
 package com.goatgames.goatengine;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
 import com.goatgames.goatengine.eventmanager.engineevents.EngineEvents;
-import com.goatgames.goatengine.utils.DesktopExceptionHandler;
 
 
 /**
  * Generic Game class used to test the engine
  */
-public class GenericGame extends Game{
+public class GoatGame extends Game{
 
     private final GameEventListener gameSpecificListener;
 
-    public GenericGame(GameEventListener gameSpecificListener) {
+    public GoatGame(GameEventListener gameSpecificListener) {
         this.gameSpecificListener = gameSpecificListener;
     }
 
@@ -24,10 +21,6 @@ public class GenericGame extends Game{
      */
     @Override
     public void create() {
-        // Set ExceptionHandler
-        if(Gdx.app.getType() == Application.ApplicationType.Desktop){
-            Thread.setDefaultUncaughtExceptionHandler(new DesktopExceptionHandler());
-        }
         GoatEngine.init();
 
         // NCB: Register game specific listener if any
