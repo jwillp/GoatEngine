@@ -7,6 +7,7 @@ import com.goatgames.goatengine.ecs.common.TagsComponent;
 import com.goatgames.goatengine.ecs.common.TransformComponent;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.GameComponent;
+import com.goatgames.goatengine.ecs.core.LuaGameComponent;
 import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 import com.goatgames.goatengine.graphicsrendering.*;
 import com.goatgames.goatengine.graphicsrendering.camera.CameraComponent;
@@ -60,14 +61,20 @@ public class ComponentMapper {
     /**
      * Denormalises an entity component by using reflection.
      * Returns a component instance from a normalised component.
-     * @param data
+     * @param data normalised dta
      * @return a component instance
      */
     public static EntityComponent getComponent(NormalisedEntityComponent data){
         if(GAssert.notNull(data, "data == null")){
             String compId = data.get("component_id");
             try {
-                Class<?> clazz = classes.containsKey(compId) ? classes.get(compId) : GameComponent.class;
+                Class<?> clazz;
+                if (classes.containsKey(compId)) {
+                    clazz = classes.get(compId);
+                }
+                else {
+                    clazz = data.containsKey(LuaGameComponent.INTERNAL_KEY) ? LuaGameComponent.class : GameComponent.class;
+                }
                 Constructor<?> constructor;
                 constructor = clazz.getConstructor(NormalisedEntityComponent.class);
                 return (EntityComponent) constructor.newInstance(data);

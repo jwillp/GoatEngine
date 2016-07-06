@@ -98,11 +98,6 @@ public class EntityScriptComponent extends EntityComponent {
     }
 
     @Override
-    public EntityComponent clone() {
-        return new Factory().processMapData(this.getId(), this.normalise());
-    }
-
-    @Override
     public String getId() {
         return ID;
     }

@@ -60,12 +60,6 @@ public abstract class EntityComponent {
     }
 
     /**
-     * Returns a clone of the current component
-     * @return a clone of the component
-     */
-    public abstract EntityComponent clone();
-
-    /**
      * Indicates whether or not the component is enabled
      * @return true if enabled, otherwise false
      */

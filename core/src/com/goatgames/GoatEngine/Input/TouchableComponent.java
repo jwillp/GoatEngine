@@ -17,11 +17,6 @@ public class TouchableComponent extends EntityComponent {
     }
 
     @Override
-    public EntityComponent clone() {
-        return new TouchableComponent(normalise());
-    }
-
-    @Override
     public String getId() {
         return ID;
     }

@@ -43,11 +43,6 @@ public class TagsComponent extends EntityComponent {
         }
     }
 
-    @Override
-    public EntityComponent clone() {
-        return new TagsComponent(normalise());
-    }
-
     /**
      * Adds a new tag to an entity
      * @param tag

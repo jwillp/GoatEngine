@@ -32,11 +32,6 @@ public class ZIndexComponent extends EntityComponent{
     }
 
     @Override
-    public EntityComponent clone() {
-        return new ZIndexComponent(normalise());
-    }
-
-    @Override
     public String getId() {
         return ID;
     }

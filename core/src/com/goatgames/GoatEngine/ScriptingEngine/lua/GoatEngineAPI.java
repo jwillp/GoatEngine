@@ -3,7 +3,7 @@ package com.goatgames.goatengine.scriptingengine.lua;
 import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.AudioMixer;
 import com.goatgames.goatengine.GoatEngine;
-import com.goatgames.goatengine.ecs.core.GameComponent;
+import com.goatgames.goatengine.ecs.core.LuaGameComponent;
 import com.goatgames.goatengine.eventmanager.GameEvent;
 import com.goatgames.goatengine.fsm.FiniteStateMachine;
 import com.goatgames.goatengine.scriptingengine.UtilAPI;
@@ -34,7 +34,7 @@ public class GoatEngineAPI extends TwoArgFunction {
 
         library.set("GAssert", CoerceJavaToLua.coerce(new GAssert())); // We only access static methods
 
-        library.set("GameComponent",CoerceJavaToLua.coerce(new GameComponentAPI()));
+        library.set("LuaGameComponent",CoerceJavaToLua.coerce(new GameComponentAPI()));
         library.set("GameEvent",CoerceJavaToLua.coerce(new GameEventAPI()));
         library.set("FiniteStateMachine", CoerceJavaToLua.coerce(new FiniteStateMachineAPI()));
         library.set("MachineState", CoerceJavaToLua.coerce(new MachineStateAPI()));
@@ -55,14 +55,14 @@ public class GoatEngineAPI extends TwoArgFunction {
 
 
     /**
-     * Exposes GameComponent creation
+     * Exposes LuaGameComponent creation
      * Used so scripts can generate GameComponents
      */
     public class GameComponentAPI extends OneArgFunction{
 
         @Override
         public LuaValue call(LuaValue table) {
-            return CoerceJavaToLua.coerce(new GameComponent(table.checktable()));
+            return CoerceJavaToLua.coerce(new LuaGameComponent(table.checktable()));
         }
     }
 

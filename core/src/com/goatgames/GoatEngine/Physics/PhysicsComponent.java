@@ -283,16 +283,6 @@ public class PhysicsComponent extends EntityComponent {
     }
 
     /**
-     * Used to clone a component
-     *
-     * @return
-     */
-    @Override
-    public EntityComponent clone() {
-        return new PhysicsComponent(normalise());
-    }
-
-    /**
      * Returns this physics Component body def.
      * @return
      */

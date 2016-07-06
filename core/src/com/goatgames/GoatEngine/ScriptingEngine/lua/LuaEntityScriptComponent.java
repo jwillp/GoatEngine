@@ -105,11 +105,6 @@ public class LuaEntityScriptComponent extends EntityComponent {
     }
 
     @Override
-    public EntityComponent clone() {
-        return new LuaEntityScriptComponent(normalise());
-    }
-
-    @Override
     public String getId() {
         return ID;
     }

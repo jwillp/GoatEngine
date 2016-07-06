@@ -133,16 +133,6 @@ public class SpriterAnimationComponent extends EntityComponent {
     }
 
     /**
-     * Used to clone a component
-     *
-     * @return
-     */
-    @Override
-    public EntityComponent clone() {
-        return new SpriterAnimationComponent(normalise());
-    }
-
-    /**
      * Adds a Player Listener to the current player
      */
     private void createPlayerListener(){
