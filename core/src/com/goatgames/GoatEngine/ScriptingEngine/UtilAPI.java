@@ -12,7 +12,8 @@ import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.graphicsrendering.camera.CameraComponent;
 import com.goatgames.goatengine.physics.PhysicsComponent;
-import com.goatgames.goatengine.screenmanager.GameScreen;
+import com.goatgames.goatengine.physics.PhysicsSystem;
+import com.goatgames.goatengine.screenmanager.IGameScreen;
 import com.goatgames.goatengine.scriptingengine.common.IScriptingAPI;
 
 /**
@@ -240,7 +241,7 @@ public class UtilAPI implements IScriptingAPI {
      * Returns the game screen currently processed by the engine
      * @return current game screen
      */
-    public GameScreen getCurrentGameScreen(){
+    public IGameScreen getCurrentGameScreen(){
         return GoatEngine.gameScreenManager.getCurrentScreen();
     }
 
@@ -249,7 +250,8 @@ public class UtilAPI implements IScriptingAPI {
      * @return a vector2 representing the world gravity
      */
     public Vector2 getWorldGravity(){
-        return getCurrentGameScreen().getPhysicsSystem().getWorld().getGravity();
+        PhysicsSystem physicsSystem = getCurrentGameScreen().getEntitySystemManager().getSystem(PhysicsSystem.class);
+        return physicsSystem.getWorld().getGravity();
     }
 
     /**
@@ -258,7 +260,8 @@ public class UtilAPI implements IScriptingAPI {
      * @param y Y axis value in m/s
      */
     public void setWorldGravity(float x, float y){
-        getCurrentGameScreen().getPhysicsSystem().getWorld().setGravity(new Vector2(x,y));
+        PhysicsSystem physicsSystem = getCurrentGameScreen().getEntitySystemManager().getSystem(PhysicsSystem.class);
+        physicsSystem.getWorld().setGravity(new Vector2(x,y));
     }
 
     /**

@@ -6,7 +6,8 @@ import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.graphicsrendering.camera.CameraComponent;
-import com.goatgames.goatengine.screenmanager.GameScreen;
+import com.goatgames.goatengine.physics.PhysicsSystem;
+import com.goatgames.goatengine.screenmanager.IGameScreen;
 import com.goatgames.goatengine.scriptingengine.UtilAPI;
 import com.goatgames.goatengine.scriptingengine.common.IScriptingAPI;
 import org.luaj.vm2.LuaValue;
@@ -36,14 +37,14 @@ public class CtxAPI extends TwoArgFunction implements IScriptingAPI {
         library.set("entity", luaEntity);
         library.set("scriptName", scriptName);
 
-        GameScreen currentGameScreen = GoatEngine.gameScreenManager.getCurrentScreen();
+        IGameScreen currentGameScreen = GoatEngine.gameScreenManager.getCurrentScreen();
         library.set("gameScreen",
                 CoerceJavaToLua.coerce(currentGameScreen));
 
         library.set("entityManager",
                 CoerceJavaToLua.coerce(currentGameScreen.getEntityManager()));
 
-        library.set("physicsWorld", CoerceJavaToLua.coerce(currentGameScreen.getPhysicsSystem().getWorld()));
+        library.set("physicsWorld", CoerceJavaToLua.coerce(currentGameScreen.getEntitySystemManager().getSystem(PhysicsSystem.class).getWorld()));
 
 
         library.set("camera", new CameraAPI());
@@ -89,7 +90,7 @@ public class CtxAPI extends TwoArgFunction implements IScriptingAPI {
 
         @Override
         public LuaValue call() {
-            GameScreen currentGameScreen = GoatEngine.gameScreenManager.getCurrentScreen();
+            IGameScreen currentGameScreen = GoatEngine.gameScreenManager.getCurrentScreen();
             return CoerceJavaToLua.coerce(currentGameScreen.getEntityManager().createEntity());
         }
     }
@@ -98,7 +99,7 @@ public class CtxAPI extends TwoArgFunction implements IScriptingAPI {
 
         @Override
         public LuaValue call(LuaValue arg) {
-            GameScreen currentGameScreen = GoatEngine.gameScreenManager.getCurrentScreen();
+            IGameScreen currentGameScreen = GoatEngine.gameScreenManager.getCurrentScreen();
             currentGameScreen.getEntityManager().deleteEntity(arg.toString());
             return null;
         }

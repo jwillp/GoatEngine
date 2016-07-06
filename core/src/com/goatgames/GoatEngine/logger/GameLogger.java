@@ -2,7 +2,7 @@ package com.goatgames.goatengine.logger;
 
 import com.goatgames.gdk.logger.ILogger;
 import com.goatgames.gdk.logger.SystemOutLogger;
-import com.goatgames.goatengine.GEConfig;
+import com.goatgames.goatengine.config.GEConfig;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.files.IFileHandle;
 import com.goatgames.goatengine.files.IFileManager;
@@ -63,7 +63,7 @@ public class GameLogger implements ILogger {
         }
 
         // Check if logging of the level is permitted with config
-        if (!GoatEngine.config.getArray("logger.levels").contains(level, false))return;
+        if (!GoatEngine.config.getList("logger.levels").contains(level))return;
 
         // File Line (outputs the line at which the call to log the message was done)
         String stack = new Exception().getStackTrace()[2].toString();

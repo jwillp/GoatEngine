@@ -9,7 +9,8 @@ import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.graphicsrendering.camera.CameraComponent;
-import com.goatgames.goatengine.screenmanager.GameScreen;
+import com.goatgames.goatengine.physics.PhysicsSystem;
+import com.goatgames.goatengine.screenmanager.IGameScreen;
 
 /**
  * Native CtxAPI API
@@ -26,7 +27,7 @@ public class CtxAPI {
     public Entity getEntity(){
         return entity;
     }
-    public GameScreen getCurrentGameScreen(){
+    public IGameScreen getCurrentGameScreen(){
         return GoatEngine.gameScreenManager.getCurrentScreen();
     }
 
@@ -35,7 +36,7 @@ public class CtxAPI {
     }
 
     public World getPhsyicsWorld(){
-        return getCurrentGameScreen().getPhysicsSystem().getWorld();
+        return getCurrentGameScreen().getEntitySystemManager().getSystem(PhysicsSystem.class).getWorld();
     }
 
     public OrthographicCamera getCamera() {
@@ -58,12 +59,12 @@ public class CtxAPI {
     }
 
     public Entity createEntity() {
-        GameScreen currentGameScreen = GoatEngine.gameScreenManager.getCurrentScreen();
+        IGameScreen currentGameScreen = GoatEngine.gameScreenManager.getCurrentScreen();
         return currentGameScreen.getEntityManager().createEntity();
     }
 
     public void destroyEntity(String entityId){
-        GameScreen currentGameScreen = GoatEngine.gameScreenManager.getCurrentScreen();
+        IGameScreen currentGameScreen = GoatEngine.gameScreenManager.getCurrentScreen();
         currentGameScreen.getEntityManager().deleteEntity(entityId);
     }
 }

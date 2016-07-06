@@ -1,8 +1,7 @@
-package com.goatgames.goatengine;
+package com.goatgames.goatengine.config;
 
 import com.badlogic.gdx.Gdx;
 import com.goatgames.goatengine.scriptingengine.lua.LuaScript;
-import com.goatgames.goatengine.utils.EngineConfig;
 import org.luaj.vm2.LuaTable;
 
 import java.util.Calendar;
@@ -11,7 +10,7 @@ import java.util.Date;
 /**
  * Class loading the Global engine settings
  */
-public class GEConfig extends EngineConfig{
+public class GEConfig extends LuaEngineConfig {
 
     // Constants
     public static final String PRIV_DATA_DIRECTORY = "priv_data/";

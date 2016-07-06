@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.screenmanager;
+package com.goatgames;
 
 import com.goatgames.goatengine.eventmanager.Event;
 

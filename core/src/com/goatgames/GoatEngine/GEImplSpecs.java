@@ -4,6 +4,7 @@ import com.goatgames.gdk.logger.ILogger;
 import com.goatgames.goatengine.ecs.prefabs.PrefabFactory;
 import com.goatgames.goatengine.files.IFileManager;
 import com.goatgames.goatengine.input.InputManager;
+import com.goatgames.goatengine.screenmanager.IGameScreenLoader;
 import com.goatgames.goatengine.scriptingengine.common.IScriptingEngine;
 
 /**
@@ -40,4 +41,6 @@ public interface GEImplSpecs {
      * @return prefab factory
      */
     PrefabFactory getPrefabFactory();
+
+    IGameScreenLoader getGameScreenLoader();
 }

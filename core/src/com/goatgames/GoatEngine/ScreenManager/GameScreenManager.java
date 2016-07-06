@@ -13,9 +13,16 @@ import java.util.Stack;
  */
 public class GameScreenManager {
 
+    private IGameScreenLoader screenLoader;
+
     // ATTRIBUTES //
-    private Stack<GameScreen> screens = new Stack<GameScreen>();
+    private Stack<IGameScreen> screens = new Stack<IGameScreen>();
     private boolean isRunning;
+
+
+    public GameScreenManager(IGameScreenLoader loader){
+        this.screenLoader = loader;
+    }
 
     // METHODS //
 
@@ -26,7 +33,7 @@ public class GameScreenManager {
         this.isRunning = true;
         String mainScreenName = GoatEngine.config.getString("screens.main_screen");
         String mainScreenPath = GoatEngine.config.getString("screens.directory") + mainScreenName;
-        GameScreen mainScreen = new GameScreen(mainScreenName);
+        IGameScreen mainScreen = screenLoader.load(mainScreenName);
         this.addScreen(mainScreen);
     }
 
@@ -45,7 +52,7 @@ public class GameScreenManager {
 
 
     // Screen Management //
-    private void changeScreen(GameScreen screen){
+    private void changeScreen(IGameScreen screen){
 
         if(!this.screens.isEmpty()){
             this.screens.peek().cleanUp();
@@ -60,18 +67,18 @@ public class GameScreenManager {
      * @param screenPath
      */
     public void changeScreen(String screenPath){
-        changeScreen(new GameScreen(screenPath));
+        IGameScreen screen = screenLoader.load(screenPath);
+        changeScreen(screen);
     }
-
 
     /**
      * Adds a screen on top of the list , so it poses the currently running screen
      * @param screen
      */
-    private void addScreen(GameScreen screen){
+    private void addScreen(IGameScreen screen){
         GoatEngine.logger.info("> Game Engine adding Screen ...");
         if(!this.screens.isEmpty())
-            this.screens.peek().pause();
+            this.screens.peek().pause(this);
 
         this.screens.push(screen);
         this.screens.peek().init(this);
@@ -83,11 +90,9 @@ public class GameScreenManager {
      * @param screenPath path to the screen config file
      */
     public void addScreen(String screenPath){
-        addScreen(new GameScreen(screenPath));
+        IGameScreen screen = screenLoader.load(screenPath);
+        addScreen(screen);
     }
-
-
-
 
     /**
      * delete last game screen in the stack
@@ -99,7 +104,7 @@ public class GameScreenManager {
         }
         //if we still have another screen we resume it
         if(!this.screens.isEmpty()){
-            this.screens.peek().resume();
+            this.screens.peek().resume(this);
         }
     }
 
@@ -150,7 +155,7 @@ public class GameScreenManager {
      * Returns the current screen
      * @return
      */
-    public GameScreen getCurrentScreen() {
+    public IGameScreen getCurrentScreen() {
         if(!this.screens.empty()){
             return this.screens.peek();
         }else{
@@ -158,7 +163,6 @@ public class GameScreenManager {
            return null;
         }
     }
-
 
     private void handleEmptyStack(){
         /*if(GEConfig.ScreenManager.ON_EMPTY_STACK.equals(GEConfig.ScreenManager.FATAL)){*/
@@ -169,7 +173,6 @@ public class GameScreenManager {
             // TODO notify GoatEngine that we want to quit
         }*/
     }
-
 
     /**
      * Exception thrown when the manager's stack is empty

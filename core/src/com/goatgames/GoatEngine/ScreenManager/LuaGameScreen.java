@@ -8,36 +8,44 @@ import com.goatgames.goatengine.ecs.common.EntityDestructionSystem;
 import com.goatgames.goatengine.ecs.core.ECSManager;
 import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
+import com.goatgames.goatengine.ecs.core.EntitySystemManager;
+import com.goatgames.goatengine.files.IFileHandle;
 import com.goatgames.goatengine.graphicsrendering.RenderingSystem;
 import com.goatgames.goatengine.input.InputSystem;
 import com.goatgames.goatengine.physics.PhysicsSystem;
 import com.goatgames.goatengine.scriptingengine.EntityScriptSystem;
-import com.goatgames.goatengine.scriptingengine.common.IScriptingEngine;
-import com.goatgames.goatengine.scriptingengine.lua.LuaEntityScriptSystem;
+import com.goatgames.goatengine.scriptingengine.lua.LuaScript;
 import com.goatgames.goatengine.ui.UIEngine;
+import com.goatgames.goatengine.config.LuaEngineConfig;
 import com.goatgames.goatengine.utils.TiledMapLoadedEvent;
 import com.goatgames.goatengine.utils.TmxMapLoader;
+import org.luaj.vm2.LuaTable;
 
 import java.io.FileNotFoundException;
 
-public final class GameScreen{
+/**
+ * Lua Based Game Screen
+ */
+public class LuaGameScreen extends LuaEngineConfig implements IGameScreen{
 
     protected ECSManager ecsManager = new ECSManager();
     private String name;
 
     private PhysicsSystem physicsSystem;
 
-    private GameScreenConfig config;
+    private IGameScreenConfig config;
 
     private UIEngine uiEngine;
-    private boolean initialized = false;
+    private boolean initialised = false;
     private RenderingSystem renderingSystem;
 
-    public GameScreen(final String name){
+    public LuaGameScreen(final String name){
         this.name = name;
-        config = new GameScreenConfig(GoatEngine.config.getString("screens.directory") + this.name);
+        config = new LuaGameScreenConfig();
         uiEngine = new UIEngine();
     }
+
+
 
 
     public void init(GameScreenManager screenManager) {
@@ -76,51 +84,50 @@ public final class GameScreen{
         // Apply Level Configuration
         loadLevel();
 
-        initialized = true;
+        initialised = true;
         GoatEngine.eventManager.fireEvent(new GamScreenInitialisedEvent(this.name));
         GoatEngine.logger.info(String.format("> Game Screen: %s initialised", this.name));
     }
 
+    @Override
+    public void pause(GameScreenManager screenManager) {
+        GoatEngine.logger.info(String.format("Game Screen: %s paused", this.name));
+    }
+
+    @Override
+    public void resume(GameScreenManager screenManager) {
+        GoatEngine.logger.info(String.format("Game Screen: %s resumed", this.name));
+    }
+
+    @Override
     public void cleanUp() {
         GoatEngine.logger.info(String.format("Game Screen: %s cleaned up", this.name));
     }
 
-    public void pause() {
-        GoatEngine.logger.info(String.format("Game Screen: %s paused", this.name));
-    }
-
-    public void resume() {
-        GoatEngine.logger.info(String.format("Game Screen: %s resumed", this.name));
-    }
-
-
+    @Override
     public void preUpdate(GameScreenManager screenManager){
         ecsManager.getSystemManager().preUpdate();
     }
 
+    @Override
     public void update(GameScreenManager screenManager, float deltaTime){
         ecsManager.getSystemManager().update();
     }
 
+    @Override
     public void draw(GameScreenManager screenManager, float deltaTime){
         uiEngine.render(deltaTime);
         ecsManager.getSystemManager().draw();
     }
 
-
     /**
      * Reads the game screen config file
      */
     private void loadConfigFile(){
-        try {
-            config.load();
-        } catch (FileNotFoundException e) {
-            GameScreenNotFoundException exception = new GameScreenNotFoundException(this.name);
-            GoatEngine.logger.fatal(exception.getMessage());
-            throw exception;
-        }
+        String configPath = GoatEngine.config.getString("screens.directory") + this.name;
+        IFileHandle configHandle = GoatEngine.fileManager.getFileHandle(configPath);
+        config.load(configHandle);
     }
-
 
     /**
      * Applies the info (add entities/objects) read from
@@ -154,7 +161,6 @@ public final class GameScreen{
         Logger.info(s);*/
     }
 
-
     private void loadMap(){
         String TMX_FILE = config.getString("tmx_map");
         if(TMX_FILE.isEmpty()) return;
@@ -167,39 +173,35 @@ public final class GameScreen{
         GoatEngine.eventManager.fireEvent(new TiledMapLoadedEvent(map));
     }
 
-
-
     public EntityManager getEntityManager(){
         return this.ecsManager.getEntityManager();
+    }
+
+    @Override
+    public EntitySystemManager getEntitySystemManager() {
+        return ecsManager.getSystemManager();
     }
 
     public PhysicsSystem getPhysicsSystem() {
         return physicsSystem;
     }
 
-    public GameScreenConfig getConfig() {
+    public IGameScreenConfig getConfig() {
         return config;
     }
 
-    public UIEngine getUiEngine() {
-        return uiEngine;
-    }
 
     public String getName() {
         return name;
     }
 
-    public boolean isInitialized() {
-        return initialized;
+    @Override
+    public boolean isInitialised() {
+        return initialised;
     }
 
-
-    // EXCEPTIONS //
-
-    public class GameScreenNotFoundException extends RuntimeException {
-        public GameScreenNotFoundException(String name) {
-            super(String.format("Could not find game screen : %s File not found : %s%s",
-                    name, GoatEngine.config.getString("screens.directory"), name));
-        }
+    @Override
+    public UIEngine getUIEngine() {
+        return uiEngine;
     }
 }

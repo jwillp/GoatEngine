@@ -1,9 +1,10 @@
-package com.goatgames.goatengine.utils;
+package com.goatgames.goatengine.config;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.files.IFileHandle;
+import com.goatgames.goatengine.utils.OrderedProperties;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -14,7 +15,7 @@ import java.util.List;
 /**
  * Class used for Game Specific Configs
  */
-public class GameConfig extends EngineConfig{
+public class GameConfig extends LuaEngineConfig {
 
     public static final String BASE = "CONFIG_BASE";
 

@@ -8,6 +8,7 @@ import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.eventmanager.EntityEvent;
 import com.goatgames.goatengine.screenmanager.GameScreenConfig;
+import com.goatgames.goatengine.screenmanager.IGameScreenConfig;
 
 /**
  * A system handling all cameras and their movements
@@ -30,7 +31,7 @@ public class CameraSystem extends EntitySystem {
 
     @Override
     public void update(float dt){
-        GameScreenConfig config = GoatEngine.gameScreenManager.getCurrentScreen().getConfig();
+        IGameScreenConfig config = GoatEngine.gameScreenManager.getCurrentScreen().getConfig();
 
         for(EntityComponent comp: getEntityManager().getComponents(CameraComponent.ID)){
             CameraComponent camComp = (CameraComponent)comp;

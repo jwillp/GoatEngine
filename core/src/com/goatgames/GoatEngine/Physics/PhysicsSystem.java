@@ -11,6 +11,7 @@ import com.goatgames.goatengine.ecs.core.EntityCollection;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.screenmanager.GameScreenConfig;
+import com.goatgames.goatengine.screenmanager.IGameScreenConfig;
 
 import java.util.ArrayList;
 
@@ -32,7 +33,7 @@ public class PhysicsSystem extends EntitySystem implements ContactListener {
     public PhysicsSystem() {
         Box2D.init();
 
-        GameScreenConfig config = GoatEngine.gameScreenManager.getCurrentScreen().getConfig();
+        IGameScreenConfig config = GoatEngine.gameScreenManager.getCurrentScreen().getConfig();
         //Gravity
         final float GRAVITY_X = config.getFloat("physics.gravity.x");
         final float GRAVITY_Y = config.getFloat("physics.gravity.y");

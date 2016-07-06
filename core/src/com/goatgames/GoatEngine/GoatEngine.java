@@ -3,17 +3,15 @@ package com.goatgames.goatengine;
 import com.badlogic.gdx.Gdx;
 import com.goatgames.gdk.GAssert;
 import com.goatgames.gdk.logger.ILogger;
-import com.goatgames.goatengine.ecs.prefabs.IPrefabLoader;
-import com.goatgames.goatengine.ecs.prefabs.IniPrefabLoader;
+import com.goatgames.goatengine.config.GEConfig;
 import com.goatgames.goatengine.ecs.prefabs.PrefabFactory;
 import com.goatgames.goatengine.eventmanager.EventManager;
 import com.goatgames.goatengine.files.IFileManager;
 import com.goatgames.goatengine.graphicsrendering.GraphicsEngine;
 import com.goatgames.goatengine.input.InputManager;
 import com.goatgames.goatengine.screenmanager.GameScreenManager;
-import com.goatgames.goatengine.screenmanager.LateUpdateEvent;
+import com.goatgames.LateUpdateEvent;
 import com.goatgames.goatengine.scriptingengine.common.IScriptingEngine;
-import com.goatgames.goatengine.scriptingengine.lua.LuaScriptingEngine;
 import com.goatgames.goatengine.utils.Timer;
 
 /**
@@ -137,7 +135,7 @@ public class GoatEngine {
         performanceTimer.reset();
 
         // Game Screen manager
-        gameScreenManager = new GameScreenManager();
+        gameScreenManager = new GameScreenManager(specs.getGameScreenLoader());
         gameScreenManager.init();
         GoatEngine.logger.info(" > Game screen Manager initialised " + performanceTimer.getDeltaTime() + "ms");
         performanceTimer.reset();
