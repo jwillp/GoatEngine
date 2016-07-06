@@ -1,7 +1,5 @@
 package com.goatgames.goatengine.desktop;
 
-import com.badlogic.gdx.Application;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.goatgames.goatengine.GoatGame;
@@ -35,10 +33,7 @@ public class GEDesktopLauncher {
         }
 
         // GoatEngine
-        GoatEngine.fileManager = new GdxFileManager();
-        GoatEngine.logger = new GameLogger(GoatEngine.fileManager);
-        GAssert.logger = GoatEngine.logger;
-        GoatEngine.inputManager = new DesktopInputManager();
+        GoatEngine.specs = new DesktopGEImplSpecs();
 
         // Libgdx application
         LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();

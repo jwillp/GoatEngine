@@ -53,9 +53,9 @@ public class GoatEngine {
 
     public static ILogger logger = null;
 
-    public static PrefabFactory prefabFactory = new PrefabFactory(new IniPrefabLoader());
+    public static PrefabFactory prefabFactory = null;
 
-    public static IScriptingEngine scriptingEngine = new LuaScriptingEngine();
+    public static IScriptingEngine scriptingEngine = null;
     // TODO NetworkManager ?
 
     private static boolean initialised = false;
@@ -68,13 +68,26 @@ public class GoatEngine {
     private static Timer devCrxStatsTimer;
 
     private static final LateUpdateEvent lateUpdateEvent = new LateUpdateEvent();
-
+    public static GEImplSpecs specs;
 
 
     /**
      * This initializes the Game Engine
      */
     public static void init(){
+
+
+        if(specs == null){
+            specs = new DefaultGEImplSpecs();
+        }
+
+        fileManager = specs.getFileManager();
+        logger = specs.getLogger();
+        prefabFactory = specs.getPrefabFactory();
+        inputManager = specs.getInputManager();
+        scriptingEngine = specs.getScriptingEngine();
+
+        GAssert.logger = logger;
 
         performanceTimer.start();
 
