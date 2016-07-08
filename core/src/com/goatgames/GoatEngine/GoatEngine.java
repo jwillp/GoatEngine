@@ -148,8 +148,6 @@ public class GoatEngine {
 
     }
 
-
-
     /**
      * Updates the engine for ONE frame
      */
