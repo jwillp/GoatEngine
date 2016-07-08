@@ -52,7 +52,7 @@ public class ComponentMapper {
      * @param componentId the ID of the component
      * @param clazz the class name of the Component
      */
-    private static <T extends EntityComponent> void linkClass(final String componentId, Class<T> clazz){
+    public static <T extends EntityComponent> void linkClass(final String componentId, Class<T> clazz){
         GAssert.that(!componentId.isEmpty(), "Invalid Component Id for class: " + clazz.getCanonicalName());
         GAssert.notNull(classes, "classes == null");
         classes.put(componentId, clazz);
