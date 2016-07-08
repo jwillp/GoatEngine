@@ -25,7 +25,7 @@ public class EntityScriptSystem extends EntitySystem implements GameEventListene
     }
 
     @Override
-    public void update(float dt) {
+    public void preUpdate() {
         EntityManager entityManager = getEntityManager();
         if(!GAssert.notNull(entityManager, "entityManager == null")){
             return;
@@ -37,7 +37,24 @@ public class EntityScriptSystem extends EntitySystem implements GameEventListene
                 IEntityScript script = entry.value;
                 if(!script.isInitialised()){
                     script.init(entity);
-                }else{
+                }
+            }
+            entityManager.freeEntityObject(entity);
+        }
+    }
+
+    @Override
+    public void update(float dt) {
+        EntityManager entityManager = getEntityManager();
+        if(!GAssert.notNull(entityManager, "entityManager == null")){
+            return;
+        }
+
+        for(Entity entity: entityManager.getEntitiesWithComponent(EntityScriptComponent.ID)){
+            EntityScriptComponent scriptComp = (EntityScriptComponent)entity.getComponent(EntityScriptComponent.ID);
+            for (ObjectMap.Entry<String, IEntityScript> entry : scriptComp.getScripts().entries()) {
+                IEntityScript script = entry.value;
+                if(!script.isInitialised()){
                     script.update(entity,dt);
                 }
             }
