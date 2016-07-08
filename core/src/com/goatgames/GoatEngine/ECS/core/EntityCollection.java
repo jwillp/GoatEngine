@@ -35,4 +35,40 @@ public class EntityCollection extends Array<Entity> {
         return collection;
     }
 
+
+    public boolean contains(Entity entity){
+        if(entity == null) return false;
+        for(int i = 0; i < size; i++){
+            Entity other = get(i);
+            if(other.getId().equals(entity.getId()))
+                return true;
+        }
+        return false;
+    }
+
+
+    public void remove(Entity entity){
+        if(entity == null) return;
+        for(int i = 0; i < size; i++){
+            Entity other = get(i);
+            if(other.getId().equals(entity.getId())) {
+                removeIndex(i);
+                break;
+            }
+        }
+    }
+
+    /**
+     * Removes the entity contained in provided collection from the current collection
+     * @param collection
+     */
+    public void remove(EntityCollection collection){
+        final int otherSize = collection.size;
+        for(int i = 0; i< otherSize; i++){
+            Entity entity = get(i);
+            if(contains(entity)){
+                remove(entity);
+            }
+        }
+    }
 }
