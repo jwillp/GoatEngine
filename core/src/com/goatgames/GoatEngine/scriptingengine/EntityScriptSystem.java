@@ -54,7 +54,7 @@ public class EntityScriptSystem extends EntitySystem implements GameEventListene
             EntityScriptComponent scriptComp = (EntityScriptComponent)entity.getComponent(EntityScriptComponent.ID);
             for (ObjectMap.Entry<String, IEntityScript> entry : scriptComp.getScripts().entries()) {
                 IEntityScript script = entry.value;
-                if(!script.isInitialised()){
+                if(script.isInitialised()){
                     script.update(entity,dt);
                 }
             }
