@@ -8,6 +8,7 @@ import com.goatgames.goatengine.GoatEngine;
 
 /**
  * Responsible for handling UI for a Game Screen
+ * By loading a layout file and generating objects from the file specifications
  */
 public class UIEngine {
 

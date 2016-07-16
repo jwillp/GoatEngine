@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.utils.ObjectMap;
 
 /**
- * Manages a hierarchy of Widgets
+ * Manages a hierarchy of Widgets it is essentially a layout
  */
 class UIManager {
 
