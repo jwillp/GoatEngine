@@ -1,5 +1,6 @@
 package com.goatgames.goatengine.utils;
 
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
@@ -45,15 +46,16 @@ public class TmxMapLoader{
     public TiledMap loadMap(String tmxFile){
         TiledMap map = GoatEngine.resourceManager.getMap(tmxFile);
 
-        // Get map objects
-        MapObjects mapObjects = map.getLayers().get("objects").getObjects();
-        int tileSize = map.getProperties().get("tilewidth", Integer.class);
+        // Get map objects from layers
+        for(MapLayer layer : map.getLayers()){
+            MapObjects mapObjects = layer.getObjects();
+            int tileSize = map.getProperties().get("tilewidth", Integer.class);
 
-
-        int mapObjectsCount = mapObjects.getCount();
-        for(int i = 0; i< mapObjectsCount; i++) {
-            Entity entity = loadEntity(mapObjects.get(i), tileSize);
-            entityManager.freeEntityObject(entity);
+            int mapObjectsCount = mapObjects.getCount();
+            for(int i = 0; i< mapObjectsCount; i++) {
+                Entity entity = loadEntity(mapObjects.get(i), tileSize);
+                entityManager.freeEntityObject(entity);
+            }
         }
 
         return map;
@@ -76,7 +78,7 @@ public class TmxMapLoader{
         float height = rect.getHeight() / tileSize;
                                               // Box2D body Position is in center, Tiled is bottom left
         float posX = rect.getX() / tileSize + width * 0.5f;
-        float posY = rect.getY() / tileSize + height *0.5f;
+        float posY = rect.getY() / tileSize + height * 0.5f;
 
 
         Entity entity;
