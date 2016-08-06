@@ -17,9 +17,6 @@ import com.goatgames.goatengine.physics.BodyDefFactory;
 import com.goatgames.goatengine.physics.PhysicsBodyDef;
 import com.goatgames.goatengine.physics.PhysicsComponent;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 /**
  * Class responsible for loading TMX Maps into ECS
  */

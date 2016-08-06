@@ -2,7 +2,6 @@ package com.goatgames.goatengine.screenmanager;
 
 import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.GoatEngine;
-import com.goatgames.goatengine.config.engine.ScreenManagerConfig;
 
 import java.util.Stack;
 

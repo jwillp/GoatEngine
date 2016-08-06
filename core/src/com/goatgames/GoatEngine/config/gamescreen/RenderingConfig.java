@@ -1,7 +1,6 @@
 package com.goatgames.goatengine.config.gamescreen;
 
 import com.goatgames.goatengine.graphicsrendering.camera.CameraStrategy;
-import com.goatgames.goatengine.graphicsrendering.camera.CameraSystem;
 import com.goatgames.goatengine.graphicsrendering.camera.FixedWidthStrategy;
 
 /**

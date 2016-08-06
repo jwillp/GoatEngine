@@ -2,7 +2,6 @@ package com.goatgames.goatengine.logger;
 
 import com.goatgames.gdk.logger.ILogger;
 import com.goatgames.gdk.logger.SystemOutLogger;
-import com.goatgames.goatengine.config.engine.GEConfig;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.config.engine.LoggerConfig;
 import com.goatgames.goatengine.files.IFileHandle;
