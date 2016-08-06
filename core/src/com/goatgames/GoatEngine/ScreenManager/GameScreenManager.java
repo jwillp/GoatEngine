@@ -1,5 +1,6 @@
 package com.goatgames.goatengine.screenmanager;
 
+import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.config.engine.ScreenManagerConfig;
 
@@ -32,9 +33,19 @@ public class GameScreenManager {
      */
     public void init() {
         this.isRunning = true;
-        String mainScreenName = ScreenManagerConfig.MAIN_SCREEN;
-        String mainScreenPath = GoatEngine.config.screen.directory + mainScreenName;
+        String mainScreenName = GoatEngine.config.screen.mainScreen;
+
+        // Possible causes for this:
+        //  - The GEImplSpecs for ScreenLoader returns null.
+        if(!GAssert.notNull(screenLoader, "screenLoader == null")) return;
+
+        // Possible causes for this:
+        //  - The ScreenLoader does not recognise the screen name:
+        //    Maybe there is a typo in the screen loader or in the configuration
+        //    for the given screen screen.
         IGameScreen mainScreen = screenLoader.load(mainScreenName);
+        if(!GAssert.notNull(mainScreen, "mainScreen == null")) return;
+
         this.addScreen(mainScreen);
     }
 

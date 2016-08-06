@@ -7,7 +7,7 @@ public class ScreenManagerConfig {
     /**
      * The name of the main screen (without the extension)
      */
-    public static String MAIN_SCREEN;
+    public String mainScreen;
 
     /**
      * Directory containing screen configurations
