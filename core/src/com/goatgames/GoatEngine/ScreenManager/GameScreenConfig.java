@@ -7,7 +7,7 @@ import com.goatgames.goatengine.config.gamescreen.RenderingConfig;
 /**
  * Game screen config
  */
-public class GameScreenConfig implements IGameScreenConfig {
+public class GameScreenConfig {
 
     /**
      * Entity definitions to be loaded.

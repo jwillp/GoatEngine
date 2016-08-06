@@ -24,8 +24,28 @@ import com.goatgames.goatengine.utils.Timer;
  * And a static access to the most important modules
  */
 public class GoatEngine {
+    /**
+     * Represents the current build number of the engine.
+     * By convention it is a date with the following format YY.MM.DD
+     */
+    public static String BUILD_VERSION = "16.02.12_beanshell";
 
+    /**
+     * Configuration of the engine
+     */
+    public final static GEConfig config = new GEConfig();
 
+    /**
+     * Indicates whether or not the engine has been initialised
+     */
+    private static boolean initialised = false;
+
+    /**
+     * Indicates whether or not the engine is currently running.
+     */
+    private static boolean running = false;
+
+    // MODULES BEGIN
     //ScreenManager
     public static GameScreenManager gameScreenManager;
 
@@ -56,23 +76,30 @@ public class GoatEngine {
     public static IScriptingEngine scriptingEngine = null;
     // TODO NetworkManager ?
 
-    private static boolean initialised = false;
-    private static boolean running = false;
 
-    // Performance profiling
-    private static Timer performanceTimer = new Timer();
-    public final static GEConfig config = new GEConfig();
+    // MODULES END
 
-    private static Timer devCrxStatsTimer;
-
-    private static final LateUpdateEvent lateUpdateEvent = new LateUpdateEvent();
-    public static GEImplSpecs specs;
 
     /**
-     * Represents the current build number of the engine.
-     * By convention it is a date with the following format YY.MM.DD
+     * Used for performance profiling
      */
-    public static String BUILD_VERSION = "16.02.12";
+    private static Timer performanceTimer = new Timer();
+
+    /**
+     * Timer used to display the current FPS
+     * once every second in the title bar
+     */
+    private static Timer devCrxStatsTimer;
+
+    /**
+     * For reuse
+     */
+    private static final LateUpdateEvent lateUpdateEvent = new LateUpdateEvent();
+
+    /**
+     * The implementation specification of the engine
+     */
+    public static GEImplSpecs specs;
 
 
     /**

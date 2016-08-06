@@ -80,3 +80,6 @@ diff.txt
 
 core/data*
 ge.conf
+
+# Test game for dev
+devgame/

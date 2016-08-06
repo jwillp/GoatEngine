@@ -18,10 +18,5 @@ public class AssetsConfig {
      * Automatically load resources, when needed.
      * Should be true only in debug
      */
-    public boolean autoLoad;
-
-    /**
-     * Maps directory
-     */
-    public String mapDirectory;
+    public boolean autoLoad = false;
 }

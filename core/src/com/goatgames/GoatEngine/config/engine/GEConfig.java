@@ -93,27 +93,30 @@ public class GEConfig {
         // Set variables
         try {
             interpreter.set("date", new Date());
-            interpreter.set("config", new GEConfig());
+            interpreter.set("config", this);
             interpreter.source(GAME_SPEC_CONFIG_FILE);
             sanitize();
         } catch (TargetError e) {
-            e.printStackTrace();
-            // TODO Log
+            if(dev_ctx)
+                e.printStackTrace(); // TODO Log
         } catch (ParseException e ) {
             // Parsing error
-            e.printStackTrace();
-            // TODO Log
+            if(dev_ctx)
+                e.printStackTrace(); // TODO Log
         } catch (EvalError e ) {
-            e.printStackTrace();
             // General Error evaluating script
-            // TODO Log
+            if(dev_ctx)
+                e.printStackTrace(); // TODO Log
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            throw new MissingConfigFileException(
-                    String.format("%s is missing from internal data. Please Contact Goat Game Support for assistance. ",
-                            GAME_SPEC_CONFIG_FILE));
+            if(dev_ctx)
+                e.printStackTrace();
+            final String message = String.format(
+                    "%s is missing from internal data. Please Contact Goat Game Support for assistance. ",
+                    GAME_SPEC_CONFIG_FILE);
+            throw new MissingConfigFileException(message);
         } catch (IOException e) {
-            e.printStackTrace();
+            if(dev_ctx)
+                e.printStackTrace();
         }
 
     }

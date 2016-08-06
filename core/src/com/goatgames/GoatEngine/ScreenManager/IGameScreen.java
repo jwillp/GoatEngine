@@ -49,9 +49,9 @@ public interface IGameScreen {
     /**
      * Update logic call of the game loop
      * @param screenManager
-     * @param deltatTime
+     * @param deltaTime
      */
-    void update(GameScreenManager screenManager, float deltatTime);
+    void update(GameScreenManager screenManager, float deltaTime);
 
     /**
      * Returns the config of the game screen

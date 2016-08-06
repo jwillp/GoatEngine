@@ -148,7 +148,10 @@ public class ResourceManager {
      */
     public TiledMap getMap(String tmxFile) {
         // TODO Load from full relative path
-        String map = GoatEngine.config.assets.mapDirectory + tmxFile;
+        String map = tmxFile;
+        if(!GAssert.that(GoatEngine.fileManager.exists(tmxFile), "map does not exist.")){
+            return null;
+        }
         if(! isLoaded(map) && GoatEngine.config.assets.autoLoad){
             loadMap(tmxFile);
             manager.finishLoadingAsset(map);

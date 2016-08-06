@@ -11,7 +11,6 @@ import com.goatgames.goatengine.ecs.core.EntityCollection;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.screenmanager.GameScreenConfig;
-import com.goatgames.goatengine.screenmanager.IGameScreenConfig;
 
 import java.util.ArrayList;
 
