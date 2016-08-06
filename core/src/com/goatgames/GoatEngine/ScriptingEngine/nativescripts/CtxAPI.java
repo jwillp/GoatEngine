@@ -51,10 +51,7 @@ public class CtxAPI {
      */
     public Entity createEntityFromPrefab(String prefabFile) {
         String prefab = prefabFile;
-        final String DATA_DIR = GoatEngine.config.getString("data_directory");
-        if(!prefab.startsWith(DATA_DIR + "prefabs")){
-            prefab = DATA_DIR + "prefabs/" + prefab;
-        }
+
         return GoatEngine.prefabFactory.createEntity(prefab,getEntityManager());
     }
 

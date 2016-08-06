@@ -31,13 +31,13 @@ public class CameraSystem extends EntitySystem {
 
     @Override
     public void update(float dt){
-        IGameScreenConfig config = GoatEngine.gameScreenManager.getCurrentScreen().getConfig();
+        GameScreenConfig config = GoatEngine.gameScreenManager.getCurrentScreen().getConfig();
 
         for(EntityComponent comp: getEntityManager().getComponents(CameraComponent.ID)){
             CameraComponent camComp = (CameraComponent)comp;
             OrthographicCamera cam = camComp.getCamera();
             if(camComp.isDirty){
-                strategy = CameraStrategyResolver.getStrategy(config.getString("rendering.camera.strategy"));
+                strategy = config.rendering.camera.strategy;
                 GAssert.notNull(strategy,"Camera strategy Null");
                 cam = new OrthographicCamera(strategy.getWidth(), strategy.getHeight());
                 camComp.isDirty = false;

@@ -18,11 +18,11 @@ public class GraphicsEngine{
 
         // set the window to fullscreen mode ?
         Graphics.DisplayMode mode = Gdx.graphics.getDisplayMode();
-        if(GoatEngine.config.getBoolean("game.fullscreen")){
+        if(GoatEngine.config.fullscreen){
             Gdx.graphics.setFullscreenMode(mode);
         }else{
-            int width = GoatEngine.config.getInt("game.resolution.width");
-            int height = GoatEngine.config.getInt("game.resolution.height");
+            int width = GoatEngine.config.resolution.width;
+            int height = GoatEngine.config.resolution.height;
             if(width == -1){
                 width = mode.width;
             }
@@ -31,7 +31,7 @@ public class GraphicsEngine{
             }
             Gdx.graphics.setWindowedMode(width,height);
         }
-        Gdx.graphics.setTitle(GoatEngine.config.getString("game.name"));
+        Gdx.graphics.setTitle(GoatEngine.config.game.name);
 
     }
 

@@ -2,8 +2,9 @@ package com.goatgames.goatengine.logger;
 
 import com.goatgames.gdk.logger.ILogger;
 import com.goatgames.gdk.logger.SystemOutLogger;
-import com.goatgames.goatengine.config.GEConfig;
+import com.goatgames.goatengine.config.engine.GEConfig;
 import com.goatgames.goatengine.GoatEngine;
+import com.goatgames.goatengine.config.engine.LoggerConfig;
 import com.goatgames.goatengine.files.IFileHandle;
 import com.goatgames.goatengine.files.IFileManager;
 import com.goatgames.goatengine.utils.NotImplementedException;
@@ -17,13 +18,6 @@ import java.util.Calendar;
  * This special format will then be read and used by external tools such as the Goat Engine Log Viewer (GELV)
  */
 public class GameLogger implements ILogger {
-
-    // LEVELS
-    private final static String LEVEL_INFO = "INFO";
-    private final static String LEVEL_DEBUG = "DEBUG";
-    private final static String LEVEL_WARNING = "WARNING";
-    private final static String LEVEL_ERROR = "ERROR";
-    private final static String LEVEL_FATAL = "FATAL";
 
     public final IFileManager fileManager;
     public IFileHandle logFileHandle;
@@ -41,13 +35,13 @@ public class GameLogger implements ILogger {
      * @param level
      * @param message
      */
-    private void logData(String level, Object message){
+    private void logData(LoggerConfig.Levels level, Object message){
         // Check if the file was created, if not create it and add defualt data (OS Env, date, game name etc ..)
         if(logFileHandle == null){
             // Create a new log file
-            String longDate = new SimpleDateFormat("YYYYMMDDHHmmss").format(GEConfig.LAUNCH_DATE);
-            final String LOGGER_DIRECTORY = GoatEngine.config.getString("logger.directory");
-            final String LOG_FILE_FORMAT = GoatEngine.config.getString("logger.file_name_format");
+            String longDate = new SimpleDateFormat("YYYYMMDDHHmmss").format(GoatEngine.config.LAUNCH_DATE);
+            final String LOGGER_DIRECTORY = GoatEngine.config.logger.directory;
+            final String LOG_FILE_FORMAT = GoatEngine.config.logger.file_name_format;
             String logFilePath =  LOGGER_DIRECTORY + LOG_FILE_FORMAT.replace("%date%", longDate);
             setLogFilePath(logFilePath);
 
@@ -58,12 +52,12 @@ public class GameLogger implements ILogger {
                     System.getProperty("os.arch")
             );
 
-            String envXml = envToXml(logFilePath, GEConfig.LAUNCH_DATE.toString(), osInfo);
+            String envXml = envToXml(logFilePath, GoatEngine.config.LAUNCH_DATE.toString(), osInfo);
             logFileHandle.writeString(envXml + "\n", true, StandardCharsets.UTF_8.toString());
         }
 
         // Check if logging of the level is permitted with config
-        if (!GoatEngine.config.getList("logger.levels").contains(level))return;
+        if (!GoatEngine.config.logger.levels.contains(level))return;
 
         // File Line (outputs the line at which the call to log the message was done)
         String stack = new Exception().getStackTrace()[2].toString();
@@ -94,31 +88,31 @@ public class GameLogger implements ILogger {
     @Override
     public void debug(Object message) {
         if(mustPrintToScreen()) systemOutLogger.debug(message);
-        logData(LEVEL_DEBUG, message);
+        logData(LoggerConfig.Levels.DEBUG, message);
     }
 
     @Override
     public void info(Object message) {
         if(mustPrintToScreen()) systemOutLogger.info(message);
-        logData(LEVEL_INFO, message);
+        logData(LoggerConfig.Levels.INFO, message);
     }
 
     @Override
     public void warn(Object message) {
         if(mustPrintToScreen()) systemOutLogger.warn(message);
-        logData(LEVEL_WARNING, message);
+        logData(LoggerConfig.Levels.WARNING, message);
     }
 
     @Override
     public void error(Object message) {
         if(mustPrintToScreen()) systemOutLogger.error(message);
-        logData(LEVEL_ERROR, message);
+        logData(LoggerConfig.Levels.ERROR, message);
     }
 
     @Override
     public void fatal(Object message) {
         if(mustPrintToScreen()) systemOutLogger.fatal(message);
-        logData(LEVEL_FATAL, message);
+        logData(LoggerConfig.Levels.FATAL, message);
     }
 
     /**
@@ -129,16 +123,16 @@ public class GameLogger implements ILogger {
      * @return a string of the environment in XML format
      */
     private String envToXml(String logFileSimpleName, String logDate, String systemOS){
-        String buildCtx = GoatEngine.config.getBoolean("dev_ctx") ? "DEV" : "PROD";
-        String engineBuild = GEConfig.BUILD_VERSION + "" + buildCtx;
+        String buildCtx = GoatEngine.config.dev_ctx ? "DEV" : "PROD";
+        String engineBuild = GoatEngine.BUILD_VERSION + "" + buildCtx;
 
         return "<title>"+ logFileSimpleName +"</title>" +
                 "<environement>" +
                 "<date>" + logDate + "</date>" +
                 "<systemos>" + systemOS + "</systemos>" +
                 "<enginebuild>" + engineBuild + "</enginebuild>" +
-                "<game>" + GoatEngine.config.getString("game.name") + "</game>" +
-                "<gamebuild>" + GoatEngine.config.getString("game.version") + "</gamebuild>" +
+                "<game>" + GoatEngine.config.game.name + "</game>" +
+                "<gamebuild>" + GoatEngine.config.game.version + "</gamebuild>" +
                 "</environement>";
     }
 
@@ -150,12 +144,12 @@ public class GameLogger implements ILogger {
      * @param timeStamp
      * @return
      */
-    private static String logToXml(String level, Object message, String fileLine, String timeStamp){
+    private static String logToXml(LoggerConfig.Levels level, Object message, String fileLine, String timeStamp){
         timeStamp = "<timestamp>" + timeStamp + "</timestamp>" + "\n";
-        level = "<level>" + level + "</level>" + "\n";
+        String strlevel = "<level>" + level.toString() + "</level>" + "\n";
         fileLine = "<file>"+ fileLine +"</file>" + "\n";
         message = "<message>" + message + "</message>" + "\n";
-        return "<entry>" + "\n" +  timeStamp + level + message + fileLine  + "</entry>" + "\n";
+        return "<entry>" + "\n" +  timeStamp + strlevel + message + fileLine  + "</entry>" + "\n";
     }
 
     /**
@@ -163,7 +157,7 @@ public class GameLogger implements ILogger {
      * @return true if the logger must print to screen, otherwise false.
      */
     private boolean mustPrintToScreen(){
-        return GoatEngine.config.getBoolean("logger.print_screen");
+        return true; // TODO;
     }
 
     /**

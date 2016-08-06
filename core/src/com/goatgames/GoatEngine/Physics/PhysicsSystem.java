@@ -33,10 +33,10 @@ public class PhysicsSystem extends EntitySystem implements ContactListener {
     public PhysicsSystem() {
         Box2D.init();
 
-        IGameScreenConfig config = GoatEngine.gameScreenManager.getCurrentScreen().getConfig();
+        GameScreenConfig config = GoatEngine.gameScreenManager.getCurrentScreen().getConfig();
         //Gravity
-        final float GRAVITY_X = config.getFloat("physics.gravity.x");
-        final float GRAVITY_Y = config.getFloat("physics.gravity.y");
+        final float GRAVITY_X = config.physics.gravity.x;
+        final float GRAVITY_Y = config.physics.gravity.y;
         world = new World(new Vector2(GRAVITY_X,GRAVITY_Y), true);
         world.setContactListener(this);
     }

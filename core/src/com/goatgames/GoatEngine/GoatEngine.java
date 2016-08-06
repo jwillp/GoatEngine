@@ -3,7 +3,7 @@ package com.goatgames.goatengine;
 import com.badlogic.gdx.Gdx;
 import com.goatgames.gdk.GAssert;
 import com.goatgames.gdk.logger.ILogger;
-import com.goatgames.goatengine.config.GEConfig;
+import com.goatgames.goatengine.config.engine.GEConfig;
 import com.goatgames.goatengine.ecs.prefabs.PrefabFactory;
 import com.goatgames.goatengine.eventmanager.EventManager;
 import com.goatgames.goatengine.files.IFileManager;
@@ -68,6 +68,12 @@ public class GoatEngine {
     private static final LateUpdateEvent lateUpdateEvent = new LateUpdateEvent();
     public static GEImplSpecs specs;
 
+    /**
+     * Represents the current build number of the engine.
+     * By convention it is a date with the following format YY.MM.DD
+     */
+    public static String BUILD_VERSION = "16.02.12";
+
 
     /**
      * This initializes the Game Engine
@@ -96,7 +102,7 @@ public class GoatEngine {
 
         GoatEngine.logger.info("Engine Initialisation ...");
 
-        if(config.getBoolean("dev_ctx")){
+        if(config.dev_ctx){
             devCrxStatsTimer = new Timer(Timer.ONE_SECOND);
         }
 
@@ -185,11 +191,11 @@ public class GoatEngine {
      * When dev ctx enabled updates statistics
      */
     public static void updateDevCtxStats(){
-        if(config.getBoolean("dev_ctx")){
+        if(config.dev_ctx){
             if(devCrxStatsTimer.isDone()){
                 devCrxStatsTimer.reset();
                 int currentFPS = Gdx.graphics.getFramesPerSecond();
-                String gameTitle = config.getString("game.name");
+                String gameTitle = config.game.name;
                 String windowTitle = String.format("%s[%dx%d] %d FPS",
                         gameTitle, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), currentFPS);
                 Gdx.graphics.setTitle(windowTitle);

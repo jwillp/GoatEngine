@@ -1,6 +1,7 @@
 package com.goatgames.goatengine.screenmanager;
 
 import com.goatgames.goatengine.GoatEngine;
+import com.goatgames.goatengine.config.engine.ScreenManagerConfig;
 
 import java.util.Stack;
 
@@ -31,8 +32,8 @@ public class GameScreenManager {
      */
     public void init() {
         this.isRunning = true;
-        String mainScreenName = GoatEngine.config.getString("screens.main_screen");
-        String mainScreenPath = GoatEngine.config.getString("screens.directory") + mainScreenName;
+        String mainScreenName = ScreenManagerConfig.MAIN_SCREEN;
+        String mainScreenPath = GoatEngine.config.screen.directory + mainScreenName;
         IGameScreen mainScreen = screenLoader.load(mainScreenName);
         this.addScreen(mainScreen);
     }

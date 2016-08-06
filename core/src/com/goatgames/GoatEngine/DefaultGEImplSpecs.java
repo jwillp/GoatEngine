@@ -8,10 +8,7 @@ import com.goatgames.goatengine.files.IFileManager;
 import com.goatgames.goatengine.input.InputManager;
 import com.goatgames.goatengine.logger.GameLogger;
 import com.goatgames.goatengine.screenmanager.IGameScreenLoader;
-import com.goatgames.goatengine.screenmanager.LuaGameScreen;
-import com.goatgames.goatengine.screenmanager.LuaGameScreenLoader;
 import com.goatgames.goatengine.scriptingengine.common.IScriptingEngine;
-import com.goatgames.goatengine.scriptingengine.lua.LuaScriptingEngine;
 
 /**
  * Default implementation details for the Goat Engine.
@@ -29,7 +26,7 @@ public class DefaultGEImplSpecs implements GEImplSpecs {
         logger = new GameLogger(fileManager);
         prefabFactory = new PrefabFactory(new IniPrefabLoader());
         inputManager = new InputManager();
-        scriptingEngine = new LuaScriptingEngine();
+        scriptingEngine = null;
     }
 
     @Override
@@ -59,6 +56,6 @@ public class DefaultGEImplSpecs implements GEImplSpecs {
 
     @Override
     public IGameScreenLoader getGameScreenLoader() {
-        return new LuaGameScreenLoader();
+        return null;
     }
 }

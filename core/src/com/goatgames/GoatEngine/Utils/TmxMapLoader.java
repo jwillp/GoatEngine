@@ -16,7 +16,6 @@ import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.physics.BodyDefFactory;
 import com.goatgames.goatengine.physics.PhysicsBodyDef;
 import com.goatgames.goatengine.physics.PhysicsComponent;
-import com.goatgames.goatengine.scriptingengine.lua.LuaEntityScriptComponent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -98,14 +97,7 @@ public class TmxMapLoader{
         // 3. handle scripts
         String scripts = objProperties.get("scripts", "",String.class);
         if(!scripts.isEmpty()){
-            LuaEntityScriptComponent scriptComponent;
-            if (entity.hasComponent(LuaEntityScriptComponent.ID))
-                scriptComponent = (LuaEntityScriptComponent) entity.getComponent(LuaEntityScriptComponent.ID);
-            else
-                scriptComponent = new LuaEntityScriptComponent(true);
-
-            scriptComponent.addScripts(new ArrayList<>(Arrays.asList(scripts.split(";"))));
-            entity.addComponent(scriptComponent,LuaEntityScriptComponent.ID);
+            // TODO Complete
         }
 
         // 4. handle physics

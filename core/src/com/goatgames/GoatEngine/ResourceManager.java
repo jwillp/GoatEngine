@@ -32,7 +32,7 @@ public class ResourceManager {
      * config parameter.
      */
     public void loadTextureAtlas(String atlasResource){
-        String textureDirectory  = GoatEngine.config.getString("resources.textures_directory");
+        String textureDirectory  = GoatEngine.config.assets.texturesDirectory;
         manager.load(textureDirectory + atlasResource + ATLAS_EXTENSION, TextureAtlas.class);
     }
 
@@ -43,7 +43,7 @@ public class ResourceManager {
      * @param fontResource
      */
     public void loadFont(String fontResource){
-        String fontDirectory  = GoatEngine.config.getString("resources.fonts_directory");
+        String fontDirectory  = GoatEngine.config.assets.fontsDirectory;
         manager.load(fontDirectory + fontResource, BitmapFont.class);
     }
 
@@ -76,9 +76,9 @@ public class ResourceManager {
 
 
     public TextureAtlas getAtlas(String atlasResource){
-        String textureDirectory  = GoatEngine.config.getString("resources.textures_directory");
+        String textureDirectory  = GoatEngine.config.assets.texturesDirectory;
         String resourceName = textureDirectory + atlasResource + ATLAS_EXTENSION;
-        if(!isLoaded(resourceName) && GoatEngine.config.getBoolean("resources.auto_load")){
+        if(!isLoaded(resourceName) && GoatEngine.config.assets.autoLoad){
             loadTextureAtlas(atlasResource);
             manager.finishLoadingAsset(resourceName);
         }
@@ -147,8 +147,9 @@ public class ResourceManager {
      * @return
      */
     public TiledMap getMap(String tmxFile) {
-        String map = GoatEngine.config.getString("resources.maps_directory") + tmxFile;
-        if(! isLoaded(map) && GoatEngine.config.getBoolean("resources.auto_load")){
+        // TODO Load from full relative path
+        String map = GoatEngine.config.assets.mapDirectory + tmxFile;
+        if(! isLoaded(map) && GoatEngine.config.assets.autoLoad){
             loadMap(tmxFile);
             manager.finishLoadingAsset(map);
         }
@@ -161,7 +162,7 @@ public class ResourceManager {
      * @param tmxFile
      */
     public void loadMap(String tmxFile) {
-        manager.load(GoatEngine.config.getString("resources.maps_directory") + tmxFile, TiledMap.class);
+        manager.load(tmxFile, TiledMap.class);
         //manager.load("data/tiledmap/tilemap.tmx", TileMapRenderer.class, new TileMapRendererLoader.TileMapParameter("data/tiledmap/", 8, 8));
     }
 }

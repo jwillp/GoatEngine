@@ -57,7 +57,7 @@ public interface IGameScreen {
      * Returns the config of the game screen
      * @return config of the screen
      */
-    IGameScreenConfig getConfig();
+    GameScreenConfig getConfig();
 
     /**
      * Returns the entity manager of the screen
@@ -92,7 +92,7 @@ public interface IGameScreen {
     public class GameScreenNotFoundException extends RuntimeException {
         public GameScreenNotFoundException(String name) {
             super(String.format("Could not find game screen : %s File not found : %s%s",
-                    name, GoatEngine.config.getString("screens.directory"), name));
+                    name, GoatEngine.config.screen.directory, name));
         }
     }
 }
