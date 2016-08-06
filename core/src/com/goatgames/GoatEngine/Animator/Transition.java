@@ -5,16 +5,14 @@ import com.goatgames.goatengine.utils.Timer;
 /**
  * A transition
  */
-public class Transition{
+public class Transition {
 
     private final AnimState currentState;
     private final AnimState nextState;
-
+    private final Condition condition;
     private Timer duration; //The duration of a transition
 
-    private final Condition condition;
-
-    public Transition(AnimState from, AnimState to, Condition condition){
+    public Transition(AnimState from, AnimState to, Condition condition) {
         currentState = from;
         nextState = to;
         this.condition = condition;
@@ -22,6 +20,7 @@ public class Transition{
 
     /**
      * Returns whether or not the transition can change state
+     *
      * @return
      */
     public boolean canChange() {

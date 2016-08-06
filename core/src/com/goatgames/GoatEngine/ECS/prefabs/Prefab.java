@@ -17,26 +17,29 @@ public class Prefab {
      */
     private Map<String, NormalisedEntityComponent> components;
 
-    public Prefab(){
+    public Prefab() {
         components = new HashMap<>();
     }
 
-    public void setComponents(Map<String, NormalisedEntityComponent> components){
-        this.components = components;
-    }
     /**
      * Adds a component to the prefab definition
+     *
      * @param componentData Normalised component
      */
-    public void addComponent(NormalisedEntityComponent componentData){
+    public void addComponent(NormalisedEntityComponent componentData) {
         this.components.put(componentData.getId(), componentData);
     }
 
     /**
      * Returns a list of normalised component for the current prefab.
+     *
      * @return list of components
      */
-    public List<NormalisedEntityComponent> getComponents(){
+    public List<NormalisedEntityComponent> getComponents() {
         return new ArrayList<>(components.values());
+    }
+
+    public void setComponents(Map<String, NormalisedEntityComponent> components) {
+        this.components = components;
     }
 }

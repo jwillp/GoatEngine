@@ -17,6 +17,7 @@ public abstract class EntitySystem {
 
     /**
      * Called once per game frame
+     *
      * @param dt
      */
     public abstract void update(float dt);
@@ -25,19 +26,22 @@ public abstract class EntitySystem {
     /**
      * Handles the input
      */
-    public void preUpdate(){}
+    public void preUpdate() {
+    }
 
 
     /**
      * Handles the input for a given entity
      */
-    private void handleInputForEntity(Entity entity){}
+    private void handleInputForEntity(Entity entity) {
+    }
 
 
     /**
      * DeInitialise the system
      */
-    public void deInit(){}
+    public void deInit() {
+    }
 
     public EntitySystemManager getSystemManager() {
         return systemManager;
@@ -58,19 +62,23 @@ public abstract class EntitySystem {
 
     /**
      * Fires an Event to all systems linked to this system
+     *
      * @param event
      */
-    public void fireEvent(EntityEvent event){
+    public void fireEvent(EntityEvent event) {
         this.systemManager.fireEvent(event);
     }
 
 
     /**
      * Called when the system receives an Entity Event
+     *
      * @param event
      * @param <T>
      */ //TODO ABSTRACTING
-    public <T extends EntityEvent>  void onEntityEvent(T event){}
+    public <T extends EntityEvent> void onEntityEvent(T event) {
+    }
 
-    public void draw(){}
+    public void draw() {
+    }
 }

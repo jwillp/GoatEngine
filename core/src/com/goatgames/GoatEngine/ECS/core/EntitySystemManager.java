@@ -18,29 +18,31 @@ public class EntitySystemManager implements GameEventListener {
     private LinkedHashMap<Class, EntitySystem> systems;
 
 
-    public EntitySystemManager(ECSManager manager){
+    public EntitySystemManager(ECSManager manager) {
         ecsManager = manager;
         systems = new LinkedHashMap<>();
     }
 
     /**
      * Returns a System
+     *
      * @param systemType
      * @param <T>
      * @return
      */
     @SuppressWarnings("unchecked")
-    public <T extends EntitySystem> T getSystem(Class<T> systemType){
-        return (T)this.systems.get(systemType);
+    public <T extends EntitySystem> T getSystem(Class<T> systemType) {
+        return (T) this.systems.get(systemType);
     }
 
     /**
      * Adds a System to the list of systems THE ORDER IS IMPORTANT
+     *
      * @param systemType
      * @param system
      * @param <T>
      */
-    public <T extends  EntitySystem> void addSystem(Class<T> systemType, EntitySystem system){
+    public <T extends EntitySystem> void addSystem(Class<T> systemType, EntitySystem system) {
         system.setSystemManager(this);
         system.setEntityManager(this.ecsManager.getEntityManager());
         this.systems.put(systemType, system);
@@ -49,26 +51,26 @@ public class EntitySystemManager implements GameEventListener {
     /**
      * Inits all systems in order
      */
-    public void initSystems(){
+    public void initSystems() {
         for (Object system : systems.values().toArray()) {
-            ((EntitySystem)system).init();
+            ((EntitySystem) system).init();
         }
     }
 
     /**
      * Deinits all systems in order
      */
-    public void deInitSystems(){
-        for(EntitySystem system: systems.values()){
+    public void deInitSystems() {
+        for (EntitySystem system : systems.values()) {
             system.deInit();
         }
     }
 
     /**
-     *  Handles the input for all systems in order
+     * Handles the input for all systems in order
      */
-    public void preUpdate(){
-        for(EntitySystem system: systems.values()){
+    public void preUpdate() {
+        for (EntitySystem system : systems.values()) {
             system.preUpdate();
         }
     }
@@ -76,14 +78,15 @@ public class EntitySystemManager implements GameEventListener {
     /**
      * Updates all systems in order
      */
-    public void update(){
-        for(EntitySystem system: systems.values()){
+    public void update() {
+        for (EntitySystem system : systems.values()) {
             system.update(Gdx.graphics.getDeltaTime());
         }
     }
 
     /**
      * Fires an event to all Systems
+     *
      * @param event
      */
     public void fireEvent(Event event) {
@@ -92,14 +95,14 @@ public class EntitySystemManager implements GameEventListener {
 
     @Override
     public void onEvent(Event e) {
-        for(EntitySystem system: this.systems.values()){
-            if(e instanceof EntityEvent)  // TODO this is a Quickfix
+        for (EntitySystem system : this.systems.values()) {
+            if (e instanceof EntityEvent)  // TODO this is a Quickfix
                 system.onEntityEvent((EntityEvent) e);
         }
     }
 
     public void draw() {
-        for(EntitySystem system: systems.values()){
+        for (EntitySystem system : systems.values()) {
             system.draw();
         }
     }

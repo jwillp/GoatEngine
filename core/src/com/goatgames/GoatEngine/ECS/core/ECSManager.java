@@ -8,7 +8,7 @@ public class ECSManager {
     private EntityManager entityManager;
     private EntitySystemManager systemManager;
 
-    public ECSManager(){
+    public ECSManager() {
 
         entityManager = new EntityManager();
         systemManager = new EntitySystemManager(this);

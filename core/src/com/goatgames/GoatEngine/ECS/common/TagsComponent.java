@@ -34,42 +34,46 @@ public class TagsComponent extends EntityComponent {
     }
 
     @Override
-    public void denormalise(NormalisedEntityComponent data){
+    public void denormalise(NormalisedEntityComponent data) {
         super.denormalise(data);
-        if(data.get("tags").equals("")){
+        if (data.get("tags").equals("")) {
             tags = new HashSet<String>();
-        }else{
+        } else {
             tags = new HashSet<String>(Arrays.asList(data.get("tags").split(";")));
         }
     }
 
     /**
      * Adds a new tag to an entity
+     *
      * @param tag
      */
-    public void addTag(String tag){
+    public void addTag(String tag) {
         this.tags.add(tag);
     }
 
     /**
      * Removes a tag from the entity
+     *
      * @param tag
      */
-    public void removeTag(String tag){
+    public void removeTag(String tag) {
         this.tags.remove(tag);
     }
 
     /**
      * Returns whether or not the entity has a certain tag
+     *
      * @param tag
      * @return
      */
-    public boolean hasTag(String tag){
+    public boolean hasTag(String tag) {
         return this.tags.contains(tag);
     }
 
     /**
      * Returnas all the tags of the entity
+     *
      * @return
      */
     public HashSet<String> getTags() {

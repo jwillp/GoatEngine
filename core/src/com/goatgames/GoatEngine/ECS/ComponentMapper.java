@@ -47,10 +47,11 @@ public class ComponentMapper {
 
     /**
      * Links a component ID to a class
+     *
      * @param componentId the ID of the component
-     * @param clazz the class name of the Component
+     * @param clazz       the class name of the Component
      */
-    public static <T extends EntityComponent> void linkClass(final String componentId, Class<T> clazz){
+    public static <T extends EntityComponent> void linkClass(final String componentId, Class<T> clazz) {
         GAssert.that(!componentId.isEmpty(), "Invalid Component Id for class: " + clazz.getCanonicalName());
         GAssert.notNull(classes, "classes == null");
         classes.put(componentId, clazz);
@@ -59,18 +60,18 @@ public class ComponentMapper {
     /**
      * Denormalises an entity component by using reflection.
      * Returns a component instance from a normalised component.
+     *
      * @param data normalised dta
      * @return a component instance
      */
-    public static EntityComponent getComponent(NormalisedEntityComponent data){
-        if(GAssert.notNull(data, "data == null")){
+    public static EntityComponent getComponent(NormalisedEntityComponent data) {
+        if (GAssert.notNull(data, "data == null")) {
             String compId = data.get("component_id");
             try {
                 Class<?> clazz;
                 if (classes.containsKey(compId)) {
                     clazz = classes.get(compId);
-                }
-                else {
+                } else {
                     clazz = data.containsKey(LuaGameComponent.INTERNAL_KEY) ? LuaGameComponent.class : GameComponent.class;
                 }
                 Constructor<?> constructor;

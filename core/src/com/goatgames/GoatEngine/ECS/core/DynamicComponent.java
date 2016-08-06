@@ -5,7 +5,7 @@ package com.goatgames.goatengine.ecs.core;
  * dynamically added to the component at runtime instead of compile time. This are useful
  * for defining new components using scripts or configuration files like prefabs.
  */
-public abstract class DynamicComponent extends EntityComponent{
+public abstract class DynamicComponent extends EntityComponent {
 
     public static final String ID = "DYNAMIC_COMPONENT";
 
@@ -13,7 +13,7 @@ public abstract class DynamicComponent extends EntityComponent{
         super(data);
     }
 
-    public DynamicComponent(boolean enabled){
+    public DynamicComponent(boolean enabled) {
         super(enabled);
     }
 

@@ -26,37 +26,39 @@ public class PrefabFactory {
 
     /**
      * Constructor, taking a prefab loader
+     *
      * @param prefabLoader loader to use for the factory
      */
-    public PrefabFactory(IPrefabLoader prefabLoader){
+    public PrefabFactory(IPrefabLoader prefabLoader) {
         loader = prefabLoader;
     }
 
     /**
      * Creates an entity in an entity manager from a prefab
-     * @param prefab prefab to use to create the entity
+     *
+     * @param prefab  prefab to use to create the entity
      * @param manager entity manager holding the newly created entity
      * @return Entity created
      */
-    public Entity createEntity(Prefab prefab, EntityManager manager){
+    public Entity createEntity(Prefab prefab, EntityManager manager) {
         // Create registered entity using manager
         Entity entity = manager.createEntity();
         List<NormalisedEntityComponent> colliders = new ArrayList<>();
 
-        for(NormalisedEntityComponent data: prefab.getComponents()){
+        for (NormalisedEntityComponent data : prefab.getComponents()) {
             if (data.get("component_id").contains("COLLIDER")) {
                 colliders.add(data);
                 continue;
             }
 
             EntityComponent comp = ComponentMapper.getComponent(data);
-            if(GAssert.notNull(comp, "comp == null, will not be added")){
+            if (GAssert.notNull(comp, "comp == null, will not be added")) {
                 assert comp != null;
                 entity.addComponent(comp, comp.getId());
             }
         }
         // Read Colliders
-        for(NormalisedEntityComponent map : colliders){
+        for (NormalisedEntityComponent map : colliders) {
             PhysicsComponent phys = (PhysicsComponent) entity.getComponent(PhysicsComponent.ID);
             phys.getBodyDef().addColliderDef(ColliderDef.colliderDefFromNormalisedData(map));
         }
@@ -65,23 +67,23 @@ public class PrefabFactory {
 
     /**
      * Creates an entity from a prefab
-     * @param pathToPrefab path to the prefab
+     *
+     * @param pathToPrefab  path to the prefab
      * @param entityManager manager to use for entity creation
      * @return newly created entity from prefab, or null if none could be created
      */
-    public Entity createEntity(final String pathToPrefab, EntityManager entityManager){
+    public Entity createEntity(final String pathToPrefab, EntityManager entityManager) {
         Prefab prefab;
         // if caching is enabled, load from cache otherwise load from pathToPrefab
         boolean cachingEnabled = GoatEngine.config.prefab.caching;
-        if(cachingEnabled) {
+        if (cachingEnabled) {
             if (cache.containsKey(pathToPrefab)) {
                 prefab = cache.get(pathToPrefab);
             } else {
                 prefab = this.loader.load(pathToPrefab);
                 cache.put(pathToPrefab, prefab);
             }
-        }
-        else{
+        } else {
             prefab = this.loader.load(pathToPrefab);
         }
         // Load prefab from path to prefab

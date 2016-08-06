@@ -8,51 +8,48 @@ import java.util.HashMap;
 /**
  * A state machine changing animations for entities
  */
-public class Animator{
+public class Animator {
 
+    ArrayList<AnimState> states = new ArrayList<AnimState>();
+    HashMap<String, Parameter> parameters = new HashMap<String, Parameter>();
     private AnimState enterState;        //The enter state
     private AnimState exitState;         // The exit state
     private AnimState currentState;
-    ArrayList<AnimState> states = new ArrayList<AnimState>();
-    HashMap<String, Parameter> parameters = new HashMap<String, Parameter>();
-
-
-
-
 
     /**
      * Adds a new State
+     *
      * @param state
      * @return this for chaining
      */
-    public Animator addState(AnimState state){
+    public Animator addState(AnimState state) {
         this.states.add(state);
         return this;
     }
 
     /**
      * Adds a new Parameter
+     *
      * @param name
      * @return this for chaining
      */
-    public Animator addParameter(String name){
+    public Animator addParameter(String name) {
         parameters.put(name, new Parameter());
         return this;
     }
 
 
-
-    public void update(){
-        if(this.enterState == null){
+    public void update() {
+        if (this.enterState == null) {
             this.enterState = this.states.get(0);
         }
-        if(this.currentState == null){
+        if (this.currentState == null) {
             this.currentState = enterState;
         }
 
 
-        for(Transition transition : currentState.getTransitions()){
-            if(transition.canChange()){
+        for (Transition transition : currentState.getTransitions()) {
+            if (transition.canChange()) {
                 this.currentState = transition.getNextState();
             }
         }
@@ -62,11 +59,10 @@ public class Animator{
     }
 
 
+    public AnimState getState(String animName) {
+        for (AnimState state : this.states) {
 
-    public AnimState getState(String animName){
-        for(AnimState state: this.states){
-
-            if(state.getAnimation().equals(animName)){
+            if (state.getAnimation().equals(animName)) {
                 return state;
             }
         }
@@ -74,41 +70,43 @@ public class Animator{
     }
 
 
-
-
     /**
      * Sets a float parameter value identified by name
+     *
      * @param name
      * @param value
      */
-    public void setFloat(String name, Float value){
+    public void setFloat(String name, Float value) {
         parameters.get(name).setValue(value);
     }
 
     /**
      * Sets a boolean parameter value identified by name
+     *
      * @param name
      * @param value
      */
-    public void setBool(String name, Boolean value){
+    public void setBool(String name, Boolean value) {
         parameters.get(name).setValue(value);
     }
 
     /**
      * Sets a String parameter value identified by name
+     *
      * @param name
      * @param value
      */
-    public void setString(String name, String value){
+    public void setString(String name, String value) {
         parameters.get(name).setValue(value);
     }
 
     /**
      * Sets a integer parameter value identified by name
+     *
      * @param name
      * @param value
      */
-    public void setInt(String name, Integer value){
+    public void setInt(String name, Integer value) {
         parameters.get(name).setValue(value);
     }
 
@@ -142,7 +140,6 @@ public class Animator{
     }
 
 
-
     /**
      * Saves the machine to XML
      * @param filePath
@@ -171,13 +168,6 @@ public class Animator{
             this.addState(new LegacyMachineState(state));
         }
     }*/
-
-
-
-
-
-
-
 
 
 }

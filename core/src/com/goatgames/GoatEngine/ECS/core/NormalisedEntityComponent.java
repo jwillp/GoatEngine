@@ -16,7 +16,7 @@ public class NormalisedEntityComponent extends HashMap<String, String> {
         super(map);
     }
 
-    public String getId(){
+    public String getId() {
         return get("component_id");
     }
 }

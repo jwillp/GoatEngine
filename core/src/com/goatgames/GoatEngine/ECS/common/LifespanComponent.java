@@ -6,7 +6,7 @@ import com.goatgames.goatengine.utils.Timer;
 /**
  * Used to schedule the destruction of an entity
  */
-public class LifespanComponent extends EntityComponent{
+public class LifespanComponent extends EntityComponent {
     public static final String ID = "LIFESPAN_COMPONENT";
 
     private Timer timer;
@@ -14,9 +14,10 @@ public class LifespanComponent extends EntityComponent{
     /**
      * Ctor initialising the component to schedule removal of entity
      * at a certain delay
+     *
      * @param delay the delay in ms
      */
-    public LifespanComponent(int delay){
+    public LifespanComponent(int delay) {
         super(true);
         timer = new Timer(delay);
         timer.start();

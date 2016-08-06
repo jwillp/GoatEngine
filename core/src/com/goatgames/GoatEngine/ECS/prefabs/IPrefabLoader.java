@@ -8,6 +8,7 @@ public interface IPrefabLoader {
 
     /**
      * Loads a prefab from a certain path.
+     *
      * @param pathToPrefab path to the prefab file
      * @return A Prefab Object
      */

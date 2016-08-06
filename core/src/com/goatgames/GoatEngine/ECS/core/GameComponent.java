@@ -7,7 +7,7 @@ import java.util.Map;
  */
 public class GameComponent extends DynamicComponent {
 
-    private Map<String,String> attribute;
+    private Map<String, String> attribute;
 
     public GameComponent(NormalisedEntityComponent data) {
         super(data);

@@ -39,20 +39,21 @@ public class IniPrefabLoader implements IPrefabLoader {
 
     /**
      * Returns list of component as Maps as read in the prefab file
+     *
      * @param ini ini object
      * @return entity component maps
      */
     private Map<String, NormalisedEntityComponent> getComponents(Ini ini) {
         Map<String, NormalisedEntityComponent> comps = new HashMap<>();
 
-        for(String componentKey: ini.keySet()){
+        for (String componentKey : ini.keySet()) {
             NormalisedEntityComponent map = new NormalisedEntityComponent();
             // fetch values for string substitution
-            for(String key: ini.get(componentKey).keySet()){
-                map.put(key, ini.fetch(componentKey,key));
+            for (String key : ini.get(componentKey).keySet()) {
+                map.put(key, ini.fetch(componentKey, key));
             }
             map.put("component_id", componentKey.toUpperCase());
-            comps.put(componentKey,map);
+            comps.put(componentKey, map);
         }
 
         return comps;

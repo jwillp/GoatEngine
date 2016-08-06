@@ -3,20 +3,20 @@ package com.goatgames.goatengine.animator;
 /**
  * A parameter for Conditions
  */
-public class Parameter{
+public class Parameter {
 
     Comparable value;
 
-    public Parameter(){
+    public Parameter() {
 
     }
 
-    public void setValue(Comparable value){
-        this.value = value;
-    }
-
-    public Comparable getValue(){
+    public Comparable getValue() {
         return this.value;
+    }
+
+    public void setValue(Comparable value) {
+        this.value = value;
     }
 
 }
