@@ -2,13 +2,13 @@ package com.goatgames.goatengine.graphicsrendering.camera;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.Array;
+import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.eventmanager.EntityEvent;
 import com.goatgames.goatengine.screenmanager.GameScreenConfig;
-import com.goatgames.goatengine.utils.GAssert;
-import com.goatgames.goatengine.utils.Logger;
+import com.goatgames.goatengine.screenmanager.IGameScreenConfig;
 
 /**
  * A system handling all cameras and their movements
@@ -23,15 +23,15 @@ public class CameraSystem extends EntitySystem {
 
     @Override
     public void init() {
-        Logger.info("Camera System initialisation ...");
-        Logger.info("Camera System initialised");
+        GoatEngine.logger.info("Camera System initialisation ...");
+        GoatEngine.logger.info("Camera System initialised");
     }
 
 
 
     @Override
     public void update(float dt){
-        GameScreenConfig config = GoatEngine.gameScreenManager.getCurrentScreen().getConfig();
+        IGameScreenConfig config = GoatEngine.gameScreenManager.getCurrentScreen().getConfig();
 
         for(EntityComponent comp: getEntityManager().getComponents(CameraComponent.ID)){
             CameraComponent camComp = (CameraComponent)comp;

@@ -5,7 +5,6 @@ import com.goatgames.goatengine.fsm.FiniteStateMachine;
 import com.goatgames.goatengine.fsm.MachineState;
 import com.goatgames.goatengine.input.events.InputEvent;
 import com.goatgames.goatengine.physics.CollisionEvent;
-import com.goatgames.goatengine.utils.Logger;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;

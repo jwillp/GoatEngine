@@ -2,7 +2,7 @@ package com.goatgames.goatengine.ecs.core;
 
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.Pool;
-import com.goatgames.goatengine.utils.GAssert;
+import com.goatgames.gdk.GAssert;
 
 public class Entity implements Pool.Poolable {
 

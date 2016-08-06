@@ -2,7 +2,6 @@ package com.goatgames.goatengine;
 
 import com.badlogic.gdx.utils.LongArray;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.goatgames.goatengine.utils.Logger;
 import com.goatgames.goatengine.utils.Timer;
 
 /**
@@ -69,7 +68,7 @@ public class PerformanceProfiler {
 
     public void dumpPerformances() {
         for(String taskName: tasks.keys()){
-            Logger.debug(getStats(taskName));
+            GoatEngine.logger.debug(getStats(taskName));
         }
     }
 

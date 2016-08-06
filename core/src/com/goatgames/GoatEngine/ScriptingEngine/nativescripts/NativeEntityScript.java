@@ -4,7 +4,7 @@ import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.eventmanager.GameEvent;
 import com.goatgames.goatengine.input.events.InputEvent;
 import com.goatgames.goatengine.physics.CollisionEvent;
-import com.goatgames.goatengine.scriptingengine.IEntityScript;
+import com.goatgames.goatengine.scriptingengine.common.IEntityScript;
 
 /**
  * Abstract Native Script class to be implemented by Native Scripts

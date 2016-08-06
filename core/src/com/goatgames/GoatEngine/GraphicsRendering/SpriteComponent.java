@@ -106,11 +106,6 @@ public class SpriteComponent extends EntityComponent {
     }
 
     @Override
-    public EntityComponent clone() {
-        return new SpriteComponent(normalise());
-    }
-
-    @Override
     public String getId() {
         return ID;
     }

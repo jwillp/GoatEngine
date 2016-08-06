@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Sort;
 import com.bitfire.postprocessing.PostProcessor;
@@ -34,7 +35,7 @@ import com.goatgames.goatengine.eventmanager.GameEventListener;
 import com.goatgames.goatengine.eventmanager.engineevents.EngineEvents;
 import com.goatgames.goatengine.graphicsrendering.camera.CameraDebugRenderer;
 import com.goatgames.goatengine.graphicsrendering.camera.CameraSystem;
-import com.goatgames.goatengine.utils.Logger;
+import com.goatgames.goatengine.physics.PhysicsSystem;
 
 /**
  * Responsible for displaying all visual elements on screen
@@ -68,7 +69,7 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
      */
     @Override
     public void init() {
-        Logger.info("GraphicsRendering System initialisation ... ");
+        GoatEngine.logger.info("GraphicsRendering System initialisation ... ");
 
         // Camera System
         this.cameraSystem = new CameraSystem();
@@ -119,7 +120,7 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
 
 
         GoatEngine.eventManager.registerListener(this);
-        Logger.info("GraphicsRendering System initalised");
+        GoatEngine.logger.info("GraphicsRendering System initalised");
     }
 
     /**
@@ -289,8 +290,9 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
     private void renderPhysicsDebug(){
         // TODO get Info from current Screen to know if we need to render Debug Physics
         this.spriteBatch.begin();
+        World world = GoatEngine.gameScreenManager.getCurrentScreen().getEntitySystemManager().getSystem(PhysicsSystem.class).getWorld();
         debugRenderer.render(
-                GoatEngine.gameScreenManager.getCurrentScreen().getPhysicsSystem().getWorld(),
+                world,
                 cameraSystem.getMainCamera().combined
         );
         this.spriteBatch.end();

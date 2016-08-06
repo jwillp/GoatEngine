@@ -2,8 +2,14 @@ package com.goatgames.goatengine.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.goatgames.goatengine.GenericGame;
+import com.goatgames.goatengine.GoatGame;
+import com.goatgames.goatengine.GoatEngine;
+import com.goatgames.goatengine.desktop.input.DesktopInputManager;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
+import com.goatgames.goatengine.files.GdxFileManager;
+import com.goatgames.goatengine.logger.GameLogger;
+import com.goatgames.gdk.GAssert;
+import com.goatgames.goatengine.utils.DesktopExceptionHandler;
 
 import javax.swing.*;
 
@@ -18,12 +24,18 @@ public class GEDesktopLauncher {
         // SETUP SOME DESKTOP SPECIFIC
 
         // Catch exceptions to be displayed in a dialog
+        // Set ExceptionHandler
         try {
+            Thread.setDefaultUncaughtExceptionHandler(new DesktopExceptionHandler());
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
 
+        // GoatEngine
+        GoatEngine.specs = new DesktopGEImplSpecs();
+
+        // Libgdx application
         LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 
         cfg.width = 0;
@@ -36,7 +48,7 @@ public class GEDesktopLauncher {
         cfg.forceExit = true;
         cfg.vSyncEnabled = false;
 
-        new LwjglApplication(new GenericGame(gameSpecificListener), cfg);
+        new LwjglApplication(new GoatGame(gameSpecificListener), cfg);
     }
 
 	public static void main (String[] arg) {

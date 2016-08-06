@@ -60,11 +60,6 @@ public class TransformComponent extends EntityComponent {
     }
 
     @Override
-    public EntityComponent clone() {
-        return new TransformComponent(normalise());
-    }
-
-    @Override
     public String getId() {
         return ID;
     }

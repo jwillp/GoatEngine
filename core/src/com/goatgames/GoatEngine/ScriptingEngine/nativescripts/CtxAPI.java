@@ -3,14 +3,14 @@ package com.goatgames.goatengine.scriptingengine.nativescripts;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.GoatEngine;
-import com.goatgames.goatengine.ecs.PrefabFactory;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.graphicsrendering.camera.CameraComponent;
-import com.goatgames.goatengine.screenmanager.GameScreen;
-import com.goatgames.goatengine.utils.GAssert;
+import com.goatgames.goatengine.physics.PhysicsSystem;
+import com.goatgames.goatengine.screenmanager.IGameScreen;
 
 /**
  * Native CtxAPI API
@@ -27,7 +27,7 @@ public class CtxAPI {
     public Entity getEntity(){
         return entity;
     }
-    public GameScreen getCurrentGameScreen(){
+    public IGameScreen getCurrentGameScreen(){
         return GoatEngine.gameScreenManager.getCurrentScreen();
     }
 
@@ -36,7 +36,7 @@ public class CtxAPI {
     }
 
     public World getPhsyicsWorld(){
-        return getCurrentGameScreen().getPhysicsSystem().getWorld();
+        return getCurrentGameScreen().getEntitySystemManager().getSystem(PhysicsSystem.class).getWorld();
     }
 
     public OrthographicCamera getCamera() {
@@ -55,16 +55,16 @@ public class CtxAPI {
         if(!prefab.startsWith(DATA_DIR + "prefabs")){
             prefab = DATA_DIR + "prefabs/" + prefab;
         }
-        return new PrefabFactory().createEntity(prefab);
+        return GoatEngine.prefabFactory.createEntity(prefab,getEntityManager());
     }
 
     public Entity createEntity() {
-        GameScreen currentGameScreen = GoatEngine.gameScreenManager.getCurrentScreen();
+        IGameScreen currentGameScreen = GoatEngine.gameScreenManager.getCurrentScreen();
         return currentGameScreen.getEntityManager().createEntity();
     }
 
     public void destroyEntity(String entityId){
-        GameScreen currentGameScreen = GoatEngine.gameScreenManager.getCurrentScreen();
+        IGameScreen currentGameScreen = GoatEngine.gameScreenManager.getCurrentScreen();
         currentGameScreen.getEntityManager().deleteEntity(entityId);
     }
 }

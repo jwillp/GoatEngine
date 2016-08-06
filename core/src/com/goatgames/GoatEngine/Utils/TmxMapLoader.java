@@ -8,12 +8,11 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.GoatEngine;
-import com.goatgames.goatengine.ecs.PrefabFactory;
 import com.goatgames.goatengine.ecs.common.TransformComponent;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityManager;
-import com.goatgames.goatengine.files.FileSystem;
 import com.goatgames.goatengine.physics.BodyDefFactory;
 import com.goatgames.goatengine.physics.PhysicsBodyDef;
 import com.goatgames.goatengine.physics.PhysicsComponent;
@@ -28,15 +27,10 @@ import java.util.Arrays;
 public class TmxMapLoader{
 
     private final EntityManager entityManager;
-    private PrefabFactory prefabFactory;
 
     public TmxMapLoader(EntityManager entityManager){
         this.entityManager = entityManager;
-        // Prefab factory if an object has a prefab
-        prefabFactory = new PrefabFactory();
-
     }
-
 
     /**
      * Loads a TMX File
@@ -86,9 +80,9 @@ public class TmxMapLoader{
         // 1. If there is a prefab create from prefab
         String prefab = objProperties.get("prefab", "", String.class);
         if(!prefab.isEmpty()){
-            GAssert.that(FileSystem.getFile(prefab).exists(),
+            GAssert.that(GoatEngine.fileManager.getFileHandle(prefab).exists(),
                          String.format("Cannot create entity from prefab '%s'. File does not exist", prefab));
-            entity = prefabFactory.createEntity(prefab);
+            entity = GoatEngine.prefabFactory.createEntity(prefab, entityManager);
         }else{
             entity = entityManager.createEntity();
         }

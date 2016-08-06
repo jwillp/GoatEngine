@@ -1,11 +1,11 @@
 package com.goatgames.goatengine.scriptingengine;
 
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
 import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
-import com.goatgames.goatengine.utils.GAssert;
+import com.goatgames.goatengine.scriptingengine.common.IEntityScript;
 
 /**
  * Enables entities to have Custom Behaviour using Scripts
@@ -67,7 +67,6 @@ public class EntityScriptComponent extends EntityComponent {
         }
     }
 
-
     /**
      * Clears all script instances
      */
@@ -99,11 +98,6 @@ public class EntityScriptComponent extends EntityComponent {
     }
 
     @Override
-    public EntityComponent clone() {
-        return new Factory().processMapData(this.getId(), this.normalise());
-    }
-
-    @Override
     public String getId() {
         return ID;
     }
@@ -115,7 +109,6 @@ public class EntityScriptComponent extends EntityComponent {
             return false;
         }
     }
-
 
     // FACTORY //
     public static class Factory implements EntityComponentFactory {

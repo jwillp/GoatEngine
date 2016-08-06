@@ -1,11 +1,12 @@
 package com.goatgames.goatengine.scriptingengine.lua;
 
+import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
-import com.goatgames.goatengine.utils.GAssert;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Component should be responsible for holding serialisation data of script.
@@ -13,8 +14,8 @@ import java.util.Arrays;
 public class LuaEntityScriptComponent extends EntityComponent {
 
     public static final String ID = "LUA_ENTITY_SCRIPT_COMPONENT";
-    private ArrayList<String> scripts;          // List of active scripts
-    private ArrayList<String> scriptsToRemove;  // List of scripts scheduled to be removed
+    private List<String> scripts;          // List of active scripts
+    private List<String> scriptsToRemove;  // List of scripts scheduled to be removed
 
     public LuaEntityScriptComponent(boolean b) {
         super(b);
@@ -72,7 +73,7 @@ public class LuaEntityScriptComponent extends EntityComponent {
      * Returns all the active scripts
      * @return the scripts
      */
-    public ArrayList<String> getScripts() {
+    public List<String> getScripts() {
         return scripts;
     }
 
@@ -80,7 +81,7 @@ public class LuaEntityScriptComponent extends EntityComponent {
      * Returns the scripts scheduled for removal
      * @return arrayList of scripts scheduled for removal
      */
-    public ArrayList<String> getScriptsToRemove(){
+    public List<String> getScriptsToRemove(){
         GAssert.notNull(this.scriptsToRemove, "scriptsToRemove == null");
         return this.scriptsToRemove;
     }
@@ -102,11 +103,6 @@ public class LuaEntityScriptComponent extends EntityComponent {
             scripts = new ArrayList<>(Arrays.asList(data.get("scripts").split(";")));
         }
         scriptsToRemove = new ArrayList<>();
-    }
-
-    @Override
-    public EntityComponent clone() {
-        return new LuaEntityScriptComponent(normalise());
     }
 
     @Override

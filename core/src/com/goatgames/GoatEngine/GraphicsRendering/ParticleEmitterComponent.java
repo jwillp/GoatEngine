@@ -81,11 +81,6 @@ public class ParticleEmitterComponent extends EntityComponent{
     }
 
     @Override
-    public EntityComponent clone() {
-        return new ParticleEmitterComponent(normalise());
-    }
-
-    @Override
     public String getId() {
         return ID;
     }

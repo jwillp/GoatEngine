@@ -47,11 +47,6 @@ public class CameraComponent extends EntityComponent{
     }
 
     @Override
-    public EntityComponent clone() {
-        return new CameraComponent(normalise());
-    }
-
-    @Override
     public String getId() {
         return ID;
     }

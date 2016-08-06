@@ -17,9 +17,9 @@ import com.goatgames.goatengine.graphicsrendering.ZIndexComponent;
 import com.goatgames.goatengine.graphicsrendering.camera.CameraComponent;
 import com.goatgames.goatengine.input.events.EntityReleasedEvent;
 import com.goatgames.goatengine.input.events.EntityTouchedEvent;
-import com.goatgames.goatengine.input.events.mouse.MousePressEvent;
-import com.goatgames.goatengine.input.events.mouse.MouseReleasedEvent;
-import com.goatgames.goatengine.utils.Logger;
+import com.goatgames.goatengine.input.events.InputClickPressEvent;
+import com.goatgames.goatengine.input.events.InputClickReleaseEvent;
+import com.goatgames.goatengine.physics.PhysicsSystem;
 
 /**
  * System used to process some input related events. For example clicked and dragged entities
@@ -53,11 +53,11 @@ public class InputSystem extends EntitySystem implements GameEventListener{
 
     @Override
     public void onEvent(Event e) {
-        if(e instanceof MousePressEvent){
-            onMousePress((MousePressEvent) e); return;
+        if(e instanceof InputClickPressEvent){
+            onInputClickPress((InputClickPressEvent) e); return;
         }
-        if(e instanceof MouseReleasedEvent){
-            onMouseRelease((MouseReleasedEvent) e); return;
+        if(e instanceof InputClickReleaseEvent){
+            onInputClickRelease((InputClickReleaseEvent) e); return;
         }
     }
 
@@ -68,7 +68,7 @@ public class InputSystem extends EntitySystem implements GameEventListener{
      * under the mouse pointer
      * @param e the event
      */
-    private void onMousePress(MousePressEvent e){
+    private void onInputClickPress(InputClickPressEvent e){
         String entityId = findForeMostEntity(findEntitiesFromCamPOV(e.screenX, e.screenY));
         if(entityId != null) {
             Entity entity  = getEntityManager().getEntityObject(entityId);
@@ -76,7 +76,7 @@ public class InputSystem extends EntitySystem implements GameEventListener{
                 TouchableComponent touchableComponent = (TouchableComponent) entity.getComponent(TouchableComponent.ID);
                 touchableComponent.setTouched(true);
                 fireEvent(new EntityTouchedEvent(entityId));
-                Logger.debug("Entity Selection yeah!");
+                GoatEngine.logger.debug("Entity Selection yeah!");
             }
             getEntityManager().freeEntityObject(entity);
         }
@@ -87,7 +87,7 @@ public class InputSystem extends EntitySystem implements GameEventListener{
      * Called when the mouse is released
      * @param e the event
      */
-    private void onMouseRelease(MouseReleasedEvent e){
+    private void onInputClickRelease(InputClickReleaseEvent e){
         String entityId = findForeMostEntity(findEntitiesFromCamPOV(e.screenX, e.screenY));
         if(entityId != null) {
             Entity entity  = getEntityManager().getEntityObject(entityId);
@@ -115,7 +115,10 @@ public class InputSystem extends EntitySystem implements GameEventListener{
 
         // Ask the world which bodies are within the given
         // Bounding box around the mouse pointer
-        World world = GoatEngine.gameScreenManager.getCurrentScreen().getPhysicsSystem().getWorld();
+        World world = GoatEngine.gameScreenManager.getCurrentScreen()
+                .getEntitySystemManager()
+                .getSystem(PhysicsSystem.class)
+                .getWorld();
         final Array<Body> hitBodies = new Array<>();
         float mousePointerSize =  0.0001f;
         world.QueryAABB(new QueryCallback() {
@@ -144,7 +147,6 @@ public class InputSystem extends EntitySystem implements GameEventListener{
      * @return
      */
     private String findForeMostEntity(Array<String> entityIds){
-
         if(entityIds.size != 0) {
             // Get an array of entities
             Array<Entity> noZEntities = new Array<>();
@@ -178,6 +180,4 @@ public class InputSystem extends EntitySystem implements GameEventListener{
         }
         return null;
     }
-
-
 }

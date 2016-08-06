@@ -1,13 +1,15 @@
 package com.goatgames.goatengine.scriptingengine.lua;
 
 import com.badlogic.gdx.utils.Array;
+import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.GoatEngine;
-import com.goatgames.goatengine.ecs.PrefabFactory;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.graphicsrendering.camera.CameraComponent;
-import com.goatgames.goatengine.screenmanager.GameScreen;
-import com.goatgames.goatengine.utils.GAssert;
+import com.goatgames.goatengine.physics.PhysicsSystem;
+import com.goatgames.goatengine.screenmanager.IGameScreen;
+import com.goatgames.goatengine.scriptingengine.UtilAPI;
+import com.goatgames.goatengine.scriptingengine.common.IScriptingAPI;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.TwoArgFunction;
@@ -17,7 +19,7 @@ import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 /**
  * CtxAPI API
  */
-public class CtxAPI extends TwoArgFunction {
+public class CtxAPI extends TwoArgFunction implements IScriptingAPI {
 
     private final LuaValue luaEntity;
     private final String scriptName;
@@ -35,14 +37,14 @@ public class CtxAPI extends TwoArgFunction {
         library.set("entity", luaEntity);
         library.set("scriptName", scriptName);
 
-        GameScreen currentGameScreen = GoatEngine.gameScreenManager.getCurrentScreen();
+        IGameScreen currentGameScreen = GoatEngine.gameScreenManager.getCurrentScreen();
         library.set("gameScreen",
                 CoerceJavaToLua.coerce(currentGameScreen));
 
         library.set("entityManager",
                 CoerceJavaToLua.coerce(currentGameScreen.getEntityManager()));
 
-        library.set("physicsWorld", CoerceJavaToLua.coerce(currentGameScreen.getPhysicsSystem().getWorld()));
+        library.set("physicsWorld", CoerceJavaToLua.coerce(currentGameScreen.getEntitySystemManager().getSystem(PhysicsSystem.class).getWorld()));
 
 
         library.set("camera", new CameraAPI());
@@ -67,7 +69,6 @@ public class CtxAPI extends TwoArgFunction {
         }
     }
 
-
     /**
      * Create an entity from a prefab
      */
@@ -80,7 +81,8 @@ public class CtxAPI extends TwoArgFunction {
             if(!prefab.startsWith(DATA_DIR + "prefabs")){
                 prefab = DATA_DIR + "prefabs/" + prefab;
             }
-            return CoerceJavaToLua.coerce(new PrefabFactory().createEntity(prefab));
+            return CoerceJavaToLua.coerce(GoatEngine.prefabFactory.createEntity(prefab,
+                    new UtilAPI().getCurrentGameScreen().getEntityManager()));
         }
     }
 
@@ -88,17 +90,16 @@ public class CtxAPI extends TwoArgFunction {
 
         @Override
         public LuaValue call() {
-            GameScreen currentGameScreen = GoatEngine.gameScreenManager.getCurrentScreen();
+            IGameScreen currentGameScreen = GoatEngine.gameScreenManager.getCurrentScreen();
             return CoerceJavaToLua.coerce(currentGameScreen.getEntityManager().createEntity());
         }
     }
-
 
     private class DestroyEntityAPI extends OneArgFunction{
 
         @Override
         public LuaValue call(LuaValue arg) {
-            GameScreen currentGameScreen = GoatEngine.gameScreenManager.getCurrentScreen();
+            IGameScreen currentGameScreen = GoatEngine.gameScreenManager.getCurrentScreen();
             currentGameScreen.getEntityManager().deleteEntity(arg.toString());
             return null;
         }

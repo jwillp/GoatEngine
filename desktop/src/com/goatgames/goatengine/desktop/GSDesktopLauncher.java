@@ -1,8 +1,8 @@
 package com.goatgames.goatengine.desktop;
 
+import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.eventmanager.Event;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
-import com.goatgames.goatengine.utils.Logger;
 
 /**
  * Game Specific Desktop Launcher example
@@ -21,7 +21,7 @@ public class GSDesktopLauncher implements GameEventListener{
 
     @Override
     public void onEvent(Event e) {
-        Logger.debug(e.toString());
+        GoatEngine.logger.debug(e.toString());
     }
 
 

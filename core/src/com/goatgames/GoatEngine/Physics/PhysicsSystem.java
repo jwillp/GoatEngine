@@ -3,6 +3,7 @@ package com.goatgames.goatengine.physics;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.common.TransformComponent;
 import com.goatgames.goatengine.ecs.core.Entity;
@@ -10,7 +11,7 @@ import com.goatgames.goatengine.ecs.core.EntityCollection;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.screenmanager.GameScreenConfig;
-import com.goatgames.goatengine.utils.GAssert;
+import com.goatgames.goatengine.screenmanager.IGameScreenConfig;
 
 import java.util.ArrayList;
 
@@ -32,7 +33,7 @@ public class PhysicsSystem extends EntitySystem implements ContactListener {
     public PhysicsSystem() {
         Box2D.init();
 
-        GameScreenConfig config = GoatEngine.gameScreenManager.getCurrentScreen().getConfig();
+        IGameScreenConfig config = GoatEngine.gameScreenManager.getCurrentScreen().getConfig();
         //Gravity
         final float GRAVITY_X = config.getFloat("physics.gravity.x");
         final float GRAVITY_Y = config.getFloat("physics.gravity.y");
@@ -102,10 +103,12 @@ public class PhysicsSystem extends EntitySystem implements ContactListener {
                 continue;
             }
             PhysicsComponent phys = (PhysicsComponent) entity.getComponent(PhysicsComponent.ID);
-            TransformComponent transform = (TransformComponent)entity.getComponent(TransformComponent.ID);
-
-            phys.setPosition(transform.getX(), transform.getY());
-            //phys.setAngle(); // TODO Angle
+            // If the body is null that means the at the next preUpdate tick it will be created so lets wait
+            if(phys.getBody() != null) {
+                TransformComponent transform = (TransformComponent)entity.getComponent(TransformComponent.ID);
+                phys.setPosition(transform.getX(), transform.getY());
+                //phys.setAngle(); // TODO Angle
+            }
         }
     }
 
@@ -124,13 +127,15 @@ public class PhysicsSystem extends EntitySystem implements ContactListener {
             /*if(!entity.hasComponent(TransformComponent.ID)){
                 return;
             }*/
-            PhysicsComponent phys = (PhysicsComponent) entity.getComponent(PhysicsComponent.ID);
-            TransformComponent transform = (TransformComponent)entity.getComponent(TransformComponent.ID);
 
-            transform.setX(phys.getPosition().x);
-            transform.setY(phys.getPosition().y);
-            transform.setSize(phys.getWidth(),phys.getHeight());
-            // TODO Angle
+            PhysicsComponent phys = (PhysicsComponent) entity.getComponent(PhysicsComponent.ID);
+            if(phys.getBody() != null){
+                TransformComponent transform = (TransformComponent)entity.getComponent(TransformComponent.ID);
+                transform.setX(phys.getPosition().x);
+                transform.setY(phys.getPosition().y);
+                transform.setSize(phys.getWidth(),phys.getHeight());
+                // TODO Angle
+            }
         }
 
     }

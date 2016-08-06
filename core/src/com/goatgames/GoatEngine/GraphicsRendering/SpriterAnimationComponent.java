@@ -4,13 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.brashmonkey.spriter.Mainline;
 import com.brashmonkey.spriter.Player;
 import com.brashmonkey.spriter.Spriter;
+import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
-import com.goatgames.goatengine.files.FileSystem;
 
 /**
- * An animation component specialy made for Spriter animations
+ * An animation component specially made for Spriter animations
  */
 public class SpriterAnimationComponent extends EntityComponent {
     public final static String ID = "SPRITER_ANIMATION_COMPONENT";
@@ -112,7 +112,7 @@ public class SpriterAnimationComponent extends EntityComponent {
         this.offsetY = Float.parseFloat(data.get("offset_y"));
         this.scale = Float.parseFloat(data.get("scale"));
         animationFile = data.get("animation_file");
-        Spriter.load(FileSystem.getFile(data.get("animation_file")).read(), data.get("animation_file"));
+        Spriter.load(GoatEngine.fileManager.getFileHandle(data.get("animation_file")).read(), data.get("animation_file"));
 
         // We only create a new player if there is not already one
         if(player == null){
@@ -130,16 +130,6 @@ public class SpriterAnimationComponent extends EntityComponent {
                 player.setAnimation(animationTitle);
             }
         }
-    }
-
-    /**
-     * Used to clone a component
-     *
-     * @return
-     */
-    @Override
-    public EntityComponent clone() {
-        return new SpriterAnimationComponent(normalise());
     }
 
     /**

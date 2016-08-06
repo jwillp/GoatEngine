@@ -27,11 +27,6 @@ public class LifespanComponent extends EntityComponent{
         return ID;
     }
 
-    @Override
-    public EntityComponent clone() {
-        return null;
-    }
-
 
     public boolean isFinished() {
         return timer.isDone();

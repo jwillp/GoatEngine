@@ -1,12 +1,12 @@
 package com.goatgames.goatengine.scriptingengine.lua;
 
+import com.goatgames.gdk.GAssert;
+import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.eventmanager.GameEvent;
 import com.goatgames.goatengine.input.events.InputEvent;
 import com.goatgames.goatengine.physics.CollisionEvent;
-import com.goatgames.goatengine.scriptingengine.IEntityScript;
-import com.goatgames.goatengine.utils.GAssert;
-import com.goatgames.goatengine.utils.Logger;
+import com.goatgames.goatengine.scriptingengine.common.IEntityScript;
 
 import java.util.Objects;
 
@@ -41,8 +41,8 @@ public class LuaEntityScript extends LuaScript implements IEntityScript {
                 executeFunction("init");
                 initialised = true;
             } catch (LuaScript.LuaScriptException ex){
-                Logger.error(ex.getMessage());
-                Logger.logStackTrace(ex);
+                GoatEngine.logger.error(ex.getMessage());
+                GoatEngine.logger.error(ex);
             }
         }
     }
@@ -58,8 +58,8 @@ public class LuaEntityScript extends LuaScript implements IEntityScript {
         try{
             executeFunction("update", dt);
         } catch (LuaScript.LuaScriptException ex){
-            Logger.error(ex.getMessage());
-            Logger.logStackTrace(ex);
+            GoatEngine.logger.error(ex.getMessage());
+            GoatEngine.logger.error(ex);
         }
     }
 
@@ -77,8 +77,8 @@ public class LuaEntityScript extends LuaScript implements IEntityScript {
             if (!functionExists(onInputEvent)) return;
             executeFunction(onInputEvent, event);
         } catch (LuaScript.LuaScriptException ex){
-            Logger.error(ex.getMessage());
-            Logger.logStackTrace(ex);
+            GoatEngine.logger.error(ex.getMessage());
+            GoatEngine.logger.error(ex);
         }
 
     }
@@ -97,8 +97,8 @@ public class LuaEntityScript extends LuaScript implements IEntityScript {
                 if (!Objects.equals(collisionEvent.getEntityA(), entity.getId())) return;
                 executeFunction("onCollision", collisionEvent);
             } catch (LuaScript.LuaScriptException ex){
-                Logger.error(ex.getMessage());
-                Logger.logStackTrace(ex);
+                GoatEngine.logger.error(ex.getMessage());
+                GoatEngine.logger.error(ex);
             }
         }
 
@@ -118,8 +118,8 @@ public class LuaEntityScript extends LuaScript implements IEntityScript {
             if (!functionExists(onGameEvent)) return;
             executeFunction(onGameEvent, event);
         } catch (LuaScript.LuaScriptException ex){
-            Logger.error(ex.getMessage());
-            Logger.logStackTrace(ex);
+            GoatEngine.logger.error(ex.getMessage());
+            GoatEngine.logger.error(ex);
         }
     }
 
@@ -134,8 +134,8 @@ public class LuaEntityScript extends LuaScript implements IEntityScript {
             if (!functionExists(onDetach)) return;
             executeFunction(onDetach);
         } catch (LuaScript.LuaScriptException ex){
-            Logger.error(ex.getMessage());
-            Logger.logStackTrace(ex);
+            GoatEngine.logger.error(ex.getMessage());
+            GoatEngine.logger.error(ex);
         }
     }
 
@@ -147,8 +147,8 @@ public class LuaEntityScript extends LuaScript implements IEntityScript {
             if (!functionExists(postRender)) return;
             executeFunction(postRender);
         } catch (LuaScript.LuaScriptException ex){
-            Logger.error(ex.getMessage());
-            Logger.logStackTrace(ex);
+            GoatEngine.logger.error(ex.getMessage());
+            GoatEngine.logger.error(ex);
         }
     }
 
@@ -160,8 +160,8 @@ public class LuaEntityScript extends LuaScript implements IEntityScript {
             if (!functionExists(preRender)) return;
             executeFunction(preRender);
         } catch (LuaScript.LuaScriptException ex){
-            Logger.error(ex.getMessage());
-            Logger.logStackTrace(ex);
+            GoatEngine.logger.error(ex.getMessage());
+            GoatEngine.logger.error(ex);
         }
     }
 
@@ -173,8 +173,8 @@ public class LuaEntityScript extends LuaScript implements IEntityScript {
             if (!functionExists(lateUpdate)) return;
             executeFunction(lateUpdate);
         } catch (LuaScript.LuaScriptException ex){
-            Logger.error(ex.getMessage());
-            Logger.logStackTrace(ex);
+            GoatEngine.logger.error(ex.getMessage());
+            GoatEngine.logger.error(ex);
         }
     }
 

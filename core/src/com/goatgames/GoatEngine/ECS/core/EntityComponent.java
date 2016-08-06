@@ -1,7 +1,5 @@
 package com.goatgames.goatengine.ecs.core;
 
-import com.goatgames.goatengine.scriptingengine.IEntityScript;
-
 /**
  * Entity Component class
  */
@@ -60,12 +58,6 @@ public abstract class EntityComponent {
     public void denormalise(NormalisedEntityComponent data){
         this.enabled = Boolean.parseBoolean(data.getOrDefault("enabled", "true"));
     }
-
-    /**
-     * Returns a clone of the current component
-     * @return a clone of the component
-     */
-    public abstract EntityComponent clone();
 
     /**
      * Indicates whether or not the component is enabled
