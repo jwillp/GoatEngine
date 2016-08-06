@@ -78,11 +78,13 @@ public class ResourceManager {
     public TextureAtlas getAtlas(String atlasResource){
         String textureDirectory  = GoatEngine.config.assets.texturesDirectory;
         String resourceName = textureDirectory + atlasResource + ATLAS_EXTENSION;
+        if(!GAssert.that(GoatEngine.fileManager.exists(resourceName), String.format("map %s does not exist.", resourceName)))
+            return null;
         if(!isLoaded(resourceName) && GoatEngine.config.assets.autoLoad){
             loadTextureAtlas(atlasResource);
             manager.finishLoadingAsset(resourceName);
         }
-        GAssert.that(isLoaded(resourceName), "Resource not loaded " + resourceName);
+        GAssert.that(isLoaded(resourceName), String.format("Resource not loaded %s", resourceName));
         return manager.get(resourceName, TextureAtlas.class);
     }
 
@@ -144,28 +146,24 @@ public class ResourceManager {
     /**
      * Returns a map file
      * @param tmxFile tmx file
-     * @return
+     * @return map file or null if not loaded
      */
     public TiledMap getMap(String tmxFile) {
-        // TODO Load from full relative path
-        String map = tmxFile;
-        if(!GAssert.that(GoatEngine.fileManager.exists(tmxFile), "map does not exist.")){
+        if(!GAssert.that(GoatEngine.fileManager.exists(tmxFile), String.format("map %s does not exist.", tmxFile)))
             return null;
-        }
-        if(! isLoaded(map) && GoatEngine.config.assets.autoLoad){
+        if(!isLoaded(tmxFile) && GoatEngine.config.assets.autoLoad){
             loadMap(tmxFile);
-            manager.finishLoadingAsset(map);
+            manager.finishLoadingAsset(tmxFile);
         }
-        GAssert.that(isLoaded(map), "TMX MAP File not loaded: " + map);
-        return manager.get(map);
+        GAssert.that(isLoaded(tmxFile), String.format("TMX MAP File not loaded: %s", tmxFile));
+        return manager.get(tmxFile);
     }
 
     /**
      * Loads a tmx map file
-     * @param tmxFile
+     * @param tmxFile map file to load
      */
     public void loadMap(String tmxFile) {
         manager.load(tmxFile, TiledMap.class);
-        //manager.load("data/tiledmap/tilemap.tmx", TileMapRenderer.class, new TileMapRendererLoader.TileMapParameter("data/tiledmap/", 8, 8));
     }
 }

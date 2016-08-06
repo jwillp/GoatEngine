@@ -1,4 +1,4 @@
-package com.goatgames;
+package com.goatgames.goatengine.eventmanager.engineevents;
 
 import com.goatgames.goatengine.eventmanager.Event;
 

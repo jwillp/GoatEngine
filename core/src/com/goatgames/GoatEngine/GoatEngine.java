@@ -6,11 +6,11 @@ import com.goatgames.gdk.logger.ILogger;
 import com.goatgames.goatengine.config.engine.GEConfig;
 import com.goatgames.goatengine.ecs.prefabs.PrefabFactory;
 import com.goatgames.goatengine.eventmanager.EventManager;
+import com.goatgames.goatengine.eventmanager.engineevents.LateUpdateEvent;
 import com.goatgames.goatengine.files.IFileManager;
 import com.goatgames.goatengine.graphicsrendering.GraphicsEngine;
 import com.goatgames.goatengine.input.InputManager;
 import com.goatgames.goatengine.screenmanager.GameScreenManager;
-import com.goatgames.LateUpdateEvent;
 import com.goatgames.goatengine.scriptingengine.common.IScriptingEngine;
 import com.goatgames.goatengine.utils.Timer;
 
