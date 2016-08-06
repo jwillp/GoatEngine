@@ -7,7 +7,7 @@ public class ScriptingConfig {
     /**
      * Flag used to automatically reload scripts when their source code changes
      */
-    public static boolean AUTO_RELOAD = false;
+    public boolean autoReload = false;
 
     /**
      * The directory containing the scripts.
@@ -16,5 +16,5 @@ public class ScriptingConfig {
      * the engine might fall back to a strategy where it considers the paths as a relative path
      * from the working directory
      */
-    public static String DIRECTORY = "scripts/";
+    public String directory = "scripts/";
 }

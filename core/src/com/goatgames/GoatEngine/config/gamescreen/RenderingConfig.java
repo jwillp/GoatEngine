@@ -60,5 +60,10 @@ public class RenderingConfig {
          * Camera Strategy
          */
         public CameraStrategy strategy = new FixedWidthStrategy(40);
+
+        /**
+         * Zoom of the camera
+         */
+        public float zoom = 1.0f;
     }
 }

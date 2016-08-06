@@ -110,7 +110,7 @@ public class GEConfig {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             throw new MissingConfigFileException(
-                    String.format("%s is missing from internal data. contact Goat Game Support for assistance. ",
+                    String.format("%s is missing from internal data. Please Contact Goat Game Support for assistance. ",
                             GAME_SPEC_CONFIG_FILE));
         } catch (IOException e) {
             e.printStackTrace();
@@ -124,7 +124,7 @@ public class GEConfig {
     private void sanitize(){
 
         // Make sure paths end with a forward slash
-        ScriptingConfig.DIRECTORY = sanitizeDirectory(scripting.DIRECTORY);
+        scripting.directory = sanitizeDirectory(scripting.directory);
         logger.directory = sanitizeDirectory(logger.directory);
         assets.fontsDirectory = sanitizeDirectory(assets.fontsDirectory);
         assets.texturesDirectory = sanitizeDirectory(assets.texturesDirectory);
