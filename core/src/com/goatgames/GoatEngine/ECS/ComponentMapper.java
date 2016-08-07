@@ -3,6 +3,7 @@ package com.goatgames.goatengine.ecs;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.GoatEngine;
+import com.goatgames.goatengine.ecs.common.LabelComponent;
 import com.goatgames.goatengine.ecs.common.TagsComponent;
 import com.goatgames.goatengine.ecs.common.TransformComponent;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
@@ -43,6 +44,7 @@ public class ComponentMapper {
         linkClass(PhysicsComponent.ID, PhysicsComponent.class);
         linkClass(TransformComponent.ID, TransformComponent.class);
         linkClass(NativeScriptComponent.ID, NativeScriptComponent.class);
+        linkClass(LabelComponent.ID, LabelComponent.class);
     }
 
     /**
@@ -80,6 +82,10 @@ public class ComponentMapper {
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
                 GoatEngine.logger.error(e.getMessage());
                 GoatEngine.logger.error(e);
+            } catch (Exception e){
+                GoatEngine.logger.error("There was an error loading component.");
+                GoatEngine.logger.error(e.getMessage());
+                GoatEngine.logger.error(e.getStackTrace());
             }
         }
         return null;

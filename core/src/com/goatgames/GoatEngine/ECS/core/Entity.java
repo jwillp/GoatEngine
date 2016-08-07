@@ -3,6 +3,7 @@ package com.goatgames.goatengine.ecs.core;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.Pool;
 import com.goatgames.gdk.GAssert;
+import com.goatgames.goatengine.ecs.common.LabelComponent;
 
 public class Entity implements Pool.Poolable {
 
@@ -65,6 +66,8 @@ public class Entity implements Pool.Poolable {
         if (!GAssert.notNull(manager, "manager == null")) throw new UnregisteredEntityException();
 
         EntityComponent component = manager.getComponent(componentId, getId());
+
+        // Code should always check for hasComponent before doing a get component
         if (!GAssert.notNull(component, "component == null"))
             throw new EntityComponentNotFoundException(componentId);
         return component;
@@ -137,6 +140,18 @@ public class Entity implements Pool.Poolable {
     public void reset() {
         this.setManager(null);
         this.setId("");
+    }
+
+    /**
+     * Returns the label of the entity if any
+     * @return the label of the entity
+     */
+    public String getLabel(){
+        if(hasComponent(LabelComponent.ID)){
+            LabelComponent labelComponent = (LabelComponent) getComponent(LabelComponent.ID);
+            return labelComponent.getLabel();
+        }
+        return String.format("%s_%s", LabelComponent.UNLABELED, getId());
     }
 
     /// EXCEPTIONS ///

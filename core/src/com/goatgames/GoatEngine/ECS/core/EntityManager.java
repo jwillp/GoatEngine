@@ -131,6 +131,10 @@ public class EntityManager {
 
         ObjectMap<String, EntityComponent> componentEntry = this.components.get(componentId);
 
+        // Possible causes:
+        // The component was never added to any entity, but the game code is trying to retrieve one
+        if(!GAssert.notNull(componentEntry, "componentEntry == null")) return null;
+
         component = componentEntry.get(entityId);
         return component;
     }

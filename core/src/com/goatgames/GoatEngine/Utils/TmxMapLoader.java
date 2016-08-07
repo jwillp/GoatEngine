@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.GoatEngine;
+import com.goatgames.goatengine.ecs.common.LabelComponent;
 import com.goatgames.goatengine.ecs.common.TransformComponent;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityManager;
@@ -85,6 +86,7 @@ public class TmxMapLoader{
         if(!GAssert.notNull(entity, "entity == null")){
             return null;
         }
+
         // 2. handle transform component. (it is automatically added)
         // We don't make a check to see if it was already added (by prefab). We want to override it
         // to use the editor's data.
@@ -108,6 +110,13 @@ public class TmxMapLoader{
             PhysicsComponent physicsComponent = new PhysicsComponent(bodyDef);
             entity.addComponent(physicsComponent, PhysicsComponent.ID);
         }
+
+        // 5. Label the entity
+        String label = objProperties.get("id").toString();
+        if(mapObject.getName() != null && !mapObject.getName().isEmpty()){
+            label = String.format("%s_%s", label, mapObject.getName());
+        }
+        entity.addComponent(new LabelComponent(label), LabelComponent.ID);
 
         return entity;
     }
