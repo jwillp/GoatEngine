@@ -74,12 +74,14 @@ public class EntityScriptSystem extends EntitySystem implements GameEventListene
             Array<IEntityScript> scripts = scriptComp.getScripts().values().toArray();
             for(int i=0; i < scripts.size; i++){
                 IEntityScript script = scripts.get(i);
-                if(e instanceof InputEvent){
-                    script.onInputEvent(entity, (InputEvent) e);
-                }else if(e instanceof CollisionEvent){
-                    script.onCollision(entity, (CollisionEvent)e);
-                }else if(e instanceof GameEvent){
-                    script.onGameEvent(entity, (GameEvent) e);
+                if (script.isInitialised()) {
+                    if (e instanceof InputEvent) {
+                        script.onInputEvent(entity, (InputEvent) e);
+                    } else if (e instanceof CollisionEvent) {
+                        script.onCollision(entity, (CollisionEvent) e);
+                    } else if (e instanceof GameEvent) {
+                        script.onGameEvent(entity, (GameEvent) e);
+                    }
                 }
             }
             entityManager.freeEntityObject(entity);
