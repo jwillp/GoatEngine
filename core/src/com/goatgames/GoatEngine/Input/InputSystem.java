@@ -1,5 +1,6 @@
 package com.goatgames.goatengine.input;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Sort;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
+import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.eventmanager.Event;
@@ -20,6 +22,7 @@ import com.goatgames.goatengine.input.events.EntityTouchedEvent;
 import com.goatgames.goatengine.input.events.InputClickPressEvent;
 import com.goatgames.goatengine.input.events.InputClickReleaseEvent;
 import com.goatgames.goatengine.physics.PhysicsSystem;
+import com.goatgames.goatengine.scriptingengine.UtilAPI;
 
 /**
  * System used to process some input related events. For example clicked and dragged entities
@@ -42,9 +45,6 @@ public class InputSystem extends EntitySystem implements GameEventListener{
     public void update(float dt) {
 
     }
-
-
-
 
     @Override
     public void deInit() {
@@ -108,10 +108,13 @@ public class InputSystem extends EntitySystem implements GameEventListener{
      */
     private Array<String> findEntitiesFromCamPOV(float screenX, float screenY){
         EntityManager manager = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager();
-        CameraComponent cam = (CameraComponent) manager.getComponents(CameraComponent.ID).get(0);
+
+        OrthographicCamera cam = new UtilAPI().getCamera();
+        if(cam == null) return new Array<>();
+        
         final Vector3 pos = new Vector3();
         // Translate the mouse coordinates to world coordinates
-        cam.getCamera().unproject(pos.set(screenX, screenY, 0));
+        cam.unproject(pos.set(screenX, screenY, 0));
 
         // Ask the world which bodies are within the given
         // Bounding box around the mouse pointer

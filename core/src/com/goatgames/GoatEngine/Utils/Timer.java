@@ -76,7 +76,7 @@ public class Timer {
     }
 
     public void reset(){
-        this.lastCheck = System.currentTimeMillis();
+        this.startTime = currentTimeMillis();
     }
 
     /**
@@ -101,6 +101,14 @@ public class Timer {
     }
 
     public void setDelay(int newDelay){ delay = newDelay; }
+
+    /**
+     * Returns a number between 0 and 1 representing the current progression
+     * @return
+     */
+    public float getProgression() {
+        return getDeltaTime()/delay;
+    }
 
     /**
      * Exceptions related to Timer Misuse
