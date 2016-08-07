@@ -56,6 +56,16 @@ public class ComponentMapper {
     public static <T extends EntityComponent> void linkClass(final String componentId, Class<T> clazz) {
         GAssert.that(!componentId.isEmpty(), "Invalid Component Id for class: " + clazz.getCanonicalName());
         GAssert.notNull(classes, "classes == null");
+        if(classes.containsKey(componentId)){
+            System.out.println(
+                    String.format("[WARNING]: Component : %s is already mapped with class %s therefore it cannot be mapped to %s",
+                    componentId,
+                    classes.get(componentId).getSimpleName(),
+                    clazz.getSimpleName()
+            ));
+            return;
+        }
+
         classes.put(componentId, clazz);
     }
 

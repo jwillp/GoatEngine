@@ -111,7 +111,7 @@ public class InputSystem extends EntitySystem implements GameEventListener{
 
         OrthographicCamera cam = new UtilAPI().getCamera();
         if(cam == null) return new Array<>();
-        
+
         final Vector3 pos = new Vector3();
         // Translate the mouse coordinates to world coordinates
         cam.unproject(pos.set(screenX, screenY, 0));
