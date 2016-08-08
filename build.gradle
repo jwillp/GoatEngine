@@ -25,6 +25,8 @@ allprojects {
         luajVersion = '3.0.1'
         minimalJsonVersion = '0.9.4'
 
+        beanshellVersion = '2.0b5'
+
     }
 
     repositories {
@@ -62,7 +64,7 @@ project(":core") {
         compile "com.kotcrab.vis:vis-ui:$visUiVersion"
         compile "org.luaj:luaj-jse:$luajVersion"
         compile "com.eclipsesource.minimal-json:minimal-json:$minimalJsonVersion"
-
+        compile "org.beanshell:bsh:$beanshellVersion"
         compile fileTree(dir: '../lib', include: ['*.jar'])
     }
 }
