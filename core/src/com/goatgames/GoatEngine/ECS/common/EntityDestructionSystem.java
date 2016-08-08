@@ -1,6 +1,9 @@
 package com.goatgames.goatengine.ecs.common;
 
+import com.goatgames.gdk.GAssert;
+import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
+import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
 
 /**
@@ -15,10 +18,14 @@ public class EntityDestructionSystem extends EntitySystem {
 
     @Override
     public void update(float dt) {
-        for (Entity entity : getEntityManager().getEntitiesWithComponent(LifespanComponent.ID)) {
+        final EntityManager entityManager = getEntityManager();
+        for (Entity entity : entityManager.getEntitiesWithComponent(LifespanComponent.ID)) {
             LifespanComponent lifespanComponent = (LifespanComponent) entity.getComponent(LifespanComponent.ID);
+            GoatEngine.logger.debug("Entity waiting for destruction " + lifespanComponent.isFinished());
             if (lifespanComponent.isFinished()) {
-                getEntityManager().deleteEntity(entity.getId());
+                GoatEngine.logger.debug("Entity will be destroyed");
+                entityManager.deleteEntity(entity.getId());
+                GAssert.that(!entityManager.entityExists(entity.getId()), "entity is still existing ...");
             }
 
         }

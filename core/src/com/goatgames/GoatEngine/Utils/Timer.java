@@ -24,16 +24,30 @@ public class Timer {
         return (int) (number * 1000);
     }
 
+    /**
+     * Returns the current time in milliseconds
+     * @return current time in ms
+     */
     public static long currentTimeMillis(){
         return System.currentTimeMillis();
     }
 
 
-
-
+    /**
+     * The delay the timer should wait
+     */
     private int delay; // in milliseconds so 60 means 60 milliseconds
+
+    /**
+     * Time at which the timer was started
+     * the first time
+     */
     private long startTime = -1;
-    private long lastCheck = -1;
+
+    /**
+     * Last known time
+     */
+    private long lastTime = -1;
 
     public Timer(int delayInMs){
         this.delay = delayInMs;
@@ -45,24 +59,16 @@ public class Timer {
 
     public void start(){
         this.startTime = currentTimeMillis();
-        this.lastCheck = startTime;
+        this.lastTime = startTime;
     }
 
 
     public boolean isDone() {
-        if (startTime == -1 || lastCheck == -1) {
+        if (startTime == -1 || lastTime == -1) {
             //throw new TimerException("The Timer was not started, call function start() before using Timer");
             this.start();
         }
-        return System.currentTimeMillis() - this.lastCheck >= this.delay;
-    }
-
-    /**
-     * Forces the timer to be done, after that method call
-     * the timer will inevitably be done
-     */
-    public void terminate(){
-        this.lastCheck = 0;
+        return getDeltaTime() >= this.delay;
     }
 
 
@@ -71,8 +77,8 @@ public class Timer {
      * i.e. since the call to the start function
      * @return
      */
-    public int getRunningTime(){
-        return (int)(System.currentTimeMillis() - startTime);
+    public long getRunningTime(){
+        return currentTimeMillis() - startTime;
     }
 
     public void reset(){
@@ -80,11 +86,11 @@ public class Timer {
     }
 
     /**
-     * Returns the delta time (current time since last check)
-     * @return
+     * Returns the delta time (current time since last time)
+     * @return delta time
      */
     public long getDeltaTime(){
-            return System.currentTimeMillis() - lastCheck;
+            return System.currentTimeMillis() - lastTime;
     }
 
     /**
@@ -92,7 +98,8 @@ public class Timer {
      * @return
      */
     public long getRemainingTime(){
-       return System.currentTimeMillis() - this.lastCheck;
+        long end = this.lastTime + delay;
+        return Math.max(end - System.currentTimeMillis(),0);
     }
 
 
@@ -130,7 +137,6 @@ public class Timer {
                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(milliseconds))
         );
     }
-
 
     /**
      * Converts milliseconds to a number of seconds
