@@ -12,18 +12,14 @@ import com.goatgames.goatengine.ecs.core.EntitySystem;
  */
 public class EntityDestructionSystem extends EntitySystem {
     @Override
-    public void init() {
-
-    }
+    public void init() {}
 
     @Override
     public void update(float dt) {
         final EntityManager entityManager = getEntityManager();
         for (Entity entity : entityManager.getEntitiesWithComponent(LifespanComponent.ID)) {
             LifespanComponent lifespanComponent = (LifespanComponent) entity.getComponent(LifespanComponent.ID);
-            GoatEngine.logger.debug("Entity waiting for destruction " + lifespanComponent.isFinished());
             if (lifespanComponent.isFinished()) {
-                GoatEngine.logger.debug("Entity will be destroyed");
                 entityManager.deleteEntity(entity.getId());
                 GAssert.that(!entityManager.entityExists(entity.getId()), "entity is still existing ...");
             }

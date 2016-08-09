@@ -14,6 +14,8 @@ import com.goatgames.goatengine.input.events.InputEvent;
 import com.goatgames.goatengine.physics.CollisionEvent;
 import com.goatgames.goatengine.scriptingengine.common.IEntityScript;
 
+import java.util.Objects;
+
 /**
  * Entity System managing entity scripts
  */
@@ -78,7 +80,9 @@ public class EntityScriptSystem extends EntitySystem implements GameEventListene
                     if (e instanceof InputEvent) {
                         script.onInputEvent(entity, (InputEvent) e);
                     } else if (e instanceof CollisionEvent) {
-                        script.onCollision(entity, (CollisionEvent) e);
+                        final CollisionEvent collisionEvent = (CollisionEvent) e;
+                        if(Objects.equals(collisionEvent.getEntityA(), entity.getId()))
+                            script.onCollision(entity, collisionEvent);
                     } else if (e instanceof GameEvent) {
                         script.onGameEvent(entity, (GameEvent) e);
                     }

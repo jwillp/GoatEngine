@@ -13,6 +13,7 @@ import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.screenmanager.GameScreenConfig;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Responsible for checking collisions, making the entities move
@@ -27,7 +28,7 @@ public class PhysicsSystem extends EntitySystem implements ContactListener {
     private final static int POSITION_ITERATIONS = 2;
     private final static float FPS = 1/60f;
 
-    private ArrayList<CollisionEvent> collisions = new ArrayList<CollisionEvent>();
+    private List<CollisionEvent> collisions = new ArrayList<CollisionEvent>();
 
     public PhysicsSystem() {
         Box2D.init();
@@ -143,6 +144,10 @@ public class PhysicsSystem extends EntitySystem implements ContactListener {
      * Updates box2D physics
      */
     private void updatePhysics(){
+        for(EntityComponent component : getEntityManager().getComponents(PhysicsComponent.ID)){
+            PhysicsComponent phys = (PhysicsComponent) component;
+            phys.getBody().setActive(component.isEnabled());
+        }
         //Update the box2D world
         world.step(FPS, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
     }

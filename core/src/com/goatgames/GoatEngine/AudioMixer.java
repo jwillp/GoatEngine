@@ -3,6 +3,8 @@ package com.goatgames.goatengine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
+import com.goatgames.gdk.GAssert;
 
 import java.util.HashMap;
 
@@ -55,7 +57,10 @@ public class AudioMixer {
      * @return
      */
     public static Sound loadSound(String soundFilePath){
-        Sound s =  Gdx.audio.newSound(Gdx.files.internal(soundFilePath));
+        final FileHandle fileHandle = Gdx.files.internal(soundFilePath);
+        if(!GAssert.that(fileHandle.exists(), String.format("%s not found", soundFilePath))) return null;
+
+        Sound s =  Gdx.audio.newSound(fileHandle);
         sounds.put(soundFilePath, s);
         return s;
     }
