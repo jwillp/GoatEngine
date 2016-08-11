@@ -7,6 +7,7 @@ import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
+import com.goatgames.goatengine.eventmanager.EntityEvent;
 import com.goatgames.goatengine.eventmanager.Event;
 import com.goatgames.goatengine.eventmanager.GameEvent;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
@@ -85,6 +86,10 @@ public class EntityScriptSystem extends EntitySystem implements GameEventListene
                             script.onCollision(entity, collisionEvent);
                     } else if (e instanceof GameEvent) {
                         script.onGameEvent(entity, (GameEvent) e);
+                    } else if (e instanceof EntityEvent) {
+                        final EntityEvent entityEvent = (EntityEvent) e;
+                        if(Objects.equals(entityEvent.getEntityId(), entity.getId()))
+                            script.onEntityEvent(entity, (EntityEvent)e);
                     }
                 }
             }
