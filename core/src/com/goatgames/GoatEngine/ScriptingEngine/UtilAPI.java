@@ -85,7 +85,8 @@ public class UtilAPI implements IScriptingAPI {
      */
     public void setPosition(Entity entity, float x, float y){
         if (!GAssert.notNull(entity, "entity == null")) return;
-        if (!GAssert.that(entity.hasComponent(TransformComponent.ID), "entity does not have TransformComponent"))
+        if (!GAssert.that(entity.hasComponent(TransformComponent.ID),
+                String.format("%s does not have TransformComponent", entity.getLabel())))
             return;
         TransformComponent transform = (TransformComponent) entity.getComponent(TransformComponent.ID);
         transform.setX(x);

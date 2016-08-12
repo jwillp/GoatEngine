@@ -52,11 +52,11 @@ public class TransformComponent extends EntityComponent {
     @Override
     public void denormalise(NormalisedEntityComponent data) {
         super.denormalise(data);
-        this.x = Float.parseFloat(data.get("x"));
-        this.y = Float.parseFloat(data.get("y"));
-        this.rotation = Float.parseFloat(data.get("rotation"));
-        this.width = Float.parseFloat(data.get("width"));
-        this.height = Float.parseFloat(data.get("height"));
+        this.x = Float.parseFloat(data.getOrDefault("x", "0"));
+        this.y = Float.parseFloat(data.getOrDefault("y", "0"));
+        this.rotation = Float.parseFloat(data.getOrDefault("rotation", "0"));
+        this.width = Float.parseFloat(data.getOrDefault("width", "0.1"));
+        this.height = Float.parseFloat(data.getOrDefault("height", "0.1"));
     }
 
     @Override

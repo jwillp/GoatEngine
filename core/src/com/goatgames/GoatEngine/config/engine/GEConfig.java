@@ -96,13 +96,6 @@ public class GEConfig {
             interpreter.set("config", this);
             interpreter.source(GAME_SPEC_CONFIG_FILE);
             sanitize();
-        } catch (TargetError e) {
-            if(dev_ctx)
-                e.printStackTrace(); // TODO Log
-        } catch (ParseException e ) {
-            // Parsing error
-            if(dev_ctx)
-                e.printStackTrace(); // TODO Log
         } catch (EvalError e ) {
             // General Error evaluating script
             if(dev_ctx)
