@@ -3,9 +3,7 @@ package com.goatgames.goatengine.ecs;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.GoatEngine;
-import com.goatgames.goatengine.ecs.common.LabelComponent;
-import com.goatgames.goatengine.ecs.common.TagsComponent;
-import com.goatgames.goatengine.ecs.common.TransformComponent;
+import com.goatgames.goatengine.ecs.common.*;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.GameComponent;
 import com.goatgames.goatengine.ecs.core.LuaGameComponent;
@@ -45,6 +43,8 @@ public class ComponentMapper {
         linkClass(TransformComponent.ID, TransformComponent.class);
         linkClass(NativeScriptComponent.ID, NativeScriptComponent.class);
         linkClass(LabelComponent.ID, LabelComponent.class);
+        linkClass(EditorComponent.ID, EditorComponent.class);
+        linkClass(VariantComponent.ID, VariantComponent.class);
     }
 
     /**

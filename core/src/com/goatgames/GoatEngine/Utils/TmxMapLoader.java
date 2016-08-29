@@ -10,13 +10,19 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.GoatEngine;
+import com.goatgames.goatengine.ecs.common.EditorComponent;
 import com.goatgames.goatengine.ecs.common.LabelComponent;
 import com.goatgames.goatengine.ecs.common.TransformComponent;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityManager;
+import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 import com.goatgames.goatengine.physics.BodyDefFactory;
 import com.goatgames.goatengine.physics.PhysicsBodyDef;
 import com.goatgames.goatengine.physics.PhysicsComponent;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Class responsible for loading TMX Maps into ECS
@@ -83,9 +89,19 @@ public class TmxMapLoader{
         }else{
             entity = entityManager.createEntity();
         }
-        if(!GAssert.notNull(entity, "entity == null")){
-            return null;
+
+        // that would not make sense at all
+        if(!GAssert.notNull(entity, "entity == null")) return null;
+
+        // Add EditorComponent
+        NormalisedEntityComponent editorValues = new NormalisedEntityComponent();
+        final Iterator<String> keys = objProperties.getKeys();
+        while(keys.hasNext()){
+            String key = keys.next();
+            editorValues.put(key, String.valueOf(objProperties.get(key)));
         }
+        entity.addComponent(new EditorComponent(editorValues), EditorComponent.ID);
+
 
         // 2. handle transform component. (it is automatically added)
         // We don't make a check to see if it was already added (by prefab). We want to override it
