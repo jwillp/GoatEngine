@@ -34,7 +34,10 @@ public class EntityScriptComponent extends EntityComponent {
             this.scripts = new ObjectMap<>();
         }
         if(GAssert.notNull(script, "script == null, it will not be added")){
-            this.scripts.put(script.getName(), script);
+            final String name = script.getName();
+            if(GAssert.notNull(name, "script.name == null, please make sure the script has a name")) {
+                this.scripts.put(name, script);
+            }
         }
     }
 

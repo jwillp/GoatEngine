@@ -69,7 +69,7 @@ public class UtilAPI implements IScriptingAPI {
      * @param entity the entity of which to return the position
      * @return a Vector2 representing the position of the entity
      */
-    private Vector2 getPosition(Entity entity) {
+    public Vector2 getPosition(Entity entity) {
         if (!GAssert.notNull(entity, "entity == null")) return null;
         if (!GAssert.that(entity.hasComponent(TransformComponent.ID), "entity does not have TransformComponent"))
             return null;
