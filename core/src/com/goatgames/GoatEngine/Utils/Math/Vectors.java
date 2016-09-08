@@ -11,6 +11,7 @@ public abstract class Vectors {
 
     /**
      * Calculates the euclideanDistance between two Vector 2
+     *
      * @param a
      * @param b
      * @return the euclideanDistance between a and b
@@ -25,6 +26,7 @@ public abstract class Vectors {
      * Return the manhattan Distance
      * Distance between two points based on adding the horizontal and
      * vertical distances rather than computing the exact difference. (faster than euclidean distance)
+     *
      * @param a
      * @param b
      * @return
@@ -36,10 +38,9 @@ public abstract class Vectors {
         return dx + dy;
     }
 
-
-
     /**
      * Test if the Rectangle A contains the Rectangle B inclusive
+     *
      * @param a: Rectangle A
      * @param b: Rectangle B
      * @return: Boolean: Whether or not a contains B
@@ -71,6 +72,7 @@ public abstract class Vectors {
      * The cross product calculates a perpendicular
      * vector to the two supplied .i.e , a vector that is 90 degrees
      * perpendicular to both of the two vectors
+     *
      * @return float
      */
     public static Vector3 crossProduct2D(Vector2 a, Vector2 b){
@@ -80,5 +82,13 @@ public abstract class Vectors {
         return new Vector3(u.y * v.z - u.z*v.y, u.z*v.x - u.x*v.z, u.x*v.y - u.y*v.x);
     }
 
-
+    /**
+     * Minus
+     * @param a
+     * @param b
+     * @return
+     */
+    public static Vector2 minus(Vector2 a, Vector2 b) {
+        return new Vector2(a.x - b.x, a.y - b.y);
+    }
 }

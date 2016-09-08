@@ -83,18 +83,12 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
         lightSystem = new LightSystem(this);
         this.lightSystem.setEntityManager(getEntityManager());
 
-
-
         // Spriter
         Spriter.setDrawerDependencies(spriteBatch, shapeRenderer);
         Spriter.init(LibGdxSpriterLoader.class, LibGdxSpriterDrawer.class);
 
-
-
         // Post processor //
         ShaderLoader.BasePath = "priv_data/shaders/";
-
-
 
         boolean isDesktop = Gdx.app.getType() == Application.ApplicationType.Desktop;
         postProcessor = new PostProcessor(false,false, true);
