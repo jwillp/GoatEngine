@@ -1,11 +1,9 @@
 package com.goatgames.goatengine.input.events.touch;
 
-import com.goatgames.goatengine.input.events.InputEvent;
-
 /**
  * Touch Screen Long Press.
  */
-public class LongPressEvent extends InputEvent {
+public class LongPressEvent extends TouchEvent {
     public final float x;
     public final float y;
 

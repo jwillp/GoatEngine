@@ -6,7 +6,7 @@ import com.goatgames.goatengine.input.events.InputEvent;
 /**
  * When dpad is moved
  */
-public class DPADMovedEvent extends InputEvent {
+public class DPADMovedEvent extends GamePadInputEvent {
     public final int gamePadId;
     public final int rawCode;
     public final PovDirection value;

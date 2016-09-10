@@ -5,7 +5,7 @@ import com.goatgames.goatengine.input.events.InputEvent;
 /**
  * Triggered when a controller was disconnected
  */
-public class GamePadDisconnectedEvent extends InputEvent {
+public class GamePadDisconnectedEvent extends GamePadInputEvent {
 
     public final int gamePadId;
 

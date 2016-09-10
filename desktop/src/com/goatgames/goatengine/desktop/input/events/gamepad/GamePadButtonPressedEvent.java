@@ -6,7 +6,7 @@ import com.goatgames.goatengine.input.events.InputEvent;
 /**
  * Sent when an Game pad button is pressed
  */
-public class GamePadButtonPressedEvent extends InputEvent {
+public class GamePadButtonPressedEvent extends GamePadInputEvent {
 
     public final int controllerId;
     public final GamePadMap.Button button;

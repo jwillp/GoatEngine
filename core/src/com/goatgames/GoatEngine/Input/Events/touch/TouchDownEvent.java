@@ -1,11 +1,9 @@
 package com.goatgames.goatengine.input.events.touch;
 
-import com.goatgames.goatengine.input.events.InputEvent;
-
 /**
  * Touch screen. Touch down
  */
-public class TouchDownEvent extends InputEvent {
+public class TouchDownEvent extends TouchEvent {
 
     public final float x;
     public final float y;

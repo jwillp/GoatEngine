@@ -7,7 +7,7 @@ import com.goatgames.goatengine.input.events.InputEvent;
 /**
  * Whena button is released
  */
-public class GamePadButtonReleasedEvent extends InputEvent {
+public class GamePadButtonReleasedEvent extends GamePadInputEvent {
 
     public final int gamePadId;
     public final GamePadMap.Button button;

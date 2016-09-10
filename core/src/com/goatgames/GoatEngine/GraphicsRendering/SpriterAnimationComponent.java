@@ -172,6 +172,10 @@ public class SpriterAnimationComponent extends EntityComponent {
         return animationFile;
     }
 
+    public boolean isFlippedX() {
+        return getPlayer().flippedX() == -1;
+    }
+
     private class SpriterEntityNotFoundException extends RuntimeException {
         public SpriterEntityNotFoundException(String entityName) {
             super("Spriter Aniamtion Entity not found: " + entityName);

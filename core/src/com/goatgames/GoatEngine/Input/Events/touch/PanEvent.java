@@ -1,11 +1,9 @@
 package com.goatgames.goatengine.input.events.touch;
 
-import com.goatgames.goatengine.input.events.InputEvent;
-
 /**
  * Called when the user drags a finger over the screen.
  */
-public class PanEvent extends InputEvent {
+public class PanEvent extends TouchEvent {
 
     public final float x;
     public final float y;

@@ -1,11 +1,9 @@
 package com.goatgames.goatengine.input.events.touch;
 
-import com.goatgames.goatengine.input.events.InputEvent;
-
 /**
  *  Called when no longer panning.
  */
-public class PanStoppedEvent extends InputEvent {
+public class PanStoppedEvent extends TouchEvent {
 
     public final float x;
     public final float y;

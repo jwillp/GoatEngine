@@ -6,7 +6,7 @@ import com.goatgames.goatengine.input.events.InputEvent;
 /**
  * Fired when one of the analog stick is moved
  */
-public class GamePadAxisMoved extends InputEvent {
+public class GamePadAxisMoved extends GamePadInputEvent {
 
     public final String controllerId;
     public final GamePadMap.Button axisCode;

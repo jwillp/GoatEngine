@@ -5,7 +5,7 @@ import com.goatgames.goatengine.input.events.InputEvent;
 /**
  * Triggfered when mouse is scrolled
  */
-public class MouseScrolledEvent extends InputEvent {
+public class MouseScrolledEvent extends MouseEvent {
 
     public final int amount;
 

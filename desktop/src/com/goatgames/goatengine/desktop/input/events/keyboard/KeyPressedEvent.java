@@ -6,7 +6,7 @@ import com.goatgames.goatengine.input.events.InputEvent;
 /**
  * Triggered when a Key is pressed
  */
-public class KeyPressedEvent extends InputEvent {
+public class KeyPressedEvent extends KeyboardEvent {
 
     public final int key;
     public final String keyName;

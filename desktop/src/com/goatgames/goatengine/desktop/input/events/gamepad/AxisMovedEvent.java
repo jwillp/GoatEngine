@@ -6,7 +6,7 @@ import com.goatgames.goatengine.input.events.InputEvent;
 /**
  * When an axis is moved
  */
-public class AxisMovedEvent extends InputEvent {
+public class AxisMovedEvent extends GamePadInputEvent {
     public final int gamePadId;
     public final GamePadMap.Axis axis;
     public final float value;
