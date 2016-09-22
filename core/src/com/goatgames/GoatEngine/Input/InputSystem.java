@@ -8,12 +8,12 @@ import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Sort;
+import com.goatgames.gdk.eventdispatcher.IEventListener;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.gdk.eventdispatcher.Event;
-import com.goatgames.goatengine.eventmanager.GameEventListener;
 import com.goatgames.goatengine.graphicsrendering.ZIndexComponent;
 import com.goatgames.goatengine.input.events.EntityReleasedEvent;
 import com.goatgames.goatengine.input.events.EntityTouchedEvent;
@@ -25,7 +25,7 @@ import com.goatgames.goatengine.scriptingengine.UtilAPI;
 /**
  * System used to process some input related events. For example clicked and dragged entities
  */
-public class InputSystem extends EntitySystem implements GameEventListener{
+public class InputSystem extends EntitySystem implements IEventListener {
     /**
      * Used to initialise the system
      */

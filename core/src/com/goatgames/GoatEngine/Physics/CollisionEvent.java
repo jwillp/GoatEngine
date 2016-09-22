@@ -19,8 +19,6 @@ public class CollisionEvent extends EntityEvent {
     private final String entityA;
     private final String entityB;
 
-
-
     public enum Describer{
         BEGIN, //When a contact has occurred
         END,   //When a contact no longer occurs
@@ -68,6 +66,4 @@ public class CollisionEvent extends EntityEvent {
     public Describer getDescriber() {
         return describer;
     }
-
-
 }

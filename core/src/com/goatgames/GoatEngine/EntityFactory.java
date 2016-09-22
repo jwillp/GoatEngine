@@ -1,6 +1,6 @@
 package com.goatgames.goatengine;
 
-import com.goatgames.goatengine.ecs.ComponentMapper;
+import com.goatgames.goatengine.ecs.io.ComponentMapper;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityManager;

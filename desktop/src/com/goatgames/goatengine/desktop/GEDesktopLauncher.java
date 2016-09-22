@@ -4,11 +4,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.goatgames.goatengine.GoatGame;
 import com.goatgames.goatengine.GoatEngine;
-import com.goatgames.goatengine.desktop.input.DesktopInputManager;
-import com.goatgames.goatengine.eventmanager.GameEventListener;
-import com.goatgames.goatengine.files.GdxFileManager;
-import com.goatgames.goatengine.logger.GameLogger;
-import com.goatgames.gdk.GAssert;
+import com.goatgames.goatengine.eventmanager.EventListener;
 import com.goatgames.goatengine.utils.DesktopExceptionHandler;
 
 import javax.swing.*;
@@ -20,7 +16,7 @@ public class GEDesktopLauncher {
      * Runs the goat engine for a Desktop configuration
      * @param gameSpecificListener : For use by NCB, can be null
      */
-    public void run(GameEventListener gameSpecificListener){
+    public void run(EventListener gameSpecificListener){
         // SETUP SOME DESKTOP SPECIFIC
 
         // Catch exceptions to be displayed in a dialog

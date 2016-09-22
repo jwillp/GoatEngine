@@ -2,6 +2,7 @@ package com.goatgames.goatengine.input;
 
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
+import com.goatgames.gdk.eventdispatcher.Event;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.input.events.touch.*;
 
@@ -28,7 +29,7 @@ public class GestureManager implements GestureDetector.GestureListener {
      */
     @Override
     public boolean touchDown(float x, float y, int pointer, int button) {
-        GoatEngine.eventManager.fireEvent(new TouchDownEvent(x,y));
+        fireEvent(new TouchDownEvent(x,y));
         return false;
     }
 
@@ -44,13 +45,13 @@ public class GestureManager implements GestureDetector.GestureListener {
      */
     @Override
     public boolean tap(float x, float y, int count, int button) {
-        GoatEngine.eventManager.fireEvent(new TapEvent(x,y,count));
+        fireEvent(new TapEvent(x,y,count));
         return false;
     }
 
     @Override
     public boolean longPress(float x, float y) {
-        GoatEngine.eventManager.fireEvent(new LongPressEvent(x,y));
+        fireEvent(new LongPressEvent(x,y));
         return false;
     }
 
@@ -64,7 +65,7 @@ public class GestureManager implements GestureDetector.GestureListener {
      */
     @Override
     public boolean fling(float velocityX, float velocityY, int button) {
-        GoatEngine.eventManager.fireEvent(new FlingEvent(velocityX,velocityY));
+        fireEvent(new FlingEvent(velocityX,velocityY));
         return false;
     }
 
@@ -78,7 +79,7 @@ public class GestureManager implements GestureDetector.GestureListener {
      */
     @Override
     public boolean pan(float x, float y, float deltaX, float deltaY) {
-        GoatEngine.eventManager.fireEvent(new PanEvent(x,y,deltaX,deltaY));
+        fireEvent(new PanEvent(x,y,deltaX,deltaY));
         return false;
     }
 
@@ -92,7 +93,7 @@ public class GestureManager implements GestureDetector.GestureListener {
      */
     @Override
     public boolean panStop(float x, float y, int pointer, int button) {
-        GoatEngine.eventManager.fireEvent(new PanStoppedEvent(x,y));
+        fireEvent(new PanStoppedEvent(x,y));
         return false;
     }
 
@@ -105,7 +106,7 @@ public class GestureManager implements GestureDetector.GestureListener {
      */
     @Override
     public boolean zoom(float initialDistance, float distance) {
-        GoatEngine.eventManager.fireEvent(new ZoomEvent(initialDistance,distance));
+        fireEvent(new ZoomEvent(initialDistance,distance));
         return false;
     }
 
@@ -122,5 +123,11 @@ public class GestureManager implements GestureDetector.GestureListener {
     public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
         GoatEngine.eventManager.fireEvent(new PinchEvent(initialPointer1,initialPointer2,pointer1,pointer2));
         return false;
+    }
+
+
+    private void fireEvent(Event event){
+        // TODO get event manager as Reference in ctor?
+        GoatEngine.eventManager.fireEvent(event);
     }
 }

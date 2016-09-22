@@ -1,7 +1,7 @@
 package com.goatgames.gdk.logger;
 
-import com.goatgames.goatengine.files.IFileHandle;
-import com.goatgames.goatengine.files.IFileManager;
+import com.goatgames.gdk.io.IFileHandle;
+import com.goatgames.gdk.io.IFileManager;
 
 /**
  * Logger writing information in a text file

@@ -6,7 +6,8 @@ import com.goatgames.gdk.eventdispatcher.EventDispatcher;
 import com.goatgames.goatengine.eventmanager.engineevents.EngineEvent;
 
 /**
- * Manages Engine Events
+ * Class used by the engine to track all EngineEvents.
+ * This manager can only fire EngineEvents
  */
 public class EngineEventManager extends EventDispatcher {
 

@@ -1,7 +1,7 @@
 package com.goatgames.goatengine;
 
 import com.badlogic.gdx.Game;
-import com.goatgames.goatengine.eventmanager.GameEventListener;
+import com.goatgames.goatengine.eventmanager.EventListener;
 import com.goatgames.goatengine.eventmanager.engineevents.ScreenResizedEvent;
 
 
@@ -10,9 +10,9 @@ import com.goatgames.goatengine.eventmanager.engineevents.ScreenResizedEvent;
  */
 public class GoatGame extends Game{
 
-    private final GameEventListener gameSpecificListener;
+    private final EventListener gameSpecificListener;
 
-    public GoatGame(GameEventListener gameSpecificListener) {
+    public GoatGame(EventListener gameSpecificListener) {
         this.gameSpecificListener = gameSpecificListener;
     }
 

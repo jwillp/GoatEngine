@@ -4,8 +4,8 @@ import com.goatgames.gdk.logger.ILogger;
 import com.goatgames.gdk.logger.SystemOutLogger;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.config.engine.LoggerConfig;
-import com.goatgames.goatengine.files.IFileHandle;
-import com.goatgames.goatengine.files.IFileManager;
+import com.goatgames.gdk.io.IFileHandle;
+import com.goatgames.gdk.io.IFileManager;
 import com.goatgames.gdk.NotImplementedException;
 
 import java.nio.charset.StandardCharsets;

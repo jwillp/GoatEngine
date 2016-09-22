@@ -1,10 +1,10 @@
 package com.goatgames.goatengine.ecs.core;
 
 import com.badlogic.gdx.Gdx;
+import com.goatgames.gdk.eventdispatcher.IEventListener;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.eventmanager.EntityEvent;
 import com.goatgames.gdk.eventdispatcher.Event;
-import com.goatgames.goatengine.eventmanager.GameEventListener;
 
 import java.util.LinkedHashMap;
 
@@ -12,7 +12,7 @@ import java.util.LinkedHashMap;
  * A Class Managing multiple managers
  * This way any System could access another System's data
  */
-public class EntitySystemManager implements GameEventListener {
+public class EntitySystemManager implements IEventListener {
 
     private ECSManager ecsManager;
     private LinkedHashMap<Class, EntitySystem> systems;
@@ -90,6 +90,7 @@ public class EntitySystemManager implements GameEventListener {
      * @param event
      */
     public void fireEvent(Event event) {
+        // TODO use current screen or get Event Manager as a reference in ctor
         GoatEngine.eventManager.fireEvent(event);
     }
 

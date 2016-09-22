@@ -1,13 +1,14 @@
 package com.goatgames.goatengine.desktop;
 
+import com.goatgames.gdk.eventdispatcher.IEventListener;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.gdk.eventdispatcher.Event;
-import com.goatgames.goatengine.eventmanager.GameEventListener;
+import com.goatgames.goatengine.eventmanager.EventListener;
 
 /**
  * Game Specific Desktop Launcher example
  */
-public class GSDesktopLauncher implements GameEventListener{
+public class GSDesktopLauncher implements EventListener {
 
     public void run(){
         GEDesktopLauncher GEDesktopLauncher = new GEDesktopLauncher();

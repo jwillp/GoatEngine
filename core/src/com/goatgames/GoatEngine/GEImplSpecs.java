@@ -1,8 +1,8 @@
 package com.goatgames.goatengine;
 
 import com.goatgames.gdk.logger.ILogger;
-import com.goatgames.goatengine.ecs.prefabs.PrefabFactory;
-import com.goatgames.goatengine.files.IFileManager;
+import com.goatgames.goatengine.ecs.io.PrefabFactory;
+import com.goatgames.gdk.io.IFileManager;
 import com.goatgames.goatengine.input.InputManager;
 import com.goatgames.goatengine.screenmanager.IGameScreenLoader;
 import com.goatgames.goatengine.scriptingengine.common.IScriptingEngine;

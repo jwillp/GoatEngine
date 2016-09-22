@@ -3,6 +3,7 @@ package com.goatgames.goatengine.scriptingengine;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.goatgames.gdk.GAssert;
+import com.goatgames.gdk.eventdispatcher.IEventListener;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityManager;
@@ -10,7 +11,6 @@ import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.eventmanager.EntityEvent;
 import com.goatgames.gdk.eventdispatcher.Event;
 import com.goatgames.goatengine.eventmanager.GameEvent;
-import com.goatgames.goatengine.eventmanager.GameEventListener;
 import com.goatgames.goatengine.input.events.InputEvent;
 import com.goatgames.goatengine.physics.CollisionEvent;
 import com.goatgames.goatengine.scriptingengine.common.IEntityScript;
@@ -20,7 +20,7 @@ import java.util.Objects;
 /**
  * Entity System managing entity scripts
  */
-public class EntityScriptSystem extends EntitySystem implements GameEventListener  {
+public class EntityScriptSystem extends EntitySystem implements IEventListener {
 
     @Override
     public void init() {

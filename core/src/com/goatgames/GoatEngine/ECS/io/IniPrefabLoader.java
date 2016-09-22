@@ -3,7 +3,7 @@ package com.goatgames.goatengine.ecs.io;
 import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
-import com.goatgames.goatengine.files.IFileHandle;
+import com.goatgames.gdk.io.IFileHandle;
 import org.ini4j.Ini;
 
 import java.io.IOException;

@@ -13,7 +13,10 @@ public class ZIndexComponent extends EntityComponent{
 
     public final static String ID = "Z_INDEX_COMPONENT";
 
-    public int index; // z index, lowest the more in the background
+    /**
+     * z index, lowest the more in the background
+     */
+    public int index;
 
     public ZIndexComponent(NormalisedEntityComponent data) {
         super(data);

@@ -6,6 +6,7 @@ import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.goatgames.gdk.eventdispatcher.Event;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.input.InputManager;
 import com.goatgames.goatengine.desktop.input.events.gamepad.*;
@@ -78,7 +79,7 @@ public class GamePadManager implements ControllerListener{
             this.availableControllers.add(controller);
         }
         int gamePadId = getControllerId(controller);
-        GoatEngine.eventManager.fireEvent(new GamePadConnectedEvent(gamePadId));
+        fireEvent(new GamePadConnectedEvent(gamePadId));
         GoatEngine.logger.debug("CONTROLLER CONNECTED! " + controller.getName());
     }
 
@@ -93,7 +94,7 @@ public class GamePadManager implements ControllerListener{
             this.availableControllers.removeValue(controller, true);
         }
         int gamePadId = getControllerId(controller);
-        GoatEngine.eventManager.fireEvent(new GamePadDisconnectedEvent(gamePadId));
+        fireEvent(new GamePadDisconnectedEvent(gamePadId));
     }
 
     /**
@@ -109,7 +110,7 @@ public class GamePadManager implements ControllerListener{
         int gamePadId = getControllerId(controller);
         GamePadMap.Button button = translateButtonRawCode(gamePadId,buttonCode);
         virtualGamePads.get(gamePadId).pressButton(button);
-        GoatEngine.eventManager.fireEvent(new GamePadButtonPressedEvent(gamePadId, button,buttonCode));
+        fireEvent(new GamePadButtonPressedEvent(gamePadId, button,buttonCode));
         return true;
     }
 
@@ -126,7 +127,7 @@ public class GamePadManager implements ControllerListener{
         int gamePadId = getControllerId(controller);
         GamePadMap.Button button = translateButtonRawCode(gamePadId,buttonCode);
         virtualGamePads.get(gamePadId).releaseButton(button);
-        GoatEngine.eventManager.fireEvent(new GamePadButtonReleasedEvent(gamePadId, button,buttonCode));
+        fireEvent(new GamePadButtonReleasedEvent(gamePadId, button,buttonCode));
         return true;
     }
 
@@ -144,7 +145,7 @@ public class GamePadManager implements ControllerListener{
         int gamePadId = getControllerId(controller);
         GamePadMap.Axis axis =  translateAnalogStickRawCode(gamePadId,axisCode);
         if(axis == GamePadMap.Axis.UNMAPPED) return false; // As if nothing had happened
-        GoatEngine.eventManager.fireEvent(new AxisMovedEvent(gamePadId, axis, value));
+        fireEvent(new AxisMovedEvent(gamePadId, axis, value));
         return true;
     }
 
@@ -163,7 +164,7 @@ public class GamePadManager implements ControllerListener{
         int rawCode = povCode;
         GamePadMap.Button button = translateButtonRawCode(gamePadId,povCode);
         if(button == GamePadMap.Button.UNMAPPED) return false; // As if nothing happened
-        GoatEngine.eventManager.fireEvent(new DPADMovedEvent(gamePadId, rawCode, value));
+        fireEvent(new DPADMovedEvent(gamePadId, rawCode, value));
         return true;
     }
 
@@ -262,6 +263,12 @@ public class GamePadManager implements ControllerListener{
         }catch(IndexOutOfBoundsException e){
             return null;
         }
+    }
+
+
+    private void fireEvent(Event event){
+        // TODO get event manager as Reference in ctor?
+        GoatEngine.eventManager.fireEvent(event);
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.goatgames.goatengine.ecs.core;
 
 
+import com.goatgames.gdk.eventdispatcher.Event;
 import com.goatgames.goatengine.eventmanager.EntityEvent;
 
 public abstract class EntitySystem {
@@ -65,7 +66,7 @@ public abstract class EntitySystem {
      *
      * @param event
      */
-    public void fireEvent(EntityEvent event) {
+    public void fireEvent(Event event) {
         this.systemManager.fireEvent(event);
     }
 

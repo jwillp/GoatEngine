@@ -24,15 +24,13 @@ import com.brashmonkey.spriter.Loader;
 import com.brashmonkey.spriter.Spriter;
 import com.brashmonkey.spriter.gdxIntegration.LibGdxSpriterDrawer;
 import com.brashmonkey.spriter.gdxIntegration.LibGdxSpriterLoader;
+import com.goatgames.gdk.eventdispatcher.Event;
+import com.goatgames.gdk.eventdispatcher.IEventListener;
 import com.goatgames.goatengine.GoatEngine;
-import com.goatgames.goatengine.ai.AISystem;
-import com.goatgames.goatengine.ai.pathfinding.PathNode;
 import com.goatgames.goatengine.config.gamescreen.RenderingConfig;
 import com.goatgames.goatengine.ecs.common.TransformComponent;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
-import com.goatgames.gdk.eventdispatcher.Event;
-import com.goatgames.goatengine.eventmanager.GameEventListener;
 import com.goatgames.goatengine.eventmanager.engineevents.ScreenResizedEvent;
 import com.goatgames.goatengine.graphicsrendering.camera.CameraDebugRenderer;
 import com.goatgames.goatengine.graphicsrendering.camera.CameraSystem;
@@ -41,7 +39,7 @@ import com.goatgames.goatengine.physics.PhysicsSystem;
 /**
  * Responsible for displaying all visual elements on screen
  */
-public class RenderingSystem extends EntitySystem implements GameEventListener{
+public class RenderingSystem extends EntitySystem implements IEventListener {
 
     private Box2DDebugRenderer debugRenderer;
     private SpriteBatch spriteBatch = new SpriteBatch();
@@ -143,7 +141,7 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
     public void draw() {
 
         GoatEngine.graphicsEngine.clearScreen();
-        GoatEngine.eventManager.fireEvent(preRenderEvent);
+        fireEvent(preRenderEvent);
 
         cameraSystem.update(0); // TODO deltatime  + documenting why this is here instead of update?
         spriteBatch.setProjectionMatrix(cameraSystem.getMainCamera().combined);
@@ -188,10 +186,6 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
             renderPhysicsDebug();
         }
 
-        // PATHFINDING NODES //
-        renderPathfinding();
-
-
         // CAMERA DEBUG //
         if(renderingConfig.camera.debug){
             if(cameraDebugRenderer == null){
@@ -199,7 +193,7 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
             }
             cameraDebugRenderer.render();
         }
-        GoatEngine.eventManager.fireEvent(postRenderEvent);
+        fireEvent(postRenderEvent);
     }
 
 
@@ -294,58 +288,6 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
         );
         this.spriteBatch.end();
     }
-
-    /**
-     * Debug method to render the path and nodes of AI
-     */
-    private void renderPathfinding() {
-        if(!GoatEngine.gameScreenManager.getCurrentScreen().getConfig().rendering.pathfindingDebug) return;
-        float NODE_SIZE = 0.4f;
-        for(PathNode node: AISystem.pathfinder.nodes) {
-            shapeRenderer.setProjectionMatrix(this.cameraSystem.getMainCamera().combined);
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-            if (node.isWalkable)
-                shapeRenderer.setColor(Color.RED);
-            shapeRenderer.rect(node.position.x, node.position.y, NODE_SIZE, NODE_SIZE);
-            shapeRenderer.end();
-        }
-
-        //Pathfinding display
-        /*for (Entity e : this.getEntityManager().getEntitiesWithComponent(AIComponent.ID)){
-
-           // AIComponent aiComp = (AIComponent) e.getComponent(AIComponent.ID);
-
-            //NODES
-            for(PathNode node: aiComp.getCurrentPath()) {
-            for(PathNode node: AISystem.pathfinder.openNodes) {
-                shapeRenderer.setProjectionMatrix(this.cameraSystem.getMainCamera().combined);
-                shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-                if (node.isWalkable)
-                    shapeRenderer.setColor(Color.RED);
-                if(aiComp.getCurrentPath().indexOf(node) == 0)
-                    shapeRenderer.setColor(Color.GREEN);
-                if(aiComp.getCurrentPath().indexOf(node) == aiComp.getCurrentPath().size()-1)
-                    shapeRenderer.setColor(Color.MAGENTA);
-                shapeRenderer.rect(node.position.x, node.position.y, NODE_SIZE, NODE_SIZE);
-                shapeRenderer.end();
-            }
-
-            // PATH
-            /*for(PathNode node: aiComp.getCurrentPath()){
-                if(node.parent != null){
-                    shapeRenderer.begin(ShapeRenderer.ShapeType.Line); // shape type
-                    shapeRenderer.setColor(1, 0, 0, 1); // line's color
-
-                    float offset = NODE_SIZE/2;
-                    shapeRenderer.line(
-                            node.position.x + offset , node.position.y + offset,
-                            node.parent.position.x + offset, node.parent.position.y + offset
-                    );
-                    shapeRenderer.end();
-                }
-            }*/
-        }
-
 
     @Override
     public boolean onEvent(Event e) {

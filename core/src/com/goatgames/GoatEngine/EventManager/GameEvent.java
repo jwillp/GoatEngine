@@ -1,20 +1,12 @@
 package com.goatgames.goatengine.eventmanager;
 
 import com.goatgames.gdk.eventdispatcher.Event;
-import org.luaj.vm2.LuaTable;
 
 /**
  * Class used by scripts to send their own events in order to communicate.
- * Cross scripting communication
+ * Cross scripting communication.
+ * Events should inherit GameEvent for GameSpecific needs and not Engine Events.
+ * These should be considered different from EngineEvents
  */
 public class GameEvent extends Event {
-
-    public final String name;   // The name of the event
-    public final LuaTable data; // The data of the event this should always be a table
-
-
-    public GameEvent(String name, LuaTable data){
-        this.name = name;
-        this.data = data;
-    }
 }

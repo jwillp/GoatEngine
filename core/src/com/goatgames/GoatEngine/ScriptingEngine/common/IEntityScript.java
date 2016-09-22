@@ -1,5 +1,7 @@
 package com.goatgames.goatengine.scriptingengine.common;
 
+import com.goatgames.gdk.eventdispatcher.Event;
+import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.eventmanager.EntityEvent;
 import com.goatgames.goatengine.eventmanager.GameEvent;
@@ -80,4 +82,11 @@ public interface IEntityScript {
      * @return the name of the script
      */
     String getName();
+
+    /**
+     * Fires an event to the right event dispatcher for the current context
+     *
+     * @param event event to fire
+     */
+    void fireEvent(Event event);
 }

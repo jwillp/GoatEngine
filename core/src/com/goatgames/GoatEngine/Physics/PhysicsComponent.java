@@ -8,7 +8,7 @@ import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
-import com.goatgames.goatengine.ecs.JsonSerialiser;
+import com.goatgames.goatengine.ecs.io.JsonSerialiser;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
