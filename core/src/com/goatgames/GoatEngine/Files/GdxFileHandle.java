@@ -4,6 +4,8 @@ package com.goatgames.goatengine.files;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.goatgames.gdk.io.IFileHandle;
+import com.goatgames.gdk.io.IFileManager;
 
 import java.io.File;
 import java.io.InputStream;

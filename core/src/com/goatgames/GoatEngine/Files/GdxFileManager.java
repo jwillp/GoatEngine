@@ -1,6 +1,8 @@
 package com.goatgames.goatengine.files;
 
 import com.badlogic.gdx.files.FileHandle;
+import com.goatgames.gdk.io.IFileHandle;
+import com.goatgames.gdk.io.IFileManager;
 
 import java.util.ArrayList;
 import java.util.Iterator;
