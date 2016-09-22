@@ -1,7 +1,7 @@
-package com.goatgames.goatengine.utils;
+package com.goatgames.gdk;
 
 /**
- * Not implemented
+ * Not implemented. Used for unimplemented features
  */
 public class NotImplementedException extends RuntimeException {
 

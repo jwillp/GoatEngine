@@ -8,7 +8,7 @@ import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.goatengine.eventmanager.EntityEvent;
-import com.goatgames.goatengine.eventmanager.Event;
+import com.goatgames.gdk.eventdispatcher.Event;
 import com.goatgames.goatengine.eventmanager.GameEvent;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
 import com.goatgames.goatengine.input.events.InputEvent;
@@ -24,7 +24,7 @@ public class EntityScriptSystem extends EntitySystem implements GameEventListene
 
     @Override
     public void init() {
-        GoatEngine.eventManager.registerListener(this);
+        GoatEngine.eventManager.register(this); // TODO Use Current screen event listener
     }
 
     @Override
@@ -66,10 +66,10 @@ public class EntityScriptSystem extends EntitySystem implements GameEventListene
     }
 
     @Override
-    public void onEvent(Event e) {
+    public boolean onEvent(Event e) {
         EntityManager entityManager = getEntityManager();
         if (!GAssert.notNull(entityManager, "entityManager == null")) {
-            return;
+            return false;
         }
         for(Entity entity: entityManager.getEntitiesWithComponent(EntityScriptComponent.ID)){
             EntityScriptComponent scriptComp = (EntityScriptComponent)entity.getComponent(EntityScriptComponent.ID);
@@ -95,5 +95,6 @@ public class EntityScriptSystem extends EntitySystem implements GameEventListene
             }
             entityManager.freeEntityObject(entity);
         }
+        return false;
     }
 }

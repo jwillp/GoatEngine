@@ -5,7 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
-import com.goatgames.goatengine.utils.NotImplementedException;
+import com.goatgames.gdk.NotImplementedException;
 
 import java.util.ArrayList;
 

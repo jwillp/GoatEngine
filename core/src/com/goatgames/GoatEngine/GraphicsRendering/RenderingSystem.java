@@ -31,9 +31,9 @@ import com.goatgames.goatengine.config.gamescreen.RenderingConfig;
 import com.goatgames.goatengine.ecs.common.TransformComponent;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
-import com.goatgames.goatengine.eventmanager.Event;
+import com.goatgames.gdk.eventdispatcher.Event;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
-import com.goatgames.goatengine.eventmanager.engineevents.EngineEvents;
+import com.goatgames.goatengine.eventmanager.engineevents.ScreenResizedEvent;
 import com.goatgames.goatengine.graphicsrendering.camera.CameraDebugRenderer;
 import com.goatgames.goatengine.graphicsrendering.camera.CameraSystem;
 import com.goatgames.goatengine.physics.PhysicsSystem;
@@ -114,8 +114,8 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
         postProcessor.addEffect(bloom);
 
 
-        GoatEngine.eventManager.registerListener(this);
-        GoatEngine.logger.info("GraphicsRendering System initalised");
+        GoatEngine.eventManager.register(this); // TODO use current screen event manager
+        GoatEngine.logger.info("GraphicsRendering System initialised");
     }
 
     /**
@@ -208,7 +208,7 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
         spriteBatch.dispose();
         shapeRenderer.dispose();
         postProcessor.dispose();
-        GoatEngine.eventManager.unregisterListener(this);
+        GoatEngine.eventManager.register(this);
     }
 
 
@@ -348,13 +348,14 @@ public class RenderingSystem extends EntitySystem implements GameEventListener{
 
 
     @Override
-    public void onEvent(Event e) {
-        if(e instanceof EngineEvents.ScreenResizedEvent){
-            onScreenResize((EngineEvents.ScreenResizedEvent) e);
+    public boolean onEvent(Event e) {
+        if(e instanceof ScreenResizedEvent){
+            onScreenResize((ScreenResizedEvent) e);
         }
+        return false;
     }
 
-    private void onScreenResize(EngineEvents.ScreenResizedEvent e) {
+    private void onScreenResize(ScreenResizedEvent e) {
         this.lightSystem.onResize(e.newWidth, e.newHeight);
         if(GoatEngine.config.dev_ctx){
             Gdx.graphics.setTitle(GoatEngine.config.game.name + "[" + e.newWidth + "x" +  e.newHeight + "]");

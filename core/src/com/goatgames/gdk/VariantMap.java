@@ -8,7 +8,6 @@ import java.util.Map;
  */
 public class VariantMap {
 
-
     /**
      * Represents the data in the map
      */
@@ -44,25 +43,35 @@ public class VariantMap {
         return new Variant(value);
     }
 
+    /**
+     * Returns a certain value associated with name, if none for specified name returns the passed defaultValue
+     *
+     * @param name name of the value to retrieve
+     * @param defaultValue default value to return in case the value does not exist for specified name
+     * @return the variant value or default value.
+     */
     public Variant getOrDefault(String name, Variant defaultValue){
         return values.containsKey(name) ? new Variant(values.get(name)) : defaultValue;
     }
 
     /**
      * Sets the content of the map
-     * @param values
+     * @param values the values to set
      */
     public void setValues(Map<String, String> values) {
         this.values = values;
     }
 
-
+    /**
+     * Clears all the values from the map, leaving it empty
+     */
     public void clear(){
         this.values.clear();
     }
 
     /**
-     * Returns wether or not a value is associated with specified name
+     * Returns whether or not a value is associated with a specified name
+     *
      * @param name name of the value
      * @return true if value exists, false otherwise
      */
@@ -70,10 +79,15 @@ public class VariantMap {
         return values.containsKey(name);
     }
 
+    /**
+     * Returns all the values as map where the keys are the names of the values
+     * and the values of the map the VariantValues as Strings
+     *
+     * @return map representing the values as strings
+     */
     public Map<String, String> getValues() {
         return values;
     }
-
 
     /**
      * Represents template variable
@@ -85,7 +99,7 @@ public class VariantMap {
         /**
          * Constructs a string based variant
          *
-         * @param value
+         * @param value value as a string
          */
         public Variant(String value) {
             this.value = value;
@@ -94,16 +108,16 @@ public class VariantMap {
         /**
          * Construct an integer based variant
          *
-         * @param value
+         * @param value integer value
          */
         public Variant(int value) {
             this(String.valueOf(value));
         }
 
         /**
-         * Consturct a boolean based variant
+         * Construct a boolean based variant
          *
-         * @param value
+         * @param value boolean value
          */
         public Variant(boolean value) {
             this(String.valueOf(value));
@@ -112,7 +126,7 @@ public class VariantMap {
         /**
          * Construct a float based variant
          *
-         * @param value
+         * @param value float value
          */
         public Variant(float value) {
             this(String.valueOf(value));
@@ -128,47 +142,31 @@ public class VariantMap {
             return Boolean.parseBoolean(value);
         }
 
+        /**
+         * Returns the current value as an Int
+         *
+         * @return the value as an int
+         */
         public int getInt() {
             return Integer.parseInt(value);
         }
 
+        /**
+         * Returns the current value as a float
+         *
+         * @return value as a float
+         */
         public float getFloat() {
             return Float.parseFloat(value);
         }
 
+        /**
+         * Returns the current value as a String
+         *
+         * @return value as a string
+         */
         public String getString() {
             return value;
         }
-
-        /**
-         * Indicates if an given string represents an integer
-         *
-         * @param str string to test
-         * @return true if string represents integer, otherwise false
-         */
-        private static boolean isInteger(String str) {
-            if (str == null) {
-                return false;
-            }
-            int length = str.length();
-            if (length == 0) {
-                return false;
-            }
-            int i = 0;
-            if (str.charAt(0) == '-') {
-                if (length == 1) {
-                    return false;
-                }
-                i = 1;
-            }
-            for (; i < length; i++) {
-                char c = str.charAt(i);
-                if (c < '0' || c > '9') {
-                    return false;
-                }
-            }
-            return true;
-        }
-
     }
 }

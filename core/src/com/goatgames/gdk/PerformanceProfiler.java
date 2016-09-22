@@ -1,7 +1,9 @@
-package com.goatgames.goatengine;
+package com.goatgames.gdk;
 
 import com.badlogic.gdx.utils.LongArray;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.goatgames.gdk.logger.ILogger;
+import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.utils.Timer;
 
 /**
@@ -15,13 +17,25 @@ import com.goatgames.goatengine.utils.Timer;
  */
 public class PerformanceProfiler {
 
-    // Key Task name, value task instance
+    /**
+     * Key Task name, value task instance
+     */
     ObjectMap<String,Task> tasks = new ObjectMap<>();
 
-    public PerformanceProfiler(){}
+    /**
+     * Logger used to dump the results.
+     * The results are dumped in the info level
+     */
+    private final ILogger logger;
 
+    /**
+     * Timer used not to log everything all the time
+     */
     private Timer logTimer = new Timer(Timer.HALF_A_SECOND);
 
+    public PerformanceProfiler(ILogger logger){
+        this.logger = logger;
+    }
 
     /**
      * Starts the timing of a task
@@ -46,14 +60,13 @@ public class PerformanceProfiler {
      */
     public String getStats(String taskName){
         Task  task = tasks.get(taskName);
-        return String.format("[PERFO] - %s : Average: %sms | Shortest: %sms | Longuest %sms",
+        return String.format("[PERFO] - %s : Average: %sms | Shortest: %sms | Longest %sms",
                 taskName,
                 task.getAverageTime(),
                 task.getShortestTime(),
                 task.getLongestTime()
         );
     }
-
 
     /**
      * Logs the performances of all tracked tasks
@@ -68,10 +81,9 @@ public class PerformanceProfiler {
 
     public void dumpPerformances() {
         for(String taskName: tasks.keys()){
-            GoatEngine.logger.debug(getStats(taskName));
+            logger.info(getStats(taskName));
         }
     }
-
 
     /**
      * Stops trakcing a task
@@ -102,7 +114,7 @@ public class PerformanceProfiler {
         }
 
         /**
-         * Returns the longuest time for the current task
+         * Returns the longest time for the current task
          */
         public long getLongestTime(){
             return longestTime;
@@ -114,7 +126,6 @@ public class PerformanceProfiler {
         public long getShortestTime(){
             return shortestTime;
         }
-
 
         /**
          * Returns the average time it takes to execute task

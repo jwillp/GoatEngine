@@ -9,7 +9,7 @@ import com.goatgames.goatengine.files.IFileManager;
 public class PlainTextLogger extends SystemOutLogger {
 
     private final IFileManager fileManager;  // File manager to use for locating the log file and handling it
-    private IFileHandle fileHandle;         // Represents the file handle on the log file
+    private IFileHandle fileHandle;          // Represents the file handle on the log file
 
     public PlainTextLogger(String logFilePath, IFileManager fileManager){
         this.fileManager = fileManager;

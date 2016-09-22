@@ -4,7 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
- * Logger displaying log information directly in stdout
+ * Logger displaying log information directly in std out.
+ * Useful for desktop application while developing. Instead of creating
+ * tons and tons of log files during dev time.
  */
 public class SystemOutLogger implements ILogger {
     @Override

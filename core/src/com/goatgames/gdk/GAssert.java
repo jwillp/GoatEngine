@@ -9,7 +9,7 @@ import com.goatgames.goatengine.GoatEngine;
  */
 public class GAssert{
 
-    public static ILogger logger = new SystemOutLogger();
+    private static ILogger logger = new SystemOutLogger();
 
     /**
      * Assert that test is true otherwise log failure
@@ -106,5 +106,13 @@ public class GAssert{
         if(logger != null) {
             GoatEngine.logger.error("ASSERTION FAIL " + messageOnFail + " in: " + fileName);
         }
+    }
+
+    public static ILogger getLogger() {
+        return logger;
+    }
+
+    public static void setLogger(ILogger logger) {
+        GAssert.logger = logger;
     }
 }

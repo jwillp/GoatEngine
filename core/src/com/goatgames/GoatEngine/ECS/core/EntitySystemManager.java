@@ -3,7 +3,7 @@ package com.goatgames.goatengine.ecs.core;
 import com.badlogic.gdx.Gdx;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.eventmanager.EntityEvent;
-import com.goatgames.goatengine.eventmanager.Event;
+import com.goatgames.gdk.eventdispatcher.Event;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
 
 import java.util.LinkedHashMap;
@@ -94,11 +94,12 @@ public class EntitySystemManager implements GameEventListener {
     }
 
     @Override
-    public void onEvent(Event e) {
+    public boolean onEvent(Event e) {
         for (EntitySystem system : this.systems.values()) {
             if (e instanceof EntityEvent)  // TODO this is a Quickfix
                 system.onEntityEvent((EntityEvent) e);
         }
+        return false;
     }
 
     public void draw() {

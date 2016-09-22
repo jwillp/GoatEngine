@@ -1,6 +1,6 @@
 package com.goatgames.goatengine.utils;
 
-import com.goatgames.goatengine.utils.math.GameMath;
+import com.goatgames.gdk.GMath;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -31,7 +31,7 @@ public class TimerTest {
             final long timerRunningTime = timer.getRunningTime();
             System.out.println("test rt: " + runTime);
             System.out.println("timer rt: " + timerRunningTime);
-            final boolean test = GameMath.isMoreOrLess(timerRunningTime, runTime, 5);
+            final boolean test = GMath.isMoreOrLess(timerRunningTime, runTime, 5);
             System.out.println("test: " + test);
             System.out.println(" ");
             assertTrue(test);
@@ -52,7 +52,7 @@ public class TimerTest {
         while (!timer.isDone()){
             long end = start + delay;
             long remaining = end - System.currentTimeMillis();
-            assertTrue(GameMath.isMoreOrLess(timer.getRemainingTime(), remaining, 5));
+            assertTrue(GMath.isMoreOrLess(timer.getRemainingTime(), remaining, 5));
         }
         assertTrue(timer.getRemainingTime() == 0);
     }

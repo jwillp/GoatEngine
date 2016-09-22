@@ -1,7 +1,7 @@
 package com.goatgames.goatengine.desktop;
 
 import com.goatgames.goatengine.GoatEngine;
-import com.goatgames.goatengine.eventmanager.Event;
+import com.goatgames.gdk.eventdispatcher.Event;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
 
 /**
@@ -20,10 +20,8 @@ public class GSDesktopLauncher implements GameEventListener{
     }
 
     @Override
-    public void onEvent(Event e) {
+    public boolean onEvent(Event e) {
         GoatEngine.logger.debug(e.toString());
+        return false;
     }
-
-
-
 }

@@ -1,9 +1,9 @@
 package com.goatgames.goatengine.input.events;
 
-import com.goatgames.goatengine.eventmanager.Event;
+import com.goatgames.goatengine.eventmanager.engineevents.EngineEvent;
 
 /**
  * Input related events
  */
-public abstract class InputEvent extends Event {
+public abstract class InputEvent extends EngineEvent {
 }

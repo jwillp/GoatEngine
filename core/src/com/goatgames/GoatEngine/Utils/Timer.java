@@ -3,17 +3,26 @@ package com.goatgames.goatengine.utils;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * A poll based timer to be used in game loop ticks.
+ */
 public class Timer {
-    public static final int INFINITE = Integer.MAX_VALUE; //To put the timer to be infinite and never be done
+
+    /**
+     * Used when the timer should never end. Useful for Chronos
+     */
+    public static final int INFINITE = Integer.MAX_VALUE;
+
+
     public static final int ONE_SECOND = 1000;
     public static final int HALF_A_SECOND = ONE_SECOND/2;
     public static final int THIRD_OF_A_SECOND = ONE_SECOND/2;
 
-    public static final int THREE_SECONDS = ONE_SECOND*3;
-    public static final int FIVE_SECONDS = ONE_SECOND*5;
-    public static final int TEN_SECONDS = ONE_SECOND*10;
+    public static final int THREE_SECONDS = ONE_SECOND * 3;
+    public static final int FIVE_SECONDS = ONE_SECOND * 5;
+    public static final int TEN_SECONDS = ONE_SECOND * 10;
 
-    public static final int ONE_MINUTE = ONE_SECOND*60;
+    public static final int ONE_MINUTE = ONE_SECOND * 60;
 
     /**
      * Returns the number of milliseconds for a certain number of seconds
@@ -57,12 +66,18 @@ public class Timer {
         this(INFINITE);
     }
 
+    /**
+     * Starts the timer
+     */
     public void start(){
         this.startTime = currentTimeMillis();
         this.lastTime = startTime;
     }
 
-
+    /**
+     * Indicates whether or not the timer is done
+     * @return true if done, false otherwise
+     */
     public boolean isDone() {
         if (startTime == -1 || lastTime == -1) {
             //throw new TimerException("The Timer was not started, call function start() before using Timer");
@@ -71,16 +86,18 @@ public class Timer {
         return getDeltaTime() >= this.delay;
     }
 
-
     /**
-     * Returns the time in seconds since the beginning of the timer
-     * i.e. since the call to the start function
-     * @return
+     * Returns the time in seconds since the beginning of the timer i.e. since the call to the start function
+     *
+     * @return running time
      */
     public long getRunningTime(){
         return currentTimeMillis() - startTime;
     }
 
+    /**
+     * Resets the timer for a subsequent use.
+     */
     public void reset(){
         this.startTime = currentTimeMillis();
     }
@@ -95,6 +112,7 @@ public class Timer {
 
     /**
      * Returns the time remaining
+     *
      * @return
      */
     public long getRemainingTime(){
@@ -111,6 +129,7 @@ public class Timer {
 
     /**
      * Returns a number between 0 and 1 representing the current progression
+     *
      * @return
      */
     public float getProgression() {
@@ -141,6 +160,7 @@ public class Timer {
     /**
      * Converts milliseconds to a number of seconds
      * @param ms nbMilliseconds to convert
+     *
      * @return
      */
     public static int msToSeconds(int ms){
@@ -150,6 +170,7 @@ public class Timer {
     /**
      * Converts milliseconds to a number of minutes
      * @param ms nbMilliseconds to convert
+     *
      * @return
      */
     public static int msToMinutes(int ms){
@@ -160,6 +181,7 @@ public class Timer {
     /**
      * Converts milliseconds to a number of hours
      * @param ms nbMilliseconds to convert
+     *
      * @return
      */
     public static int msToHours(int ms){

@@ -5,7 +5,7 @@ import com.goatgames.gdk.GAssert;
 import com.goatgames.gdk.logger.ILogger;
 import com.goatgames.goatengine.config.engine.GEConfig;
 import com.goatgames.goatengine.ecs.prefabs.PrefabFactory;
-import com.goatgames.goatengine.eventmanager.EventManager;
+import com.goatgames.goatengine.eventmanager.EngineEventManager;
 import com.goatgames.goatengine.eventmanager.engineevents.LateUpdateEvent;
 import com.goatgames.goatengine.files.IFileManager;
 import com.goatgames.goatengine.graphicsrendering.GraphicsEngine;
@@ -50,7 +50,7 @@ public class GoatEngine {
     public static GameScreenManager gameScreenManager;
 
     //Event Manager
-    public static EventManager eventManager;
+    public static EngineEventManager eventManager;
 
     //Music and Sound Manager
     public static AudioMixer audioMixer;
@@ -118,7 +118,7 @@ public class GoatEngine {
         inputManager = specs.getInputManager();
         scriptingEngine = specs.getScriptingEngine();
 
-        GAssert.logger = logger;
+        GAssert.setLogger(logger);
 
         performanceTimer.start();
 
@@ -143,7 +143,7 @@ public class GoatEngine {
 
 
         // Event Manager
-        eventManager = new EventManager();
+        eventManager = new EngineEventManager();
         GoatEngine.logger.info(" > Event Manager initialised "+ performanceTimer.getDeltaTime() + "ms");
         //eventManager.registerListener(profiler);
         performanceTimer.reset();
@@ -189,7 +189,7 @@ public class GoatEngine {
             if(!initialised){
                 throw new EngineUninitializedException();
             }
-            //eventManager.fireEvent(new EngineEvents.GameTickBeginEvent(), false);
+            //eventManager.fireEvent(new EngineEvent.GameTickBeginEvent(), false);
 
             updateDevCtxStats();
 
@@ -197,17 +197,17 @@ public class GoatEngine {
             float deltaTime = Gdx.graphics.getDeltaTime();
             if(gameScreenManager.isRunning()){
                 //Game Screen Manager
-                //eventManager.fireEvent(new EngineEvents.LogicTickBeginEvent(), false);
+                //eventManager.fireEvent(new EngineEvent.LogicTickBeginEvent(), false);
                 gameScreenManager.handleEvents();
                 gameScreenManager.update(deltaTime);
-                //eventManager.fireEvent(new EngineEvents.LogicTickEndEvent(), false);
+                //eventManager.fireEvent(new EngineEvent.LogicTickEndEvent(), false);
                 resourceManager.update();
-                eventManager.fireEvent(lateUpdateEvent,false);
+                eventManager.fireEvent(lateUpdateEvent);
             }
             gameScreenManager.draw(deltaTime);
-            //eventManager.fireEvent(new EngineEvents.RenderTickEndEvent(), false);
+            //eventManager.fireEvent(new EngineEvent.RenderTickEndEvent(), false);
 
-            //eventManager.fireEvent(new EngineEvents.GameTickEndEvent());
+            //eventManager.fireEvent(new EngineEvent.GameTickEndEvent());
         }else{
             Gdx.app.exit();
         }

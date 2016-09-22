@@ -6,7 +6,7 @@ import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.config.engine.LoggerConfig;
 import com.goatgames.goatengine.files.IFileHandle;
 import com.goatgames.goatengine.files.IFileManager;
-import com.goatgames.goatengine.utils.NotImplementedException;
+import com.goatgames.gdk.NotImplementedException;
 
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;

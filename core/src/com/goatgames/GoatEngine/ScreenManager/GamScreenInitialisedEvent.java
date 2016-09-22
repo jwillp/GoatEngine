@@ -1,6 +1,6 @@
 package com.goatgames.goatengine.screenmanager;
 
-import com.goatgames.goatengine.eventmanager.Event;
+import com.goatgames.gdk.eventdispatcher.Event;
 
 /**
  * Triggered when a GameScreen is initialised

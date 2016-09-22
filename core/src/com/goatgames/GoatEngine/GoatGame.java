@@ -2,7 +2,7 @@ package com.goatgames.goatengine;
 
 import com.badlogic.gdx.Game;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
-import com.goatgames.goatengine.eventmanager.engineevents.EngineEvents;
+import com.goatgames.goatengine.eventmanager.engineevents.ScreenResizedEvent;
 
 
 /**
@@ -25,7 +25,7 @@ public class GoatGame extends Game{
 
         // NCB: Register game specific listener if any
         if(this.gameSpecificListener != null)
-            GoatEngine.eventManager.registerListener(this.gameSpecificListener);
+            GoatEngine.eventManager.register(this.gameSpecificListener);
     }
 
     @Override
@@ -41,6 +41,6 @@ public class GoatGame extends Game{
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-        GoatEngine.eventManager.fireEvent(new EngineEvents.ScreenResizedEvent(width, height));
+        GoatEngine.eventManager.fireEvent(new ScreenResizedEvent(width, height));
     }
 }

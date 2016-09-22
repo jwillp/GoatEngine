@@ -10,13 +10,11 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Sort;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
-import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
-import com.goatgames.goatengine.eventmanager.Event;
+import com.goatgames.gdk.eventdispatcher.Event;
 import com.goatgames.goatengine.eventmanager.GameEventListener;
 import com.goatgames.goatengine.graphicsrendering.ZIndexComponent;
-import com.goatgames.goatengine.graphicsrendering.camera.CameraComponent;
 import com.goatgames.goatengine.input.events.EntityReleasedEvent;
 import com.goatgames.goatengine.input.events.EntityTouchedEvent;
 import com.goatgames.goatengine.input.events.InputClickPressEvent;
@@ -33,7 +31,7 @@ public class InputSystem extends EntitySystem implements GameEventListener{
      */
     @Override
     public void init() {
-        GoatEngine.eventManager.registerListener(this);
+        GoatEngine.eventManager.register(this);
     }
 
     /**
@@ -48,17 +46,19 @@ public class InputSystem extends EntitySystem implements GameEventListener{
 
     @Override
     public void deInit() {
-        GoatEngine.eventManager.unregisterListener(this);
+        GoatEngine.eventManager.register(this);
     }
 
     @Override
-    public void onEvent(Event e) {
+    public boolean onEvent(Event e) {
         if(e instanceof InputClickPressEvent){
-            onInputClickPress((InputClickPressEvent) e); return;
+            onInputClickPress((InputClickPressEvent) e); return false;
         }
         if(e instanceof InputClickReleaseEvent){
-            onInputClickRelease((InputClickReleaseEvent) e); return;
+            onInputClickRelease((InputClickReleaseEvent) e); return false;
         }
+
+        return false;
     }
 
 

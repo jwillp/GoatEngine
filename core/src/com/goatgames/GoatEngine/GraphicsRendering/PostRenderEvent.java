@@ -1,9 +1,9 @@
 package com.goatgames.goatengine.graphicsrendering;
 
-import com.goatgames.goatengine.eventmanager.Event;
+import com.goatgames.goatengine.eventmanager.engineevents.EngineEvent;
 
 /**
  * Called after the camera has rendered the scene
  */
-public class PostRenderEvent extends Event{
+public class PostRenderEvent extends EngineEvent {
 }
