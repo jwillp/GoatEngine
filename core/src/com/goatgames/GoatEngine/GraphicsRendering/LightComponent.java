@@ -1,10 +1,11 @@
 package com.goatgames.goatengine.graphicsrendering;
 
-import com.badlogic.gdx.graphics.Color;
 import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 
 /**
- * Used to display simple fake lights (alpha blending)
+ * Used to display simple fake lights.
+ * Which are simple sprites with alpha blending.
+ * Hence the extend sprite Component
  */
 public class LightComponent extends SpriteComponent {
 
@@ -12,22 +13,6 @@ public class LightComponent extends SpriteComponent {
 
     public LightComponent(NormalisedEntityComponent data) {
         super(data);
-    }
-
-    @Override
-    public NormalisedEntityComponent normalise() {
-        NormalisedEntityComponent data = super.normalise();
-        data.put("color", color.toString());
-        return data;
-    }
-
-    @Override
-    public void denormalise(NormalisedEntityComponent data) {
-        super.denormalise(data);
-        // Parse Color
-        String colorHex = data.get("color").replace("#","");
-        if(colorHex.length() == 6) colorHex += "FF";
-        this.color = new Color(Color.valueOf(colorHex));
     }
 
     @Override

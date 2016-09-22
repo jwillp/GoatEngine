@@ -74,7 +74,7 @@ public class GraphicsEngine{
     }
 
 
-    public void beginrender(){
+    public void beginRender(){
         // TODO Spritebatch call
     }
 
@@ -90,10 +90,8 @@ public class GraphicsEngine{
     }
 
     public void setFullScreen(boolean fullScreen){
-
+        Graphics.DisplayMode mode = Gdx.graphics.getDisplayMode();
+        Gdx.graphics.setFullscreenMode(mode);
     }
-
-
-
 
 }
