@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.utils;
+package com.goatgames.goatengine.desktop;
 
 import com.ezware.dialog.task.TaskDialogs;
 import com.goatgames.goatengine.GoatEngine;

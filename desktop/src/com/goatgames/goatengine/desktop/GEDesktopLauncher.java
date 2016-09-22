@@ -5,7 +5,6 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.goatgames.goatengine.GoatGame;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.eventmanager.EventListener;
-import com.goatgames.goatengine.utils.DesktopExceptionHandler;
 
 import javax.swing.*;
 

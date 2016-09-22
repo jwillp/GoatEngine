@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.utils;
+package com.goatgames.goatengine.desktop;
 
 import javax.swing.*;
 
