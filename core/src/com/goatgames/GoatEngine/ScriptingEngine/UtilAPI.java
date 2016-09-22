@@ -212,10 +212,9 @@ public class UtilAPI implements IScriptingAPI {
         if (!GAssert.that(entity.hasComponent(PhysicsComponent.ID), "entity does not have PhysicsComponent"))
             return;
         PhysicsComponent comp = (PhysicsComponent) entity.getComponent(PhysicsComponent.ID);
-        float resultingVelocity = comp.getVelocity().x + speed;
-        if(Math.abs(resultingVelocity) > maxSpeed){
-            resultingVelocity = (resultingVelocity > 0) ? maxSpeed : -maxSpeed;
-        }
+
+        maxSpeed = Math.abs(maxSpeed);
+        float resultingVelocity = MathUtils.clamp(comp.getVelocity().x + speed, -maxSpeed, maxSpeed);
         comp.setVelocity(resultingVelocity, comp.getVelocity().y);
     }
 
@@ -230,10 +229,8 @@ public class UtilAPI implements IScriptingAPI {
         if (!GAssert.that(entity.hasComponent(PhysicsComponent.ID), "entity does not have PhysicsComponent"))
             return;
         PhysicsComponent comp = (PhysicsComponent) entity.getComponent(PhysicsComponent.ID);
-        float resultingVelocity = comp.getVelocity().y + speed;
-        if(Math.abs(resultingVelocity) > maxSpeed){
-            resultingVelocity = resultingVelocity > 0 ? maxSpeed : -maxSpeed;
-        }
+        maxSpeed = Math.abs(maxSpeed);
+        float resultingVelocity = MathUtils.clamp(comp.getVelocity().y + speed, -maxSpeed, maxSpeed);
         comp.setVelocity(comp.getVelocity().x, resultingVelocity);
     }
 
