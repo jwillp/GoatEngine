@@ -16,7 +16,7 @@ public class ZIndexComponent extends EntityComponent{
     /**
      * z index, lowest the more in the background
      */
-    public int index;
+    private int zIndex;
 
     public ZIndexComponent(NormalisedEntityComponent data) {
         super(data);
@@ -25,18 +25,29 @@ public class ZIndexComponent extends EntityComponent{
     @Override
     public NormalisedEntityComponent normalise() {
         NormalisedEntityComponent data = super.normalise();
-        data.put("z_index", String.valueOf(this.index));
+        data.put("z_index", String.valueOf(this.zIndex));
         return data;
     }
 
     @Override
     public void denormalise(NormalisedEntityComponent data){
-        index = Integer.parseInt(data.get("z_index"));
+        zIndex = Integer.parseInt(data.get("z_index"));
     }
 
     @Override
     public String getId() {
         return ID;
+    }
+
+    /**
+     * z index, lowest the more in the background
+     */
+    public int getzIndex() {
+        return zIndex;
+    }
+
+    public void setzIndex(int zIndex) {
+        this.zIndex = zIndex;
     }
 
     /**
@@ -49,7 +60,7 @@ public class ZIndexComponent extends EntityComponent{
             ZIndexComponent s1 = (ZIndexComponent) e1.getComponent(ZIndexComponent.ID);
             ZIndexComponent s2 = (ZIndexComponent) e2.getComponent(ZIndexComponent.ID);
 
-            return (s2.index - s1.index) < 0 ? 1 : -1;
+            return (s2.zIndex - s1.zIndex) < 0 ? 1 : -1;
         }
     }
 }
