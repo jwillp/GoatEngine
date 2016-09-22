@@ -7,7 +7,6 @@ public class Trigger {
 
     private Boolean value = false;
 
-
     public Boolean getValue() {
         return value;
     }

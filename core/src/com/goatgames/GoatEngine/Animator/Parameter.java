@@ -18,5 +18,4 @@ public class Parameter {
     public void setValue(Comparable value) {
         this.value = value;
     }
-
 }

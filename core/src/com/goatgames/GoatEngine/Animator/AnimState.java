@@ -15,7 +15,6 @@ public class AnimState {
         this.animation = animation;
     }
 
-
     public AnimState addTransition(Transition t) {
         this.transitions.add(t);
         return this;
@@ -26,7 +25,6 @@ public class AnimState {
         return this;
     }
 
-
     public ArrayList<Transition> getTransitions() {
         return transitions;
     }
@@ -34,6 +32,4 @@ public class AnimState {
     public String getAnimation() {
         return animation;
     }
-
-
 }

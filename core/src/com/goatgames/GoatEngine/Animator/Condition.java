@@ -6,7 +6,6 @@ package com.goatgames.goatengine.animator;
  */
 public class Condition {
 
-
     private Parameter parameter;  //left
     private ConditionOperation operation;  //the operation to do
     private Comparable comparatorValue;
@@ -141,11 +140,9 @@ public class Condition {
         throw new UnsupportedOperationException(operation.toString() + " cannot be applied to " + value.getClass().toString());
     }
 
-
     public enum ConditionOperation {
         GREATER_THAN,
         LESS_THAN,
         EQUALS,
     }
-
 }

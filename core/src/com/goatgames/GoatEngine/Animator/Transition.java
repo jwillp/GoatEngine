@@ -27,7 +27,6 @@ public class Transition {
         return this.condition.evaluate();
     }
 
-
     public AnimState getCurrentState() {
         return currentState;
     }
@@ -47,6 +46,4 @@ public class Transition {
     public Condition getCondition() {
         return condition;
     }
-
-
 }
