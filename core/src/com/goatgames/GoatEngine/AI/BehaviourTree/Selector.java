@@ -1,6 +1,6 @@
 package com.goatgames.goatengine.ai.behaviourtree;
 
-import java.util.Hashtable;
+import java.util.Map;
 
 /**
  *  Check which child to run in priority order until the
@@ -15,7 +15,7 @@ import java.util.Hashtable;
 public class Selector extends Composite {
 
     @Override
-    public State update(Hashtable<String, Object> blackBoard) {
+    public State update(Map<String, Object> blackBoard) {
 
         for(Node node: this.children){
             state = node.tick(blackBoard);

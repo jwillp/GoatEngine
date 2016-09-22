@@ -1,6 +1,6 @@
 package com.goatgames.goatengine.ai.behaviourtree;
 
-import java.util.Hashtable;
+import java.util.Map;
 
 /**
  * Child are evaluated one by one (from left to right)
@@ -13,7 +13,7 @@ import java.util.Hashtable;
  * */
 public class Sequence extends Composite {
 
-    public State update(Hashtable<String, Object> blackBoard) {
+    public State update(Map<String, Object> blackBoard) {
         State state;
         for(Node node: this.children){
             state = node.tick(blackBoard);

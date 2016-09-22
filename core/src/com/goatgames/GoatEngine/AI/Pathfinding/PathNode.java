@@ -26,11 +26,8 @@ public class PathNode {
         hCost = 0;
     }
 
-
     public int getFCost(){
         //Most likely path + shortest
         return gCost + hCost;
     }
-
-
 }

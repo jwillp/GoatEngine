@@ -1,6 +1,6 @@
 package com.goatgames.goatengine.ai.behaviourtree;
 
-import java.util.Hashtable;
+import java.util.Map;
 
 /**
  *
@@ -18,25 +18,21 @@ public abstract class Node {
         RUNNING  //Has not finished yet (needs another tick)
     }
 
-
     protected  State state;
     protected Node(){}
-
-
-
 
     /**
      * Updates the state of a node
      * @param blackBoard the black board to use
      * @return
      */
-    public abstract State update(Hashtable<String, Object> blackBoard);
+    public abstract State update(Map<String, Object> blackBoard);
 
     /**
      * Precondition in order for the node to be updated
      * @return
      */
-    public boolean precondition(Hashtable<String, Object> blackBoard){ return true; }
+    public boolean precondition(Map<String, Object> blackBoard){ return true; }
 
     /**
      * Called when a node is initialized
@@ -54,7 +50,7 @@ public abstract class Node {
      * @param blackBoard the blackboard to use for the current node
      * @return the final STATE of the Node
      */
-    public State tick(Hashtable<String, Object> blackBoard){
+    public State tick(Map<String, Object> blackBoard){
 
         if(!precondition(blackBoard)){
             return State.FAILED;

@@ -23,18 +23,11 @@ public class Pathfinder {
     // Nodes already evaluated
     public ArrayList<PathNode> closedNodes = new ArrayList<PathNode>();
 
-
     public ArrayList<PathNode> path = new ArrayList<PathNode>();
-
 
     public HashSet<PathNode> reachableNodes = new HashSet<PathNode>();
 
-
     public final float NODE_SIZE = 0.4f;
-
-
-
-
 
     /**
      * Scans the map and create waypoints(nodes) on platforms
@@ -72,7 +65,6 @@ public class Pathfinder {
             this.nodes.add(rightEdgeNode);
         }
     }
-
 
     /**
      * Returns a list of all the reachable nodes from
@@ -128,8 +120,6 @@ public class Pathfinder {
                     }
                 }
 
-
-
                 //if the NEXT_NODE is at the right of the CURRENT_NOD AND that NEXT_NODE is the RIGHT edge of a platform
                 //That could not make a working movement so we need to discard that possibility
                 // in other words if the side of the next node (relatively from us) is a platform's particular side
@@ -152,13 +142,10 @@ public class Pathfinder {
             }
         }
 
-
         this.reachableNodes = reachableNodes;
 
         return reachableNodes;
     }
-
-
 
     /**
      * Gets the nearest node for a given position
@@ -178,8 +165,6 @@ public class Pathfinder {
         return nearest;
     }
 
-
-
     private int getHeuristic(Vector2 current, Vector2 target){
 
         //TODO tweak the manhanttan euclideanDistance to add a custom cost
@@ -189,7 +174,6 @@ public class Pathfinder {
 
         return Vectors.manhattanDistance(current, target);
     }
-
 
     /**
      * Returns a Path
@@ -268,10 +252,6 @@ public class Pathfinder {
         return new ArrayList<PathNode>();
     }
 
-
-
-
-
     /**
      * Trace the path looking at all the connected path
      * @param start
@@ -289,5 +269,4 @@ public class Pathfinder {
         Collections.reverse(path);
         return path;
     }
-
 }

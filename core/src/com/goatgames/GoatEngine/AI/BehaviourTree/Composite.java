@@ -10,12 +10,10 @@ public abstract class Composite extends Node {
     protected ArrayList<Node> children;
     protected int currentNode; //The index of the current node being processed
 
-
     public Composite(){
         children = new ArrayList<Node>();
         currentNode = 0;
     }
-
 
     /**
      * Adds a node to the current composite
@@ -34,5 +32,4 @@ public abstract class Composite extends Node {
     public void removeNode(Node node){
         children.remove(node);
     }
-
 }
