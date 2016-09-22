@@ -2,7 +2,7 @@ package com.goatgames.goatengine.ecs.core;
 
 /**
  * A Dynamic component as opposed to a static one corresponds to a component where each field is
- * dynamically added to the component at runtime instead of compile time. This are useful
+ * dynamically added to the component at runtime instead of compile time. This is useful
  * for defining new components using scripts or configuration files like prefabs.
  */
 public abstract class DynamicComponent extends EntityComponent {

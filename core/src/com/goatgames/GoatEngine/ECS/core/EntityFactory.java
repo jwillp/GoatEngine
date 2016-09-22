@@ -1,10 +1,6 @@
-package com.goatgames.goatengine;
+package com.goatgames.goatengine.ecs.core;
 
 import com.goatgames.goatengine.ecs.io.ComponentMapper;
-import com.goatgames.goatengine.ecs.core.Entity;
-import com.goatgames.goatengine.ecs.core.EntityComponent;
-import com.goatgames.goatengine.ecs.core.EntityManager;
-import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 
 import java.util.Map;
 

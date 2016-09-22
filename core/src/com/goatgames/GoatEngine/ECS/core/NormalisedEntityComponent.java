@@ -16,6 +16,11 @@ public class NormalisedEntityComponent extends HashMap<String, String> {
         super(map);
     }
 
+    /**
+     * Returns the id of this Normalised Component
+     *
+     * @return id of the component, null if none found
+     */
     public String getId() {
         return get("component_id");
     }

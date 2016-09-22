@@ -11,10 +11,10 @@ public abstract class EntityComponent {
     private boolean enabled = true;
 
     /**
-     * Constructor accepting a booleato indicate if the component
-     * is flagged as enabled ornot
+     * Constructor accepting a boolean to indicate if the component
+     * is flagged as enabled or not
      *
-     * @param enabled
+     * @param enabled whether or not the component is enabled
      */
     public EntityComponent(boolean enabled) {
         this.setEnabled(enabled);
@@ -32,14 +32,12 @@ public abstract class EntityComponent {
     /**
      * Called when the component is attached to an entity
      */
-    public void onAttach(Entity entity) {
-    }
+    public void onAttach(Entity entity) {}
 
     /**
      * Called when the component is detached from an entity
      */
-    public void onDetach(Entity entity) {
-    }
+    public void onDetach(Entity entity) {}
 
     /**
      * Constructs a normalised entity component

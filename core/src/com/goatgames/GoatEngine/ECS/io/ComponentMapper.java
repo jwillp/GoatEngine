@@ -6,7 +6,6 @@ import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.common.*;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.GameComponent;
-import com.goatgames.goatengine.ecs.core.LuaGameComponent;
 import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 import com.goatgames.goatengine.graphicsrendering.*;
 import com.goatgames.goatengine.graphicsrendering.camera.CameraComponent;

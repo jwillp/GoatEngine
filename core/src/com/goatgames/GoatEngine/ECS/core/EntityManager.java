@@ -5,11 +5,10 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.goatgames.gdk.GAssert;
-import com.goatgames.goatengine.EntityFactory;
+import com.goatgames.goatengine.ecs.common.TagsComponent;
 import com.goatgames.goatengine.ecs.io.IECSSerialiser;
 import com.goatgames.goatengine.ecs.io.IniSerializer;
 import com.goatgames.goatengine.ecs.io.JsonSerialiser;
-import com.goatgames.goatengine.ecs.common.TagsComponent;
 
 import java.util.UUID;
 

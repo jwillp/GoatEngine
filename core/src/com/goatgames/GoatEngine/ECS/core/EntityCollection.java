@@ -16,6 +16,12 @@ public class EntityCollection extends Array<Entity> {
         super(entities);
     }
 
+    /**
+     * Filters out entities with a certain component
+     *
+     * @param componentId the component filter
+     * @return a new collection using this collection as a base
+     */
     public EntityCollection withoutComponent(String componentId) {
         EntityCollection collection = new EntityCollection();
         for (Entity e : this) {
@@ -26,6 +32,12 @@ public class EntityCollection extends Array<Entity> {
         return collection;
     }
 
+    /**
+     * Filters in entities with a certain component
+     *
+     * @param componentId the component filter
+     * @return a new collection using this collection as a base
+     */
     public EntityCollection withComponent(String componentId) {
         EntityCollection collection = new EntityCollection();
         for (Entity e : this) {
@@ -36,23 +48,52 @@ public class EntityCollection extends Array<Entity> {
         return collection;
     }
 
-
+    /**
+     * Indicates if this collection contains a certain entity
+     *
+     * @param entity entity object instance
+     * @return
+     */
     public boolean contains(Entity entity) {
-        if (entity == null) return false;
+        if(entity == null) return false;
+        return contains(entity.getId());
+    }
+
+    /**
+     * Indicates if this collection contains a certain entity with the provided Id
+     *
+     * @param entityId id of the entity to find
+     * @return true if entity found, false otherwise
+     */
+    public boolean contains(String entityId) {
+        if (entityId == null) return false;
         for (int i = 0; i < size; i++) {
             Entity other = get(i);
-            if (other.getId().equals(entity.getId()))
+            if (other.getId().equals(entityId))
                 return true;
         }
         return false;
     }
 
-
+    /**
+     * Removes a certain entity from this collection
+     * @param entity
+     */
     public void remove(Entity entity) {
         if (entity == null) return;
+        remove(entity.getId());
+    }
+
+    /**
+     * Removes an entity with provided id from this collection
+     *
+     * @param entityId id of the entity to remove
+     */
+    public void remove(String entityId) {
+        if (entityId == null) return;
         for (int i = 0; i < size; i++) {
             Entity other = get(i);
-            if (other.getId().equals(entity.getId())) {
+            if (other.getId().equals(entityId)) {
                 removeIndex(i);
                 break;
             }
@@ -60,9 +101,9 @@ public class EntityCollection extends Array<Entity> {
     }
 
     /**
-     * Removes the entity contained in provided collection from the current collection
+     * Removes the entities contained in provided collection from the current collection
      *
-     * @param collection
+     * @param collection collection of the entities to remove from the current collection
      */
     public void remove(EntityCollection collection) {
         final int otherSize = collection.size;

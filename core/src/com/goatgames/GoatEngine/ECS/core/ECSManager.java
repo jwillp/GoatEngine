@@ -9,7 +9,6 @@ public class ECSManager {
     private EntitySystemManager systemManager;
 
     public ECSManager() {
-
         entityManager = new EntityManager();
         systemManager = new EntitySystemManager(this);
     }

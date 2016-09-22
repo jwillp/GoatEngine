@@ -3,7 +3,6 @@ package com.goatgames.goatengine.scriptingengine;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
-import com.goatgames.goatengine.ecs.core.EntityComponentFactory;
 import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 import com.goatgames.goatengine.scriptingengine.common.IEntityScript;
 
@@ -110,17 +109,6 @@ public class EntityScriptComponent extends EntityComponent {
             return this.scripts.containsKey(scriptName);
         }else{
             return false;
-        }
-    }
-
-    // FACTORY //
-    public static class Factory implements EntityComponentFactory {
-        @Override
-        public EntityComponent processMapData(String componentId, NormalisedEntityComponent data){
-            GAssert.that(componentId.equals(EntityScriptComponent.ID),
-                    "Component Factory Mismatch: EntityScriptComponent.ID != " + componentId);
-            EntityScriptComponent component = new EntityScriptComponent(data);
-            return component;
         }
     }
 }

@@ -1,7 +1,6 @@
 package com.goatgames.goatengine.ecs.common;
 
 import com.goatgames.gdk.GAssert;
-import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
