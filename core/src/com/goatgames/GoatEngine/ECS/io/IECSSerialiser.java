@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.ecs;
+package com.goatgames.goatengine.ecs.io;
 
 import com.badlogic.gdx.utils.Array;
 import com.goatgames.goatengine.ecs.core.Entity;
@@ -9,9 +9,9 @@ import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 import java.util.Map;
 
 /**
- * Class responsible for Serializing an entity
+ * Class responsible for Serialising an entity
  */
-public interface ISerialiser {
+public interface IECSSerialiser {
 
     /**
      * Serialises an Entity and returns it as a String

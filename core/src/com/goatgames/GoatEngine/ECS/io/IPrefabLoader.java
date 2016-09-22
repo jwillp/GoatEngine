@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.ecs.prefabs;
+package com.goatgames.goatengine.ecs.io;
 
 /**
  * Represent a Loader of rpefabs. This interface defines the necessary methods for a loader to load prefabs

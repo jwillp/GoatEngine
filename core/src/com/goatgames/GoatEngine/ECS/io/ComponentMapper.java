@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.ecs;
+package com.goatgames.goatengine.ecs.io;
 
 import com.badlogic.gdx.utils.ObjectMap;
 import com.goatgames.gdk.GAssert;
@@ -18,7 +18,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 /**
- * Maps component map representation to component instances
+ * Maps component map representation to component classes for easy deserialisation
  */
 public class ComponentMapper {
 
@@ -51,22 +51,21 @@ public class ComponentMapper {
      * Links a component ID to a class
      *
      * @param componentId the ID of the component
-     * @param clazz       the class name of the Component
+     * @param componentClass the class of the Component
      */
-    public static <T extends EntityComponent> void linkClass(final String componentId, Class<T> clazz) {
-        GAssert.that(!componentId.isEmpty(), "Invalid Component Id for class: " + clazz.getCanonicalName());
+    public static <T extends EntityComponent> void linkClass(final String componentId, Class<T> componentClass) {
+        GAssert.that(!componentId.isEmpty(), "Invalid Component Id for class: " + componentClass.getCanonicalName());
         GAssert.notNull(classes, "classes == null");
         if(classes.containsKey(componentId)){
             System.out.println(
                     String.format("[WARNING]: Component : %s is already mapped with class %s therefore it cannot be mapped to %s",
                     componentId,
                     classes.get(componentId).getSimpleName(),
-                    clazz.getSimpleName()
+                    componentClass.getSimpleName()
             ));
             return;
         }
-
-        classes.put(componentId, clazz);
+        classes.put(componentId, componentClass);
     }
 
     /**
@@ -74,20 +73,22 @@ public class ComponentMapper {
      * Returns a component instance from a normalised component.
      *
      * @param data normalised dta
-     * @return a component instance
+     * @return a component instance or null if none could be created
      */
     public static EntityComponent getComponent(NormalisedEntityComponent data) {
         if (GAssert.notNull(data, "data == null")) {
             String compId = data.get("component_id");
             try {
-                Class<?> clazz;
+                Class<?> componentClass;
                 if (classes.containsKey(compId)) {
-                    clazz = classes.get(compId);
+                    componentClass = classes.get(compId);
                 } else {
-                    clazz = data.containsKey(LuaGameComponent.INTERNAL_KEY) ? LuaGameComponent.class : GameComponent.class;
+                    // TODO Remove that LuaGameComponent thing, this is game specific
+                    componentClass = data.containsKey(LuaGameComponent.INTERNAL_KEY) ? LuaGameComponent.class : GameComponent.class;
+                    // componentClass = GameComponent.class; --> Maybe MetadataComponent (?)
                 }
                 Constructor<?> constructor;
-                constructor = clazz.getConstructor(NormalisedEntityComponent.class);
+                constructor = componentClass.getConstructor(NormalisedEntityComponent.class);
                 return (EntityComponent) constructor.newInstance(data);
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
                 GoatEngine.logger.error(e.getMessage());

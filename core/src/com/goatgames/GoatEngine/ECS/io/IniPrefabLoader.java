@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.ecs.prefabs;
+package com.goatgames.goatengine.ecs.io;
 
 import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.GoatEngine;

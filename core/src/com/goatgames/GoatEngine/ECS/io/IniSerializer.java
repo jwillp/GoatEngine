@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.ecs;
+package com.goatgames.goatengine.ecs.io;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ObjectMap;

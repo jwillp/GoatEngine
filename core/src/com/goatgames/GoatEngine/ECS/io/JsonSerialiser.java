@@ -1,4 +1,4 @@
-package com.goatgames.goatengine.ecs;
+package com.goatgames.goatengine.ecs.io;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * Provides functionality to convert entities to JSON
  */
-public class JsonSerialiser implements ISerialiser {
+public class JsonSerialiser implements IECSSerialiser {
 
     /**
      * Converts a map to JSON string

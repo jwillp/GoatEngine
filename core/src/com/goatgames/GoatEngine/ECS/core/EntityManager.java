@@ -6,9 +6,9 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.EntityFactory;
-import com.goatgames.goatengine.ecs.ISerialiser;
-import com.goatgames.goatengine.ecs.IniSerializer;
-import com.goatgames.goatengine.ecs.JsonSerialiser;
+import com.goatgames.goatengine.ecs.io.IECSSerialiser;
+import com.goatgames.goatengine.ecs.io.IniSerializer;
+import com.goatgames.goatengine.ecs.io.JsonSerialiser;
 import com.goatgames.goatengine.ecs.common.TagsComponent;
 
 import java.util.UUID;
@@ -345,7 +345,7 @@ public class EntityManager {
      * @param levelConfig
      */
     public void loadLevel(String levelConfig) {
-        ISerialiser serializer = null;
+        IECSSerialiser serializer = null;
         serializer = new JsonSerialiser();
         String levelData = Gdx.files.internal(levelConfig).readString();
         EntityFactory factory = new EntityFactory();
@@ -353,7 +353,7 @@ public class EntityManager {
     }
 
     public void saveLevel(String levelFile) {
-        ISerialiser serializer = null;
+        IECSSerialiser serializer = null;
         serializer = new JsonSerialiser();
         String levelData = serializer.serialiseLevel(this);
         Gdx.files.local(levelFile).writeString(levelData, false);

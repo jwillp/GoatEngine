@@ -1,8 +1,7 @@
-package com.goatgames.goatengine.ecs.prefabs;
+package com.goatgames.goatengine.ecs.io;
 
 import com.goatgames.gdk.GAssert;
 import com.goatgames.goatengine.GoatEngine;
-import com.goatgames.goatengine.ecs.ComponentMapper;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
 import com.goatgames.goatengine.ecs.core.EntityManager;
