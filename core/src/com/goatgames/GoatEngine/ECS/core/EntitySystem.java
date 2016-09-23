@@ -2,9 +2,12 @@ package com.goatgames.goatengine.ecs.core;
 
 
 import com.goatgames.gdk.eventdispatcher.Event;
+import com.goatgames.gdk.eventdispatcher.IEventListener;
 import com.goatgames.goatengine.eventmanager.EntityEvent;
 
-public abstract class EntitySystem {
+import java.util.List;
+
+public abstract class EntitySystem implements IEventListener{
 
     private EntityManager entityManager;
 
@@ -17,49 +20,29 @@ public abstract class EntitySystem {
     public abstract void init();
 
     /**
+     * Handles the input
+     */
+    public void preUpdate() {
+
+    }
+
+    /**
      * Called once per game frame
      *
      * @param dt
      */
     public abstract void update(float dt);
 
+    public void draw() {
 
-    /**
-     * Handles the input
-     */
-    public void preUpdate() {
     }
-
-
-    /**
-     * Handles the input for a given entity
-     */
-    private void handleInputForEntity(Entity entity) {
-    }
-
 
     /**
      * DeInitialise the system
      */
     public void deInit() {
-    }
 
-    public EntitySystemManager getSystemManager() {
-        return systemManager;
     }
-
-    public void setSystemManager(EntitySystemManager systemManager) {
-        this.systemManager = systemManager;
-    }
-
-    public EntityManager getEntityManager() {
-        return entityManager;
-    }
-
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
-
 
     /**
      * Fires an Event to all systems linked to this system
@@ -70,16 +53,38 @@ public abstract class EntitySystem {
         this.systemManager.fireEvent(event);
     }
 
-
-    /**
-     * Called when the system receives an Entity Event
-     *
-     * @param event
-     * @param <T>
-     */ //TODO ABSTRACTING
-    public <T extends EntityEvent> void onEntityEvent(T event) {
+    public EntitySystemManager getSystemManager() {
+        return systemManager;
+    }
+    public void setSystemManager(EntitySystemManager systemManager) {
+        this.systemManager = systemManager;
     }
 
-    public void draw() {
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
+    /**
+     * Registers this system for a certain event with this entities system Manager event dispatcher
+     *
+     * @param eventClass class of the event to register
+     */
+    public <T extends Event> void registerForEvent(Class<T> eventClass) {
+        this.getSystemManager().getEventDispatcher().register(this, eventClass);
+    }
+
+    /**
+     * Registers this system for all types of events
+     */
+    public void registerForAllEvents() {
+        this.getSystemManager().getEventDispatcher().register(this);
+    }
+
+    @Override
+    public boolean onEvent(Event event){
+        return false;
     }
 }

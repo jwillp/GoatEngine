@@ -1,10 +1,8 @@
 package com.goatgames.goatengine.ecs.core;
 
-import com.badlogic.gdx.Gdx;
+import com.goatgames.gdk.GAssert;
 import com.goatgames.gdk.eventdispatcher.Event;
 import com.goatgames.gdk.eventdispatcher.IEventDispatcher;
-import com.goatgames.gdk.eventdispatcher.IEventListener;
-import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.eventmanager.EntityEvent;
 
 import java.util.LinkedHashMap;
@@ -13,7 +11,7 @@ import java.util.LinkedHashMap;
  * A Class Managing multiple Entity systems
  * This way any System could access another System's data
  */
-public class EntitySystemManager implements IEventListener {
+public class EntitySystemManager {
 
     /**
      * All the systems managed by this Manager
@@ -39,11 +37,10 @@ public class EntitySystemManager implements IEventListener {
     }
 
     /**
-     * Returns a System
+     * Returns a System according to its type
      *
-     * @param systemType
-     * @param <T>
-     * @return
+     * @param systemType type of the system to return
+     * @return the system or null if none found
      */
     @SuppressWarnings("unchecked")
     public <T extends EntitySystem> T getSystem(Class<T> systemType) {
@@ -53,8 +50,7 @@ public class EntitySystemManager implements IEventListener {
     /**
      * Adds a System to the list of systems THE ORDER IS IMPORTANT
      *
-     * @param system
-     * @param <T>
+     * @param system system to register
      */
     public void addSystem(EntitySystem system) {
         system.setSystemManager(this);
@@ -107,15 +103,6 @@ public class EntitySystemManager implements IEventListener {
         eventDispatcher.fireEvent(event);
     }
 
-    @Override
-    public boolean onEvent(Event e) {
-        for (EntitySystem system : this.systems.values()) {
-            if (e instanceof EntityEvent)  // TODO this is a Quickfix
-                system.onEntityEvent((EntityEvent) e);
-        }
-        return false;
-    }
-
     /**
      * Manages the draw calls of the systems
      */
@@ -131,5 +118,13 @@ public class EntitySystemManager implements IEventListener {
     public void clear() {
         deInitSystems();
         this.systems.clear();
+    }
+
+    /**
+     * Returns the system manager's event dispatcher
+     * @return
+     */
+    public IEventDispatcher getEventDispatcher() {
+        return eventDispatcher;
     }
 }

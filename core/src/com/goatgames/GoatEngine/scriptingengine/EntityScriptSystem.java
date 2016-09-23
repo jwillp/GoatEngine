@@ -25,11 +25,12 @@ import java.util.Objects;
  * For the specific workings of the scripts of a technology (e.g: js scripts instantiated as IEntityScripts) is
  * done in a language specific system. (Though this current system is still used)
  */
-public class EntityScriptSystem extends EntitySystem implements IEventListener {
+public class EntityScriptSystem extends EntitySystem {
 
     @Override
     public void init() {
-        GoatEngine.eventManager.register(this); // TODO Use Current screen event listener
+        this.registerForAllEvents();
+
     }
 
     @Override
@@ -70,26 +71,6 @@ public class EntityScriptSystem extends EntitySystem implements IEventListener {
         }
     }
 
-
-    @Override
-    public <T extends EntityEvent> void onEntityEvent(T event) {
-        super.onEntityEvent(event);
-
-        final Entity entity = getEntityManager().getEntityObject(event.getEntityId());
-        final Array<IEntityScript> scripts = getScriptsForEntity(entity);
-
-        for(int i=0; i < scripts.size; i++){
-            IEntityScript script = scripts.get(i);
-            if (!script.isInitialised()) continue;
-
-            if(event instanceof CollisionEvent){
-                script.onCollision(entity, (CollisionEvent) event);
-            } else {
-                script.onEntityEvent(entity, event);
-            }
-        }
-    }
-
     @Override
     public boolean onEvent(Event e) {
         EntityManager entityManager = getEntityManager();
@@ -108,22 +89,14 @@ public class EntityScriptSystem extends EntitySystem implements IEventListener {
                     script.onInputEvent(entity, (InputEvent) e);
                 } else if (e instanceof GameEvent) {
                     script.onGameEvent(entity, (GameEvent) e);
+                } else if (e instanceof CollisionEvent) {
+                    script.onCollision(entity, (CollisionEvent) e);
+                } else if (e instanceof EntityEvent) {
+                    script.onEntityEvent(entity, (EntityEvent) e);
                 }
             }
             entityManager.freeEntityObject(entity);
         }
         return false;
-    }
-
-    /**
-     * Returns the scripts of an entity
-     *
-     * @param entity entity of which to retrieve the scripts
-     * @return a list of the entity's scripts
-     */
-    public Array<IEntityScript> getScriptsForEntity(final Entity entity){
-        EntityScriptComponent scriptComp = (EntityScriptComponent)entity.getComponent(EntityScriptComponent.ID);
-        // Save scripts in an array to avoid nested iterators
-        return scriptComp.getScripts().values().toArray();
     }
 }

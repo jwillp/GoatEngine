@@ -21,27 +21,34 @@ import java.util.List;
  */
 public class PhysicsSystem extends EntitySystem implements ContactListener {
 
-    private World world;        // The Physics World
-
     // Recommended Settings
     private final static int VELOCITY_ITERATIONS = 6;
+
     private final static int POSITION_ITERATIONS = 2;
     private final static float FPS = 1/60f;
 
-    private List<CollisionEvent> collisions = new ArrayList<CollisionEvent>();
+    /**
+     * The Physics Box2D World
+     */
+    private World world;
+
+    /**
+     * List of collisions that happened last tick
+     */
+    private List<CollisionEvent> collisions;
 
     public PhysicsSystem() {
+        collisions = new ArrayList<>();
+    }
+
+    @Override
+    public void init(){
         Box2D.init();
 
         GameScreenConfig config = GoatEngine.gameScreenManager.getCurrentScreen().getConfig();
         //Gravity
         world = new World(config.physics.gravity, true);
         world.setContactListener(this);
-    }
-
-    @Override
-    public void init(){
-
     }
 
     @Override
@@ -54,7 +61,6 @@ public class PhysicsSystem extends EntitySystem implements ContactListener {
         // Gravity
         GameScreenConfig config = GoatEngine.gameScreenManager.getCurrentScreen().getConfig();
         world.setGravity(config.physics.gravity);
-
 
         applyTransform();
         updatePhysics();
@@ -90,7 +96,6 @@ public class PhysicsSystem extends EntitySystem implements ContactListener {
         }
     }
 
-
     /**
      * Applies information from transform
      * component to physics body
@@ -112,7 +117,6 @@ public class PhysicsSystem extends EntitySystem implements ContactListener {
             }
         }
     }
-
 
     /**
      * Apply the changes of the physics computation
@@ -152,7 +156,6 @@ public class PhysicsSystem extends EntitySystem implements ContactListener {
         //Update the box2D world
         world.step(FPS, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
     }
-
 
     // CONTACT LISTENING
     /**
@@ -197,22 +200,17 @@ public class PhysicsSystem extends EntitySystem implements ContactListener {
         this.collisions.add(new CollisionEvent(entityB, fixtureB, entityA, fixtureA, describer));
     }
 
-
-
-
     @Override
     public void preSolve(Contact contact, Manifold oldManifold) {}
 
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {}
 
-
     // GETTERS AND SETTERS //
 
     public World getWorld() {
         return world;
     }
-
 
     public void setGravity(Vector2 gravity) {
         this.getWorld().setGravity(gravity);

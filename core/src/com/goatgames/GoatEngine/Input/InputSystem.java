@@ -16,10 +16,7 @@ import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.gdk.eventdispatcher.Event;
 import com.goatgames.goatengine.ecs.core.EntitySystemManager;
 import com.goatgames.goatengine.graphicsrendering.ZIndexComponent;
-import com.goatgames.goatengine.input.events.EntityReleasedEvent;
-import com.goatgames.goatengine.input.events.EntityTouchedEvent;
-import com.goatgames.goatengine.input.events.InputClickPressEvent;
-import com.goatgames.goatengine.input.events.InputClickReleaseEvent;
+import com.goatgames.goatengine.input.events.*;
 import com.goatgames.goatengine.physics.PhysicsSystem;
 import com.goatgames.goatengine.scriptingengine.ScriptUtil;
 
@@ -32,14 +29,10 @@ public class InputSystem extends EntitySystem implements IEventListener {
      */
     @Override
     public void init() {
-        GoatEngine.eventManager.register(this);
+        registerForEvent(InputClickPressEvent.class);
+        registerForEvent(InputClickReleaseEvent.class);
     }
 
-    /**
-     * Called once per game frame
-     *
-     * @param dt
-     */
     @Override
     public void update(float dt) {
 
@@ -47,7 +40,7 @@ public class InputSystem extends EntitySystem implements IEventListener {
 
     @Override
     public void deInit() {
-        GoatEngine.eventManager.register(this);
+
     }
 
     @Override
@@ -61,8 +54,6 @@ public class InputSystem extends EntitySystem implements IEventListener {
 
         return false;
     }
-
-
 
     /**
      * When a mouse press event is captured, try to find an entity
@@ -82,7 +73,6 @@ public class InputSystem extends EntitySystem implements IEventListener {
             getEntityManager().freeEntityObject(entity);
         }
     }
-
 
     /**
      * Called when the mouse is released
@@ -146,9 +136,10 @@ public class InputSystem extends EntitySystem implements IEventListener {
     }
 
     /**
-     * Returns the fore most entity
-     * @param entityIds
-     * @return
+     * Returns the fore most entity from a list of entities using their z indexes
+     * @param entityIds list of entities
+     *
+     * @return returns the foremost entities or null if none could be found
      */
     private String findForeMostEntity(Array<String> entityIds){
         if(entityIds.size != 0) {

@@ -31,6 +31,7 @@ import com.goatgames.goatengine.config.gamescreen.RenderingConfig;
 import com.goatgames.goatengine.ecs.common.TransformComponent;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
+import com.goatgames.goatengine.eventmanager.engineevents.EngineEvent;
 import com.goatgames.goatengine.eventmanager.engineevents.ScreenResizedEvent;
 import com.goatgames.goatengine.graphicsrendering.camera.CameraDebugRenderer;
 import com.goatgames.goatengine.graphicsrendering.camera.CameraSystem;
@@ -39,7 +40,7 @@ import com.goatgames.goatengine.physics.PhysicsSystem;
 /**
  * Responsible for displaying all visual elements on screen
  */
-public class RenderingSystem extends EntitySystem implements IEventListener {
+public class RenderingSystem extends EntitySystem {
 
     private Box2DDebugRenderer debugRenderer;
     private SpriteBatch spriteBatch = new SpriteBatch();
@@ -112,7 +113,7 @@ public class RenderingSystem extends EntitySystem implements IEventListener {
         postProcessor.addEffect(bloom);
 
 
-        GoatEngine.eventManager.register(this); // TODO use current screen event manager
+        registerForEvent(ScreenResizedEvent.class); // For resized events
         GoatEngine.logger.info("GraphicsRendering System initialised");
     }
 
@@ -279,7 +280,6 @@ public class RenderingSystem extends EntitySystem implements IEventListener {
      * Renders the Physics Debug
      */
     private void renderPhysicsDebug(){
-        // TODO get Info from current Screen to know if we need to render Debug Physics
         this.spriteBatch.begin();
         World world = getSystemManager().getSystem(PhysicsSystem.class).getWorld();
         debugRenderer.render(

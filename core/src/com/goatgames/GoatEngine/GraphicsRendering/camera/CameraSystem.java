@@ -48,19 +48,10 @@ public class CameraSystem extends EntitySystem {
         }
     }
 
-
-
-
-
-
-    @Override
-    public <T extends EntityEvent> void onEntityEvent(T event) {
-
-    }
-
     /**
      * Returns the orthographic camera
-     * @return
+     *
+     * @return the main camera
      */
     public OrthographicCamera getMainCamera() {
         try{

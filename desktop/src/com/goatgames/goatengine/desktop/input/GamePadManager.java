@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.goatgames.gdk.eventdispatcher.Event;
 import com.goatgames.goatengine.GoatEngine;
+import com.goatgames.goatengine.eventmanager.engineevents.EngineEvent;
 import com.goatgames.goatengine.input.InputManager;
 import com.goatgames.goatengine.desktop.input.events.gamepad.*;
 
@@ -265,9 +266,7 @@ public class GamePadManager implements ControllerListener{
         }
     }
 
-
-    private void fireEvent(Event event){
-        // TODO get event manager as Reference in ctor?
+    private void fireEvent(EngineEvent event){
         GoatEngine.eventManager.fireEvent(event);
     }
 

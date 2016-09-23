@@ -30,7 +30,12 @@ public class EventDispatcher implements IEventDispatcher{
 
     @Override
     public void register(IEventListener listener, Class eventClass) {
-        List<IEventListener> classListeners = this.listeners.getOrDefault(eventClass, new ArrayList<>(10));
+        List<IEventListener> classListeners = this.listeners.get(eventClass);
+        if(classListeners == null){
+            classListeners = new ArrayList<>(10);
+            listeners.put(eventClass, classListeners);
+        }
+
         if(GAssert.that(!classListeners.contains(listener),
                 String.format("Listener %s already registered for %s", listener, eventClass.getSimpleName()))){
             classListeners.add(listener);

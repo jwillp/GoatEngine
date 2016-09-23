@@ -4,6 +4,7 @@ import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import com.goatgames.gdk.eventdispatcher.Event;
 import com.goatgames.goatengine.GoatEngine;
+import com.goatgames.goatengine.eventmanager.engineevents.EngineEvent;
 import com.goatgames.goatengine.input.events.touch.*;
 
 /**
@@ -125,9 +126,7 @@ public class GestureManager implements GestureDetector.GestureListener {
         return false;
     }
 
-
-    private void fireEvent(Event event){
-        // TODO get event manager as Reference in ctor?
+    private void fireEvent(EngineEvent event){
         GoatEngine.eventManager.fireEvent(event);
     }
 }
