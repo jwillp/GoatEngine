@@ -60,18 +60,6 @@ public interface IGameScreen {
     GameScreenConfig getConfig();
 
     /**
-     * Returns the entity manager of the screen
-     * @return the entity manager of the screen
-     */
-    EntityManager getEntityManager();
-
-    /**
-     * Returns the entity system manager of the screen
-     * @return entity system manager of the screen
-     */
-    EntitySystemManager getEntitySystemManager();
-
-    /**
      * Returns a string representing the name of the screen
      * @return the name of the screen
      */

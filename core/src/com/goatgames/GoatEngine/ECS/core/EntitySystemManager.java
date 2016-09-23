@@ -2,6 +2,7 @@ package com.goatgames.goatengine.ecs.core;
 
 import com.badlogic.gdx.Gdx;
 import com.goatgames.gdk.eventdispatcher.Event;
+import com.goatgames.gdk.eventdispatcher.IEventDispatcher;
 import com.goatgames.gdk.eventdispatcher.IEventListener;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.eventmanager.EntityEvent;
@@ -9,17 +10,31 @@ import com.goatgames.goatengine.eventmanager.EntityEvent;
 import java.util.LinkedHashMap;
 
 /**
- * A Class Managing multiple managers
+ * A Class Managing multiple Entity systems
  * This way any System could access another System's data
  */
 public class EntitySystemManager implements IEventListener {
 
-    private ECSManager ecsManager;
+    /**
+     * All the systems managed by this Manager
+     */
     private LinkedHashMap<Class, EntitySystem> systems;
 
+    /**
+     * Entity Manager containing the entities these system should
+     * handle
+     */
+    private final EntityManager entityManager;
 
-    public EntitySystemManager(ECSManager manager) {
-        ecsManager = manager;
+    /**
+     * Since the systems can fire events, they be to be aware
+     * of the dispatcher to which they need to fire events.
+     */
+    private final IEventDispatcher eventDispatcher;
+
+    public EntitySystemManager(final EntityManager entityManager, final IEventDispatcher eventDispatcher) {
+        this.entityManager = entityManager;
+        this.eventDispatcher = eventDispatcher;
         systems = new LinkedHashMap<>();
     }
 
@@ -38,18 +53,17 @@ public class EntitySystemManager implements IEventListener {
     /**
      * Adds a System to the list of systems THE ORDER IS IMPORTANT
      *
-     * @param systemType
      * @param system
      * @param <T>
      */
-    public <T extends EntitySystem> void addSystem(Class<T> systemType, EntitySystem system) {
+    public void addSystem(EntitySystem system) {
         system.setSystemManager(this);
-        system.setEntityManager(this.ecsManager.getEntityManager());
-        this.systems.put(systemType, system);
+        system.setEntityManager(entityManager);
+        this.systems.put(system.getClass(), system);
     }
 
     /**
-     * Inits all systems in order
+     * Initialises all systems in order
      */
     public void initSystems() {
         for (Object system : systems.values().toArray()) {
@@ -58,7 +72,7 @@ public class EntitySystemManager implements IEventListener {
     }
 
     /**
-     * Deinits all systems in order
+     * Deinitialises all systems in order
      */
     public void deInitSystems() {
         for (EntitySystem system : systems.values()) {
@@ -78,9 +92,9 @@ public class EntitySystemManager implements IEventListener {
     /**
      * Updates all systems in order
      */
-    public void update() {
+    public void update(float deltaTime) {
         for (EntitySystem system : systems.values()) {
-            system.update(Gdx.graphics.getDeltaTime());
+            system.update(deltaTime);
         }
     }
 
@@ -90,8 +104,7 @@ public class EntitySystemManager implements IEventListener {
      * @param event
      */
     public void fireEvent(Event event) {
-        // TODO use current screen or get Event Manager as a reference in ctor
-        GoatEngine.eventManager.fireEvent(event);
+        eventDispatcher.fireEvent(event);
     }
 
     @Override
@@ -103,9 +116,20 @@ public class EntitySystemManager implements IEventListener {
         return false;
     }
 
+    /**
+     * Manages the draw calls of the systems
+     */
     public void draw() {
         for (EntitySystem system : systems.values()) {
             system.draw();
         }
+    }
+
+    /**
+     * Clears the System Manager
+     */
+    public void clear() {
+        deInitSystems();
+        this.systems.clear();
     }
 }

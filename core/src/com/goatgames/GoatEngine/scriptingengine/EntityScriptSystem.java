@@ -18,7 +18,11 @@ import com.goatgames.goatengine.scriptingengine.common.IEntityScript;
 import java.util.Objects;
 
 /**
- * Entity System managing entity scripts
+ * Entity System managing entity scripts.
+ * All scripts regardless their underlying technology (lua, groovy, beanshell, javascript or native java).
+ * They all implement the IEntityScript interface. This system only work with these interface instances.
+ * For the specific workings of the scripts of a technology (e.g: js scripts instantiated as IEntityScripts) is
+ * done in a language specific system. (Though this current system is still used)
  */
 public class EntityScriptSystem extends EntitySystem implements IEventListener {
 
@@ -77,20 +81,23 @@ public class EntityScriptSystem extends EntitySystem implements IEventListener {
             Array<IEntityScript> scripts = scriptComp.getScripts().values().toArray();
             for(int i=0; i < scripts.size; i++){
                 IEntityScript script = scripts.get(i);
-                if (script.isInitialised()) {
-                    if (e instanceof InputEvent) {
-                        script.onInputEvent(entity, (InputEvent) e);
-                    } else if (e instanceof CollisionEvent) {
-                        final CollisionEvent collisionEvent = (CollisionEvent) e;
-                        if(Objects.equals(collisionEvent.getEntityA(), entity.getId()))
-                            script.onCollision(entity, collisionEvent);
-                    } else if (e instanceof GameEvent) {
-                        script.onGameEvent(entity, (GameEvent) e);
-                    } else if (e instanceof EntityEvent) {
-                        final EntityEvent entityEvent = (EntityEvent) e;
-                        if(Objects.equals(entityEvent.getEntityId(), entity.getId()))
-                            script.onEntityEvent(entity, (EntityEvent)e);
-                    }
+                if (!script.isInitialised()) continue;
+
+                if (e instanceof InputEvent) {
+                    script.onInputEvent(entity, (InputEvent) e);
+
+                } else if (e instanceof CollisionEvent) {
+                    final CollisionEvent collisionEvent = (CollisionEvent) e;
+                    if(Objects.equals(collisionEvent.getEntityA(), entity.getId()))
+                        script.onCollision(entity, collisionEvent);
+
+                } else if (e instanceof GameEvent) {
+                    script.onGameEvent(entity, (GameEvent) e);
+
+                } else if (e instanceof EntityEvent) {
+                    final EntityEvent entityEvent = (EntityEvent) e;
+                    if(Objects.equals(entityEvent.getEntityId(), entity.getId()))
+                        script.onEntityEvent(entity, (EntityEvent)e);
                 }
             }
             entityManager.freeEntityObject(entity);

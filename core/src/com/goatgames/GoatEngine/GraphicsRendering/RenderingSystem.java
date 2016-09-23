@@ -72,7 +72,7 @@ public class RenderingSystem extends EntitySystem implements IEventListener {
 
         // Camera System
         this.cameraSystem = new CameraSystem();
-        this.getSystemManager().addSystem(CameraSystem.class, this.cameraSystem);
+        this.getSystemManager().addSystem(this.cameraSystem);
 
         // Physic 2D debug rendering
         debugRenderer = new Box2DDebugRenderer();
@@ -281,7 +281,7 @@ public class RenderingSystem extends EntitySystem implements IEventListener {
     private void renderPhysicsDebug(){
         // TODO get Info from current Screen to know if we need to render Debug Physics
         this.spriteBatch.begin();
-        World world = GoatEngine.gameScreenManager.getCurrentScreen().getEntitySystemManager().getSystem(PhysicsSystem.class).getWorld();
+        World world = getSystemManager().getSystem(PhysicsSystem.class).getWorld();
         debugRenderer.render(
                 world,
                 cameraSystem.getMainCamera().combined

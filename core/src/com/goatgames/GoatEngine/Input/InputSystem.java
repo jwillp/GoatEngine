@@ -14,13 +14,14 @@ import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityManager;
 import com.goatgames.goatengine.ecs.core.EntitySystem;
 import com.goatgames.gdk.eventdispatcher.Event;
+import com.goatgames.goatengine.ecs.core.EntitySystemManager;
 import com.goatgames.goatengine.graphicsrendering.ZIndexComponent;
 import com.goatgames.goatengine.input.events.EntityReleasedEvent;
 import com.goatgames.goatengine.input.events.EntityTouchedEvent;
 import com.goatgames.goatengine.input.events.InputClickPressEvent;
 import com.goatgames.goatengine.input.events.InputClickReleaseEvent;
 import com.goatgames.goatengine.physics.PhysicsSystem;
-import com.goatgames.goatengine.scriptingengine.UtilAPI;
+import com.goatgames.goatengine.scriptingengine.ScriptUtil;
 
 /**
  * System used to process some input related events. For example clicked and dragged entities
@@ -101,15 +102,18 @@ public class InputSystem extends EntitySystem implements IEventListener {
     }
 
     /**
-     * Finds entities at positon according to the camera's point of view using
+     * Finds entities at position according to the camera's point of view using
      * physics Bodies. Translates a camera's coordinate point to a world coordinate.
+     *
      * @param screenX of mouse
      * @param screenY of mouse
      */
     private Array<String> findEntitiesFromCamPOV(float screenX, float screenY){
-        EntityManager manager = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager();
+        EntityManager manager = getEntityManager();
 
-        OrthographicCamera cam = new UtilAPI().getCamera();
+        final EntitySystemManager systemManager = getSystemManager();
+
+        OrthographicCamera cam = new ScriptUtil(getEntityManager(), systemManager).getCamera();
         if(cam == null) return new Array<>();
 
         final Vector3 pos = new Vector3();
@@ -118,10 +122,7 @@ public class InputSystem extends EntitySystem implements IEventListener {
 
         // Ask the world which bodies are within the given
         // Bounding box around the mouse pointer
-        World world = GoatEngine.gameScreenManager.getCurrentScreen()
-                .getEntitySystemManager()
-                .getSystem(PhysicsSystem.class)
-                .getWorld();
+        World world = systemManager.getSystem(PhysicsSystem.class).getWorld();
         final Array<Body> hitBodies = new Array<>();
         float mousePointerSize =  0.0001f;
         world.QueryAABB(new QueryCallback() {
@@ -157,7 +158,7 @@ public class InputSystem extends EntitySystem implements IEventListener {
             // Separate Z Indexed entities and non Z indexed
             for (String s : entityIds) {
                 // Make sure it is registered
-                Entity entity = GoatEngine.gameScreenManager.getCurrentScreen().getEntityManager().getEntityObject(s);
+                Entity entity = getEntityManager().getEntityObject(s);
                 if (entity.hasComponent(ZIndexComponent.ID)) {
                     /*ZIndexComponent zc = (ZIndexComponent) entity.getComponent(ZIndexComponent.ID);
                     if(zc.index >= editor.getMinZ()) {

@@ -7,7 +7,8 @@ import com.goatgames.goatengine.ecs.core.NormalisedEntityComponent;
 import com.goatgames.goatengine.scriptingengine.common.IEntityScript;
 
 /**
- * Enables entities to have Custom Behaviour using Scripts
+ * Enables entities to have Custom Behaviours using Scripts.
+ * These scripts are represented by the IEntityScript interface.
  */
 public class EntityScriptComponent extends EntityComponent {
 
@@ -82,10 +83,21 @@ public class EntityScriptComponent extends EntityComponent {
     }
 
     /**
-     * Returns all the scripts
-     * @return the scripts
+     * Indicates whether or not the component holds the instance of a script with a given name
+     *
+     * @param scriptName name of the script to be found
+     * @return true if script found, false otherwise
      */
-    public ObjectMap<String,IEntityScript> getScripts() {
+    public boolean hasScriptWithName(String scriptName) {
+        return GAssert.notNull(this.scripts, "scripts == null") && this.scripts.containsKey(scriptName);
+    }
+
+    /**
+     * Returns all the scripts
+     *
+     * @return the scripts along with their names
+     */
+    public ObjectMap<String, IEntityScript> getScripts() {
         return scripts;
     }
 
@@ -102,13 +114,5 @@ public class EntityScriptComponent extends EntityComponent {
     @Override
     public String getId() {
         return ID;
-    }
-
-    public boolean hasScriptWithName(String scriptName) {
-        if(GAssert.notNull(this.scripts, "scripts == null")){
-            return this.scripts.containsKey(scriptName);
-        }else{
-            return false;
-        }
     }
 }

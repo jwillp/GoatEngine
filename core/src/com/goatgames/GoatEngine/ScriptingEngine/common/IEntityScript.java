@@ -19,14 +19,14 @@ public interface IEntityScript {
      *
      * @param entity entity owning the this instance of the script
      */
-    void init(Entity entity);
+    void init(final Entity entity);
 
     /**
      * Called every gameloop tick
      *
      * @param deltaTime delta time
      */
-    void update(Entity entity, float deltaTime);
+    void update(final Entity entity, float deltaTime);
 
     /**
      *  Called on user input events
@@ -34,7 +34,7 @@ public interface IEntityScript {
      * @param entity entity owning the this instance of the script
      * @param event input event
      */
-    void onInputEvent(Entity entity, InputEvent event);
+    void onInputEvent(final Entity entity, InputEvent event);
 
     /**
      * Called when a collision occurs with the entity
@@ -42,7 +42,7 @@ public interface IEntityScript {
      * @param entity
      * @param collisionEvent collision event instance
      */
-    void onCollision(Entity entity, CollisionEvent collisionEvent);
+    void onCollision(final Entity entity, CollisionEvent collisionEvent);
 
     /**
      * Called when a game event occurs
@@ -50,7 +50,7 @@ public interface IEntityScript {
      * @param entity entity owning the this instance of the script
      * @param event event
      */
-    void onGameEvent(Entity entity, GameEvent event);
+    void onGameEvent(final Entity entity, GameEvent event);
 
     /**
      * Called when an event concerning the current entity occurs.
@@ -58,18 +58,18 @@ public interface IEntityScript {
      * @param entity the current entity object
      * @param event the event instance
      */
-    void onEntityEvent(Entity entity, EntityEvent event);
+    void onEntityEvent(final Entity entity, EntityEvent event);
 
     /**
      * Called when the script is detached from the entity
      */
-    void onDetach(Entity entity);
+    void onDetach(final Entity entity);
 
-    void postRender(Entity entity);
+    void postRender(final Entity entity);
 
-    void preRender(Entity entity);
+    void preRender(final Entity entity);
 
-    void lateUpdate(Entity entity);
+    void lateUpdate(final Entity entity);
 
     /**
      * Indicates whether or not the script is initialised
@@ -88,5 +88,5 @@ public interface IEntityScript {
      *
      * @param event event to fire
      */
-    void fireEvent(Event event);
+    void fireEvent(final Event event);
 }

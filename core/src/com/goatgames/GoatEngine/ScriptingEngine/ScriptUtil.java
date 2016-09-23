@@ -10,6 +10,8 @@ import com.goatgames.goatengine.ecs.common.LifespanComponent;
 import com.goatgames.goatengine.ecs.common.TransformComponent;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.ecs.core.EntityComponent;
+import com.goatgames.goatengine.ecs.core.EntityManager;
+import com.goatgames.goatengine.ecs.core.EntitySystemManager;
 import com.goatgames.goatengine.graphicsrendering.camera.CameraComponent;
 import com.goatgames.goatengine.physics.PhysicsComponent;
 import com.goatgames.goatengine.physics.PhysicsSystem;
@@ -17,17 +19,35 @@ import com.goatgames.goatengine.screenmanager.IGameScreen;
 import com.goatgames.goatengine.scriptingengine.common.IScriptingAPI;
 
 /**
- * A Sample Game Specific API, contains utility function to ease some tasks
+ * A Simple Util class containing utility function to ease some tasks while scripting
  */
-public class UtilAPI implements IScriptingAPI {
+public class ScriptUtil implements IScriptingAPI {
+
+    /**
+     * Entity manager the actions of the script util should be applied to
+     */
+    private final EntityManager entityManager;
+
+    /**
+     * System manager the actions of the script util should be applied to
+     */
+    private final EntitySystemManager systemManager;
+
+    public ScriptUtil(final EntityManager entityManager, final EntitySystemManager systemManager){
+        this.entityManager = entityManager;
+        this.systemManager = systemManager;
+    }
+
+    public ScriptUtil(final EntityManager entityManager) {
+        this(entityManager, null);
+    }
 
     /**
      * Returns the active camera for the current game screen
      * @return the active camera, null if none found
      */
     public OrthographicCamera getCamera(){
-        Array<EntityComponent> comps = GoatEngine.gameScreenManager.getCurrentScreen()
-                .getEntityManager().getComponents(CameraComponent.ID);
+        Array<EntityComponent> comps = entityManager.getComponents(CameraComponent.ID);
         return (comps.size != 0) ? ((CameraComponent) comps.first()).getCamera() : null;
     }
 
@@ -47,7 +67,7 @@ public class UtilAPI implements IScriptingAPI {
     /**
      * Makes the camera follow an entity with a lerp
      */
-    public void cameraFollow(Entity entity, float speed, float delta){
+    public void cameraFollow(final Entity entity, float speed, float delta){
         if(!GAssert.notNull(entity, "entity == null"))
             return;
 
@@ -69,7 +89,7 @@ public class UtilAPI implements IScriptingAPI {
      * @param entity the entity of which to return the position
      * @return a Vector2 representing the position of the entity
      */
-    public Vector2 getPosition(Entity entity) {
+    public Vector2 getPosition(final Entity entity) {
         if (!GAssert.notNull(entity, "entity == null")) return null;
         if (!GAssert.that(entity.hasComponent(TransformComponent.ID), "entity does not have TransformComponent"))
             return null;
@@ -83,7 +103,7 @@ public class UtilAPI implements IScriptingAPI {
      * @param x X axis value
      * @param y Y axis value
      */
-    public void setPosition(Entity entity, float x, float y){
+    public void setPosition(final Entity entity, float x, float y){
         if (!GAssert.notNull(entity, "entity == null")) return;
         if (!GAssert.that(entity.hasComponent(TransformComponent.ID),
                 String.format("%s does not have TransformComponent", entity.getLabel())))
@@ -98,7 +118,7 @@ public class UtilAPI implements IScriptingAPI {
      * @param entity the entity of which to set the position
      * @param x the X axis value
      */
-    public void setPositionX(Entity entity, float x){
+    public void setPositionX(final Entity entity, float x){
         if (!GAssert.notNull(entity, "entity == null")) return;
         if (!GAssert.that(entity.hasComponent(TransformComponent.ID), "entity does not have TransformComponent"))
             return;
@@ -111,11 +131,11 @@ public class UtilAPI implements IScriptingAPI {
      * @param entity the entity of which to set the position
      * @param y the Y axis value
      */
-    public void setPositionY(Entity entity, float y){
+    public void setPositionY(final Entity entity, float y){
         if (!GAssert.notNull(entity, "entity == null")) return;
         if (!GAssert.that(entity.hasComponent(TransformComponent.ID), "entity does not have TransformComponent"))
             return;
-        TransformComponent transform = (TransformComponent) entity.getComponent(TransformComponent.ID);
+        final TransformComponent transform = (TransformComponent) entity.getComponent(TransformComponent.ID);
         transform.setY(y);
     }
 
@@ -124,7 +144,7 @@ public class UtilAPI implements IScriptingAPI {
      * @param entity the entity of which to get the value
      * @return a Vector2 representing the velocity of the entity
      */
-    public Vector2 getVelocity(Entity entity){
+    public Vector2 getVelocity(final Entity entity){
         if (!GAssert.notNull(entity, "entity == null")) return null;
         if (!GAssert.that(entity.hasComponent(PhysicsComponent.ID), "entity does not have PhysicsComponent"))
             return null;
@@ -139,11 +159,11 @@ public class UtilAPI implements IScriptingAPI {
      * @param x x value
      * @param y y value
      */
-    public void setVelocity(Entity entity, float x, float y){
+    public void setVelocity(final Entity entity, float x, float y){
         if (!GAssert.notNull(entity, "entity == null")) return;
         if (!GAssert.that(entity.hasComponent(PhysicsComponent.ID), "entity does not have PhysicsComponent"))
             return;
-        PhysicsComponent comp = (PhysicsComponent) entity.getComponent(PhysicsComponent.ID);
+        final PhysicsComponent comp = (PhysicsComponent) entity.getComponent(PhysicsComponent.ID);
         comp.setVelocity(x,y);
     }
 
@@ -153,7 +173,7 @@ public class UtilAPI implements IScriptingAPI {
      * @param entity entity entity of which we want to set the velocity
      * @param vx value
      */
-    public void setVelocityX(Entity entity, float vx){
+    public void setVelocityX(final Entity entity, float vx){
         if (!GAssert.notNull(entity, "entity == null")) return;
         if (!GAssert.that(entity.hasComponent(PhysicsComponent.ID), "entity does not have PhysicsComponent"))
             return;
@@ -167,7 +187,7 @@ public class UtilAPI implements IScriptingAPI {
      * @param entity entity of which we want to set the velocity
      * @param vy value
      */
-    public void setVelocityY(Entity entity, float vy){
+    public void setVelocityY(final Entity entity, float vy){
         if (!GAssert.notNull(entity, "entity == null")) return;
         if (!GAssert.that(entity.hasComponent(PhysicsComponent.ID), "entity does not have PhysicsComponent"))
             return;
@@ -180,7 +200,7 @@ public class UtilAPI implements IScriptingAPI {
      * @param entity the entity to move
      * @param speed the speed at which to move the entity
      */
-    public void moveEntityX(Entity entity, float speed){
+    public void moveEntityX(final Entity entity, float speed){
         if (!GAssert.notNull(entity, "entity == null")) return;
         if (!GAssert.that(entity.hasComponent(PhysicsComponent.ID), "entity does not have PhysicsComponent"))
             return;
@@ -193,7 +213,7 @@ public class UtilAPI implements IScriptingAPI {
      * @param entity the entity to move
      * @param speed the speed at which to move the entity
      */
-    public void moveEntityY(Entity entity, float speed){
+    public void moveEntityY(final Entity entity, float speed){
         if (!GAssert.notNull(entity, "entity == null")) return;
         if (!GAssert.that(entity.hasComponent(PhysicsComponent.ID), "entity does not have PhysicsComponent"))
             return;
@@ -207,7 +227,7 @@ public class UtilAPI implements IScriptingAPI {
      * @param speed the speed at which to move the entity
      * @param maxSpeed maximum speed at which the entity can go (abs value)
      */
-    public void moveEntityX(Entity entity, float speed, float maxSpeed){
+    public void moveEntityX(final Entity entity, float speed, float maxSpeed){
         if (!GAssert.notNull(entity, "entity == null")) return;
         if (!GAssert.that(entity.hasComponent(PhysicsComponent.ID), "entity does not have PhysicsComponent"))
             return;
@@ -224,7 +244,7 @@ public class UtilAPI implements IScriptingAPI {
      * @param speed the speed at which to move the entity
      * @param maxSpeed maximum speed at which the entity can go
      */
-    public void moveEntityY(Entity entity, float speed, float maxSpeed){
+    public void moveEntityY(final Entity entity, float speed, float maxSpeed){
         if (!GAssert.notNull(entity, "entity == null")) return;
         if (!GAssert.that(entity.hasComponent(PhysicsComponent.ID), "entity does not have PhysicsComponent"))
             return;
@@ -248,7 +268,13 @@ public class UtilAPI implements IScriptingAPI {
      * @return a vector2 representing the world gravity
      */
     public Vector2 getWorldGravity(){
-        PhysicsSystem physicsSystem = getCurrentGameScreen().getEntitySystemManager().getSystem(PhysicsSystem.class);
+        if (systemManager == null) {
+            GoatEngine.logger.warn("Cannot return a valid value for physics world gravity, " +
+                    "no SystemManager found in ScriptUtil, null will be returned");
+            // In that case null will be passed
+            return null;
+        }
+        PhysicsSystem physicsSystem = systemManager.getSystem(PhysicsSystem.class);
         return physicsSystem.getWorld().getGravity();
     }
 
@@ -258,7 +284,11 @@ public class UtilAPI implements IScriptingAPI {
      * @param y Y axis value in m/s
      */
     public void setWorldGravity(float x, float y){
-        PhysicsSystem physicsSystem = getCurrentGameScreen().getEntitySystemManager().getSystem(PhysicsSystem.class);
+        if (systemManager == null) {
+            GoatEngine.logger.warn("Cannot set physics world gravity, no SystemManager found in ScriptUtil");
+            return;
+        }
+        PhysicsSystem physicsSystem = systemManager.getSystem(PhysicsSystem.class);
         physicsSystem.getWorld().setGravity(new Vector2(x,y));
     }
 
@@ -319,7 +349,7 @@ public class UtilAPI implements IScriptingAPI {
      * Schedules the destruction of an entity
      * @param time time from now in ms. 5000 means that the entity will be destroyed in 5 secs
      */
-    public void scheduleEntityDestroy(Entity entity, int time){
+    public void scheduleEntityDestroy(final Entity entity, int time){
         entity.addComponent(new LifespanComponent(time), LifespanComponent.ID);
     }
 }

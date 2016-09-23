@@ -16,7 +16,7 @@ import java.util.List;
 
 @SuppressWarnings("rawtypes")
 public class Spriter {
-	
+
 	private static Object[] loaderDependencies = new Object[1], drawerDependencies = new Object[1];
 	private static Class<?>[] loaderTypes = new Class<?>[1], drawerTypes = new Class<?>[1];
 	static{
@@ -24,14 +24,14 @@ public class Spriter {
 		drawerTypes[0] = Loader.class;
 	}
 	private static Class<? extends Loader> loaderClass;
-	
+
 	private static final HashMap<String, Data> loadedData = new HashMap<String, Data>();
 	private static final List<Player> players = new ArrayList<Player>();
 	private static final List<Loader> loaders = new ArrayList<Loader>();
 	private static Drawer<?> drawer;
 	private static final HashMap<Entity, Loader> entityToLoader = new HashMap<Entity, Loader>();
 	private static boolean initialized = false;
-	
+
 	/**
 	 * Sets the dependencies for implemented {@link Loader}.
 	 * @param loaderDependencies the dependencies a loader has to get
@@ -45,7 +45,7 @@ public class Spriter {
 		for(int i = 0; i< loaderDependencies.length; i++)
 			loaderTypes[i+1] = loaderDependencies[i].getClass();
 	}
-	
+
 	/**
 	 * Sets the dependencies for implemented {@link Drawer}.
 	 * @param drawerDependencies the dependencies a drawer has to get
@@ -61,7 +61,7 @@ public class Spriter {
 			if(drawerDependencies[i] != null)
 				drawerTypes[i+1] = drawerDependencies[i].getClass();
 	}
-	
+
 	/**
 	 * Initializes this class with the implemented {@link Loader} class and {@link Drawer} class.
 	 * Before calling this method make sure that you have set all necessary dependecies with {@link #setDrawerDependencies(Object...)} and {@link #setLoaderDependencies(Object...)}.
@@ -78,7 +78,7 @@ public class Spriter {
 		}
 		initialized = drawer != null;
 	}
-	
+
 	/**
 	 * Loads a SCML file with the given path.
 	 * @param scmlFile the path to the SCML file
@@ -86,7 +86,7 @@ public class Spriter {
 	public static void load(String scmlFile){
 		load(new File(scmlFile));
 	}
-	
+
 	/**
 	 * Loads the given SCML file.
 	 * @param scmlFile the scml file
@@ -98,7 +98,7 @@ public class Spriter {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Loads the given SCML stream pointing to a file saved at the given path.
 	 * @param stream the SCML stream
@@ -119,7 +119,7 @@ public class Spriter {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Creates a new {@link Player} instance based on the given SCML file with the given entity index
 	 * @param scmlFile name of the SCML file
@@ -130,7 +130,7 @@ public class Spriter {
 	public static Player newPlayer(String scmlFile, int entityIndex){
 		return newPlayer(scmlFile, entityIndex, Player.class);
 	}
-	
+
 	/**
 	 * Creates a new {@link Player} instance based on the given SCML file with the given entity index and the given class extending a {@link Player}
 	 * @param scmlFile name of the SCML file
@@ -150,7 +150,7 @@ public class Spriter {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Creates a new {@link Player} instance based on the given SCML file with the given entity name
 	 * @param scmlFile name of the SCML file
@@ -162,7 +162,7 @@ public class Spriter {
 		if(!loadedData.containsKey(scmlFile)) throw new SpriterException("You have to load \""+scmlFile+"\" before using it!");
 		return newPlayer(scmlFile, loadedData.get(scmlFile).getEntityIndex(entityName));
 	}
-	
+
 	/**
 	 * Returns a loader for the given SCML filename.
 	 * @param scmlFile the name of the SCML file
@@ -187,7 +187,7 @@ public class Spriter {
 			drawer.draw(players.get(i));
 		}
 	}
-	
+
 	/**
 	 * Updates each created player by this class.
 	 * @throws SpriterException if {@link #init(Class, Class)} was not called before
@@ -198,7 +198,7 @@ public class Spriter {
 			players.get(i).update();
 		}
 	}
-	
+
 	/**
 	 * Draws each created player by this class.
 	 * @throws SpriterException if {@link #init(Class, Class)} was not called before
@@ -211,7 +211,7 @@ public class Spriter {
 			drawer.draw(players.get(i));
 		}
 	}
-	
+
 	/**
 	 * Returns the drawer instance this class is using.
 	 * @return the drawer which draws all players
@@ -219,7 +219,7 @@ public class Spriter {
 	public static Drawer drawer(){
 		return drawer;
 	}
-	
+
 	/**
 	 * Returns the data for the given SCML filename.
 	 * @param fileName the name of the SCML file
@@ -228,7 +228,7 @@ public class Spriter {
 	public static Data getData(String fileName){
 		return loadedData.get(fileName);
 	}
-	
+
 	/**
 	 * The number of players this class is managing.
 	 * @return number of players
@@ -236,7 +236,7 @@ public class Spriter {
 	public static int players(){
 		return players.size();
 	}
-	
+
 	/**
 	 * Clears all previous created players, Spriter datas, disposes all loaders, deletes the drawer and resets all internal lists.
 	 * After this methods was called {@link #init(Class, Class)} has to be called again so that everything works again.
@@ -246,7 +246,7 @@ public class Spriter {
 		drawerDependencies = new Object[1];
 		drawerTypes = new Class<?>[1];
 		drawerTypes[0] = Loader.class;
-		
+
 		entityToLoader.clear();
 
 		for (int i = 0; i < loaders.size(); i++) {
@@ -258,9 +258,9 @@ public class Spriter {
 		loaderTypes = new Class<?>[1];
 		loaderTypes[0] = Data.class;
 		loaderDependencies = new Object[1];
-		
+
 		players.clear();
-		
+
 		initialized = false;
 	}
 
