@@ -7,13 +7,13 @@ import com.goatgames.goatengine.ecs.core.EntitySystem;
  * (this excludes native scripting, as this is a slightly separate concept).
  * This applies to dynamic scripting languages such as lua, javascript, python, ruby, scala etc ..
  *
- * // TODO Remove (?)
  */
 public interface IScriptingEngine {
 
     /**
-     * Returns the Scripting System to use, for entity scripts processing
-     * @return EntitySystem for Scripting capabilities
+     * Returns the script loader to use
+     *
+     * @return script loader to use or null if none defined
      */
-    EntitySystem getScriptingSystem();
+    IScriptLoader getLoader();
 }

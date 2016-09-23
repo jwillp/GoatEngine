@@ -11,6 +11,9 @@ import com.goatgames.goatengine.graphicsrendering.*;
 import com.goatgames.goatengine.graphicsrendering.camera.CameraComponent;
 import com.goatgames.goatengine.input.TouchableComponent;
 import com.goatgames.goatengine.physics.PhysicsComponent;
+import com.goatgames.goatengine.scriptingengine.EntityScriptComponent;
+import com.goatgames.goatengine.scriptingengine.ScriptComponent;
+import sun.font.Script;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -29,7 +32,9 @@ public class ComponentMapper {
      * Statically link classes
      */
     static {
-
+        // Scripts
+        linkClass(EntityScriptComponent.ID, EntityScriptComponent.class);
+        linkClass(ScriptComponent.ID, ScriptComponent.class);
 
         // Rendering
         linkClass(CameraComponent.ID, CameraComponent.class);

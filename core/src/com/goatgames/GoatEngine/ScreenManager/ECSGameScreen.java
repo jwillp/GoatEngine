@@ -67,6 +67,8 @@ public abstract class ECSGameScreen implements IGameScreen {
         for(EntitySystem system : getInitialSystems()) {
             systemManager.addSystem(system);
         }
+
+        systemManager.initSystems();
     }
 
     @Override

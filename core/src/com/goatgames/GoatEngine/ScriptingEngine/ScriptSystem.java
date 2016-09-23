@@ -17,7 +17,7 @@ public class ScriptSystem extends EntitySystem {
     IScriptLoader scriptLoader;
 
     public ScriptSystem(){
-        scriptLoader = null; /* TODO As GEImplSpecs param */
+        scriptLoader = GoatEngine.scriptingEngine.getLoader(); /* TODO As GEImplSpecs param */
     }
 
     /**
@@ -25,7 +25,7 @@ public class ScriptSystem extends EntitySystem {
      */
     @Override
     public void init() {
-
+        GAssert.notNull(scriptLoader, "No Script loader found");
     }
 
     /**
@@ -35,6 +35,7 @@ public class ScriptSystem extends EntitySystem {
      */
     @Override
     public void update(float dt) {
+        if(scriptLoader == null) return;
         for(Entity entity: getEntityManager().getEntitiesWithComponent(ScriptComponent.ID)){
             ScriptComponent scriptComponent;
             scriptComponent = (ScriptComponent) entity.getComponent(ScriptComponent.ID);

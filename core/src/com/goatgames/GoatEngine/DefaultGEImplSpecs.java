@@ -8,7 +8,10 @@ import com.goatgames.gdk.io.IFileManager;
 import com.goatgames.goatengine.input.InputManager;
 import com.goatgames.goatengine.logger.GameLogger;
 import com.goatgames.goatengine.screenmanager.IGameScreenLoader;
+import com.goatgames.goatengine.scriptingengine.common.IEntityScript;
+import com.goatgames.goatengine.scriptingengine.common.IScriptLoader;
 import com.goatgames.goatengine.scriptingengine.common.IScriptingEngine;
+import com.goatgames.goatengine.scriptingengine.nativescripts.NativeEntityScript;
 
 /**
  * Default implementation details for the Goat Engine.
@@ -26,6 +29,8 @@ public class DefaultGEImplSpecs implements GEImplSpecs {
         logger = new GameLogger(fileManager);
         prefabFactory = new PrefabFactory(new IniPrefabLoader());
         inputManager = new InputManager();
+
+        // Empty Script engine with empty script loader
         scriptingEngine = null;
     }
 
