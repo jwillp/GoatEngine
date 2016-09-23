@@ -82,9 +82,7 @@ public class ComponentMapper {
                 if (classes.containsKey(compId)) {
                     componentClass = classes.get(compId);
                 } else {
-                    // TODO Remove that LuaGameComponent thing, this is game specific
-                    componentClass = data.containsKey(LuaGameComponent.INTERNAL_KEY) ? LuaGameComponent.class : GameComponent.class;
-                    // componentClass = GameComponent.class; --> Maybe MetadataComponent (?)
+                    componentClass = GameComponent.class; // --> Maybe MetadataComponent (?)
                 }
                 Constructor<?> constructor;
                 constructor = componentClass.getConstructor(NormalisedEntityComponent.class);
