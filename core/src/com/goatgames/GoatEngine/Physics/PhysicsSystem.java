@@ -35,9 +35,7 @@ public class PhysicsSystem extends EntitySystem implements ContactListener {
 
         GameScreenConfig config = GoatEngine.gameScreenManager.getCurrentScreen().getConfig();
         //Gravity
-        final float GRAVITY_X = config.physics.gravity.x;
-        final float GRAVITY_Y = config.physics.gravity.y;
-        world = new World(new Vector2(GRAVITY_X,GRAVITY_Y), true);
+        world = new World(config.physics.gravity, true);
         world.setContactListener(this);
     }
 
@@ -53,6 +51,9 @@ public class PhysicsSystem extends EntitySystem implements ContactListener {
 
     @Override
     public void update(float dt) {
+        // Gravity
+        GameScreenConfig config = GoatEngine.gameScreenManager.getCurrentScreen().getConfig();
+        world.setGravity(config.physics.gravity);
 
 
         applyTransform();
