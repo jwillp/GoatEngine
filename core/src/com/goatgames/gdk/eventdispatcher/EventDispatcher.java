@@ -77,6 +77,12 @@ public class EventDispatcher implements IEventDispatcher{
         }
     }
 
+    @Override
+    public void clear() {
+        this.globalListeners.clear();
+        this.listeners.clear();
+    }
+
     /**
      * Returns a list of the listeners concerned about a certain event type including globals
      *

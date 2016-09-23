@@ -40,4 +40,9 @@ public interface IEventDispatcher {
      * @param e event to fire
      */
     void fireEvent(Event e);
+
+    /**
+     * Clears the dispatcher from any listener
+     */
+    void clear();
 }
