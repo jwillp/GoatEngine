@@ -47,6 +47,7 @@ public class EntityScriptSystem extends EntitySystem {
                 if(!script.isInitialised()){
                     script.init(entity);
                 }
+                script.setEventDispatcher(getSystemManager().getEventDispatcher());
             }
             entityManager.freeEntityObject(entity);
         }

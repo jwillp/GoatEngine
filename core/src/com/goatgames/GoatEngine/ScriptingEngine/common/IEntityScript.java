@@ -1,6 +1,8 @@
 package com.goatgames.goatengine.scriptingengine.common;
 
 import com.goatgames.gdk.eventdispatcher.Event;
+import com.goatgames.gdk.eventdispatcher.EventDispatcher;
+import com.goatgames.gdk.eventdispatcher.IEventDispatcher;
 import com.goatgames.goatengine.GoatEngine;
 import com.goatgames.goatengine.ecs.core.Entity;
 import com.goatgames.goatengine.eventmanager.EntityEvent;
@@ -89,4 +91,10 @@ public interface IEntityScript {
      * @param event event to fire
      */
     void fireEvent(final Event event);
+
+    /**
+     * Sets the event dispatcher so the script can fire events
+     * @param eventDispatcher
+     */
+    public void setEventDispatcher(final IEventDispatcher eventDispatcher);
 }
