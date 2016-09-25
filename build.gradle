@@ -48,6 +48,7 @@ project(":desktop") {
         compile "com.badlogicgames.gdx:gdx-controllers-desktop:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
+        compile fileTree(dir: '../lib/desktop', include: ['*.jar'])
     }
 }
 
@@ -65,7 +66,7 @@ project(":core") {
         compile "org.luaj:luaj-jse:$luajVersion"
         compile "com.eclipsesource.minimal-json:minimal-json:$minimalJsonVersion"
         compile "org.beanshell:bsh:$beanshellVersion"
-        compile fileTree(dir: '../lib', include: ['*.jar'])
+        compile fileTree(dir: '../lib/core', include: ['*.jar'])
     }
 }
 
