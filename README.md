@@ -5,7 +5,7 @@ GoatEngine is a 2D cross-platform opiniated Java game developpement engine based
 
 ## Description
 It was first developped as an extension of a school project in order to help me create more games quickly in a structured manner.
-It is based on a Entity-Component-System (ECS) architecture. For mroe information see the documentation
+It is based on a Entity-Component-System (ECS) architecture. For more information see the documentation
 
 ## Features
 - 2D
