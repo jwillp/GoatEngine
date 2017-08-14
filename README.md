@@ -1,4 +1,5 @@
-# GoatEngine
+![ge](https://user-images.githubusercontent.com/5913483/29291036-409ac418-8110-11e7-9576-216d2d838aa8.png)
+
 [![Build Status](https://travis-ci.org/fireraccoon/GoatEngine.svg?branch=master)](https://travis-ci.org/fireraccoon/GoatEngine)
 
 GoatEngine is a 2D cross-platform opiniated Java game developpement engine based on the libGDX framework. Being based on libGDX it works on Windows, Linux, Mac OS X, Android, WebGL enabled browsers and iOS.
